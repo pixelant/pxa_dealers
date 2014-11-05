@@ -45,9 +45,9 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function getDealersByZipCode($zipcode, $limit = NULL) {
 		
 		if($limit)
-			$searchResult = $this->findDealers($zipcode);
-		else 
 			$searchResult = $this->findDealersWithLimit($zipcode,$limit);
+		else 
+			$searchResult = $this->findDealers($zipcode);
 		
 		return $searchResult;
 	}
