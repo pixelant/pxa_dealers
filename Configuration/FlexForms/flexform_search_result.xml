@@ -1,0 +1,39 @@
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <main>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>	 
+          <settings.mapHeight>
+                <TCEforms>
+                  <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
+                  <config>
+                    <type>input</type>
+                    <default>555</default> 
+                    <eval>int</eval>           
+                  </config>
+                </TCEforms>
+          </settings.mapHeight>
+
+          <settings.resultLimit>
+                <TCEforms>
+                  <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.resultLimit</label>
+                  <config>
+                    <type>input</type>
+                    <default>12</default> 
+                    <eval>int</eval>            
+                  </config>
+                </TCEforms>
+          </settings.resultLimit>
+
+        </el>
+      </ROOT>
+    </main>
+  </sheets>
+</T3DataStructure>

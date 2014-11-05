@@ -1,0 +1,23 @@
+plugin.tx_pxadealers {
+	view {
+		templateRootPath = {$plugin.tx_pxadealers.view.templateRootPath}
+		partialRootPath = {$plugin.tx_pxadealers.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_pxadealers.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+	}
+	features {
+		# uncomment the following line to enable the new Property Mapper.
+		# rewrittenPropertyMapper = 1
+	}
+}
+
+[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
+
+page.includeJSlibs.googleapi.external = 1
+page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
+
+[global]
+page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
+page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css

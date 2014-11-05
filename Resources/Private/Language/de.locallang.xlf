@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+		<header/>
+		<body>			
+
+			<trans-unit id="error.NoResult">
+				<target>Found no dealers. Try searching with a different zipcode or city.</target>
+			</trans-unit>
+			<trans-unit id="error.NotNumeric">
+				<target>Zipcode should be numeric</target>
+			</trans-unit>
+			
+			<trans-unit id="placeholder">
+				<target>PLZ oder Stadt...</target>
+			</trans-unit>
+			<trans-unit id="submitvalue">
+				<target>Finden</target>
+			</trans-unit>
+			
+			<trans-unit id="filtrering">
+				<target>Filtrering</target>
+			</trans-unit>
+
+			<trans-unit id="closest_dealer">
+				<target>%s closest pharmacies</target>
+			</trans-unit>
+
+			<trans-unit id="notDealersFoundFilteringMessage">
+				<target>Inga återförsäljare hittades. Prova att söka med ett annat postnummer eller ta bort filtreringen till vänster.</target>
+			</trans-unit>
+			<trans-unit id="filtrering_notice">
+				<target>Klicka ur kryssrutorna för att filtrera ditt resultat.</target>
+			</trans-unit>
+
+			<trans-unit id="error.EmptyValue">
+				<target>Skriv in ett postnummer eller en ort</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

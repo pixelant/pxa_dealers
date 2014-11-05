@@ -1,0 +1,77 @@
+{namespace pxa=PXA\PxaDealers\ViewHelpers}
+{namespace v=Tx_Vhs_ViewHelpers}
+
+<f:layout name="Default" />
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+<div class="pxa-dealers-list-wrapper">
+
+  <f:if condition="{status} == 0">
+    <div class="alert search-not-started">
+      <p><f:translate key="searchDidntStart" /></p>
+    </div>
+  </f:if>
+
+  <f:if condition="{status} == 1">
+    <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <f:translate key="error.EmptyValue" />
+    </div>
+  </f:if>
+
+  <f:if condition="{status} == 2">
+    <f:if condition="{dealers -> f:count()} > 0">
+      <f:then>
+        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+        <script type="text/javascript">
+          <f:format.raw>{jsArray}</f:format.raw>
+          var markersArray = [];
+        </script>
+        <div class="pxa-dealers-list">
+          <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
+
+          <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">            
+
+            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item">
+              <b>{dealer.name}</b>
+              <p class="dealer-info">
+                <span class="dealer-address">{dealer.adrress}</span><br>
+                <span class="dealer-zipcode">{dealer.zipcode}</span><br>
+                <span class="dealer-address">{dealer.city}</span><br>
+                <f:if condition="{dealer.website}">                    
+                    <span class="dealer-website"><f:link.external uri="{dealer.website}" target="_blank">{dealer.website}</f:link.external></span><br>
+                </f:if>                
+                <f:if condition="{dealer.telephone}">                    
+                    <span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>">Tel:&nbsp;{dealer.telephone}</a></span><br>
+                </f:if>                
+                <f:if condition="{dealer.email}">                    
+                    <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
+                </f:if>
+              </p>
+            </div>
+            
+          </f:for>
+        </div>
+      </f:then>
+      <f:else>
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <f:translate key="error.NoResult" />
+        </div>
+      </f:else>
+    </f:if>
+    
+  </f:if>
+</div>
+
+</f:section>
