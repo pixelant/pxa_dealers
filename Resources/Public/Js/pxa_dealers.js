@@ -1,19 +1,20 @@
 function initializeMapPurus() {
-  var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
+  /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
   var stylesObj = $.parseJSON(styles);
-  var styledMap = new google.maps.StyledMapType(stylesObj,{name: "Map custom"});
+  var styledMap = new google.maps.StyledMapType(stylesObj,{name: "Map custom"});*/
 
   var bounds = new google.maps.LatLngBounds();       
   var infowindow = new google.maps.InfoWindow();       
                  
   var mapOptions = {
           mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            //mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP]
           }            
   };
   var map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);
-  map.mapTypes.set('map_style', styledMap);
-  map.setMapTypeId('map_style');
+  //map.mapTypes.set('map_style', styledMap);
+ // map.setMapTypeId('map_style');
   panorama = map.getStreetView();
 
   for (i = 0;  i < markers.length; i++) {
@@ -49,7 +50,7 @@ function switchToStreetView(i) {
   return false;
 }
 function getAddress(pos,map,infowindow, callback) {
-  var markerIcon = "typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon.png";
+  var markerIcon = "typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png";
 
   var address = markers[i]['address'] ? '<br/>' + markers[i]['address'] : '';
   var zipcode = markers[i]['zipcode'] ? '<br/>' + markers[i]['zipcode'] : '';
