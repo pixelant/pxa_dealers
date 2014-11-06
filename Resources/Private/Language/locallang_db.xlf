@@ -57,7 +57,19 @@
 			<trans-unit id="flexform.mapHeight">
 				<source>Map height</source>
 			</trans-unit>
-			
+			<trans-unit id="flexform.additionalWrapperClass">
+				<source>Additional class for plugin wrapper in html</source>
+			</trans-unit>
+			<trans-unit id="flexform.additionalListWrapperClass">
+				<source>Additional class for wrapper of list of elements</source>
+			</trans-unit>
+			<trans-unit id="flexform.elementAdditionalClass">
+				<source>Additional class for list element</source>
+			</trans-unit>
+			<trans-unit id="flexform.newRow">
+				<source>Display result in rows. Enter amount of items in one row</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
