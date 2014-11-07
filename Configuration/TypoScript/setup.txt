@@ -13,11 +13,11 @@ plugin.tx_pxadealers {
 	}
 }
 
-[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
+#[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
 
 page.includeJSlibs.googleapi.external = 1
 page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
 
-[global]
+#[global]
 page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css

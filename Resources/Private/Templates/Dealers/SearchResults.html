@@ -20,6 +20,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <div class="alert search-not-started">
       <p><f:translate key="searchDidntStart" /></p>
     </div>
+    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
   </f:if>
 
   <f:if condition="{status} == 1">
@@ -27,6 +28,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <button type="button" class="close" data-dismiss="alert">×</button>
       <f:translate key="error.EmptyValue" />
     </div>
+    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
   </f:if>
 
   <f:if condition="{status} == 2">
@@ -80,6 +82,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <f:translate key="error.NoResult" />
         </div>
         <p><f:translate key="error.NoResultAdditional" /></p>
+        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
       </f:else>
     </f:if>
     
