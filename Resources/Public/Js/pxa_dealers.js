@@ -1,4 +1,4 @@
-function initializeMapPurus() {
+function initializeMapPxaDealers() {
   /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
   var stylesObj = $.parseJSON(styles);
   var styledMap = new google.maps.StyledMapType(stylesObj,{name: "Map custom"});*/
@@ -107,7 +107,10 @@ $( document ).ready(function() {
   
   $('form[name="searchDealers"]').on('submit',function(event){
     event.preventDefault();
+    var url = $(this).attr('action').replace(/\/?$/, '/') + $(this).find('input[name="tx_pxadealers_pxadealerssearchresults[searchValue]"]').val();
 
-    window.document.location = $(this).attr('action').replace(/\/?$/, '/') + $(this).find('input[name="tx_pxadealers_pxadealerssearchresults[searchValue]"]').val();
+    url = (url.charAt(0) != '/' ? ('/'+url) : url);
+
+    window.document.location = url;
   });
 });

@@ -5,7 +5,10 @@
 		<body>			
 
 			<trans-unit id="error.NoResult">
-				<target>Fand keine Apotheke. Versuchen Sie es mit einer anderen PLZ oder Stadt.</target>
+				<target>Es konnte keine Apotheke gefunden werden. Versuchen Sie es mit einer anderen PLZ oder Stadt.</target>
+			</trans-unit>
+			<trans-unit id="error.NoResultAdditional">
+				<target>Falls Ihre Apotheke in diese Übersicht nicht aufgeführt ist, kann jede Apotheke in Deutschland selbstverständlich den attraktiven CB12 Doppelpack über den pharmazeutischen Großhandel innerhalb kurzer Zeit für Sie besorgen.</target>
 			</trans-unit>
 			<trans-unit id="error.NotNumeric">
 				<target>Zipcode should be numeric</target>
@@ -18,7 +21,7 @@
 				<target>Finden</target>
 			</trans-unit>
 			<trans-unit id="searchDidntStart">
-				<target>Bitte füllen Sie PLZ oder Stadt die Suche zu starten</target>
+				<target>Bitte geben Sie eine PLZ oder Stadt ein um die Suche zu starten</target>
 			</trans-unit>	
 			
 			<trans-unit id="filtrering">
@@ -26,7 +29,7 @@
 			</trans-unit>
 
 			<trans-unit id="closest_dealer">
-				<target>%s nächsten Apotheke</target>
+				<target>Es wurden %s Apotheken in Ihrer Nähe gefunden</target>
 			</trans-unit>
 
 

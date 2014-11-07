@@ -90,6 +90,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 
+		    	$amountOfDealers = $dealers->count();
+		    	$countStep = 1;
 				$jsArray = 'var markers = [';
 		        foreach ($dealers as $dealer) {
 		        	
@@ -103,12 +105,14 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		            		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
 		            		"', website: '".$dealer->getWebsite().
 		            		"', email: '".$dealer->getEmail().
-		            		"'},";
+		            		($amountOfDealers == $countStep ? "'}" : "'},");
+
+		            $countStep++;
 		        }
 		        $jsArray .= '];';
 
 		        $this->view->assign('jsArray', $jsArray);
-				$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPurus);";
+				$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
 	        }
 
 	        $this->view->assign('dealers',$dealers);					
