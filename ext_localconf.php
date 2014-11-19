@@ -21,12 +21,12 @@ if (!defined('TYPO3_MODE')) {
 	'PXA.' . $_EXTKEY,
 	'Pxadealerssearchresults',
 	array(
-		'Dealers' => 'searchResults,import',
+		'Dealers' => 'searchResults,import,findClosestAjax',
 		
 	),
 	// non-cacheable actions
 	array(
-		'Dealers' => 'searchResults,import',
+		'Dealers' => 'searchResults,import,findClosestAjax',
 		
 	)
 );

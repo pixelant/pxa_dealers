@@ -1,3 +1,50 @@
+function runAjax(position) {
+  $('#ajax-load-dealer').fadeIn();
+
+  url = '/?type=7505726&tx_pxadealers_pxadealerssearchresults%5Blatitude%5D='+position.coords.latitude+'&tx_pxadealers_pxadealerssearchresults%5Blongitude%5D='+position.coords.longitude;
+  $.ajax({
+    dataType: "json",
+    url: url
+  })
+  .done(function(data){
+    if(data.count > 0) {
+      $('#ajax-load-dealer .pre-loader').remove();
+      $('#ajax-load-dealer .dealers-header.after-load').show();
+      $('#ajax-load-dealer').append(data.html);
+      initializeMapPxaDealers();
+    } else {
+      $('#ajax-load-dealer').fadeOut();
+    }
+  })
+  .fail(function( jqXHR, textStatus ) {
+    console.log( "Request failed: " + textStatus );
+  });
+}
+
+function checkLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(runAjax, showError);
+  } else {
+    console.log = "Geolocation is not supported by this browser."
+  }
+}
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.log = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            console.log = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log = "An unknown error occurred."
+            break;
+    }
+}
+
 function showDefaultMap() {
   var mapOptions = {
             center: new google.maps.LatLng(51.165691,10.451526), 
@@ -5,6 +52,7 @@ function showDefaultMap() {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
       };
   var map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);
+  checkLocation();
 }
 function initializeMapPxaDealers() {
   /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';

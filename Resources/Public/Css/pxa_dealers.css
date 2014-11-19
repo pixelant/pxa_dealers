@@ -1,3 +1,7 @@
 #pxa-dealers-map img {
 	max-width: none;
 }
+#ajax-load-dealer,
+#ajax-load-dealer .after-load {
+	display: none;
+}

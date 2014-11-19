@@ -91,25 +91,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		    if($dealers->count() > 0) { 
 		    	$amountOfDealers = $dealers->count();
-		    	$countStep = 1;
-				$jsArray = 'var markers = [';
-		        foreach ($dealers as $dealer) {
-		        	
-		            $jsArray .= "{name: '".str_replace ("'","\'",$dealer->getName()).
-		            		"', lat: '".$dealer->getLat().
-		            		"', lng: '".$dealer->getLng()
-	.			            "', address: '".str_replace ("'","\'",$dealer->getAdrress()).
-		            		"', zipcode: '".$dealer->getZipcode().
-		            		"', city: '".str_replace("'","\'",$dealer->getCity()).
-		            		"', telephone: '".$dealer->getTelephone().
-		            		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
-		            		"', website: '".$dealer->getWebsite().
-		            		"', email: '".$dealer->getEmail().
-		            		($amountOfDealers == $countStep ? "'}" : "'},");
-
-		            $countStep++;
-		        }
-		        $jsArray .= '];';
+				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
 		        $this->view->assign('jsArray', $jsArray);
 				$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
@@ -125,6 +107,85 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 
 		$this->view->assign('status',$status);		
+	}
+
+	/**
+	 * find closest pharmacies
+	 *
+	 * @param double $latitude
+	 * @param double $longitude
+	 * @return string
+	 */
+	public function findClosestAjaxAction($latitude, $longitude) {
+		$dealers = $this->dealersRepository->findAll()->toArray();
+		$dealersWithDistance = array();
+		$finalDealersArray = array();
+
+		foreach ($dealers as $key => $dealer) {
+			if($dealer->getLatLngIsSet()) {
+				$dealersWithDistance[$key]['distance'] = $this->getDistance($latitude, $longitude, $dealer->getLat(), $dealer->getLng());
+				$dealersWithDistance[$key]['dealer'] = $dealer;
+			}
+		}
+		unset($dealers); unset($dealer);
+
+		usort($dealersWithDistance, function($a,$b){
+			return $a['distance'] > $b['distance'];
+		});
+
+		$amountOfDealers = count($dealersWithDistance);
+		$limit = ($this->settings['findClosestAjax']['resultLimit'] <= $amountOfDealers ? $this->settings['findClosestAjax']['resultLimit'] : $amountOfDealers);
+		for ($i=0; $i < $limit; $i++) { 
+			$finalDealersArray[] = $dealersWithDistance[$i]['dealer'];
+		}
+		unset($dealersWithDistance);
+		
+		$jsArray = $this->generateJSOfDealers($finalDealersArray,$amountOfDealers);
+
+		$this->view->assignMultiple(array(
+			'settings' => $this->settings['findClosestAjax'],
+			'dealers' => $finalDealersArray,
+			'jsArray' => $jsArray
+		));
+
+		$data = array(
+			'html' => $this->view->render(),
+			'count' => $amountOfDealers,
+		);
+		
+		return json_encode($data);
+	}
+
+
+	/**
+	 * Generate JS
+	 *
+	 * @param mixed $dealers
+	 * @param int $amountOfDealers
+	 * @return string
+	 */
+	protected function generateJSOfDealers($dealers,$amountOfDealers){
+		$countStep = 1;
+		$jsArray = 'var markers = [';
+        foreach ($dealers as $dealer) {
+        	
+            $jsArray .= "{name: '".str_replace ("'","\'",$dealer->getName()).
+            		"', lat: '".$dealer->getLat().
+            		"', lng: '".$dealer->getLng().
+            		"', address: '".str_replace ("'","\'",$dealer->getAdrress()).
+            		"', zipcode: '".$dealer->getZipcode().
+            		"', city: '".str_replace("'","\'",$dealer->getCity()).
+            		"', telephone: '".$dealer->getTelephone().
+            		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
+            		"', website: '".$dealer->getWebsite().
+            		"', email: '".$dealer->getEmail().
+            		($amountOfDealers == $countStep ? "'}" : "'},");
+
+            $countStep++;
+        }
+        $jsArray .= '];';
+
+        return $jsArray;
 	}
 
 	/**
@@ -197,6 +258,31 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 usleep(2000000);
             }
         } while($resp['status'] == 'OVER_QUERY_LIMIT');
+	}
+
+	/** 
+	 * Calculate distance
+	 *
+	 * @param double $latitudeFrom
+	 * @param double $longitudeFrom
+	 * @param double $latitudeTo
+	 * @param double $longitudeTo
+	 * @return double distance
+	 */
+	protected function getDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo) {
+		$earthRadius = 6371000;
+
+		// convert from degrees to radians
+	  	$latFrom = deg2rad($latitudeFrom);
+	  	$lonFrom = deg2rad($longitudeFrom);
+	  	$latTo = deg2rad($latitudeTo);
+	  	$lonTo = deg2rad($longitudeTo);
+
+	  	$latDelta = $latTo - $latFrom;
+	  	$lonDelta = $lonTo - $lonFrom;
+
+	  	$angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+	  	return $angle * $earthRadius;
 	}
 
 	

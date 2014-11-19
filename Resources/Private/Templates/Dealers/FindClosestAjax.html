@@ -1,7 +1,7 @@
 {namespace pxa=PXA\PxaDealers\ViewHelpers}
 {namespace v=Tx_Vhs_ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="DefaultAjax" />
 This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
@@ -14,46 +14,12 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
-<div class="pxa-dealers-list-wrapper{f:if(condition: settings.additionalWrapperClass, then: ' {settings.additionalWrapperClass}')}">
 
-  <f:if condition="{status} == 0">
-    <div class="alert search-not-started">
-      <p><f:translate key="searchDidntStart" /></p>
-    </div>
-    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-    <div id="ajax-load-dealer">
-      <h2 class="dealers-header pre-loader">
-        <f:translate key="ajax_preload" />
-        <f:image src="EXT:pxa_dealers/Resources/Public/Icons/ajax_loader_blue.gif" alt="ajax-loader" />
-      </h2>
-      <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
-    </div>
-  </f:if>
-
-  <f:if condition="{status} == 1">
-    <div class="alert alert-error">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      <f:translate key="error.EmptyValue" />
-    </div>
-    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-    <div id="ajax-load-dealer">
-      <h2 class="dealers-header pre-loader">
-        <f:translate key="ajax_preload" />
-        <f:image src="EXT:pxa_dealers/Resources/Public/Icons/ajax_loader_blue.gif" alt="ajax-loader" />
-      </h2>
-      <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
-    </div>
-  </f:if>
-
-  <f:if condition="{status} == 2">
     <f:if condition="{dealers -> f:count()} > 0">
-      <f:then>
-        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
         <script type="text/javascript">
           <f:format.raw>{jsArray}</f:format.raw>
           var markersArray = [];
         </script>
-        <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
 
         <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
           
@@ -89,25 +55,6 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </f:for>
 
         </div>
-      </f:then>
-      <f:else>
-        <div class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <f:translate key="error.NoResult" />
-        </div>
-        <p><f:translate key="error.NoResultAdditional" /></p>
-        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-        <div id="ajax-load-dealer">
-          <h2 class="dealers-header pre-loader">
-            <f:translate key="ajax_preload" />
-            <f:image src="EXT:pxa_dealers/Resources/Public/Icons/ajax_loader_blue.gif" alt="ajax-loader" />
-          </h2>
-          <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
-        </div>
-      </f:else>
     </f:if>
-    
-  </f:if>
-</div>
 
 </f:section>

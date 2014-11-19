@@ -11,6 +11,14 @@ plugin.tx_pxadealers {
 		# uncomment the following line to enable the new Property Mapper.
 		# rewrittenPropertyMapper = 1
 	}
+	settings {
+		findClosestAjax {
+			additionalListWrapperClass = row-fluid
+			elementAdditionalClass = span3
+			newRow = 4
+			resultLimit = 12
+		}
+	}
 }
 
 #[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
@@ -21,3 +29,24 @@ page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=fa
 #[global]
 page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
+
+findClosestAjax = PAGE
+findClosestAjax.typeNum = 7505726
+findClosestAjax.config.disableAllHeaderCode = 1
+findClosestAjax.config.no_cache = 1
+findClosestAjax.config.additionalHeaders = Content-type: application/json
+findClosestAjax.config.disablePreviewNotification = 1
+
+  
+findClosestAjax.10 = USER
+findClosestAjax.10 {
+	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+	extensionName = PxaDealers
+	pluginName = Pxadealerssearchresults
+	vendorName = PXA
+	switchableControllerActions {
+		Dealers {
+             1 = findClosestAjax
+		}
+	}
+}
