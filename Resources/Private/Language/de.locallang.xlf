@@ -31,7 +31,13 @@
 			<trans-unit id="closest_dealer">
 				<target>Es wurden %s Apotheken in Ihrer Nähe gefunden</target>
 			</trans-unit>
-
+			
+			<trans-unit id="ajax_loaded_dealer">
+				<target>Apotheken in Ihrer Nähe</target>
+			</trans-unit>
+			<trans-unit id="ajax_preload">
+				<target>Es wird nach Apotheken in Ihrer Nähe gesucht</target>
+			</trans-unit>
 
 			<trans-unit id="error.EmptyValue">
 				<target>Geben Sie eine PLZ oder eine Stadt</target>
