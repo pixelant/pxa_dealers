@@ -25,7 +25,6 @@ namespace PXA\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  *
@@ -112,12 +111,16 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 * find closest pharmacies
 	 *
-	 * @param double $latitude
-	 * @param double $longitude
+	 * @param float $latitude
+	 * @param float $longitude
 	 * @return string
 	 */
 	public function findClosestAjaxAction($latitude, $longitude) {
-		$dealers = $this->dealersRepository->findAll()->toArray();
+		$dealers = $this->dealersRepository->findAll();
+
+		$this->checkDealers($dealers);
+		$dealers = $dealers->toArray();
+
 		$dealersWithDistance = array();
 		$finalDealersArray = array();
 
@@ -263,20 +266,21 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/** 
 	 * Calculate distance
 	 *
-	 * @param double $latitudeFrom
-	 * @param double $longitudeFrom
-	 * @param double $latitudeTo
-	 * @param double $longitudeTo
-	 * @return double distance
+	 * @param float $latitudeFrom
+	 * @param float $longitudeFrom
+	 * @param float $latitudeTo
+	 * @param float $longitudeTo
+	 * @return float distance
 	 */
 	protected function getDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo) {
+		
 		$earthRadius = 6371000;
 
 		// convert from degrees to radians
 	  	$latFrom = deg2rad($latitudeFrom);
 	  	$lonFrom = deg2rad($longitudeFrom);
-	  	$latTo = deg2rad($latitudeTo);
-	  	$lonTo = deg2rad($longitudeTo);
+	  	$latTo = deg2rad(floatval($latitudeTo));
+	  	$lonTo = deg2rad(floatval($longitudeTo));
 
 	  	$latDelta = $latTo - $latFrom;
 	  	$lonDelta = $lonTo - $lonFrom;
