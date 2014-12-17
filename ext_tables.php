@@ -21,6 +21,12 @@ if (!defined('TYPO3_MODE')) {
 	'Pxa Dealers Categories'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Pxadealerscountries',
+	'Pxa Dealers Countries'
+);
+
 /* Add FlexForm */
 
 $pluginSignature = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));

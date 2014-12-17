@@ -5,3 +5,12 @@
 #ajax-load-dealer .after-load {
 	display: none;
 }
+
+.pxa-dealers > .categories{
+	margin: 0;
+	padding: 0;
+}
+
+.pxa-dealers > .categories .category-item{
+	list-style-type: none;
+}

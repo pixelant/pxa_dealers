@@ -191,6 +191,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', email: '".$dealer->getEmail().
             		"', uid: '".$dealer->getUid().
             		"', categories: '".$dealer->getCategoriesJSON().
+            		"', country: '".$dealer->getCountry().
             		($amountOfDealers == $countStep ? "'}" : "'},");
 
             $countStep++;
