@@ -18,7 +18,7 @@ plugin.tx_pxadealers {
 			newRow = 4
 			resultLimit = 12
 		}
-		countries.9.ukraine = Ukraine
+		countries.109.row = Rest of the world
 		countries.0.sweden = Sverige
 	}
 }

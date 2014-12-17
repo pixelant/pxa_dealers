@@ -94,6 +94,19 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		    	$amountOfDealers = $dealers->count();
 				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
+				$tsCountries = $this->settings['countries'];
+
+				$countriesList = array();
+
+				foreach ($tsCountries as $country) {
+					$countyKey = key($country);
+					if($countyKey !== "row") {
+						$countriesList[] = key($country);	
+					}
+				}
+
+				$this->view->assign('countriesList', json_encode($countriesList));
+
 		        $this->view->assign('jsArray', $jsArray);
 		        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
 		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);</script>";

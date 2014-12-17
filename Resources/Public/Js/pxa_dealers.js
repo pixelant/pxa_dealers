@@ -237,7 +237,9 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
       var markerCountry = marker['country'];
       markerCountry = markerCountry.toLowerCase().trim();
 
-      if(markerCountry === selectedCountry) {
+      console.log($.inArray(markerCountry, countriesList));
+
+      if(markerCountry === selectedCountry || (selectedCountry === "row" && $.inArray(markerCountry, countriesList) === -1 ) ) {
 
         if (!categories.length == 0) {
           if( !arrayIntersect(categories, selectedCategories) ) {
