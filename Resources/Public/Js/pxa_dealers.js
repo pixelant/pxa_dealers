@@ -1,4 +1,5 @@
 var map;
+var originalDealersHeader = $(".dealers-header").html();
 
 function runAjax(position) {
   console.log(position);
@@ -296,9 +297,21 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
       });
 
+      $("#dealers-count").html(enabledDealersListItems.length);
+
       $(".pxa-dealers-list-container").fadeToggle( "fast", "linear");
       
-    });  
+    });
+
+    $(".dealers-header").fadeToggle( "fast", "linear", function() {
+      if(enabledDealersListItems <= 0) {
+        $(".dealers-header").text(noResultsFoundLabel);
+      } else {
+        $(".dealers-header").html(originalDealersHeader);
+        $(".dealers-header #dealers-count").html(enabledDealersListItems.length);
+      }
+      $(".dealers-header").fadeToggle( "fast", "linear");
+    });
 }
 
 

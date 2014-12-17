@@ -54,8 +54,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
           var markersArray = [];
           var dealersRows = {settings.newRow};
           var dealersRowAdditionalClass = "{settings.additionalListWrapperClass}";
+          var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
         </script>
-        <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
+        <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>
 
         <div class="pxa-dealers-list-container">
 
