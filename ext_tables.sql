@@ -19,7 +19,6 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	lng varchar(255) DEFAULT '' NOT NULL,
 	lat_lng_is_set tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	product_areas int(11) unsigned DEFAULT '0' NOT NULL,
-	dealer_category int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

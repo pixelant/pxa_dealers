@@ -70,6 +70,10 @@
 				<source>Display result in rows. Enter amount of items in one row</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.dealersCategories">
+				<source>Choose categories to filter on</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

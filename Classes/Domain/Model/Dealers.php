@@ -125,6 +125,32 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $latLngIsSet = FALSE;
 
+	/**
+	 * categories
+	 *
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+	 */
+	protected $categories = NULL;
+
+	/**
+	 * __construct
+	 */
+	public function __construct() {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+	}
+
+	/**
+	 * Initializes all ObjectStorage properties
+	 * Do not modify this method!
+	 * It will be rewritten on each save in the extension builder
+	 * You may modify the constructor of this class instead
+	 *
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		$this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+	}
 
 	/**
 	 * Returns the name
@@ -361,6 +387,87 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function isLatLngIsSet() {
 		return $this->getLatLngIsSet();
+	}
+
+	/**
+	 * Adds a category
+	 *
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+	 * @return void
+	 */
+	public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+		$this->categories->attach($category);
+	}
+
+	/**
+	 * Removes a category
+	 *
+	 * @param \TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove The category to be removed
+	 * @return void
+	 */
+	public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove) {
+		$this->categories->detach($categoryToRemove);
+	}
+
+	/**
+	 * Returns the categories
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * Sets the Categories
+	 *
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
+	 * @return void
+	 */
+	public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $Categories) {
+		$this->categories = $categories;
+	}
+
+	/**
+	 * Returns the categories as comma separated string
+	 *
+	 * @return string $categories_string
+	 */
+	public function getCategoriesString() {
+
+		$categoriesObjects = $this->getCategories();
+		$categories = array();
+
+		foreach ($categoriesObjects as $categoryObject) {
+			if( is_object($categoryObject) ) {
+				$categories[] = $categoryObject->getUid();
+			}
+		}
+
+		$categories = implode(",", $categories);
+
+		return $categories;
+	}
+
+	/**
+	 * Returns the categories as json
+	 *
+	 * @return string $categories_json
+	 */
+	public function getCategoriesJSON() {
+
+		$categoriesObjects = $this->getCategories();
+		$categories = array();
+
+		foreach ($categoriesObjects as $categoryObject) {
+			if( is_object($categoryObject) ) {
+				$categories[] = $categoryObject->getUid();
+			}
+		}
+
+		$categories = json_encode($categories);
+
+		return $categories;
 	}
 
 }

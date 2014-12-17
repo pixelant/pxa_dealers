@@ -15,6 +15,12 @@ if (!defined('TYPO3_MODE')) {
 	'Pxa Dealers Results'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Pxadealerscategories',
+	'Pxa Dealers Categories'
+);
+
 /* Add FlexForm */
 
 $pluginSignature = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
@@ -23,6 +29,9 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerssearchresults'] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerssearchresults', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_search_result.xml');
+
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerscategories'] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerscategories', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_categories.xml');
 /****************************************/
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Pxa Dealers');
@@ -54,6 +63,14 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Dealers.php',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_pxadealers_domain_model_dealers.gif'
 	),
+);
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
+        $_EXTKEY,
+        'tx_pxadealers_domain_model_dealers',
+        // Do not use the default field name ("categories"), which is already used
+        // Also do not use a field name containing "categories" (see http://forum.typo3.org/index.php/t/199595/)
+        'categories'
 );
 
 ?>

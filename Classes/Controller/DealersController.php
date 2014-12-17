@@ -1,6 +1,8 @@
 <?php
 namespace PXA\PxaDealers\Controller;
 
+use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -93,16 +95,21 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
 		        $this->view->assign('jsArray', $jsArray);
-				$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
+		        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);</script>";
+				//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
 	        } else {
-	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+	        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
+	        	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 	        }
 
 	        $this->view->assign('dealers',$dealers);					
 		    $this->view->assign('searchValue',$args['searchValue']);
 		} else {
-			
-			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+			$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
+			//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 		}
 
 		$this->view->assign('status',$status);		
@@ -182,6 +189,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
             		"', website: '".$dealer->getWebsite().
             		"', email: '".$dealer->getEmail().
+            		"', uid: '".$dealer->getUid().
+            		"', categories: '".$dealer->getCategoriesJSON().
             		($amountOfDealers == $countStep ? "'}" : "'},");
 
             $countStep++;
