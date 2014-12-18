@@ -94,22 +94,11 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		    	$amountOfDealers = $dealers->count();
 				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
-				$tsCountries = $this->settings['countries'];
-
-				$countriesList = array();
-
-				foreach ($tsCountries as $country) {
-					$countyKey = key($country);
-					if($countyKey !== "row") {
-						$countriesList[] = key($country);	
-					}
-				}
-
-				$this->view->assign('countriesList', json_encode($countriesList));
+				$this->view->assign('countriesList', $this->getCountriesListJSON());
 
 		        $this->view->assign('jsArray', $jsArray);
 		        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);</script>";
+		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
 				//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
 	        } else {
 	        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
@@ -164,6 +153,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		unset($dealersWithDistance);
 		
 		$jsArray = $this->generateJSOfDealers($finalDealersArray,$amountOfDealers);
+
+		$this->view->assign('countriesList', $this->getCountriesListJSON());
 
 		$this->view->assignMultiple(array(
 			'settings' => $this->settings['findClosestAjax'],
@@ -310,6 +301,21 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 	  	$angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
 	  	return $angle * $earthRadius;
+	}
+
+	protected function getCountriesListJSON() {
+		$tsCountries = $this->settings['countries'];
+
+		$countriesList = array();
+
+		foreach ($tsCountries as $country) {
+			$countyKey = key($country);
+			if($countyKey !== "row") {
+				$countriesList[] = key($country);	
+			}
+		}
+
+		return json_encode($countriesList);
 	}
 
 	

@@ -1,12 +1,11 @@
 var map;
-var originalDealersHeader = $(".dealers-header").html();
+var originalDealersHeader = $("#dealers-header-original").html();
+var allDealersListItems;
 
 function runAjax(position) {
-  console.log(position);
   $('#ajax-load-dealer').fadeIn();
 
   url = '/?type=7505726&tx_pxadealers_pxadealerssearchresults%5Blatitude%5D='+position.coords.latitude+'&tx_pxadealers_pxadealerssearchresults%5Blongitude%5D='+position.coords.longitude;
-  console.log(url);
   $.ajax({
     dataType: "json",
     url: url
@@ -16,7 +15,10 @@ function runAjax(position) {
       $('#ajax-load-dealer .pre-loader').remove();
       $('#ajax-load-dealer .dealers-header.after-load').show();
       $('#ajax-load-dealer').append(data.html);
-      initializeMapPxaDealers();
+
+      initializeMapPxaDealers(false);
+      allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
+      originalDealersHeader = $("#dealers-header-original").html();
     } else {
       $('#ajax-load-dealer').fadeOut();
     }
@@ -71,7 +73,9 @@ function arrayIntersect (a, b) {
   return false;
 }
 
-function initializeMapPxaDealers() {
+function initializeMapPxaDealers(doMarkersFilter) {
+
+  if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
 
   /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
   var stylesObj = $.parseJSON(styles);
@@ -115,7 +119,9 @@ function initializeMapPxaDealers() {
       map.setCenter(bounds.getCenter()); 
   }
 
-  filterMarkers( $(".pxa-dealers-list-container .dealer-item"), $(".pxa-dealers > .dealer-countries").val(), true );
+  if(doMarkersFilter === true) {
+    filterMarkers( $(".pxa-dealers-list-container .dealer-item"), $(".pxa-dealers > .dealer-countries").val(), true );
+  }
 
 }
 
@@ -225,6 +231,7 @@ function dealersFitBounds(filteredDealersMarkers) {
 }
 
 function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
+
     var filteredDealers = [];
     var filteredDealersMarkers = [];
 
@@ -236,8 +243,6 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
       var markerCountry = marker['country'];
       markerCountry = markerCountry.toLowerCase().trim();
-
-      console.log($.inArray(markerCountry, countriesList));
 
       if(markerCountry === selectedCountry || (selectedCountry === "row" && $.inArray(markerCountry, countriesList) === -1 ) ) {
 
@@ -273,10 +278,10 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
       allDealersListItems.each( function() {
         $this = $(this);
-          if( $.inArray($this.attr("data-uid"), filteredDealers) !== -1 ) {
-            enabledDealersListItems.push(this);
-            $(".pxa-dealers-list-container").append(this);
-          }
+        if( $.inArray($this.attr("data-uid"), filteredDealers) !== -1 ) {
+          enabledDealersListItems.push(this);
+          $(".pxa-dealers-list-container").append(this);
+        }
       });
 
       var counter = 0;
@@ -301,18 +306,17 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
       $("#dealers-count").html(enabledDealersListItems.length);
 
-      $(".pxa-dealers-list-container").fadeToggle( "fast", "linear");
+      $(".dealers-header").fadeToggle( "fast", "linear", function() {
+        if(enabledDealersListItems.length <= 0) {
+          $(".dealers-header").text(noResultsFoundLabel);
+        } else {
+          $(".dealers-header").html(originalDealersHeader);
+          $(".dealers-header #dealers-count").html(enabledDealersListItems.length);
+        }
+        $(".dealers-header").fadeToggle( "fast", "linear");
+      });
       
-    });
-
-    $(".dealers-header").fadeToggle( "fast", "linear", function() {
-      if(enabledDealersListItems <= 0) {
-        $(".dealers-header").text(noResultsFoundLabel);
-      } else {
-        $(".dealers-header").html(originalDealersHeader);
-        $(".dealers-header #dealers-count").html(enabledDealersListItems.length);
-      }
-      $(".dealers-header").fadeToggle( "fast", "linear");
+      $(".pxa-dealers-list-container").fadeToggle( "fast", "linear");
     });
 }
 
@@ -328,7 +332,7 @@ $( document ).ready(function() {
     window.document.location = url;
   });
 
-  var allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
+  allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
 
   $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
     var $this = $(this);

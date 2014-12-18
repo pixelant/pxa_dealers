@@ -49,14 +49,15 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:if condition="{dealers -> f:count()} > 0">
       <f:then>
         <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-        <script type="text/javascript">
-          <f:format.raw>{jsArray}</f:format.raw>
-          var markersArray = [];
-          var dealersRows = {settings.newRow};
-          var dealersRowAdditionalClass = "{settings.additionalListWrapperClass}";
-          var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
-          var countriesList = <f:format.raw>{countriesList}</f:format.raw>
-        </script>
+          <script type="text/javascript">
+            <f:format.raw>{jsArray}</f:format.raw>
+            var markersArray = [];
+            var dealersRows = {settings.newRow};
+            var dealersRowAdditionalClass = "{settings.additionalListWrapperClass}";
+            var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
+            var countriesList = <f:format.raw>{countriesList}</f:format.raw>
+          </script>
+        <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
         <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>
 
         <div class="pxa-dealers-list-container">
