@@ -56,7 +56,7 @@
 				<source>Found no dealers. Try searching with a different zipcode or city.</source>
 			</trans-unit>
 			<trans-unit id="error.NoResultAdditional">
-				<source>Falls Ihre Apotheke in diese Übersicht nicht aufgeführt ist, kann jede Apotheke in Deutschland selbstverständlich den attraktiven CB12 Doppelpack über den pharmazeutischen Großhandel innerhalb kurzer Zeit für Sie besorgen.</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="error.NotNumeric">
 				<source>Zipcode should be numeric</source>
@@ -80,10 +80,10 @@
 				<source>%s closest dealers</source>
 			</trans-unit>
 			<trans-unit id="ajax_loaded_dealer">
-				<source>Closest pharmacies according to your location</source>
+				<source>Closest dealers according to your location</source>
 			</trans-unit>
 			<trans-unit id="ajax_preload">
-				<source>Looking for closest pharmacies</source>
+				<source>Looking for closest dealers</source>
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">

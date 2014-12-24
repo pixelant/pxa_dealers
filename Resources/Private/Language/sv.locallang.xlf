@@ -33,6 +33,19 @@
 			<trans-unit id="error.EmptyValue">
 				<target>Skriv in ett postnummer eller en ort</target>
 			</trans-unit>
+
+			<trans-unit id="submitvalue">
+				<target>Sök</target>
+			</trans-unit>
+
+			<trans-unit id="ajax_loaded_dealer">
+				<target>Närmaste återförsäljare</target>
+			</trans-unit>
+
+			<trans-unit id="ajax_preload">
+				<target>Söker närmaste återförsäljare</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
