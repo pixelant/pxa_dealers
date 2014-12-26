@@ -230,6 +230,21 @@ function dealersFitBounds(filteredDealersMarkers) {
 
 }
 
+function belongsToCountry(marker, selectedCountry) {
+  var markerCountry = marker['country'];
+  markerCountry = markerCountry.toLowerCase().trim();
+  return (markerCountry === selectedCountry || (selectedCountry === "row" && $.inArray(markerCountry, countriesList) === -1 ) );
+}
+
+function belongsToCategories(marker, selectedCategories) {
+  var categories = JSON.parse( marker['categories'] );
+  if( categories.length == 0 ) {
+    return true;
+  } else {
+    return arrayIntersect(categories, selectedCategories);
+  }
+}
+
 function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
     var filteredDealers = [];
@@ -239,27 +254,20 @@ function filterMarkers (allDealersListItems, selectedCountry, fitBounds) {
 
     $.each( markers, function( index, marker ) {
 
-      var categories = JSON.parse( marker['categories'] );
+      var isOk = [];
 
-      var markerCountry = marker['country'];
-      markerCountry = markerCountry.toLowerCase().trim();
+      if( $(".pxa-dealers > .dealer-countries").length > 0 ) {
+        isOk.push( belongsToCountry(marker, selectedCountry) );
+      }
 
-      if(markerCountry === selectedCountry || (selectedCountry === "row" && $.inArray(markerCountry, countriesList) === -1 ) ) {
+      if( $(".pxa-dealers > .categories").length > 0 ) {
+        isOk.push( belongsToCategories(marker, selectedCategories) );
+      }
 
-        if (!categories.length == 0) {
-          if( !arrayIntersect(categories, selectedCategories) ) {
-            markersArray[marker['uid']].setVisible(false);
-          } else {
-            markersArray[marker['uid']].setVisible(true);
-            filteredDealers.push(marker['uid']);
-            filteredDealersMarkers.push(marker);
-          }
-        } else {
-          markersArray[marker['uid']].setVisible(true);
-          filteredDealers.push(marker['uid']);
-          filteredDealersMarkers.push(marker);
-        }
-
+      if( $.inArray(false, isOk) === -1 ) {
+        markersArray[marker['uid']].setVisible(true);
+        filteredDealers.push(marker['uid']);
+        filteredDealersMarkers.push(marker);
       } else {
         markersArray[marker['uid']].setVisible(false);
       }

@@ -18,8 +18,8 @@ plugin.tx_pxadealers {
 			newRow = 4
 			resultLimit = 12
 		}
-		countries.109.row = Rest of the world
-		countries.0.sweden = Sverige
+		#countries.109.row = Rest of the world
+		#countries.0.sweden = Sverige
 	}
 }
 
