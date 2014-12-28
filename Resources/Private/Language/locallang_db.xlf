@@ -74,6 +74,10 @@
 				<source>Choose categories to filter on</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.searchForStates">
+				<source>Search for USA states ( requires static info tables extension )</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

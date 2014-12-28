@@ -1,6 +1,8 @@
 <?php
 namespace PXA\PxaDealers\Domain\Repository;
 
+use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -33,6 +35,13 @@ namespace PXA\PxaDealers\Domain\Repository;
  *
  */
 class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+
+	/**
+   	*  objectManager
+   	*
+	* @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	*/
+  	protected $objectManager;
 
 	/**
 	 * Find delears by zipcode
@@ -70,6 +79,63 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$query->setLimit((integer)$limit);
 		
 		return $query->execute();
+	}
+
+	/**
+	 * Find delears by state
+	 *
+	 * @param string $state
+	 * @param integer $limit limit of results
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 */
+
+	public function getDealersByState($state, $limit = NULL) {
+
+		// Set result to be empty by default
+        $query = $this->createQuery();
+		$query->matching( $query->equals('uid', -1) );
+        $results = $query->execute();
+
+        // Check if static info table extension repository exists
+		if ( !class_exists("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
+			return $results;
+		}
+
+		// get states
+		$countryZoneRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
+
+		$query = $countryZoneRepository->createQuery();
+		$query->matching(
+			$query->logicalAnd(
+				$query->like('localName', $state . '%'),
+				$query->equals('countryIsoCodeA3', "USA")
+			)
+		);
+
+        $states = $query->execute();
+
+        // loop through states and serach for dealers
+		foreach ($states as $state) {
+
+			$query = $this->createQuery();
+			$query->matching( $query->like('zipcodeSearch', $state->getIsoCode() . '%') );
+			if( is_numeric($limit) ) {
+				$currentLimit = $limit - $results->count();
+				if( $currentLimit <= 0) {
+					break;
+				}
+				$query->setLimit( $currentLimit );
+			}
+
+			$current_results = $query->execute();
+
+			foreach ($current_results->toArray() as $current_result) {
+				$results->offsetSet(($results->count()), $current_result);
+			}
+
+		}
+
+		return $results;
 	}
 
 	private function findDealersWithLimit($zipcode, $limit) {

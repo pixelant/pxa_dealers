@@ -78,6 +78,14 @@
                 </TCEforms>
           </settings.elementAdditionalClass>
 
+          <settings.searchForStates>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.searchForStates</label>
+                <config>
+                <type>check</type>
+              </config>
+            </TCEforms>
+          </settings.searchForStates>
           
         </el>
       </ROOT>

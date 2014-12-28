@@ -85,6 +85,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
 			} else {
 				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+				if( $dealers->count() <= 0 && $this->settings['searchForStates'] ) {
+					$dealers = $this->dealersRepository->getDealersByState( $args['searchValue'], $this->settings['resultLimit'] );
+				}
 			}
 
 			// Check is some of the dealers has no coordinates
