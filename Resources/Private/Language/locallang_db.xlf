@@ -31,6 +31,9 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
 				<source>Zipcode</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode_search">
+				<source>Zipcode search value</source>
+			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.description">
 				<source>Description</source>
 			</trans-unit>

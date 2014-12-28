@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_pxadealers_domain_model_dealers'] = array(
 	'ctrl' => $TCA['tx_pxadealers_domain_model_dealers']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, telephone, website, adrress, zipcode, zipcode_search, city, email, lat, lng, lat_lng_is_set',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, telephone, website, adrress, zipcode, city, email, lat, lng, lat_lng_is_set',
 	),
 	'types' => array(
 		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, country, adrress, zipcode, city, telephone, email, website,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
@@ -150,8 +150,8 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 		),
 
 		'zipcode_search' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.zipcode',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.zipcode_search',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
