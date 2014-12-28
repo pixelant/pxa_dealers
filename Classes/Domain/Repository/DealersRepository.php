@@ -118,7 +118,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		foreach ($states as $state) {
 
 			$query = $this->createQuery();
-			$query->matching( $query->like('zipcodeSearch', $state->getIsoCode() . '%') );
+			$query->matching( $query->like('zipcode', $state->getIsoCode() . '%') );
 			if( is_numeric($limit) ) {
 				$currentLimit = $limit - $results->count();
 				if( $currentLimit <= 0) {
