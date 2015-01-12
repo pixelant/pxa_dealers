@@ -77,22 +77,34 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
   if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
 
-  /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
-  var stylesObj = $.parseJSON(styles);
-  var styledMap = new google.maps.StyledMapType(stylesObj,{name: "Map custom"});*/
-
   var bounds = new google.maps.LatLngBounds();       
   var infowindow = new google.maps.InfoWindow();       
                  
   var mapOptions = {
           mapTypeControlOptions: {
-            //mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
           }            
   };
+
   map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);
-  //map.mapTypes.set('map_style', styledMap);
- // map.setMapTypeId('map_style');
+
+  // Check if styles was parsed correctly
+  var stylesIsJSON = true;
+  try {
+    var stylesObj = $.parseJSON(mapStylesJSON);
+  } catch(err) {
+    stylesIsJSON = false;
+    console.log("settings.map.stylesJSON has to be JSON formatted string");
+  }
+
+  if(stylesIsJSON) {
+
+    var styledMap = new google.maps.StyledMapType(stylesObj, {name: mapName});
+
+    map.mapTypes.set('map_style', styledMap);
+    map.setMapTypeId('map_style');
+  }
+
   panorama = map.getStreetView();
 
   for (i = 0;  i < markers.length; i++) {
@@ -138,7 +150,7 @@ function switchToStreetView(i) {
 }
 
 function getAddress(pos,map,infowindow,callback) {
-  var markerIcon = "/typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png";
+  var markerIcon = mapMarkerImage;
 
   var address = markers[i]['address'] ? '<br/>' + markers[i]['address'] : '';
   var zipcode = markers[i]['zipcode'] ? '<br/>' + markers[i]['zipcode'] : '';

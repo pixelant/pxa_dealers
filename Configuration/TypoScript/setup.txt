@@ -17,9 +17,22 @@ plugin.tx_pxadealers {
 			elementAdditionalClass = span3
 			newRow = 4
 			resultLimit = 12
+			map {
+				stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
+				name = {$plugin.tx_pxadealers.settings.map.name}
+				markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+			}
 		}
+		
 		#countries.109.row = Rest of the world
 		#countries.0.sweden = Sverige
+
+		# Map settings
+		map {
+			stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
+			name = {$plugin.tx_pxadealers.settings.map.name}
+			markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+		}
 	}
 }
 
