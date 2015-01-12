@@ -5,7 +5,15 @@ var allDealersListItems;
 function runAjax(position) {
   $('#ajax-load-dealer').fadeIn();
 
-  url = '/?type=7505726&tx_pxadealers_pxadealerssearchresults%5Blatitude%5D='+position.coords.latitude+'&tx_pxadealers_pxadealerssearchresults%5Blongitude%5D='+position.coords.longitude;
+  if( typeof(position)==='undefined') {
+    positionLat = '51.165691';
+    positionLong = "10.451526";
+  } else {
+    positionLat = position.coords.latitude;
+    positionLong = position.coords.longitude;
+  }
+
+  url = '/?type=7505726&tx_pxadealers_pxadealerssearchresults%5Blatitude%5D='+positionLat+'&tx_pxadealers_pxadealerssearchresults%5Blongitude%5D='+positionLong;
   $.ajax({
     dataType: "json",
     url: url
@@ -32,23 +40,25 @@ function checkLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(runAjax, showError);
   } else {
-    console.log = "Geolocation is not supported by this browser."
+    runAjax();
+    console.log ("Geolocation is not supported by this browser.");
   }
 }
 
 function showError(error) {
+    runAjax();
     switch(error.code) {
         case error.PERMISSION_DENIED:
-            console.log = "User denied the request for Geolocation."
+            console.log ("User denied the request for Geolocation.");
             break;
         case error.POSITION_UNAVAILABLE:
-            console.log = "Location information is unavailable."
+            console.log ("Location information is unavailable.");
             break;
         case error.TIMEOUT:
-            console.log = "The request to get user location timed out."
+            console.log ("The request to get user location timed out.");
             break;
         case error.UNKNOWN_ERROR:
-            console.log = "An unknown error occurred."
+            console.log ("An unknown error occurred.");
             break;
     }
 }
