@@ -52,7 +52,22 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function getDealersUniqueCountries($lowerCase = false) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
-		$query->statement('SELECT DISTINCT country FROM tx_pxadealers_domain_model_dealers WHERE deleted = 0 AND hidden = 0');
+
+		/* really bad way of doing things.*/
+
+		$statement = "SELECT DISTINCT country FROM tx_pxadealers_domain_model_dealers WHERE deleted = 0 AND hidden = 0";
+
+		$parser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Storage\\Typo3DbQueryParser');
+		$params = array();
+
+		$queryParts = $parser->parseQuery($query, $params);
+
+		foreach ($queryParts['additionalWhereClause'] as $additionalWhereClause) {
+			$statement .= " AND {$additionalWhereClause}";
+		}
+		
+		$query->statement($statement);
+
 		$result = $query->execute();
 		$result = array_column($result, 'country');
 
