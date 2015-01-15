@@ -33,6 +33,11 @@ plugin.tx_pxadealers {
 			name = {$plugin.tx_pxadealers.settings.map.name}
 			markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
 		}
+
+		countryNameIso3Mapping {
+			canada = can
+			usa = usa
+		}
 	}
 }
 

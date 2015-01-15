@@ -191,6 +191,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', lng: '".$dealer->getLng().
             		"', address: '".str_replace ("'","\'",$dealer->getAdrress()).
             		"', zipcode: '".$dealer->getZipcode().
+            		"', zipcodeSearch: '".$dealer->getZipcodeSearch().
             		"', city: '".str_replace("'","\'",$dealer->getCity()).
             		"', telephone: '".$dealer->getTelephone().
             		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
@@ -199,6 +200,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', uid: '".$dealer->getUid().
             		"', categories: '".$dealer->getCategoriesJSON().
             		"', country: '".$dealer->getCountry().
+            		"', countryZone: '".$dealer->getCountryZone().
             		($amountOfDealers == $countStep ? "'}" : "'},");
 
             $countStep++;
@@ -307,7 +309,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	protected function getCountriesListJSON() {
-		$tsCountries = $this->settings['countries'];
+
+		/*$tsCountries = $this->settings['countries'];
 
 		$countriesList = array();
 
@@ -316,7 +319,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			if($countyKey !== "row") {
 				$countriesList[] = key($country);	
 			}
-		}
+		}*/
+
+		$countriesList = $this->dealersRepository->getDealersUniqueCountries(true);
 
 		return json_encode($countriesList);
 	}

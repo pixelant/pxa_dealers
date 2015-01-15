@@ -16,11 +16,17 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.email">
 				<source>E-mail</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.fax">
+				<source>Fax</source>
+			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.telephone">
 				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.website">
 				<source>Website</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.buy_it_now">
+				<source>Buy it now link</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country">
 				<source>Country</source>
@@ -77,9 +83,18 @@
 				<source>Choose categories to filter on</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.dealersCountiesStatesSelector">
+				<source>Enable States selector</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.dealersCountiesCityZipSearch">
+				<source>Enable dynamic search for city/zip</source>
+			</trans-unit>
+
 			<trans-unit id="flexform.searchForStates">
 				<source>Search for USA states ( requires static info tables extension )</source>
 			</trans-unit>
+
 
 		</body>
 	</file>

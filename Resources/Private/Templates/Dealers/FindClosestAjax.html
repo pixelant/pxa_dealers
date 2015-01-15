@@ -47,17 +47,23 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
                 <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">           
 
-                <b>{dealer.name}</b>
+                <b class="dealer-name">{dealer.name}</b>
                 <p class="dealer-info">
                   <span class="dealer-address">{dealer.adrress}</span><br>
                   <span class="dealer-zipcode">{dealer.zipcode}</span><br>
                   <span class="dealer-address">{dealer.city}</span><br>
                   <f:if condition="{dealer.website}">                    
                       <span class="dealer-website"><f:link.external uri="{dealer.website}" target="_blank">{dealer.website}</f:link.external></span><br>
-                  </f:if>                
+                  </f:if>
+                  <f:if condition="{dealer.buyItNow}">                    
+                      <span class="dealer-buyItNow"><f:link.external uri="{dealer.buyItNow}" target="_blank"><f:translate key="dealers_results_buy_it_now" /></f:link.external></span><br>
+                  </f:if>
                   <f:if condition="{dealer.telephone}">                    
                       <span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>">Tel:&nbsp;{dealer.telephone}</a></span><br>
-                  </f:if>                
+                  </f:if> 
+                  <f:if condition="{dealer.fax}">
+                      <span class="dealer-fax"><a href="tel:<pxa:dealers phone='{dealer.fax}'/>">Fax:&nbsp;{dealer.fax}</a></span><br>
+                  </f:if>              
                   <f:if condition="{dealer.email}">                    
                       <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
                   </f:if>

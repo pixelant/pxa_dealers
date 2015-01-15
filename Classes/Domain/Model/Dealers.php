@@ -1,6 +1,8 @@
 <?php
 namespace PXA\PxaDealers\Domain\Model;
 
+use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -66,11 +68,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $telephone;
 
 	/**
+	 * Fax
+	 *
+	 * @var \string
+	 */
+	protected $fax;
+
+	/**
 	 * Website url
 	 *
 	 * @var \string
 	 */
 	protected $website;
+
+	/**
+	 * Buy it now url
+	 *
+	 * @var \string
+	 */
+	protected $buyItNow;
 
 	/**
 	 * Adrress for google maps
@@ -229,6 +245,26 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
+	 * Returns the fax
+	 *
+	 * @return \string $fax
+	 */
+	public function getFax() {
+		return $this->fax;
+	}
+
+	/**
+	 * Sets the fax
+	 *
+	 * @param \string $fax
+	 * @return void
+	 */
+	public function setFax($fax) {
+		$this->fax = $fax;
+	}
+
+
+	/**
 	 * Returns the website
 	 *
 	 * @return \string $website
@@ -245,6 +281,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setWebsite($website) {
 		$this->website = $website;
+	}
+
+	/**
+	 * Returns the buyItNow
+	 *
+	 * @return \string $buyItNow
+	 */
+	public function getBuyItNow() {
+		return $this->buyItNow;
+	}
+
+	/**
+	 * Sets the buyItNow
+	 *
+	 * @param \string $buyItNow
+	 * @return void
+	 */
+	public function setBuyItNow($buyItNow) {
+		$this->buyItNow = $buyItNow;
 	}
 
 	/**
@@ -468,6 +523,52 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$categories = json_encode($categories);
 
 		return $categories;
+	}
+
+	/**
+	 * Returns dealer country zone
+	 *
+	 * @return string
+	 */
+	public function getCountryZone() {
+
+		// Check if static info table extension repository exists
+		if ( !class_exists("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
+			return false;
+		}
+
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("\TYPO3\CMS\Extbase\Object\ObjectManager");
+
+		$zoneCode = mb_substr(trim ($this->getZipcode()), 0, 2);
+
+		$tsService = $objectManager->get("\TYPO3\CMS\Extbase\Service\TypoScriptService");
+		$ts = $tsService->convertTypoScriptArrayToPlainArray( $GLOBALS['TSFE']->tmpl->setup );
+
+		$countryNameIso3Mapping = $ts['plugin']['tx_pxadealers']['settings']['countryNameIso3Mapping'];
+
+		$country = strtolower(trim($this->getCountry()));
+
+		// get states
+
+		$countryZoneRepository = $objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
+
+		$query = $countryZoneRepository->createQuery();
+		$query->matching(
+			$query->logicalAnd(
+				$query->equals('isoCode', $zoneCode),
+				$query->equals('countryIsoCodeA3', $countryNameIso3Mapping[$country])
+			)
+		);
+
+		$query->setLimit(1);
+
+        $zone = $query->execute();
+
+        if($zone->count() <= 0) {
+        	return 0;
+        }
+
+        return $zone->getFirst()->getUid();
 	}
 
 }

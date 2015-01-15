@@ -38,6 +38,29 @@ use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
 class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
+	 *  countriesRepository
+	 *
+	 * @var \PXA\PxaDealers\Domain\Repository\CountriesRepository
+	 * @inject
+	 */
+	protected $countriesRepository;
+
+	/**
+	 *  dealersRepository
+	 *
+	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+	 * @inject
+	 */
+	protected $dealersRepository;
+
+	/**
+   	*  objectManager
+   	*
+	* @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	*/
+  	protected $objectManager;
+
+	/**
 	 * action list
 	 *
 	 * @return void
@@ -47,13 +70,29 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$tsCountries = $this->settings['countries'];
 
 		$selected = key($tsCountries[$GLOBALS['TSFE']->sys_language_uid]);
-		$countries = array();
+		$countries = $this->dealersRepository->getDealersUniqueCountriesFormatted();
 
-		foreach ($tsCountries as $key => $country) {
-			$countries = array_merge($countries, $country);
+		///$this->countriesRepository->getAvaliableCountryZonesByCountryName("canada", "can");
+
+		$countryZonesCollection = array();
+
+		// get all country-zones for all presented countries
+		if( $this->settings['dealers_countries_states_selector'] ) {
+
+			// Get country zones
+			foreach ($countries as $countryKey => $country) {
+
+				if( isset($this->settings['countryNameIso3Mapping'][$countryKey]) ) {
+					$countryZonesCollection[$countryKey] = 
+						$this->countriesRepository->getAvaliableCountryZonesByCountryName( $countryKey, $this->settings['countryNameIso3Mapping'][$countryKey]);
+				}
+			}
 		}
 
+		array_unshift($countries, "all");
+
 		$this->view->assign('countries', $countries);
+		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));
 		$this->view->assign('selectedLanguage', $selected);
 	}
 

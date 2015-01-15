@@ -1,0 +1,36 @@
+<T3DataStructure>
+  <meta>
+    <langDisable>1</langDisable>
+  </meta>
+  <sheets>
+    <main>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>	 
+
+      <settings.dealers_countries_states_selector>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesStatesSelector</label>
+              <config>
+               <type>check</type>
+              </config>
+            </TCEforms>
+      </settings.dealers_countries_states_selector>
+
+      <settings.dealers_countries_cityzip_search>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesCityZipSearch</label>
+              <config>
+               <type>check</type>
+              </config>
+            </TCEforms>
+      </settings.dealers_countries_cityzip_search>
+
+        </el>
+      </ROOT>
+    </main>
+  </sheets>
+</T3DataStructure>

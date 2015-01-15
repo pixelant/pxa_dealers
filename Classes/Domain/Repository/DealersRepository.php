@@ -43,6 +43,39 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	*/
   	protected $objectManager;
 
+ 	/**
+	 * Find delears unique countries
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 */
+
+	public function getDealersUniqueCountries($lowerCase = false) {
+		$query = $this->createQuery();
+		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+		$query->statement('SELECT DISTINCT country FROM tx_pxadealers_domain_model_dealers WHERE deleted = 0 AND hidden = 0');
+		$result = $query->execute();
+		$result = array_column($result, 'country');
+
+		if($lowerCase) {
+			$result = array_map('strtolower', $result);
+		}
+
+		return $result;
+	}
+
+ 	/**
+	 * get delears unique countries as specific format JSON
+	 *
+	 * @return string
+	 */
+
+	public function getDealersUniqueCountriesFormatted() {
+		$keys = $this->getDealersUniqueCountries(true);
+		$values = $this->getDealersUniqueCountries();
+		$countries = array_combine($keys, $values);
+		return $countries;
+	}
+
 	/**
 	 * Find delears by zipcode
 	 *

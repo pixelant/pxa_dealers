@@ -8,7 +8,9 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 
 	name varchar(255) DEFAULT '' NOT NULL,
 	telephone varchar(255) DEFAULT '' NOT NULL,
+	fax varchar(255) DEFAULT '' NOT NULL,
 	website varchar(255) DEFAULT '' NOT NULL,
+	buy_it_now varchar(255) DEFAULT '' NOT NULL,
 	country varchar(255) DEFAULT '' NOT NULL,
 	adrress varchar(255) DEFAULT '' NOT NULL,
 	city varchar(50) DEFAULT '' NOT NULL,

@@ -88,7 +88,19 @@
 
 			<trans-unit id="notDealersFoundFilteringMessage">
 				<source>No retailers were found. Try searching with a different zip code or remove the filtering to the left.</source>
-			</trans-unit>		
+			</trans-unit>
+
+			<trans-unit id="country_list_select_zone">
+				<source>State</source>
+			</trans-unit>
+
+			<trans-unit id="country_list_city_zip_search">
+				<source>search for city or zip...</source>
+			</trans-unit>
+
+			<trans-unit id="dealers_results_buy_it_now">
+				<source>buy it now</source>
+			</trans-unit>
 			
 		</body>
 	</file>

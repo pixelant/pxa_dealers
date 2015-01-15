@@ -15,7 +15,35 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <div class="pxa-dealers">
 
-	<f:form.select name="dealer-countries" class="form-control dealer-countries" property="dealer-country" options="{countries}" value="{selectedLanguage}"/>
+    <script type="text/javascript">
+		var countryStatesCollection = <f:format.raw>{countryZones}</f:format.raw>;
+	</script>
+
+  	<div class="form-group">
+
+		<f:form.select name="dealer-countries" class="form-control dealer-countries" property="dealer-country" options="{countries}" value="{selectedLanguage}"/>
+
+	</div>
+
+	<f:if condition="{settings.dealers_countries_states_selector}">
+
+		<div class="form-group">
+
+			<label for="dealer-country-states"><f:translate key="country_list_select_zone" /></label>
+			<f:form.select name="dealer-country-states" class="form-control dealer-country-states" property="dealer-country-states" options="{0:'all'}" value="0"/>
+		</div>
+
+	</f:if>
+
+	<f:if condition="{settings.dealers_countries_cityzip_search}">
+
+		<div class="form-group">
+
+			<f:form.textfield class="form-control dealer-cityzip-search" name="dealer-cityzip-search" value="" placeholder='<f:translate key="country_list_city_zip_search" />'/>
+
+		</div>
+
+	</f:if>
 
 </div>
 

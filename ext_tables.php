@@ -38,6 +38,9 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerscategories'] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerscategories', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_categories.xml');
+
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerscountries'] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerscountries', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_countries.xml');
 /****************************************/
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Pxa Dealers');
