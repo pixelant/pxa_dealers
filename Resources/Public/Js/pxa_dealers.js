@@ -283,11 +283,17 @@ function containsSearchString(marker, searchString) {
     return true;
   }
 
-  if($.isNumeric(searchString)) {
-    //console.log( marker );
-    if( marker['zipcodeSearch'].startsWith(searchString) ) {
+  if(/\d+/.test(searchString)) {
+
+    var expression = /[\. ,:-]+/g;
+
+    var processedZipcode = marker['zipcode'].replace(expression,'').toLowerCase();
+    var processedSearchString = searchString.replace(expression,'').toLowerCase();
+
+    if( processedZipcode.startsWith(processedSearchString) || processedZipcode.substr(2).startsWith(processedSearchString)) {
       return true;
     }
+
   } else {
     if( marker['city'].toLowerCase().startsWith(searchString) ) {
       return true;
@@ -433,9 +439,6 @@ $( document ).ready(function() {
     if(selectedCountry != 0) {
       var currentCountryZones = countryStatesCollection[selectedCountry];
 
-      console.log("here");
-      console.log(currentCountryZones);
-
       if(currentCountryZones !== undefined) {
 
         $.each(currentCountryZones, function(key, value) {
@@ -465,8 +468,6 @@ $( document ).ready(function() {
     if(e.which == 13) {
 
       var searchValue = $(this).val();
-
-      console.log(searchValue);
 
       filterMarkers(allDealersListItems, 
           $(".pxa-dealers .dealer-countries").val(), 
