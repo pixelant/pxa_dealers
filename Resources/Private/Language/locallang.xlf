@@ -91,7 +91,11 @@
 			</trans-unit>
 
 			<trans-unit id="country_list_select_zone">
-				<source>State</source>
+				<source>Select state</source>
+			</trans-unit>
+
+			<trans-unit id="country_list_select_country">
+				<source>Select country</source>
 			</trans-unit>
 
 			<trans-unit id="country_list_city_zip_search">
