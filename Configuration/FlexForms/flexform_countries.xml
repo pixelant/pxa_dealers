@@ -11,6 +11,15 @@
         <type>array</type>
         <el>	 
 
+      <settings.dealers_countries_selector>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesSelector</label>
+              <config>
+               <type>check</type>
+              </config>
+            </TCEforms>
+      </settings.dealers_countries_selector>
+
       <settings.dealers_countries_states_selector>
             <TCEforms>
               <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesStatesSelector</label>

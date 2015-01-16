@@ -84,11 +84,15 @@
 			</trans-unit>
 
 			<trans-unit id="flexform.dealersCountiesStatesSelector">
-				<source>Enable States selector</source>
+				<source>Enable states selector</source>
 			</trans-unit>
 
 			<trans-unit id="flexform.dealersCountiesCityZipSearch">
 				<source>Enable dynamic search for city/zip</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.dealersCountiesSelector">
+				<source>Enable country selector</source>
 			</trans-unit>
 
 			<trans-unit id="flexform.searchForStates">
