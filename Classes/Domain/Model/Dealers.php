@@ -565,10 +565,58 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         $zone = $query->execute();
 
         if($zone->count() <= 0) {
-        	return 0;
+        	return false;
         }
 
-        return $zone->getFirst()->getUid();
+        return $zone->getFirst();
+	}
+
+	/**
+	 * Returns dealer country zone uid
+	 *
+	 * @return string
+	 */
+	public function getCountryZoneUid() {
+
+		$countryZone = $this->getCountryZone();
+
+		if( is_object($countryZone) ) {
+			return $countryZone->getUid();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Returns dealer country zone name
+	 *
+	 * @return string
+	 */
+	public function getCountryZoneName() {
+
+		$countryZone = $this->getCountryZone();
+
+		if( is_object($countryZone) ) {
+			return $countryZone->getNameEn();
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns dealer country zone iso code
+	 *
+	 * @return string
+	 */
+	public function getCountryZoneIsoCode() {
+
+		$countryZone = $this->getCountryZone();
+
+		if( is_object($countryZone) ) {
+			return $countryZone->getIsoCode();
+		}
+
+		return '';
 	}
 
 }

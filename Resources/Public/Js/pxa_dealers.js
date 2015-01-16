@@ -2,6 +2,31 @@ var map;
 var originalDealersHeader = $("#dealers-header-original").html();
 var allDealersListItems;
 
+var FB_COUNTRY = 0;
+var FB_STATE = 1;
+var FB_CITY = 2;
+var FB_MARKERS = 3;
+var FB_NONE = 4;
+
+/* Prototypes */
+
+if (typeof String.prototype.startsWith != 'function') {
+  // see below for better implementation!
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
+}
+
+if (typeof Array.prototype.getColumn != 'function') {
+  Array.prototype.getColumn = function(name) {
+      return this.map(function(el) {
+         // gets corresponding 'column'
+         if (el.hasOwnProperty(name)) return el[name];
+         // removes undefined values
+      }).filter(function(el) { return typeof el != 'undefined'; }); 
+  };
+}
+
 function runAjax(position) {
   $('#ajax-load-dealer').fadeIn();
 
@@ -146,7 +171,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
         $(".pxa-dealers .dealer-countries").val(), 
         $(".pxa-dealers .dealer-country-states").val(), 
         '',
-        true );
+        FB_NONE);
   }
 
 }
@@ -258,6 +283,94 @@ function dealersFitBounds(filteredDealersMarkers) {
 
 }
 
+function dealersFitLocation(markers, type) {
+
+  if( !markers.length ) {
+    return false;
+  }
+
+  if( type == FB_CITY ) {
+
+    var markersCities = markers.getColumn('city');
+
+    if( $.unique(markersCities).length > 1 ) {
+      type = FB_MARKERS;
+    }
+
+  }
+
+  if( type == FB_MARKERS ) {
+
+    var bounds = new google.maps.LatLngBounds();
+
+    $.each( markers, function( index, marker ) {  
+      var pos = 0;
+      pos = new google.maps.LatLng(marker['lat'],marker['lng']);
+      if(pos !== 0) {
+        bounds.extend(pos);
+      }
+    });
+
+    if(markers.length == 1 ) {
+      map.fitBounds(bounds);
+      var listener = google.maps.event.addListener(map, "idle", function() { 
+          map.setZoom(12); 
+          google.maps.event.removeListener(listener); 
+      });                            
+    } else {
+      map.fitBounds(bounds);
+      map.setCenter(bounds.getCenter());
+    }
+
+    return true;
+
+  }
+
+  var sampleMarker = markers[0];
+  
+  // Fix for New York state
+  if(type == FB_STATE && sampleMarker['country'].toLowerCase() == "usa" && sampleMarker['countryZoneIsoCode'].toLowerCase() == "ny") {
+    var nysPoints = [];
+    45.207730, -80.055420
+    40.055527, -80.110351
+    39.929273, -71.661865
+    45.246418, -71.530029
+    // nysPoints.push( {'lat': 39.777460, 'lng': -83.483154} );
+    // nysPoints.push( {'lat': 45.362325, 'lng': -81.099121} );
+    // nysPoints.push( {'lat': 45.608801, 'lng': -70.354492} );
+    // nysPoints.push( {'lat': 40.658295, 'lng': -69.871094} );
+    nysPoints.push( {'lat': 45.207730, 'lng': -80.055420} );
+    nysPoints.push( {'lat': 40.055527, 'lng': -80.110351} );
+    nysPoints.push( {'lat': 39.929273, 'lng': -71.661865} );
+    nysPoints.push( {'lat': 45.246418, 'lng': -71.530029} );
+    dealersFitLocation(nysPoints, FB_MARKERS);
+    return true;
+  }
+
+  var addressChoses = {};
+  addressChoses[FB_COUNTRY] = sampleMarker['country'];
+  addressChoses[FB_STATE] = sampleMarker['country'] + ', ' + sampleMarker['countryZoneIsoCode'];
+  addressChoses[FB_CITY] = sampleMarker['country'] + ', ' + sampleMarker['countryZoneName'] + ', ' + sampleMarker['city'];
+  addressChoses[FB_MARKERS] = "";
+
+  if( !(type in addressChoses) ) {
+    return false;
+  }
+
+  var address = addressChoses[type];
+
+  var pos = new google.maps.LatLng(sampleMarker['lat'],sampleMarker['lng']);
+
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode( { 'address': address, 'location': pos}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      map.fitBounds(results[0].geometry.viewport);
+    }
+  });
+
+}
+
 function belongsToCountry(marker, selectedCountry) {
   var markerCountry = marker['country'];
   markerCountry = markerCountry.toLowerCase().trim();
@@ -295,7 +408,8 @@ function containsSearchString(marker, searchString) {
     }
 
   } else {
-    if( marker['city'].toLowerCase().startsWith(searchString) ) {
+
+    if( marker['city'].toLowerCase().startsWith(searchString.toLowerCase()) ) {
       return true;
     }
   }
@@ -303,14 +417,7 @@ function containsSearchString(marker, searchString) {
   return false;
 }
 
-if (typeof String.prototype.startsWith != 'function') {
-  // see below for better implementation!
-  String.prototype.startsWith = function (str){
-    return this.indexOf(str) == 0;
-  };
-}
-
-function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBounds) {
+function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType) {
 
     var filteredDealers = [];
     var filteredDealersMarkers = [];
@@ -347,7 +454,11 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
     });
 
-    dealersFitBounds(filteredDealersMarkers);  
+    //dealersFitBounds(filteredDealersMarkers);
+
+    dealersFitLocation(filteredDealersMarkers, fitBoundsType);
+
+    //dealersFitLocation(marker, type);
 
     enabledDealersListItems = [];
 
@@ -417,14 +528,16 @@ $( document ).ready(function() {
 
   allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
 
+  // Categories change
   $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
     var $this = $(this);
     $this.parent().toggleClass('selected');
 
-    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), '',false);
+    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), '', FB_NONE);
 
   });
 
+  // Countries change
   $(".pxa-dealers .dealer-countries").on("change", function() {
     var $this = $(this);
 
@@ -435,6 +548,8 @@ $( document ).ready(function() {
     $(".pxa-dealers .dealer-country-states").append($("<option></option>")
           .attr("value", 0)
           .text("all"));
+
+    var fbType = FB_MARKERS;
 
     if(selectedCountry != 0) {
       var currentCountryZones = countryStatesCollection[selectedCountry];
@@ -450,20 +565,33 @@ $( document ).ready(function() {
 
       }
 
+      fbType = FB_COUNTRY;
+
     }
 
     $(".pxa-dealers .dealer-cityzip-search").val('');
 
-    filterMarkers(allDealersListItems, selectedCountry, $(".pxa-dealers .dealer-country-states").val(), '', true);
+    filterMarkers(allDealersListItems, selectedCountry, $(".pxa-dealers .dealer-country-states").val(), '', fbType);
 
   });
 
+  // Country zone change
   $(".pxa-dealers .dealer-country-states").on("change", function() {
+
     var selectedCountryZone = $(this).val();
+
     $(".pxa-dealers .dealer-cityzip-search").val('');
-    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), '', true);
+
+    var fbType = FB_STATE;
+
+    if(selectedCountryZone == 0) {
+      fbType = FB_COUNTRY;
+    }
+
+    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), '', fbType);
   });
 
+  // City/zip search entered
   $(".pxa-dealers .dealer-cityzip-search").keypress(function (e) {
     if(e.which == 13) {
 
@@ -473,7 +601,7 @@ $( document ).ready(function() {
           $(".pxa-dealers .dealer-countries").val(), 
           $(".pxa-dealers .dealer-country-states").val(), 
           searchValue, 
-          false);
+          FB_CITY);
     }
   });
 
