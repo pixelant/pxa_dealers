@@ -76,7 +76,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function searchResultsAction() {
 
-		$timeStat = [];
+		$timeStat = array();
 
 		$timeStat['starttime'] = microtime(true);
 

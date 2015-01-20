@@ -70,7 +70,12 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$query->statement($statement);
 
 		$result = $query->execute();
-		$result = array_column($result, 'country');
+
+		if( function_exists("array_column") ) {
+			$result = array_column($result, 'country');
+		} else {
+			$result = \PXA\PxaDealers\Utility\HelperFunctions::array_column($result, 'country');
+		}
 
 		return $result;
 	}
