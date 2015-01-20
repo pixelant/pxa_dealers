@@ -579,7 +579,7 @@ $( document ).ready(function() {
     var $this = $(this);
     $this.parent().toggleClass('selected');
 
-    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), '', FB_NONE);
+    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), $(".pxa-dealers .dealer-cityzip-search").val(), FB_MARKERS);
 
   });
 
