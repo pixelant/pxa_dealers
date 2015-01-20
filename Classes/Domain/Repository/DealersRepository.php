@@ -107,12 +107,22 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	public function getDealersUniqueCountriesFormatted() {
 
+		$tsService = $this->objectManager->get("\TYPO3\CMS\Extbase\Service\TypoScriptService");
+		$ts = $tsService->convertTypoScriptArrayToPlainArray( $GLOBALS['TSFE']->tmpl->setup );
+		$settings = $ts['plugin']['tx_pxadealers']['settings'];
+
   		$results = array();
 
   		foreach ($this->getDealersUniqueCountries() as $country) {
   			$uid = $country->getUid();
-  			//$results[$uid] = $country->getShortNameEn();
-  			$results[$uid] = $country->getShortNameLocal();
+
+  			if( isset($settings['nameCountryMapping'][$uid]) ) {
+				$countryName = $settings['nameCountryMapping'][$uid];
+  			} else {
+  				$countryName =$country->getShortNameLocal();
+  			}
+
+  			$results[$uid] = $countryName;
   		}
 
   		asort($results);

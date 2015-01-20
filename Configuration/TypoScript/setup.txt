@@ -46,6 +46,8 @@ plugin.tx_pxadealers {
 			0 = 220
 			1 = 186
 		}
+		nameCountryMapping {
+		}
 	}
 }
 
