@@ -96,52 +96,26 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return array
 	 */
 
-	public function getAvaliableCountryZonesByCountryName($countryName, $countryIso3) {
+	public function getAvaliableCountryZonesByCountry($country) {
 
 		$localNames = array();
 
-		// Check if static info table extension repository exists
-		if ( !class_exists("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
-			return $localNames;
-		}
+		$zonesCollection = array();
 
-		$zonesColection = array();
-
-		$dealersCollection = $this->dealersRepository->findByCountry($countryName);
+		$dealersCollection = $this->dealersRepository->findByCountry($country);
 
 		foreach ($dealersCollection as $dealer) {
-			$zonesColection[] = $dealer->getZipcode();
+			$zone = $dealer->getCountryZone();
+			if( is_object($zone) ) {
+				$key = $zone->getUid();
+				if( !in_array($key, $zonesCollection) ) {
+					$zonesCollection[$key] = $zone->getNameEn();
+				}
+			}
 		}
 
-		$zonesColection = array_map( function ($data) {
-			return mb_substr(trim ($data), 0, 2);
-		}, $zonesColection);
+		return $zonesCollection;
 
-		$zonesColection = array_unique($zonesColection);
-
-		// Get states
-		$countryZoneRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
-
-		$query = $countryZoneRepository->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->equals('countryIsoCodeA3', $countryIso3),
-				$query->in('isoCode', $zonesColection)
-			)
-		);
-
-        $states = $query->execute();
-
-        if( $states->count() <= 0 ) {
-        	return $localNames;
-        }
-
-		foreach ($states as $state) {
-			$uid = $state->getUid();
-			$localNames[$uid] = $state->getLocalName();
-		}
-
-		return $localNames;
 	}	
 
 }

@@ -38,6 +38,14 @@ plugin.tx_pxadealers {
 			canada = can
 			usa = usa
 		}
+
+		# Countries which would display ceparately in countries filter
+		# list of statiic info tables countries uid's
+		mainCountries = 
+		languageCountryMapping {
+			0 = 220
+			1 = 186
+		}
 	}
 }
 
@@ -47,6 +55,7 @@ page.includeJSlibs.googleapi.external = 1
 page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
 
 #[global]
+page.includeJSFooter.pxa_dealers_markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
 page.includeJSFooter.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
 

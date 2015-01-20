@@ -31,6 +31,9 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country">
 				<source>Country</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone">
+				<source>State</source>
+			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
 				<source>Adrress</source>
 			</trans-unit>
@@ -99,6 +102,9 @@
 				<source>Search for USA states ( requires static info tables extension )</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.clusterMarkers">
+				<source>Enable markers clusterization</source>
+			</trans-unit>
 
 		</body>
 	</file>

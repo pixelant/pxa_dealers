@@ -67,33 +67,54 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 */
 	public function listAction() {
 
-		$tsCountries = $this->settings['countries'];
+		//$tsCountries = $this->settings['countries'];
 
-		$selected = key($tsCountries[$GLOBALS['TSFE']->sys_language_uid]);
+		//$selected = key($tsCountries[$GLOBALS['TSFE']->sys_language_uid]);
+
+		$language = $GLOBALS['TSFE']->sys_language_uid;
+
+		// du::var_dump($language);
+		// du::var_dump($this->settings['languageCountryMapping']);
+
+		$selected = 0;
+
+		if( isset($this->settings['languageCountryMapping'][$language]) ) {
+			$selected = $this->settings['languageCountryMapping'][$language];
+		}
+
+		//du::var_dump($this->settings);
+
+		$mainCountries = explode(',', $this->settings['mainCountries']);
+
 		$countries = $this->dealersRepository->getDealersUniqueCountriesFormatted();
 
-		///$this->countriesRepository->getAvaliableCountryZonesByCountryName("canada", "can");
+		$mainCountriesCollection = array_flip(array_intersect(array_flip($countries), $mainCountries));
+
+		if(!empty($mainCountriesCollection) && count($mainCountriesCollection) != count($countries) ) {
+			$countries = $mainCountriesCollection;
+		}
 
 		$countryZonesCollection = array();
+
+		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
 
 		// get all country-zones for all presented countries
 		if( $this->settings['dealers_countries_states_selector'] ) {
 
 			// Get country zones
-			foreach ($countries as $countryKey => $country) {
-
-				if( isset($this->settings['countryNameIso3Mapping'][$countryKey]) ) {
-					$countryZonesCollection[$countryKey] = 
-						$this->countriesRepository->getAvaliableCountryZonesByCountryName( $countryKey, $this->settings['countryNameIso3Mapping'][$countryKey]);
-				}
+			foreach ($countries as $countryKey => $countryName) {
+					$country = $countryRepository->findByUid($countryKey);
+					$countryZonesCollection[$countryKey] = $this->countriesRepository->getAvaliableCountryZonesByCountry( $country );
 			}
 		}
 
-		array_unshift($countries, "all");
+		$countries = $countries + array('row' => "other countries");
+		$countries = array(0 => "all") + $countries; 
 
 		$this->view->assign('countries', $countries);
 		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));
 		$this->view->assign('selectedLanguage', $selected);
+		//$this->view->assign('mainCountries', $mainCountries);
 	}
 
 }

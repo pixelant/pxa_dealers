@@ -44,18 +44,19 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   	protected $objectManager;
 
  	/**
-	 * Find delears unique countries
+	 * Find delears unique countries uids
 	 *
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
 
-	public function getDealersUniqueCountries($lowerCase = false) {
+	public function getDealersUniqueCountriesUids() {
+
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
 
 		/* really bad way of doing things.*/
 
-		$statement = "SELECT DISTINCT country FROM tx_pxadealers_domain_model_dealers WHERE deleted = 0 AND hidden = 0";
+		$statement = "SELECT DISTINCT country FROM tx_pxadealers_domain_model_dealers WHERE deleted = 0 AND hidden = 0 AND country != 0";
 
 		$parser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Storage\\Typo3DbQueryParser');
 		$params = array();
@@ -71,11 +72,26 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$result = $query->execute();
 		$result = array_column($result, 'country');
 
-		if($lowerCase) {
-			$result = array_map('strtolower', $result);
-		}
-
 		return $result;
+	}
+
+ 	/**
+	 * Find delears unique countries
+	 *
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $countries
+	 */
+
+	public function getDealersUniqueCountries() {
+
+		// get countries
+		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+
+		$query = $countryRepository->createQuery();
+		$query->matching(
+			$query->in('uid', $this->getDealersUniqueCountriesUids())
+		);
+
+  		return $query->execute();
 	}
 
  	/**
@@ -85,10 +101,18 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 
 	public function getDealersUniqueCountriesFormatted() {
-		$keys = $this->getDealersUniqueCountries(true);
-		$values = $this->getDealersUniqueCountries();
-		$countries = array_combine($keys, $values);
-		return $countries;
+
+  		$results = array();
+
+  		foreach ($this->getDealersUniqueCountries() as $country) {
+  			$uid = $country->getUid();
+  			//$results[$uid] = $country->getShortNameEn();
+  			$results[$uid] = $country->getShortNameLocal();
+  		}
+
+  		asort($results);
+
+  		return $results;
 	}
 
 	/**

@@ -99,10 +99,16 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Country
 	 *
-	 * @var \string
-	 * @validate NotEmpty
+	 * @var \SJBR\StaticInfoTables\Domain\Model\Country
 	 */
 	protected $country;
+
+	/**
+	 * Country
+	 *
+	 * @var \SJBR\StaticInfoTables\Domain\Model\CountryZone
+	 */
+	protected $countryZone;
 
 	/**
 	 * Zipcode
@@ -137,9 +143,9 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * latLngIsSet
 	 *
-	 * @var boolean
+	 * @var \integer
 	 */
-	protected $latLngIsSet = FALSE;
+	protected $latLngIsSet = 0;
 
 	/**
 	 * categories
@@ -324,7 +330,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the country
 	 *
-	 * @return \string $country
+	 * @return \SJBR\StaticInfoTables\Domain\Model\Country $country
 	 */
 	public function getCountry() {
 		return $this->country;
@@ -333,11 +339,40 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the country
 	 *
-	 * @param \string $country
+	 * @param \SJBR\StaticInfoTables\Domain\Model\Country $country
 	 * @return void
 	 */
-	public function setCountry($country) {
+	public function setCountry(\SJBR\StaticInfoTables\Domain\Model\Country $country) {
 		$this->country = $country;
+	}
+
+	/**
+	 * Returns the country zone
+	 *
+	 * @return \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
+	 */
+	public function getCountryZone() {
+		return $this->countryZone;
+	}
+
+	/**
+	 * Sets the country zone
+	 *
+	 * @param \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
+	 * @return void
+	 */
+	public function setCountryZone($countryZone) {
+		$this->countryZone = $countryZone;
+	}
+
+	/**
+	 * Returns true if country belongs to coutry zone
+	 *
+	 * @param \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
+	 * @return boolean
+	 */
+	public function belongsToCountryZone($countryZone) {
+		return ( $countryZone == $this->getCountryZone() );
 	}
 
 	/**
@@ -419,7 +454,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Returns the latLngIsSet
 	 *
-	 * @return boolean $latLngIsSet
+	 * @return \integer $latLngIsSet
 	 */
 	public function getLatLngIsSet() {
 		return $this->latLngIsSet;
@@ -428,20 +463,11 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets the latLngIsSet
 	 *
-	 * @param boolean $latLngIsSet
+	 * @param \integer $latLngIsSet
 	 * @return void
 	 */
 	public function setLatLngIsSet($latLngIsSet) {
 		$this->latLngIsSet = $latLngIsSet;
-	}
-
-	/**
-	 * Returns the boolean state of latLngIsSet
-	 *
-	 * @return boolean
-	 */
-	public function isLatLngIsSet() {
-		return $this->getLatLngIsSet();
 	}
 
 	/**
@@ -526,52 +552,6 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns dealer country zone
-	 *
-	 * @return string
-	 */
-	public function getCountryZone() {
-
-		// Check if static info table extension repository exists
-		if ( !class_exists("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
-			return false;
-		}
-
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("\TYPO3\CMS\Extbase\Object\ObjectManager");
-
-		$zoneCode = mb_substr(trim ($this->getZipcode()), 0, 2);
-
-		$tsService = $objectManager->get("\TYPO3\CMS\Extbase\Service\TypoScriptService");
-		$ts = $tsService->convertTypoScriptArrayToPlainArray( $GLOBALS['TSFE']->tmpl->setup );
-
-		$countryNameIso3Mapping = $ts['plugin']['tx_pxadealers']['settings']['countryNameIso3Mapping'];
-
-		$country = strtolower(trim($this->getCountry()));
-
-		// get states
-
-		$countryZoneRepository = $objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
-
-		$query = $countryZoneRepository->createQuery();
-		$query->matching(
-			$query->logicalAnd(
-				$query->equals('isoCode', $zoneCode),
-				$query->equals('countryIsoCodeA3', $countryNameIso3Mapping[$country])
-			)
-		);
-
-		$query->setLimit(1);
-
-        $zone = $query->execute();
-
-        if($zone->count() <= 0) {
-        	return false;
-        }
-
-        return $zone->getFirst();
-	}
-
-	/**
 	 * Returns dealer country zone uid
 	 *
 	 * @return string
@@ -617,6 +597,22 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Returns dealer country uid
+	 *
+	 * @return integer
+	 */
+	public function getCountryUid() {
+
+		$country = $this->getCountry();
+
+		if( is_object($country) ) {
+			return $country->getUid();
+		}
+
+		return 0;
 	}
 
 }

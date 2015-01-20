@@ -11,7 +11,10 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	fax varchar(255) DEFAULT '' NOT NULL,
 	website varchar(255) DEFAULT '' NOT NULL,
 	buy_it_now varchar(255) DEFAULT '' NOT NULL,
-	country varchar(255) DEFAULT '' NOT NULL,
+
+	country int(11) unsigned DEFAULT '0' NOT NULL,
+	country_zone int(11) unsigned DEFAULT '0' NOT NULL,
+
 	adrress varchar(255) DEFAULT '' NOT NULL,
 	city varchar(50) DEFAULT '' NOT NULL,
 	email varchar(50) DEFAULT '' NOT NULL,
@@ -19,7 +22,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	zipcode_search varchar(255) DEFAULT '' NOT NULL,
 	lat varchar(255) DEFAULT '' NOT NULL,
 	lng varchar(255) DEFAULT '' NOT NULL,
-	lat_lng_is_set tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	lat_lng_is_set tinyint(1) DEFAULT '0' NOT NULL,
 	product_areas int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

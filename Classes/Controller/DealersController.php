@@ -75,49 +75,84 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function searchResultsAction() {
+
+		$timeStat = [];
+
+		$timeStat['starttime'] = microtime(true);
+
 		$args = $this->request->getArguments();
 		$status = $this->checkStatus($args);
 
-		if($status == self::searchValueOK) {
-			$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
+		$dealers = $this->dealersRepository->findAll();
 
-			if(is_numeric($zipcode)) {
-				$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
-			} else {
-				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
-				if( $dealers->count() <= 0 && $this->settings['searchForStates'] ) {
-					$dealers = $this->dealersRepository->getDealersByState( $args['searchValue'], $this->settings['resultLimit'] );
-				}
-			}
+		$timeStat['2'] = microtime(true);
 
-			// Check is some of the dealers has no coordinates
-			$this->checkDealers($dealers,$defaultCountry);
+		//du::var_dump($dealers);
 
-		    if($dealers->count() > 0) { 
-		    	$amountOfDealers = $dealers->count();
-				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
+		$dealers = $this->checkDealers($dealers);
 
-				$this->view->assign('countriesList', $this->getCountriesListJSON());
+		$timeStat['3'] = microtime(true);
 
-		        $this->view->assign('jsArray', $jsArray);
-		        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
-				//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
-	        } else {
-	        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
-	        	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
-	        }
+		$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
-	        $this->view->assign('dealers',$dealers);					
-		    $this->view->assign('searchValue',$args['searchValue']);
-		} else {
-			$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		        	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
-			//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
-		}
+		$timeStat['4'] = microtime(true);
 
-		$this->view->assign('status',$status);		
+		$timeStat['diff1'] = $timeStat['2'] - $timeStat['starttime'];
+		$timeStat['diff2'] = $timeStat['3'] - $timeStat['2'];
+		$timeStat['diff3'] = $timeStat['4'] - $timeStat['3'];
+
+		//du::var_dump($timeStat);
+
+		$this->view->assign('countriesList', $this->getCountriesListJSON());
+
+		$this->view->assign('jsArray', $jsArray);
+		$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+			"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
+
+		$this->view->assign('dealers',$dealers);
+
+		$this->view->assign('status', 2);
+
+		// if($status == self::searchValueOK) {
+		// 	$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
+
+		// 	if(is_numeric($zipcode)) {
+		// 		$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
+		// 	} else {
+		// 		$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+		// 		if( $dealers->count() <= 0 && $this->settings['searchForStates'] ) {
+		// 			$dealers = $this->dealersRepository->getDealersByState( $args['searchValue'], $this->settings['resultLimit'] );
+		// 		}
+		// 	}
+
+		// 	// Check is some of the dealers has no coordinates
+		// 	$this->checkDealers($dealers,$defaultCountry);
+
+		//     if($dealers->count() > 0) { 
+		//     	$amountOfDealers = $dealers->count();
+		// 		$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
+
+		// 		$this->view->assign('countriesList', $this->getCountriesListJSON());
+
+		//         $this->view->assign('jsArray', $jsArray);
+		//         $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
+		// 		//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
+	 //        } else {
+	 //        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
+	 //        	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+	 //        }
+
+	 //        $this->view->assign('dealers',$dealers);					
+		//     $this->view->assign('searchValue',$args['searchValue']);
+		// } else {
+		// 	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
+		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
+		// 	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+		// }
+
+		// $this->view->assign('status',$status);		
 	}
 
 	/**
@@ -137,7 +172,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$finalDealersArray = array();
 
 		foreach ($dealers as $key => $dealer) {
-			if($dealer->getLatLngIsSet()) {
+			if($dealer->getLatLngIsSet() == 1) {
 				$dealersWithDistance[$key]['distance'] = $this->getDistance($latitude, $longitude, $dealer->getLat(), $dealer->getLng());
 				$dealersWithDistance[$key]['dealer'] = $dealer;
 			}
@@ -185,6 +220,11 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$countStep = 1;
 		$jsArray = 'var markers = [';
         foreach ($dealers as $dealer) {
+
+        	$country = $dealer->getCountry();
+        	$countryName = !empty( $country ) ? $country->getShortNameEn() : '';
+        	$countryZone = $dealer->getCountryZone();
+        	$countryZoneUid = !empty( $countryZone ) ? $countryZone->getUid() : 0;
         	
             $jsArray .= "{name: '".str_replace ("'","\'",$dealer->getName()).
             		"', lat: '".$dealer->getLat().
@@ -199,8 +239,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', email: '".$dealer->getEmail().
             		"', uid: '".$dealer->getUid().
             		"', categories: '".$dealer->getCategoriesJSON().
-            		"', country: '".$dealer->getCountry().
-            		"', countryZone: '".$dealer->getCountryZoneUid().
+            		"', country: '".$dealer->getCountryUid().
+					"', countryName: '".$countryName.
+            		"', countryZone: '".$countryZoneUid.
             		"', countryZoneName: '".$dealer->getCountryZoneName().
             		"', countryZoneIsoCode: '".$dealer->getCountryZoneIsoCode().
             		($amountOfDealers == $countStep ? "'}" : "'},");
@@ -239,21 +280,38 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
 
-		foreach ($dealers as $dealer) {
-			if($dealer->getLatLngIsSet() == FALSE) {				
+		foreach ($dealers as $dealerKey => $dealer) {
+
+			if($dealer->getLatLngIsSet() == 0 ) {
                 
-                $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity() . ', ' . $dealer->getCountry();
-                $response = $this->getAddress($address);
-                
-                $dealer->setLat($response['results'][0]['geometry']['location']['lat']);
-                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
-        	    $dealer->setLatLngIsSet(1);
-                $this->dealersRepository->update($dealer);   
-                              
+                $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity();
+
+                $country = $dealer->getCountry();
+
+                if( is_object($country) ) {
+					$address .= ', ' . $country->getShortNameEn();
+				}
+
+				$response = $this->getAddress($address);
+
+				// Check if we actually get the location. If not set setLatLngIsSet to -1 to exclude it from returned dealers collection
+				if(!$response) {
+					$dealer->setLatLngIsSet(-1);
+					$this->dealersRepository->update($dealer);
+				} else {
+					$dealer->setLat($response['results'][0]['geometry']['location']['lat']);
+					$dealer->setLng($response['results'][0]['geometry']['location']['lng']);
+					$dealer->setLatLngIsSet(1);
+					$this->dealersRepository->update($dealer);
+				}
+			}
+
+			if($dealer->getLatLngIsSet() == -1 ) {
+				unset($dealers[$dealerKey]);
 			}
 		}
 
-		return TRUE;
+		return $dealers;
 	}
 
 	/**
@@ -280,6 +338,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             }
             if ($resp['status'] == 'OVER_QUERY_LIMIT') {
                 usleep(2000000);
+            }
+            if($resp['status'] == 'ZERO_RESULTS') {
+                return false;
             }
         } while($resp['status'] == 'OVER_QUERY_LIMIT');
 	}
@@ -312,18 +373,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 	protected function getCountriesListJSON() {
 
-		/*$tsCountries = $this->settings['countries'];
-
-		$countriesList = array();
-
-		foreach ($tsCountries as $country) {
-			$countyKey = key($country);
-			if($countyKey !== "row") {
-				$countriesList[] = key($country);	
-			}
-		}*/
-
-		$countriesList = $this->dealersRepository->getDealersUniqueCountries(true);
+		$countriesList = $this->dealersRepository->getDealersUniqueCountriesUids();
 
 		return json_encode($countriesList);
 	}
