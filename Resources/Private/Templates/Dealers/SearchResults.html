@@ -74,9 +74,21 @@ Otherwise your changes will be overwritten the next time you save the extension 
                   
               </f:if>
 
-              <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">           
-              
+              <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+
                 <b class="dealer-name">{dealer.name}</b>
+                <f:if condition="{settings.showLogo}">
+                  <div class="dealer-logo">
+                    <f:if condition="{dealer.logo}">
+                      <f:then>
+                        <f:image src="uploads/tx_pxadealers/{dealer.logo}" alt="{dealer.name}" width="{settings.dealerLogoWidth}" height="{settings.dealerLogoHeight}" />
+                      </f:then>
+                      <f:else>
+                        <f:image src="{settings.noImagePath}" alt="{dealer.name}" width="{settings.dealerLogoWidth}" height="{settings.dealerLogoHeight}" />
+                      </f:else>
+                    </f:if>
+                  </div>
+                </f:if>
                 <p class="dealer-info">
                   <span class="dealer-address">{dealer.adrress}</span><br>
                   <span class="dealer-zipcode">{dealer.zipcode}</span><br>

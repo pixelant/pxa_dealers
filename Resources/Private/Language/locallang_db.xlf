@@ -55,8 +55,9 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.lat_lng_is_set">
 				<source>Lat Lng Is Set</source>
 			</trans-unit>
-			
-			
+			<trans-unit id="tx_pxadealers_domain_model_dealers.logo">
+				<source>Logo</source>
+			</trans-unit>
 			<trans-unit id="flexform.sheet_title">
 				<source>Configuration</source>
 			</trans-unit>
@@ -105,6 +106,17 @@
 			<trans-unit id="flexform.clusterMarkers">
 				<source>Enable markers clusterization</source>
 			</trans-unit>
+
+			<trans-unit id="flexform.showLogo">
+				<source>Show dealer logo</source>
+			</trans-unit>
+			<trans-unit id="flexform.dealerLogoWidth">
+				<source>Logo width</source>
+			</trans-unit>
+			<trans-unit id="flexform.dealerLogoHeight">
+				<source>Logo height</source>
+			</trans-unit>
+
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
 				<source>none</source>
 			</trans-unit>

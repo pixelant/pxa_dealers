@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_pxadealers_domain_model_dealers'] = array(
 	'ctrl' => $TCA['tx_pxadealers_domain_model_dealers']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, telephone, fax, website, buy_it_now, adrress, zipcode, city, country, country_zone email, lat, lng, lat_lng_is_set',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, telephone, fax, website, buy_it_now, adrress, zipcode, city, country, country_zone email, lat, lng, lat_lng_is_set',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, country, country_zone, adrress, zipcode, city, telephone, fax, email, website, buy_it_now, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, logo, country, country_zone, adrress, zipcode, city, telephone, fax, email, website, buy_it_now, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -256,6 +256,19 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 				'type' => 'input',
 				'size' => 30,
 				'eval' => 'trim'
+			),
+		),
+		'logo' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.logo',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'file',
+				'uploadfolder' => 'uploads/tx_pxadealers',
+				'show_thumbs' => 1,
+				'size' => 5,
+				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+				'disallowed' => '',
 			),
 		),
 	),

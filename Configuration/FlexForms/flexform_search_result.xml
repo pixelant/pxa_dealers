@@ -73,7 +73,7 @@
                   <config>
                     <type>input</type>
                     <size>30</size>
-                    <eval>trim</eval>           
+                    <eval>trim</eval>
                   </config>
                 </TCEforms>
           </settings.elementAdditionalClass>
@@ -95,6 +95,40 @@
                 </config>
             </TCEforms>
           </settings.clusterMarkers>
+
+
+          <settings.showLogo>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.showLogo</label>
+                <config>
+                  <type>check</type>
+                </config>
+            </TCEforms>
+          </settings.showLogo>
+
+          <settings.dealerLogoWidth>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealerLogoWidth</label>
+              <displayCond>FIELD:settings.showLogo:=:1</displayCond>
+                <config>
+                    <type>input</type>
+                    <size>30</size>
+                    <eval>trim</eval>
+                </config>
+            </TCEforms>
+          </settings.dealerLogoWidth>
+
+          <settings.dealerLogoHeight>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealerLogoHeight</label>
+              <displayCond>FIELD:settings.showLogo:=:1</displayCond>
+                <config>
+                    <type>input</type>
+                    <size>30</size>
+                    <eval>trim</eval>
+                </config>
+            </TCEforms>
+          </settings.dealerLogoHeight>
           
         </el>
       </ROOT>

@@ -48,6 +48,7 @@ plugin.tx_pxadealers {
 		}
 		nameCountryMapping {
 		}
+		noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png
 	}
 }
 

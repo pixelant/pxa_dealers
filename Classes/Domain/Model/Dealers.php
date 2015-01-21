@@ -148,6 +148,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $latLngIsSet = 0;
 
 	/**
+	 * Logo
+	 *
+	 * @var string
+	 */
+	protected $logo;
+
+	/**
 	 * categories
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
@@ -468,6 +475,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setLatLngIsSet($latLngIsSet) {
 		$this->latLngIsSet = $latLngIsSet;
+	}
+
+	/**
+	 * Returns the logo
+	 *
+	 * @return string $logo
+	 */
+	public function getLogo() {
+		return $this->logo;
+	}
+
+	/**
+	 * Sets the logo
+	 *
+	 * @param string $logo
+	 * @return void
+	 */
+	public function setLogo($logo) {
+		$this->logo = $logo;
 	}
 
 	/**
