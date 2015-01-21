@@ -105,6 +105,9 @@
 			<trans-unit id="flexform.clusterMarkers">
 				<source>Enable markers clusterization</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
+				<source>none</source>
+			</trans-unit>
 
 		</body>
 	</file>

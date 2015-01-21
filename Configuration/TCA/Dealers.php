@@ -138,15 +138,6 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 				'eval' => 'trim'
 			),
 		),		
-		// 'country' => array(
-		// 	'exclude' => 0,
-		// 	'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country',
-		// 	'config' => array(
-		// 		'type' => 'input',
-		// 		'size' => 30,
-		// 		'eval' => 'trim,required'
-		// 	),
-		// ),
 		'country' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country',
@@ -169,14 +160,20 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 		'country_zone' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country_zone',
+			//'displayCond' => 'FIELD:country:IN:220,36,54,13,41,65,148,14,104,74,97,29,157,72,170,93',
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'static_country_zones',
-				'foreign_table_where' => 'ORDER BY static_country_zones.uid',
+				'foreign_table_where' => 'AND static_country_zones.zn_country_uid = ###REC_FIELD_country### ORDER BY static_country_zones.uid',
+				'items' => array(
+					array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country_zone.none', 0)
+				),
+				'disableNoMatchingValueElement' => 1,
 				'size' => 1,
 				'autoSizeMax' => 30,
 				'maxitems' => 1,
 				'multiple' => 0,
+				'default' => 0,
 				'wizards' => array(
 					'_POSITION' => 'top',
 					'suggest' => array(
