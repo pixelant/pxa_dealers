@@ -560,8 +560,36 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
     });
 }
 
+function populateCountryZones(country) {
+
+    $(".pxa-dealers .dealer-country-states").find('option').remove();
+
+    $(".pxa-dealers .dealer-country-states").append($("<option></option>")
+          .attr("value", 0)
+          .text("all"));
+
+    if(country != 0 && country != 'row') {
+      var currentCountryZones = countryStatesCollection[country];
+
+      if(currentCountryZones !== undefined) {
+
+        $.each(currentCountryZones, function(key, value) {
+          $(".pxa-dealers .dealer-country-states")
+            .append($("<option></option>")
+            .attr("value",key)
+            .text(value)); 
+        });
+
+      }
+
+    }
+}
 
 $( document ).ready(function() {
+
+  if( $(".pxa-dealers .dealer-countries").length && $(".pxa-dealers .dealer-country-states").length ) {
+    populateCountryZones( $(".pxa-dealers .dealer-countries").val() );  
+  }
   
   $('form[name="searchDealers"]').on('submit',function(event){
     event.preventDefault();
@@ -585,35 +613,17 @@ $( document ).ready(function() {
 
   // Countries change
   $(".pxa-dealers .dealer-countries").on("change", function() {
-    var $this = $(this);
-
-    var selectedCountry = $this.val();
-
-    $(".pxa-dealers .dealer-country-states").find('option').remove();
-
-    $(".pxa-dealers .dealer-country-states").append($("<option></option>")
-          .attr("value", 0)
-          .text("all"));
+    var selectedCountry = $(this).val()
 
     var fbType = FB_MARKERS;
 
     if(selectedCountry != 0 && selectedCountry != 'row') {
-      var currentCountryZones = countryStatesCollection[selectedCountry];
-
-      if(currentCountryZones !== undefined) {
-
-        $.each(currentCountryZones, function(key, value) {
-          $(".pxa-dealers .dealer-country-states")
-            .append($("<option></option>")
-            .attr("value",key)
-            .text(value)); 
-        });
-
-      }
-
+      
       fbType = FB_COUNTRY;
 
     }
+
+    populateCountryZones( selectedCountry );
 
     $(".pxa-dealers .dealer-cityzip-search").val('');
 
