@@ -55,6 +55,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
             var markersArray = [];
             var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
             var countriesList = <f:format.raw>{countriesList}</f:format.raw>
+            var labels = [];
+            labels['country_list.all_country_zones'] = '<f:translate key="country_list.all_country_zones" />';
           </script>
         <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
         <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>

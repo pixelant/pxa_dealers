@@ -2,6 +2,7 @@
 namespace PXA\PxaDealers\Controller;
 
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+use \TYPO3\CMS\Extbase\Utility\LocalizationUtility as lu;
 
 /***************************************************************
  *  Copyright notice
@@ -67,6 +68,11 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	 */
 	public function listAction() {
 
+		// Get extension name
+		$extensionName =  \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase(
+			$this->controllerContext->getRequest()->getControllerExtensionKey()
+		);
+
 		//$tsCountries = $this->settings['countries'];
 
 		//$selected = key($tsCountries[$GLOBALS['TSFE']->sys_language_uid]);
@@ -108,8 +114,13 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 			}
 		}
 
-		$countries = $countries + array('row' => "other countries");
-		$countries = array(0 => "all") + $countries; 
+		$countries = $countries + array(
+			'row' => lu::translate("country_list.other_countries", $extensionName)
+		);
+
+		$countries = array(
+				0 => lu::translate("country_list.all_countries", $extensionName)
+		) + $countries;
 
 		$this->view->assign('countries', $countries);
 		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));

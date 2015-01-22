@@ -105,6 +105,18 @@
 			<trans-unit id="dealers_results_buy_it_now">
 				<source>buy it now</source>
 			</trans-unit>
+
+			<trans-unit id="country_list.other_countries">
+				<source>Other countries</source>
+			</trans-unit>
+
+			<trans-unit id="country_list.all_countries">
+				<source>All countries</source>
+			</trans-unit>
+
+			<trans-unit id="country_list.all_country_zones">
+				<source>All</source>
+			</trans-unit>
 			
 		</body>
 	</file>

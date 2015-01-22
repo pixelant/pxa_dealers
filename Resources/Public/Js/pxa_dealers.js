@@ -566,7 +566,7 @@ function populateCountryZones(country) {
 
     $(".pxa-dealers .dealer-country-states").append($("<option></option>")
           .attr("value", 0)
-          .text("all"));
+          .text(labels['country_list.all_country_zones']));
 
     if(country != 0 && country != 'row') {
       var currentCountryZones = countryStatesCollection[country];
