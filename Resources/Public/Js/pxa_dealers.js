@@ -248,7 +248,7 @@ function getAddress(pos,map,infowindow,callback) {
 
   var imageStreetPreviewContent = '<td><div class="image-street-preview">';
       imageStreetPreviewContent += '<img src="http://maps.googleapis.com/maps/api/streetview?size=90x70&location='+markers[i]['lat']+','+markers[i]['lng']+'&sensor=false" /><br>';
-      imageStreetPreviewContent += '<span class="street-switch-trigger website-link" onClick="switchToStreetView('+i+');">Streetview</span>';
+      imageStreetPreviewContent += '<a href="#streetview" data-marker-id="'+i+'" class="street-switch-trigger website-link">Streetview</a>';
       imageStreetPreviewContent += '</div></td>';
       
   var infowindowCont = "<div class=\"google-map-marker\">";
@@ -586,6 +586,14 @@ function populateCountryZones(country) {
 }
 
 $( document ).ready(function() {
+
+  // Show google street view
+  $(document).on('click', '.street-switch-trigger', function(event) {
+    event.preventDefault();
+    if( $(this).attr("data-marker-id").length ) {
+      switchToStreetView( $(this).attr("data-marker-id") );  
+    }
+  });
 
   if( $(".pxa-dealers .dealer-countries").length && $(".pxa-dealers .dealer-country-states").length ) {
     populateCountryZones( $(".pxa-dealers .dealer-countries").val() );  
