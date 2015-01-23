@@ -280,6 +280,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
 
+		$toUnset = array();
+
 		foreach ($dealers as $dealerKey => $dealer) {
 
 			if($dealer->getLatLngIsSet() == 0 ) {
@@ -298,6 +300,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				if(!$response) {
 					$dealer->setLatLngIsSet(-1);
 					$this->dealersRepository->update($dealer);
+					$toUnset[] = $dealerKey;
 				} else {
 					$dealer->setLat($response['results'][0]['geometry']['location']['lat']);
 					$dealer->setLng($response['results'][0]['geometry']['location']['lng']);
@@ -306,9 +309,14 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				}
 			}
 
-			if($dealer->getLatLngIsSet() == -1 ) {
-				unset($dealers[$dealerKey]);
+			if( $dealer->getLatLngIsSet() == -1 ) {
+				$toUnset[] = $dealerKey;
 			}
+		}
+
+		// Unset dealers that dont have lat or lng
+		foreach ($toUnset as $keyToUnset) {
+			unset($dealers[$keyToUnset]);
 		}
 
 		return $dealers;

@@ -166,6 +166,8 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
   }
 
+  var markersProcessed = [];
+
   for (i = 0;  i < markers.length; i++) {
 
     if((markers[i]['lat'] != '') && (markers[i]['lng'] != '')) {
@@ -182,8 +184,13 @@ function initializeMapPxaDealers(doMarkersFilter) {
         bounds.extend(pos);
       });
 
-    }    
+      markersProcessed.push(markers[i]);
+
+    }
+
   };
+
+  markers = markersProcessed;
 
   if(markers.length == 1 ) {
     map.fitBounds(bounds);
