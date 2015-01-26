@@ -1,8 +1,8 @@
 var map;
 var markerclusterer;
-var originalDealersHeader = $("#dealers-header-original").html();
+var originalDealersHeader;
 var allDealersListItems;
-var countriesList = settings['mainCountries'].split(",");
+var countriesList;
 
 var FB_COUNTRY = 0;
 var FB_STATE = 1;
@@ -24,21 +24,28 @@ var FB_NONE = 4;
 
 /* Prototypes */
 
-if (typeof String.prototype.startsWith != 'function') {
-  // see below for better implementation!
-  String.prototype.startsWith = function (str){
-    return this.indexOf(str) == 0;
-  };
-}
+function initEnv() {
 
-if (typeof Array.prototype.getColumn != 'function') {
-  Array.prototype.getColumn = function(name) {
-      return this.map(function(el) {
-         // gets corresponding 'column'
-         if (el.hasOwnProperty(name)) return el[name];
-         // removes undefined values
-      }).filter(function(el) { return typeof el != 'undefined'; }); 
-  };
+  originalDealersHeader = $("#dealers-header-original").html();
+  countriesList = settings['mainCountries'].split(",");
+
+  if (typeof String.prototype.startsWith != 'function') {
+    // see below for better implementation!
+    String.prototype.startsWith = function (str){
+      return this.indexOf(str) == 0;
+    };
+  }
+
+  if (typeof Array.prototype.getColumn != 'function') {
+    Array.prototype.getColumn = function(name) {
+        return this.map(function(el) {
+           // gets corresponding 'column'
+           if (el.hasOwnProperty(name)) return el[name];
+           // removes undefined values
+        }).filter(function(el) { return typeof el != 'undefined'; }); 
+    };
+  }
+
 }
 
 function runAjax(position) {
@@ -125,6 +132,8 @@ function arrayIntersect (a, b) {
 function initializeMapPxaDealers(doMarkersFilter) {
 
   console.log("init");
+
+  initEnv();
 
   if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
 
