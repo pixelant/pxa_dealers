@@ -79,25 +79,35 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
 		$language = $GLOBALS['TSFE']->sys_language_uid;
 
-		// du::var_dump($language);
-		// du::var_dump($this->settings['languageCountryMapping']);
-
 		$selected = 0;
 
 		if( isset($this->settings['languageCountryMapping'][$language]) ) {
 			$selected = $this->settings['languageCountryMapping'][$language];
 		}
 
-		//du::var_dump($this->settings);
-
 		$mainCountries = explode(',', $this->settings['mainCountries']);
+
+		// Trim and deleted empty elements from mainCountries array
+		$mainCountries = array_map('trim', $mainCountries);
+		$mainCountries = array_filter($mainCountries, function($val) {
+			if( !empty($val) ) {
+				return true;
+			} else {
+				return false;
+			}
+		});
 
 		$countries = $this->dealersRepository->getDealersUniqueCountriesFormatted();
 
-		$mainCountriesCollection = array_flip(array_intersect(array_flip($countries), $mainCountries));
+		$diffCountries = array();
 
-		if(!empty($mainCountriesCollection) && count($mainCountriesCollection) != count($countries) ) {
-			$countries = $mainCountriesCollection;
+		if(!empty($mainCountries)){
+			
+			$diffCountries = array_flip(array_diff(array_flip($countries), $mainCountries));
+
+			if(!empty($diffCountries)) {
+				$countries = array_diff_key($countries, $diffCountries);
+			}
 		}
 
 		$countryZonesCollection = array();
@@ -114,18 +124,21 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 			}
 		}
 
-		$countries = $countries + array(
-			'row' => lu::translate("country_list.other_countries", $extensionName)
-		);
+		if( !empty($diffCountries) ) {
+			$countries = $countries + array(
+				'row' => lu::translate("country_list.other_countries", $extensionName)
+			);	
+		}
 
-		$countries = array(
-				0 => lu::translate("country_list.all_countries", $extensionName)
-		) + $countries;
+		if($this->settings['showAllCountriesOption'] === "1" && count($countries) > 1) {
+			$countries = array(
+					0 => lu::translate("country_list.all_countries", $extensionName)
+			) + $countries;
+		}
 
 		$this->view->assign('countries', $countries);
 		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));
 		$this->view->assign('selectedLanguage', $selected);
-		//$this->view->assign('mainCountries', $mainCountries);
 	}
 
 }

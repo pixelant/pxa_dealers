@@ -39,16 +39,24 @@ plugin.tx_pxadealers {
 			usa = usa
 		}
 
-		# Countries which would display ceparately in countries filter
-		# list of statiic info tables countries uid's
+		# Countries which would display separately in countries filter (list of statiic info tables countries uid's)
 		mainCountries = 
+
+		# Which language correspondes to which country (language uid = static info table country uid)
+		# Ex.: 0 = 186 (default lang = sweden)
 		languageCountryMapping {
-			0 = 220
-			1 = 186
 		}
+
+		# Change country name (displayed in the country filter)
+		# Ex: 74 = UK (United Kingdom = UK)
 		nameCountryMapping {
 		}
+
 		noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png
+
+		#Show "All countries" option in the country filter select box"
+		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
+
 	}
 }
 

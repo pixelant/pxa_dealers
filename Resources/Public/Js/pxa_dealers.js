@@ -10,6 +10,12 @@ var FB_CITY = 2;
 var FB_MARKERS = 3;
 var FB_NONE = 4;
 
+// google.maps.event.addDomListener(window, 'load', function () { 
+//   initializeMapPxaDealers(true);
+// });
+
+//initializeMapPxaDealers(true);
+
 // function PxaDealers() {
 
 //   var self = this;
@@ -27,7 +33,7 @@ var FB_NONE = 4;
 function initEnv() {
 
   originalDealersHeader = $("#dealers-header-original").html();
-  countriesList = settings['mainCountries'].split(",");
+  countriesList = $.map(settings['mainCountries'].split(","), $.trim);
 
   if (typeof String.prototype.startsWith != 'function') {
     // see below for better implementation!
@@ -420,7 +426,6 @@ function belongsToCountry(marker, selectedCountry) {
 
   var markerCountry = marker['country'];
 
-  //markerCountry = markerCountry.toLowerCase().trim();
   return (markerCountry === selectedCountry || (selectedCountry === "row" && $.inArray(markerCountry, countriesList) === -1 ) || selectedCountry == 0);
 }
 

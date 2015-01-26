@@ -19,5 +19,6 @@ plugin.tx_pxadealers {
 			#markerImage = EXT:pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
 			markerImage = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
 		}
+		showAllCountriesOption = 1
 	}
 }
