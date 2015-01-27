@@ -609,6 +609,8 @@ function populateCountryZones(country) {
     }
 }
 
+if (typeof pxa_dealers_enabled != 'undefined') {
+
 $( document ).ready(function() {
 
   allDealersListItems = $(".pxa-dealers-list-container .dealer-item").clone();
@@ -695,3 +697,5 @@ $( document ).ready(function() {
   });
 
 });
+
+}

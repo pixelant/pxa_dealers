@@ -51,6 +51,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
           <script type="text/javascript">
             <f:format.raw>{jsArray}</f:format.raw>
+            var pxa_dealers_enabled = 1
             var settings = <v:format.json.encode value="{settings}" useTraversableKeys="0" preventRecursion="1" />
             var markersArray = [];
             var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
