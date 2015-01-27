@@ -119,7 +119,7 @@ function showDefaultMap() {
   var mapOptions = {
             center: new google.maps.LatLng(51.165691,10.451526), 
             zoom: 4,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
       };
   var map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);
   checkLocation();
@@ -130,7 +130,7 @@ function arrayIntersect (a, b) {
     if( $.inArray(a[i], b) !== -1 ) {
       return true;
     }
-  };
+  }
 
   return false;
 }
@@ -225,7 +225,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
   }
 
   if(doMarkersFilter === true) {
-    filterMarkers( $(".pxa-dealers-list-container .dealer-item"), 
+    filterMarkers( allDealersListItems, 
         $(".pxa-dealers .dealer-countries").val(), 
         $(".pxa-dealers .dealer-country-states").val(), 
         '',
@@ -471,6 +471,8 @@ function containsSearchString(marker, searchString) {
 
 function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType) {
 
+    var allDealersListItemsCopy = $(allDealersListItems).clone();
+
     var filteredDealers = [];
     var filteredDealersMarkers = [];
 
@@ -534,7 +536,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
       $(".pxa-dealers-list-container").html('');
 
-      allDealersListItems.each( function() {
+      allDealersListItemsCopy.each( function() {
         $this = $(this);
         if( $.inArray($this.attr("data-uid"), filteredDealers) !== -1 ) {
           enabledDealersListItems.push(this);
@@ -609,6 +611,9 @@ function populateCountryZones(country) {
 
 $( document ).ready(function() {
 
+  allDealersListItems = $(".pxa-dealers-list-container .dealer-item").clone();
+  initializeMapPxaDealers(true);
+
   // Show google street view
   $(document).on('click', '.street-switch-trigger', function(event) {
     event.preventDefault();
@@ -629,8 +634,6 @@ $( document ).ready(function() {
 
     window.document.location = url;
   });
-
-  allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
 
   // Categories change
   $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
