@@ -84,7 +84,7 @@ function runAjax(position) {
     }
   })
   .fail(function( jqXHR, textStatus ) {
-    console.log( "Request failed: " + textStatus );
+    //console.log( "Request failed: " + textStatus );
   });
 }
 
@@ -93,7 +93,7 @@ function checkLocation() {
     navigator.geolocation.getCurrentPosition(runAjax, showError);
   } else {
     runAjax();
-    console.log ("Geolocation is not supported by this browser.");
+    //console.log ("Geolocation is not supported by this browser.");
   }
 }
 
@@ -101,16 +101,16 @@ function showError(error) {
     runAjax();
     switch(error.code) {
         case error.PERMISSION_DENIED:
-            console.log ("User denied the request for Geolocation.");
+            //console.log ("User denied the request for Geolocation.");
             break;
         case error.POSITION_UNAVAILABLE:
-            console.log ("Location information is unavailable.");
+            //console.log ("Location information is unavailable.");
             break;
         case error.TIMEOUT:
-            console.log ("The request to get user location timed out.");
+            //console.log ("The request to get user location timed out.");
             break;
         case error.UNKNOWN_ERROR:
-            console.log ("An unknown error occurred.");
+            //console.log ("An unknown error occurred.");
             break;
     }
 }
@@ -137,8 +137,6 @@ function arrayIntersect (a, b) {
 
 function initializeMapPxaDealers(doMarkersFilter) {
 
-  console.log("init");
-
   initEnv();
 
   if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
@@ -160,7 +158,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
     var stylesObj = $.parseJSON(settings.map.stylesJSON);
   } catch(err) {
     stylesIsJSON = false;
-    console.log("settings.map.stylesJSON has to be JSON formatted string");
+    //console.log("settings.map.stylesJSON has to be JSON formatted string");
   }
 
   if(stylesIsJSON) {
