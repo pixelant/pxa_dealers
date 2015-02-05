@@ -467,7 +467,7 @@ function containsSearchString(marker, searchString) {
   return false;
 }
 
-function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType) {
+function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch) {
 
     var allDealersListItemsCopy = $(allDealersListItems).clone();
 
@@ -517,6 +517,18 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
       }
 
     });
+
+    if(extendedZipSearch === true) {
+      var zipLimit = 10;
+
+      if(filteredDealers <= zipLimit) {
+        if(searchString.length > 2) {
+          searchString = searchString.substring(0, searchString.length - 1);
+          filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch);
+          return 1;
+        }
+      }
+    }
 
     if(settings.clusterMarkers == 1) {
       markerclusterer.repaint();
@@ -690,7 +702,8 @@ $( document ).ready(function() {
           $(".pxa-dealers .dealer-countries").val(), 
           $(".pxa-dealers .dealer-country-states").val(), 
           searchValue, 
-          FB_CITY);
+          FB_CITY,
+          true);
     }
   });
 
