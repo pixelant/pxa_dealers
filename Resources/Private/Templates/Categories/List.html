@@ -1,3 +1,4 @@
+{namespace v=Tx_Vhs_ViewHelpers}
 <f:layout name="Default" />
 
 This Template is responsible for creating a table of domain objects.
@@ -17,10 +18,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 	<ul class="categories">
 
-		<f:for each="{categories}" as="category">
+		<f:for each="{categories}" as="category" key="catkey">
 			<li class="category-item selected" data-category-uid="{category.uid}">
 
-				<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked="1"/>
+				<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='<v:variable.get name="enabledCategories.{catkey}" />'/>
 				<label for="dealers-category-{category.uid}">{category.title}</label>
 				<span class="icon"><i class="fa fa-check"></i></span>
 

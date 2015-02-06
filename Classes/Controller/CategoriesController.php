@@ -54,15 +54,23 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 
 		$categoryUids = explode(",", $this->settings['dealers_categories']);
 		$categoriesList = array();
+		$enabledCategoriesUids = explode(",", $this->settings['dealers_categories_enabled']);
+		$enabledCategories = array();
 
 		foreach ($categoryUids as $categoryUid) {
 			$category = $this->categoriesRepository->findByUid($categoryUid);
 			if( is_object($category) ) {
+				if( in_array($categoryUid, $enabledCategoriesUids) ) {
+					$enabledCategories[$categoryUid] = 1;
+				} else {
+					$enabledCategories[$categoryUid] = 0;
+				}
 				$categoriesList[] = $category;
 			}
 		}
 
 		$this->view->assign('categories',$categoriesList);
+		$this->view->assign('enabledCategories', $enabledCategories);
 	}
 
 }

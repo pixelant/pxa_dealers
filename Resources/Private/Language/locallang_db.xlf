@@ -87,6 +87,10 @@
 				<source>Choose categories to filter on</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.dealersCategoriesEnabled">
+				<source>Choose categories which will be checked by default</source>
+			</trans-unit>
+
 			<trans-unit id="flexform.dealersCountiesStatesSelector">
 				<source>Enable states selector</source>
 			</trans-unit>
@@ -120,6 +124,7 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
 				<source>none</source>
 			</trans-unit>
+			
 
 		</body>
 	</file>
