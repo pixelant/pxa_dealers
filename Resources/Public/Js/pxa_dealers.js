@@ -225,8 +225,8 @@ function initializeMapPxaDealers(doMarkersFilter) {
   if(doMarkersFilter === true) {
     filterMarkers( allDealersListItems, 
         $(".pxa-dealers .dealer-countries").val(), 
-        $(".pxa-dealers .dealer-country-states").val(), 
-        '',
+        $(".pxa-dealers .dealer-country-states").val(),
+        $(".pxa-dealers .dealer-cityzip-search").val(),
         filterOn);
   }
 
@@ -622,6 +622,11 @@ function populateCountryZones(country) {
 if (typeof pxa_dealers_enabled != 'undefined') {
 
 $( document ).ready(function() {
+
+  if(initialSearchValue.length > 0) {
+    $(".pxa-dealers .dealer-cityzip-search").val(initialSearchValue);
+    $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
+  }
 
   allDealersListItems = $(".pxa-dealers-list-container .dealer-item").clone();
   initializeMapPxaDealers(true);

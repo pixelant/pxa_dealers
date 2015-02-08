@@ -76,83 +76,32 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function searchResultsAction() {
 
-		$timeStat = array();
-
-		$timeStat['starttime'] = microtime(true);
-
-		$args = $this->request->getArguments();
-		$status = $this->checkStatus($args);
+//		$timeStat = array();
+//		$timeStat['starttime'] = microtime(true);
 
 		$dealers = $this->dealersRepository->findAll();
 
-		$timeStat['2'] = microtime(true);
-
-		//du::var_dump($dealers);
+//		$timeStat['2'] = microtime(true);
 
 		$dealers = $this->checkDealers($dealers);
 
-		$timeStat['3'] = microtime(true);
+//		$timeStat['3'] = microtime(true);
 
 		$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
-		$timeStat['4'] = microtime(true);
+//		$timeStat['4'] = microtime(true);
+//		$timeStat['diff1'] = $timeStat['2'] - $timeStat['starttime'];
+//		$timeStat['diff2'] = $timeStat['3'] - $timeStat['2'];
+//		$timeStat['diff3'] = $timeStat['4'] - $timeStat['3'];
+//		du::var_dump($timeStat);
 
-		$timeStat['diff1'] = $timeStat['2'] - $timeStat['starttime'];
-		$timeStat['diff2'] = $timeStat['3'] - $timeStat['2'];
-		$timeStat['diff3'] = $timeStat['4'] - $timeStat['3'];
-
-		//du::var_dump($timeStat);
+		$args = $this->request->getArguments();
+		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
 		$this->view->assign('countriesList', $this->getCountriesListJSON());
-
+		$this->view->assign('searchValue', $searchValue);
 		$this->view->assign('jsArray', $jsArray);
-		// $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		//	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
-
 		$this->view->assign('dealers',$dealers);
-
-		$this->view->assign('status', 2);
-
-		// if($status == self::searchValueOK) {
-		// 	$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
-
-		// 	if(is_numeric($zipcode)) {
-		// 		$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
-		// 	} else {
-		// 		$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
-		// 		if( $dealers->count() <= 0 && $this->settings['searchForStates'] ) {
-		// 			$dealers = $this->dealersRepository->getDealersByState( $args['searchValue'], $this->settings['resultLimit'] );
-		// 		}
-		// 	}
-
-		// 	// Check is some of the dealers has no coordinates
-		// 	$this->checkDealers($dealers,$defaultCountry);
-
-		//     if($dealers->count() > 0) { 
-		//     	$amountOfDealers = $dealers->count();
-		// 		$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
-
-		// 		$this->view->assign('countriesList', $this->getCountriesListJSON());
-
-		//         $this->view->assign('jsArray', $jsArray);
-		//         $GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', function () { initializeMapPxaDealers(true); });</script>";
-		// 		//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
-	 //        } else {
-	 //        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
-	 //        	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
-	 //        }
-
-	 //        $this->view->assign('dealers',$dealers);					
-		//     $this->view->assign('searchValue',$args['searchValue']);
-		// } else {
-		// 	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = 
-		//         	"<script type=\"text/javascript\">google.maps.event.addDomListener(window, 'load', showDefaultMap);</script>";
-		// 	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
-		// }
-
-		// $this->view->assign('status',$status);		
 	}
 
 	/**
@@ -314,7 +263,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			}
 		}
 
-		// Unset dealers that dont have lat or lng
+		// Unset dealers that don't have lat or lng
 		foreach ($toUnset as $keyToUnset) {
 			unset($dealers[$keyToUnset]);
 		}
