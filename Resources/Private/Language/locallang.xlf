@@ -117,6 +117,10 @@
 			<trans-unit id="country_list.all_country_zones">
 				<source>All</source>
 			</trans-unit>
+
+			<trans-unit id="find_closest.button_caption">
+				<source>Find closest</source>
+			</trans-unit>
 			
 		</body>
 	</file>

@@ -138,23 +138,33 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$finalDealersArray[] = $dealersWithDistance[$i]['dealer'];
 		}
 		unset($dealersWithDistance);
+
+		$uidsArray = array();
+
+		foreach($finalDealersArray as $dealer) {
+			$uidsArray[] = $dealer->getUid();
+		}
+
+		return json_encode($uidsArray);
 		
-		$jsArray = $this->generateJSOfDealers($finalDealersArray,$amountOfDealers);
-
-		$this->view->assign('countriesList', $this->getCountriesListJSON());
-
-		$this->view->assignMultiple(array(
-			'settings' => $this->settings['findClosestAjax'],
-			'dealers' => $finalDealersArray,
-			'jsArray' => $jsArray
-		));
-
-		$data = array(
-			'html' => $this->view->render(),
-			'count' => $amountOfDealers,
-		);
+//		$jsArray = $this->generateJSOfDealers($finalDealersArray,$amountOfDealers);
+//
+//		$this->view->assign('countriesList', $this->getCountriesListJSON());
+//
+//		$this->view->assignMultiple(array(
+//			'settings' => $this->settings['findClosestAjax'],
+//			'dealers' => $finalDealersArray,
+//			'jsArray' => $jsArray
+//		));
+//
+//		$data = array(
+//			'html' => $this->view->render(),
+//			'count' => $amountOfDealers,
+//		);
+//
+//		du::var_dump($data);
 		
-		return json_encode($data);
+		//return json_encode($data);
 	}
 
 
