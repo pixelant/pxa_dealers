@@ -71,16 +71,29 @@ function runAjax(position) {
     url: url
   })
   .done(function(data){
-    if(data.count > 0) {
-      $('#ajax-load-dealer .pre-loader').remove();
-      $('#ajax-load-dealer .dealers-header.after-load').show();
-      $('#ajax-load-dealer').append(data.html);
-
-      initializeMapPxaDealers(false);
-      allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
-      originalDealersHeader = $("#dealers-header-original").html();
+    if(data.length > 0) {
+      $(".pxa-dealers .dealer-cityzip-search").val("");
+      $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
+      $(".pxa-dealers .dealer-country-states").val($(".pxa-dealers .dealer-country-states option:first").val());
+      //$('#ajax-load-dealer .pre-loader').remove();
+      //$('#ajax-load-dealer .dealers-header.after-load').show();
+      //$('#ajax-load-dealer').append(data.html);
+      //console.log(data);
+      //console.log("vse horosho");
+      filterMarkers( allDealersListItems,
+          $(".pxa-dealers .dealer-countries").val(),
+          $(".pxa-dealers .dealer-country-states").val(),
+          $(".pxa-dealers .dealer-cityzip-search").val(),
+          FB_MARKERS,
+          false,
+          data
+      );
+      //initializeMapPxaDealers(false);
+      //allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
+      //originalDealersHeader = $("#dealers-header-original").html();
     } else {
-      $('#ajax-load-dealer').fadeOut();
+      //console.log("vse ploho");
+      //$('#ajax-load-dealer').fadeOut();
     }
   })
   .fail(function( jqXHR, textStatus ) {
@@ -133,6 +146,55 @@ function arrayIntersect (a, b) {
   }
 
   return false;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1);
+  var a =
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+      ;
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function findClosest(position) {
+
+  //console.log("closest");
+
+  if( typeof(position)==='undefined') {
+    positionLat = '51.165691';
+    positionLong = "10.451526";
+  } else {
+    positionLat = position.coords.latitude;
+    positionLong = position.coords.longitude;
+  }
+
+  $.each(markers, function(index, marker){
+    marker['distance'] = getDistanceFromLatLonInKm(positionLat, positionLong, marker['lat'], marker['lat']);
+  });
+
+  var closest;
+  closest = markers.sort(function (a, b) {
+    return ((a.distance < b.distance) ? -1 : ((a.distance > b.distance) ? 1 : 0));
+  });
+
+  closest = closest.slice(0, 5);
+
+  var closestUids = [];
+  $.each(closest, function(index, closestItem){
+    closestUids.push(closestItem['uid']);
+  });
+
+  return closestUids;
 }
 
 function initializeMapPxaDealers(doMarkersFilter) {
@@ -467,7 +529,11 @@ function containsSearchString(marker, searchString) {
   return false;
 }
 
-function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch) {
+function belongsToList(marker, list) {
+  return ( $.inArray(marker['uid'], list) !== -1 );
+}
+
+function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList) {
 
     var allDealersListItemsCopy = $(allDealersListItems).clone();
 
@@ -494,6 +560,12 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
       if( $(".pxa-dealers .dealer-cityzip-search").length > 0 ) {
         isOk.push( containsSearchString(marker, searchString) );
+      }
+
+      console.log( belongsToList(marker, prefilteredList) );
+
+      if( prefilteredList !== undefined && prefilteredList.length > 0 ) {
+        isOk.push( belongsToList(marker, prefilteredList) );
       }
 
       if( $.inArray(false, isOk) === -1 ) {
@@ -710,6 +782,25 @@ $( document ).ready(function() {
           FB_CITY,
           true);
     }
+  });
+
+  // Find closest
+  $(".pxa-dealers-find-closest .find-closest-btn").click(function () {
+
+    var closest = findClosest();
+
+    $(".pxa-dealers .dealer-cityzip-search").val("");
+    $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
+    $(".pxa-dealers .dealer-country-states").val($(".pxa-dealers .dealer-country-states option:first").val());
+
+    filterMarkers( allDealersListItems,
+        $(".pxa-dealers .dealer-countries").val(),
+        $(".pxa-dealers .dealer-country-states").val(),
+        $(".pxa-dealers .dealer-cityzip-search").val(),
+        FB_MARKERS,
+        false,
+        closest
+    );
   });
 
 });

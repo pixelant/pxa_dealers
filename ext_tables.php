@@ -27,6 +27,12 @@ if (!defined('TYPO3_MODE')) {
 	'Pxa Dealers Countries'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Pxadealersclosest',
+	'Pxa Dealers: Find Closest'
+);
+
 /* Add FlexForm */
 
 $pluginSignature = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
