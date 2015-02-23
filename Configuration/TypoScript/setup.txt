@@ -64,6 +64,7 @@ plugin.tx_pxadealers {
 
 page.includeJSlibs.googleapi.external = 1
 page.includeJSlibs.googleapi.excludeFromConcatenation = 1
+page.includeJSlibs.googleapi.disableCompression = 1
 page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
 
 #[global]
