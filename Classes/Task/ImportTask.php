@@ -216,6 +216,9 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
 
   public function getProgress() {
 
+    if ( !empty($this->file_path) )
+      $this->filepath = $this->file_path;
+
     $currrent_config = $this->createCrrentConfig();
 
     $last_run_config = $this->registry->get("tx_pxadealers", "import_last_run_config", array());

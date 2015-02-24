@@ -91,7 +91,7 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 		if (empty($taskInfo['file_path'])) {
 			if ($parentObject->CMD == 'add') {
 				// In case of new task and if field is empty, set default path and file name
-				$taskInfo['file_path'] = "fileadmin/user_upload/ftp_upload/sms_hmab.csv";
+				$taskInfo['file_path'] = "fileadmin/source.csv";
 			} elseif ($parentObject->CMD == 'edit') {
 				// In case of edit, and editing a test task, set to internal value if not data was submitted already
 				$taskInfo['file_path'] = $task->file_path;
