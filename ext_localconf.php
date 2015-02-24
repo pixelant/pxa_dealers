@@ -92,4 +92,13 @@ $TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['d
 		'GETvar' => 'tx_pxadealers_pxadealerssearchresults[searchValue]',		
 	)	
 );
+
+// Import task
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\Task\ImportTask"] = array(
+	'extension'        => $_EXTKEY,
+	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.import.name',
+	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.import.description',
+	'additionalFields' => "PXA\PxaDealers\Task\ImportAdditionalFieldProvider"
+);
+
 ?>

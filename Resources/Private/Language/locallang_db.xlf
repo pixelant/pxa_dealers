@@ -124,7 +124,13 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
 				<source>none</source>
 			</trans-unit>
-			
+
+			<trans-unit id="tx_pxadealers.task.import.name">
+				<source>Import dealers</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers.task.import.description">
+				<source>Imports dealers records from file</source>
+			</trans-unit>
 
 		</body>
 	</file>
