@@ -106,11 +106,11 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
         $current_config[$this->records_storage_pid]['num_rows'] = count($data);
 
         // delete records from storage if needed
-        if($current_config[$this->records_storage_pid]['start_from_row'] == 0) {
-          if( !$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_pxadealers_domain_model_dealers', 'pid='.intval($this->records_storage_pid)) ) {
-            return false;
-          }  
-        }
+//        if($current_config[$this->records_storage_pid]['start_from_row'] == 0) {
+//          if( !$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_pxadealers_domain_model_dealers', 'pid='.intval($this->records_storage_pid)) ) {
+//            return false;
+//          }
+//        }
 		
         for ($i = $current_config[$this->records_storage_pid]['start_from_row'], $last_row = $current_config[$this->records_storage_pid]['start_from_row'] + $this->records_per_run_limit; $i < $last_row; $i++) {
 
@@ -144,6 +144,25 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
           // Default country (if set)
           if( !empty($this->country) ) {
             $new_dealer_rec->setCountry( $this->countryRepository->findByUid($this->country) );
+          } else {
+            if( !empty($data[$i][7]) ) {
+              $countryIso3 = trim( $data[$i][7] );
+              $countryIso3Mapping = array(
+                  "ITL" => "ITA"
+              );
+              $countryCollection = $this->countryRepository->findByisoCodeA3( $countryIso3 );
+              if($countryCollection->count() == 1) {
+                $new_dealer_rec->setCountry( $countryCollection->getFirst() );
+              } else {
+                $countryMappingIndex = $countryIso3;
+                if( isset($countryIso3Mapping[$countryMappingIndex]) ) {
+                  $countryCollection = $this->countryRepository->findByisoCodeA3( $countryIso3Mapping[$countryMappingIndex] );
+                  if($countryCollection->count() == 1) {
+                    $new_dealer_rec->setCountry( $countryCollection->getFirst() );
+                  }
+                }
+              }
+            }
           }
 
           // Country zone
@@ -157,14 +176,10 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
             $new_dealer_rec->setCountryZone($countryZone);
 
             // Country
-            if( empty($this->country) ) {
-              if( !empty($data[i][7]) ) {
-                // TODO get coutry from the file
-              } else {
-                $countryCollection = $this->countryRepository->findByIsoCodeNumber( $countryZone->getCountryIsoCodeNumber() );
-                if($countryCollection->count() == 1) {
-                  $new_dealer_rec->setCountry( $countryCollection->getFirst() );
-                }
+            if( empty($this->country) && empty($data[i][7]) ) {
+              $countryCollection = $this->countryRepository->findByIsoCodeNumber( $countryZone->getCountryIsoCodeNumber() );
+              if($countryCollection->count() == 1) {
+                $new_dealer_rec->setCountry( $countryCollection->getFirst() );
               }
             }
           }
@@ -189,8 +204,18 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
           // Page id
           $new_dealer_rec->setPid($this->records_storage_pid);
 
-          // Add to repo
-          $this->dealersRepository->add($new_dealer_rec);
+          // Set storage
+          $defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+          $defaultQuerySettings->setRespectStoragePage(false);
+          $defaultQuerySettings->setStoragePageIds(array($this->records_storage_pid));
+          $this->dealersRepository->setDefaultQuerySettings($defaultQuerySettings);
+
+          $exsistedDealers = $this->dealersRepository->findByNameAndPosition($new_dealer_rec->getName(), $new_dealer_rec->getLat(), $new_dealer_rec->getLng());
+
+          if($exsistedDealers->count() <= 0) {
+            // Add to repo
+            $this->dealersRepository->add($new_dealer_rec);
+          }
 
           $current_config[$this->records_storage_pid]['start_from_row'] = $i + 1;
         }

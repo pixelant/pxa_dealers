@@ -77,7 +77,7 @@
 
 			
 			<trans-unit id="closest_dealer">
-				<source>%s closest dealers</source>
+				<source>%s dealers found</source>
 			</trans-unit>
 			<trans-unit id="ajax_loaded_dealer">
 				<source>Closest dealers according to your location</source>

@@ -1,7 +1,7 @@
 <?php
 namespace PXA\PxaDealers\Domain\Repository;
 
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+use FluidTYPO3\Flux\Utility\DebuggerUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -316,6 +316,29 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 
 		return $this->processQueryResult($queryResults);
+	}
+
+	/**
+	 * Find delears by name and position
+	 *
+	 * @param string $name
+	 * @param string $lat
+	 * @param string $lng
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 */
+	public function findByNameAndPosition($name, $lat, $lng) {
+
+		$query = $this->createQuery();
+
+		$query->matching(
+			$query->logicalAnd(
+				$query->equals("name", $name),
+				$query->equals("lat", $lat),
+				$query->equals("lng", $lng)
+			)
+		);
+
+		return $query->execute();
 	}
 }
 ?>
