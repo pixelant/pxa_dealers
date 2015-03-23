@@ -50,6 +50,14 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected $city;
 
+        /**
+	 * Banner Group
+	 *
+	 * @var \string
+	 * 
+	 */
+	protected $bannerGroup;
+
 	/**
 	 * E-mail of dealer
 	 *

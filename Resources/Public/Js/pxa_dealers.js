@@ -111,7 +111,7 @@ function getAddress(pos,map,infowindow, callback) {
   var address = markers[i]['address'] ? '<br/>' + markers[i]['address'] : '';
   var zipcode = markers[i]['zipcode'] ? '<br/>' + markers[i]['zipcode'] : '';
   var city = markers[i]['city'] ? '<br/>' + markers[i]['city'] : '';
-                   
+  var bannergroup = markers[i]['bannergroup'] ? '<br/>' + markers[i]['city'] : '';               
   var telephone= markers[i]['telephone'] ? "<br/><a href=\"tel:" + markers[i]['telephone_clear'] + "\">Tel: " + markers[i]['telephone'] + "</a>": '';
   var email = markers[i]['email'] ? "<br/><a href=\"mailto:"+markers[i]['email']+"\">" +markers[i]['email']+ "</a>" : '';
   
@@ -138,6 +138,7 @@ function getAddress(pos,map,infowindow, callback) {
       infowindowCont += address;
       infowindowCont += zipcode;
       infowindowCont += city;
+      infowindowCont += bannergroup;
       infowindowCont += telephone;
       infowindowCont += email;
       infowindowCont += website;

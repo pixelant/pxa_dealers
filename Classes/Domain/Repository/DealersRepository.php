@@ -53,6 +53,26 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
+	 * Find delears by banner group
+	 *
+	 * @param string $bannerGroup
+	 * @param integer $limit limit of results
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 */
+
+	public function getDealersByBannerGroup($bannerGroup, $limit = NULL) {
+		
+		$query = $this->createQuery();
+
+		$query->matching($query->like('banner_group', '%' . $bannerGroup . '%'));
+		
+		if($limit)
+			$query->setLimit((integer)$limit);
+		
+		return $query->execute();
+	}
+
+        /**
 	 * Find delears by city
 	 *
 	 * @param string $city
@@ -71,7 +91,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		
 		return $query->execute();
 	}
-
+        
 	private function findDealersWithLimit($zipcode, $limit) {
 		$searchedZipcodes = array();
 		$queryResults = array();

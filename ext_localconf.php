@@ -48,7 +48,7 @@ $TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['d
         )		
 	),
 	array(
-		'GETvar' => 'tx_pxadealers_pxadealerssearchresults[searchValue]',		
+		'GETvar' => 'tx_pxadealers_pxadealerssearchresults[searchValue]'
 	)	
 );
 ?>

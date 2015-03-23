@@ -74,19 +74,28 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function searchResultsAction() {
 		$args = $this->request->getArguments();
+		
+		
 		$status = $this->checkStatus($args);
 
 		if($status == self::searchValueOK) {
-			$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
-
-			if(is_numeric($zipcode)) {
+			
+			
+			$dealers = $this->dealersRepository->getDealersByBannerGroup($args['searchValue'], $this->settings['resultLimit']);
+			
+			if($dealers->count() === 0) {
+			    $zipcode = preg_replace('/\s+/', '', $args['searchValue']);
+			    if(is_numeric($zipcode)) {
 				$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
-			} else {
-				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+			    } else {
+				    $dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+			    }
+			    
 			}
+			
 
 			// Check is some of the dealers has no coordinates
-			$this->checkDealers($dealers,$defaultCountry);
+		    $this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 
 		    	$amountOfDealers = $dealers->count();
@@ -201,7 +210,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		// Check if search started
 		if(isset($args['action'])) {
 			// Check if search value not empty
-			if(empty($args['searchValue']))
+			if(empty($args['searchValue']) && empty($args['searchValueDealers'] ))
 				return self::searchValueEmpty;
 			else
 				return self::searchValueOK;

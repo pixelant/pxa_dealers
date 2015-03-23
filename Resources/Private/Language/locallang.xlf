@@ -20,10 +20,13 @@
 				<source>Website url</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
-				<source>Adrress for google maps</source>
+				<source>Adress for google maps</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
 				<source>Zipcode</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.banner_group">
+				<source>Banner Group</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.description">
 				<source>Description </source>
@@ -65,8 +68,8 @@
 				<source>You need to fill in zipcode or city</source>
 			</trans-unit>
 
-			<trans-unit id="placeholder">
-				<source>Enter postcode or city</source>
+			<trans-unit id="placeholderƒad">
+				<source>Enter postcode or city.</source>
 			</trans-unit>
 			<trans-unit id="submitvalue">
 				<source>Search</source>

@@ -12,6 +12,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	country varchar(255) DEFAULT '' NOT NULL,
 	adrress varchar(255) DEFAULT '' NOT NULL,
 	city varchar(50) DEFAULT '' NOT NULL,
+	banner_group varchar(50) DEFAULT '' NOT NULL,
 	email varchar(50) DEFAULT '' NOT NULL,
 	zipcode varchar(255) DEFAULT '' NOT NULL,
 	zipcode_search varchar(255) DEFAULT '' NOT NULL,

@@ -13,6 +13,9 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.city">
 				<source>City</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.banner_group">
+				<source>Banner Group</source>
+			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.email">
 				<source>E-mail</source>
 			</trans-unit>
