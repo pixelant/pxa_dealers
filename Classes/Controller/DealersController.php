@@ -98,6 +98,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$args = $this->request->getArguments();
 		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
+
 		$this->view->assign('countriesList', $this->getCountriesListJSON());
 		$this->view->assign('searchValue', $searchValue);
 		$this->view->assign('jsArray', $jsArray);

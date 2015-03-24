@@ -535,6 +535,10 @@ function containsSearchString(marker, searchString) {
     return true;
   }
 
+  if( typeof searchString === 'object') {
+      return searchString.contains(markersArray[marker['uid']].getPosition());
+  }
+
   if(/\d+/.test(searchString)) {
 
     var expression = /[\. ,:-]+/g;
@@ -550,9 +554,11 @@ function containsSearchString(marker, searchString) {
 
   } else {
     //if( marker['city'].toLowerCase().startsWith(searchString.toLowerCase()) ) {
+
     if( marker['city'].toLowerCase() == searchString.toLowerCase() ) {
       return true;
     }
+
   }
 
   return false;
@@ -617,7 +623,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
     });
 
-    if(extendedZipSearch === true) {
+    if(extendedZipSearch === true && /\d+/.test(searchString)) {
       var zipLimit = 10;
 
       if(filteredDealers <= zipLimit) {
@@ -800,14 +806,73 @@ $( document ).ready(function() {
   $(".pxa-dealers .dealer-cityzip-search").keypress(function (e) {
     if(e.which == 13) {
 
-      var searchValue = $(this).val();
+        var searchValue = $(this).val();
+        var selectedCountry = $(".pxa-dealers .dealer-countries").val();
+        var selectedCountryZone = $(".pxa-dealers .dealer-country-states").val();
 
-      filterMarkers(allDealersListItems,
-          $(".pxa-dealers .dealer-countries").val(),
-          $(".pxa-dealers .dealer-country-states").val(),
-          searchValue,
-          FB_CITY,
-          true);
+        if(searchValue != '') {
+            if (/\d+/.test(searchValue)) {
+
+                filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchValue, FB_CITY, true);
+
+            } else {
+
+                // City search
+                var csCountryName = '';
+                var csCountryZoneName = '';
+
+                if (selectedCountry != 0 && selectedCountry != 'row') {
+                    csCountryName = countryNames[selectedCountry];
+                }
+
+                var csAddress = csCountryName + /*', ' + selectedCountryZone +*/ ', ' + searchValue;
+
+                var filterUsingString = false;
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'address': csAddress}, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        var extendBy = 2;
+                        extendBy = extendBy / 100;
+                        var bounds = results[0].geometry.bounds;
+
+                        if( typeof bounds === 'object') {
+
+                            // New NE position
+                            var pos = new google.maps.LatLng(
+                                bounds.getNorthEast().lat() + extendBy,
+                                bounds.getNorthEast().lng() + extendBy
+                            );
+
+                            bounds.extend(pos);
+
+                            // New SW position
+                            var pos = new google.maps.LatLng(
+                                bounds.getSouthWest().lat() - extendBy,
+                                bounds.getSouthWest().lng() - extendBy
+                            );
+
+                            bounds.extend(pos);
+
+                            filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, bounds, FB_CITY,
+                                true);
+
+                        } else {
+                            filterUsingString = true;
+                        }
+                    } else {
+                        filterUsingString = true;
+                    }
+
+                    if( filterUsingString ) {
+                        filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchValue, FB_CITY,
+                            true);
+                    }
+
+                });
+            }
+        }
     }
   });
 

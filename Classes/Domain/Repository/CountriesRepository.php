@@ -2,6 +2,7 @@
 namespace PXA\PxaDealers\Domain\Repository;
 
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -95,7 +96,6 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param string iso3
 	 * @return array
 	 */
-
 	public function getAvaliableCountryZonesByCountry($country) {
 
 		$localNames = array();
@@ -116,7 +116,32 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		return $zonesCollection;
 
-	}	
+	}
+
+	/**
+	 * Get uid-enCountryName array
+	 *
+	 * @param array uidList
+	 * @return array
+	 */
+	public function getCountryNamesForUids($uidList) {
+
+		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+
+		$resultArray = array();
+
+		foreach($uidList as $uid) {
+			if( is_numeric($uid) ) {
+				$country = $countryRepository->findByUid($uid);
+				if( is_object($country) ) {
+					$resultArray[$uid] = $country->getShortNameEn();
+				}
+			}
+		}
+
+		return $resultArray;
+
+	}
 
 }
 

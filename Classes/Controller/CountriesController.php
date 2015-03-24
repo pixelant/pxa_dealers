@@ -1,7 +1,6 @@
 <?php
 namespace PXA\PxaDealers\Controller;
 
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility as lu;
 
 /***************************************************************
@@ -73,10 +72,6 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 			$this->controllerContext->getRequest()->getControllerExtensionKey()
 		);
 
-		//$tsCountries = $this->settings['countries'];
-
-		//$selected = key($tsCountries[$GLOBALS['TSFE']->sys_language_uid]);
-
 		$language = $GLOBALS['TSFE']->sys_language_uid;
 
 		$selected = 0;
@@ -109,6 +104,10 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 				$countries = array_diff_key($countries, $diffCountries);
 			}
 		}
+
+		$countryNames = $this->countriesRepository->getCountryNamesForUids( array_keys($countries) );
+		$this->view->assign('countryNames', json_encode( $countryNames ));
+
 
 		$countryZonesCollection = array();
 
