@@ -78,8 +78,6 @@ function runAjax(position) {
       //$('#ajax-load-dealer .pre-loader').remove();
       //$('#ajax-load-dealer .dealers-header.after-load').show();
       //$('#ajax-load-dealer').append(data.html);
-      //console.log(data);
-      //console.log("vse horosho");
       filterMarkers( allDealersListItems,
           $(".pxa-dealers .dealer-countries").val(),
           $(".pxa-dealers .dealer-country-states").val(),
@@ -92,7 +90,6 @@ function runAjax(position) {
       //allDealersListItems = $(".pxa-dealers-list-container .dealer-item");
       //originalDealersHeader = $("#dealers-header-original").html();
     } else {
-      //console.log("vse ploho");
       //$('#ajax-load-dealer').fadeOut();
     }
   })
@@ -103,15 +100,37 @@ function runAjax(position) {
 
 function checkLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(runAjax, showError);
+    navigator.geolocation.getCurrentPosition(checkPositionSuccess, checkPositionError);
   } else {
-    runAjax();
+    // TODO
     //console.log ("Geolocation is not supported by this browser.");
   }
 }
 
+function checkPositionSuccess(position) {
+    findClosest(markers, position);
+}
+
+function checkPositionError() {
+    // TODO
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            //console.log ("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            //console.log ("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            //console.log ("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            //console.log ("An unknown error occurred.");
+            break;
+    }
+}
+
 function showError(error) {
-    runAjax();
+    //runAjax();
     switch(error.code) {
         case error.PERMISSION_DENIED:
             //console.log ("User denied the request for Geolocation.");
@@ -166,20 +185,25 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d;
 }
 
-function findClosest(position) {
-
-  //console.log("closest");
+function findClosest(markers, position) {
 
   if( typeof(position)==='undefined') {
-    positionLat = '51.165691';
-    positionLong = "10.451526";
+    // Malmo
+    //positionLat = '51.165691';
+    //positionLong = "10.451526";
+    // Lviv
+    //positionLat = '49.843446';
+    //positionLong = "24.026070";
+    //Other
+    positionLat = '59.339799';
+    positionLong = "18.047922";
   } else {
     positionLat = position.coords.latitude;
     positionLong = position.coords.longitude;
   }
 
   $.each(markers, function(index, marker){
-    marker['distance'] = getDistanceFromLatLonInKm(positionLat, positionLong, marker['lat'], marker['lat']);
+    marker['distance'] = getDistanceFromLatLonInKm(positionLat, positionLong, marker['lat'], marker['lng']);
   });
 
   var closest;
@@ -187,7 +211,7 @@ function findClosest(position) {
     return ((a.distance < b.distance) ? -1 : ((a.distance > b.distance) ? 1 : 0));
   });
 
-  closest = closest.slice(0, 5);
+  closest = closest.slice(0, settings.resultLimit);
 
   var closestUids = [];
   $.each(closest, function(index, closestItem){
@@ -477,6 +501,9 @@ function dealersFitLocation(markers, type) {
     if (status == google.maps.GeocoderStatus.OK) {
       map.setCenter(results[0].geometry.location);
       map.fitBounds(results[0].geometry.viewport);
+      if(type == FB_CITY || type == FB_MARKERS) {
+          map.setZoom(settings.mapZoomLevel * 1);
+      }
     }
   });
 
@@ -515,13 +542,15 @@ function containsSearchString(marker, searchString) {
     var processedZipcode = marker['zipcode'].replace(expression,'').toLowerCase();
     var processedSearchString = searchString.replace(expression,'').toLowerCase();
 
-    if( processedZipcode.startsWith(processedSearchString) || processedZipcode.substr(2).startsWith(processedSearchString)) {
-      return true;
+    if( processedZipcode.startsWith(processedSearchString) ) {
+        return true;
+    } else if( /^[a-zA-Z]+$/.test(processedZipcode.substr(0,2)) && processedZipcode.substr(2).startsWith(processedSearchString)) {
+        return true;
     }
 
   } else {
-
-    if( marker['city'].toLowerCase().startsWith(searchString.toLowerCase()) ) {
+    //if( marker['city'].toLowerCase().startsWith(searchString.toLowerCase()) ) {
+    if( marker['city'].toLowerCase() == searchString.toLowerCase() ) {
       return true;
     }
   }
@@ -561,8 +590,6 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
       if( $(".pxa-dealers .dealer-cityzip-search").length > 0 ) {
         isOk.push( containsSearchString(marker, searchString) );
       }
-
-      console.log( belongsToList(marker, prefilteredList) );
 
       if( prefilteredList !== undefined && prefilteredList.length > 0 ) {
         isOk.push( belongsToList(marker, prefilteredList) );
@@ -775,10 +802,10 @@ $( document ).ready(function() {
 
       var searchValue = $(this).val();
 
-      filterMarkers(allDealersListItems, 
-          $(".pxa-dealers .dealer-countries").val(), 
-          $(".pxa-dealers .dealer-country-states").val(), 
-          searchValue, 
+      filterMarkers(allDealersListItems,
+          $(".pxa-dealers .dealer-countries").val(),
+          $(".pxa-dealers .dealer-country-states").val(),
+          searchValue,
           FB_CITY,
           true);
     }
@@ -787,20 +814,29 @@ $( document ).ready(function() {
   // Find closest
   $(".pxa-dealers-find-closest .find-closest-btn").click(function () {
 
-    var closest = findClosest();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position){
 
-    $(".pxa-dealers .dealer-cityzip-search").val("");
-    $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
-    $(".pxa-dealers .dealer-country-states").val($(".pxa-dealers .dealer-country-states option:first").val());
+          var closest = findClosest(markers, position);
 
-    filterMarkers( allDealersListItems,
-        $(".pxa-dealers .dealer-countries").val(),
-        $(".pxa-dealers .dealer-country-states").val(),
-        $(".pxa-dealers .dealer-cityzip-search").val(),
-        FB_MARKERS,
-        false,
-        closest
-    );
+          $(".pxa-dealers .dealer-cityzip-search").val("");
+          $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
+          $(".pxa-dealers .dealer-country-states").val($(".pxa-dealers .dealer-country-states option:first").val());
+
+          filterMarkers( allDealersListItems,
+              $(".pxa-dealers .dealer-countries").val(),
+              $(".pxa-dealers .dealer-country-states").val(),
+              $(".pxa-dealers .dealer-cityzip-search").val(),
+              FB_MARKERS,
+              false,
+              closest
+          );
+      }, checkPositionError);
+    } else {
+      // TODO
+      //console.log ("Geolocation is not supported by this browser.");
+    }
+
   });
 
 });

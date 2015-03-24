@@ -132,6 +132,10 @@
 				<source>Imports dealers records from file</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.mapZoomLevel">
+				<source>Map zoom level</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
