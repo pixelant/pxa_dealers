@@ -136,6 +136,14 @@
 				<source>Map zoom level</source>
 			</trans-unit>
 
+			<trans-unit id="flexform.cityZoneExtendBy">
+				<source>Extend city zone by</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.zipZoneExtendBy">
+				<source>Extend zip zone by</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
