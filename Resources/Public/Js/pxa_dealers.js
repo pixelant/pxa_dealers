@@ -559,7 +559,7 @@ function belongsToList(marker, list) {
   return ( $.inArray(marker['uid'], list) !== -1 );
 }
 
-function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList) {
+function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList, boundsFailed) {
 
     var allDealersListItemsCopy = $(allDealersListItems).clone();
 
@@ -613,6 +613,60 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
       }
 
     });
+
+    if(!/\d+/.test(searchString) && typeof searchString !== 'object' && boundsFailed != true) {
+        if (searchString != '') {
+            // City search
+            var csCountryName = '';
+            var csCountryZoneName = '';
+
+            if (selectedCountry != 0 && selectedCountry != 'row') {
+                csCountryName = countryNames[selectedCountry];
+            }
+
+            var csAddress = csCountryName + /*', ' + selectedCountryZone +*/ ', ' + searchString;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'address': csAddress}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
+
+                    var extendBy = settings['cityZoneExtendBy'] * 1 / 100;
+                    var bounds = results[0].geometry.bounds;
+
+                    if (typeof bounds === 'object') {
+
+                        // New NE position
+                        var pos = new google.maps.LatLng(
+                            bounds.getNorthEast().lat() + extendBy,
+                            bounds.getNorthEast().lng() + extendBy
+                        );
+
+                        bounds.extend(pos);
+
+                        // New SW position
+                        var pos = new google.maps.LatLng(
+                            bounds.getSouthWest().lat() - extendBy,
+                            bounds.getSouthWest().lng() - extendBy
+                        );
+
+                        bounds.extend(pos);
+
+                        filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, bounds, FB_CITY,
+                            true);
+                    } else {
+                        filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchString, FB_CITY,
+                            true,'', true);
+                    }
+                } else {
+                    filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchString, FB_CITY,
+                        true,'', true);
+                }
+            });
+
+            return true;
+        }
+
+    }
 
     if(typeof userPosition == "object") {
 
@@ -895,72 +949,13 @@ $( document ).ready(function() {
     if(e.which == 13) {
 
         var searchValue = $(this).val();
-        var selectedCountry = $(".pxa-dealers .dealer-countries").val();
-        var selectedCountryZone = $(".pxa-dealers .dealer-country-states").val();
 
-        var filterUsingString = false;
-
-        if(searchValue != '') {
-            if (/\d+/.test(searchValue)) {
-
-                filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchValue, FB_CITY, true);
-
-            } else {
-
-                // City search
-                var csCountryName = '';
-                var csCountryZoneName = '';
-
-                if (selectedCountry != 0 && selectedCountry != 'row') {
-                    csCountryName = countryNames[selectedCountry];
-                }
-
-                var csAddress = csCountryName + /*', ' + selectedCountryZone +*/ ', ' + searchValue;
-
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({'address': csAddress}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-
-                        var extendBy = settings['cityZoneExtendBy'] * 1 / 100;
-                        var bounds = results[0].geometry.bounds;
-
-                        if( typeof bounds === 'object') {
-
-                            // New NE position
-                            var pos = new google.maps.LatLng(
-                                bounds.getNorthEast().lat() + extendBy,
-                                bounds.getNorthEast().lng() + extendBy
-                            );
-
-                            bounds.extend(pos);
-
-                            // New SW position
-                            var pos = new google.maps.LatLng(
-                                bounds.getSouthWest().lat() - extendBy,
-                                bounds.getSouthWest().lng() - extendBy
-                            );
-
-                            bounds.extend(pos);
-
-                            filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, bounds, FB_CITY,
-                                true);
-
-                        } else {
-                            filterUsingString = true;
-                        }
-                    } else {
-                        filterUsingString = true;
-                    }
-                });
-            }
-        } else {
-            filterUsingString = true;
-        }
-
-        if( filterUsingString ) {
-            filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchValue, FB_CITY,
-                true);
-        }
+        filterMarkers(allDealersListItems,
+            $(".pxa-dealers .dealer-countries").val(),
+            $(".pxa-dealers .dealer-country-states").val(),
+            searchValue,
+            FB_CITY,
+            true);
 
     }
   });
