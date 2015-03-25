@@ -74,7 +74,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng,lat_lng_is_set',
+		'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng,lat_lng_is_set,partner_type',
 		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Dealers.php',
 		'requestUpdate' => 'country',
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_pxadealers_domain_model_dealers.gif'

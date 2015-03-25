@@ -121,6 +121,10 @@
 			<trans-unit id="find_closest.button_caption">
 				<source>Find closest</source>
 			</trans-unit>
+
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type">
+				<source>Partner type</source>
+			</trans-unit>
 			
 		</body>
 	</file>

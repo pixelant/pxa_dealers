@@ -40,6 +40,9 @@
 			<trans-unit id="dealer_category.description">
 				<source>Assortments</source>
 			</trans-unit>
+			<trans-unit id="partner_type.description">
+				<source>Partner type</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -690,9 +690,33 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
         }
       });
 
-      enabledDealersListItems.sort(function(a, b){
-        return $(a).find(".dealer-name").text() > $(b).find(".dealer-name").text() ? 1 : -1;
+      var golden = enabledDealersListItems.filter(function(a){
+          if($(a).data("partnertype") == "1") {
+              return 1;
+          } else {
+              return 0;
+          }
       });
+
+      var silver = enabledDealersListItems.filter(function(a){
+          if($(a).data("partnertype") != "1") {
+              return 1;
+          } else {
+              return 0;
+          }
+      });
+
+      golden.sort(function(a, b){
+          return $(a).find(".dealer-name").text() > $(b).find(".dealer-name").text() ? 1 : -1;
+      });
+
+      silver.sort(function(a, b){
+          return $(a).find(".dealer-name").text() > $(b).find(".dealer-name").text() ? 1 : -1;
+      });
+
+      var all = golden.concat(silver);
+
+      enabledDealersListItems = all;
 
       var counter = 0;
       var newRow;

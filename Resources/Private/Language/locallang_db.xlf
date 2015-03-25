@@ -144,6 +144,18 @@
 				<source>Extend zip zone by</source>
 			</trans-unit>
 
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type">
+				<source>Partner type</source>
+			</trans-unit>
+
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.silver">
+				<source>Silver</source>
+			</trans-unit>
+
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.gold">
+				<source>Gold</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

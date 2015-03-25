@@ -155,6 +155,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $logo;
 
 	/**
+	 * partnerType
+	 *
+	 * @var integer
+	 */
+	protected $partnerType = 0;
+
+	/**
 	 * categories
 	 *
 	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
@@ -494,6 +501,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setLogo($logo) {
 		$this->logo = $logo;
+	}
+
+	/**
+	 * Returns the partnerType
+	 *
+	 * @return integer $partnerType
+	 */
+	public function getPartnerType() {
+		return $this->partnerType;
+	}
+
+	/**
+	 * Sets the partnerType
+	 *
+	 * @param integer $partnerType
+	 * @return void
+	 */
+	public function setPartnerType($partnerType) {
+		$this->partnerType = $partnerType;
 	}
 
 	/**
