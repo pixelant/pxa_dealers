@@ -10,23 +10,22 @@ var FB_CITY = 2;
 var FB_MARKERS = 3;
 var FB_NONE = 4;
 
-// google.maps.event.addDomListener(window, 'load', function () { 
-//   initializeMapPxaDealers(true);
-// });
+function PxaDealers() {
 
-//initializeMapPxaDealers(true);
+   var self = this;
 
-// function PxaDealers() {
+   self.pluginSettings = settings;
+   self.markers = markers;
+   self.labels = labels;
+   self.countriesList = $.map(self.pluginSettings['mainCountries'].split(","), $.trim);
 
-//   var self = this;
+   self.selectedCountry = "*";
 
-//   self.pluginSettings = settings;
-//   self.markers = markers;
-//   self.labels = {};
-//   self.countriesList = {};
-// }
+   self.filterMarkers = function() {
 
-// var pxa_dealers = new PxaDealers();
+   }
+
+}
 
 /* Prototypes */
 
@@ -221,11 +220,9 @@ function findClosest(markers, position) {
   return closestUids;
 }
 
-function initializeMapPxaDealers(doMarkersFilter) {
+function initializeMapPxaDealers() {
 
   initEnv();
-
-  if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
 
   var bounds = new google.maps.LatLngBounds();       
   var infowindow = new google.maps.InfoWindow();       
@@ -308,13 +305,11 @@ function initializeMapPxaDealers(doMarkersFilter) {
     filterOn = FB_COUNTRY;
   }
 
-  if(doMarkersFilter === true) {
-    filterMarkers( allDealersListItems, 
-        $(".pxa-dealers .dealer-countries").val(), 
-        $(".pxa-dealers .dealer-country-states").val(),
-        $(".pxa-dealers .dealer-cityzip-search").val(),
-        filterOn);
-  }
+  filterMarkers( allDealersListItems,
+    $(".pxa-dealers .dealer-countries").val(),
+    $(".pxa-dealers .dealer-country-states").val(),
+    $(".pxa-dealers .dealer-cityzip-search").val(),
+    filterOn);
 
 }
 
@@ -759,13 +754,16 @@ if (typeof pxa_dealers_enabled != 'undefined') {
 
 $( document ).ready(function() {
 
+    var pxa_dealers = new PxaDealers();
+    console.log(pxa_dealers);
+
   if(initialSearchValue.length > 0) {
     $(".pxa-dealers .dealer-cityzip-search").val(initialSearchValue);
     $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
   }
 
   allDealersListItems = $(".pxa-dealers-list-container .dealer-item").clone();
-  initializeMapPxaDealers(true);
+  initializeMapPxaDealers();
 
   // Show google street view
   $(document).on('click', '.street-switch-trigger', function(event) {

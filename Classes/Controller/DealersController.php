@@ -1,7 +1,7 @@
 <?php
 namespace PXA\PxaDealers\Controller;
 
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -38,21 +38,6 @@ use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
 class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * if search did started
-	 */
-	const searchDidntStart = 0;
-
-	/**
-	 * if search started but search value is empty
-	 */
-	const searchValueEmpty = 1;
-
-	/**
-	 * if search started and search value is OK
-	 */
-	const searchValueOK = 2;
-
-	/**
 	 *  dealersRepository
 	 *
 	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
@@ -76,98 +61,17 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function searchResultsAction() {
 
-//		$timeStat = array();
-//		$timeStat['starttime'] = microtime(true);
-
-		$dealers = $this->dealersRepository->findAll();
-
-//		$timeStat['2'] = microtime(true);
-
-		$dealers = $this->checkDealers($dealers);
-
-//		$timeStat['3'] = microtime(true);
-
-		$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
-
-//		$timeStat['4'] = microtime(true);
-//		$timeStat['diff1'] = $timeStat['2'] - $timeStat['starttime'];
-//		$timeStat['diff2'] = $timeStat['3'] - $timeStat['2'];
-//		$timeStat['diff3'] = $timeStat['4'] - $timeStat['3'];
-//		du::var_dump($timeStat);
-
 		$args = $this->request->getArguments();
-		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
+		$dealers = $this->checkDealers( $this->dealersRepository->findAll() );
+
+		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
 		$this->view->assign('countriesList', $this->getCountriesListJSON());
 		$this->view->assign('searchValue', $searchValue);
-		$this->view->assign('jsArray', $jsArray);
+		$this->view->assign('dealersJson', $this->generateJSOfDealers($dealers));
 		$this->view->assign('dealers',$dealers);
 	}
-
-	/**
-	 * find closest pharmacies
-	 *
-	 * @param float $latitude
-	 * @param float $longitude
-	 * @return string
-	 */
-	public function findClosestAjaxAction($latitude, $longitude) {
-		$dealers = $this->dealersRepository->findAll();
-
-		$this->checkDealers($dealers);
-		$dealers = $dealers->toArray();
-
-		$dealersWithDistance = array();
-		$finalDealersArray = array();
-
-		foreach ($dealers as $key => $dealer) {
-			if($dealer->getLatLngIsSet() == 1) {
-				$dealersWithDistance[$key]['distance'] = $this->getDistance($latitude, $longitude, $dealer->getLat(), $dealer->getLng());
-				$dealersWithDistance[$key]['dealer'] = $dealer;
-			}
-		}
-		unset($dealers); unset($dealer);
-
-		usort($dealersWithDistance, function($a,$b){
-			return $a['distance'] > $b['distance'];
-		});
-
-		$amountOfDealers = count($dealersWithDistance);
-		$limit = ($this->settings['findClosestAjax']['resultLimit'] <= $amountOfDealers ? $this->settings['findClosestAjax']['resultLimit'] : $amountOfDealers);
-		for ($i=0; $i < $limit; $i++) { 
-			$finalDealersArray[] = $dealersWithDistance[$i]['dealer'];
-		}
-		unset($dealersWithDistance);
-
-		$uidsArray = array();
-
-		foreach($finalDealersArray as $dealer) {
-			$uidsArray[] = $dealer->getUid();
-		}
-
-		return json_encode($uidsArray);
-		
-//		$jsArray = $this->generateJSOfDealers($finalDealersArray,$amountOfDealers);
-//
-//		$this->view->assign('countriesList', $this->getCountriesListJSON());
-//
-//		$this->view->assignMultiple(array(
-//			'settings' => $this->settings['findClosestAjax'],
-//			'dealers' => $finalDealersArray,
-//			'jsArray' => $jsArray
-//		));
-//
-//		$data = array(
-//			'html' => $this->view->render(),
-//			'count' => $amountOfDealers,
-//		);
-//
-//		du::var_dump($data);
-		
-		//return json_encode($data);
-	}
-
 
 	/**
 	 * Generate JS
@@ -176,60 +80,41 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @param int $amountOfDealers
 	 * @return string
 	 */
-	protected function generateJSOfDealers($dealers,$amountOfDealers){
-		$countStep = 1;
-		$jsArray = 'var markers = [';
-        foreach ($dealers as $dealer) {
+	protected function generateJSOfDealers($dealers){
 
-        	$country = $dealer->getCountry();
-        	$countryName = !empty( $country ) ? $country->getShortNameEn() : '';
-        	$countryZone = $dealer->getCountryZone();
-        	$countryZoneUid = !empty( $countryZone ) ? $countryZone->getUid() : 0;
-        	
-            $jsArray .= "{name: '".str_replace ("'","\'",$dealer->getName()).
-            		"', lat: '".$dealer->getLat().
-            		"', lng: '".$dealer->getLng().
-            		"', address: '".str_replace ("'","\'",$dealer->getAdrress()).
-            		"', zipcode: '".$dealer->getZipcode().
-            		"', zipcodeSearch: '".$dealer->getZipcodeSearch().
-            		"', city: '".str_replace("'","\'",$dealer->getCity()).
-            		"', telephone: '".$dealer->getTelephone().
-            		"', telephone_clear: '".str_replace(array(' ','-'),'',$dealer->getTelephone()).
-            		"', website: '".$dealer->getWebsite().
-            		"', email: '".$dealer->getEmail().
-            		"', uid: '".$dealer->getUid().
-            		"', categories: '".$dealer->getCategoriesJSON().
-            		"', country: '".$dealer->getCountryUid().
-					"', countryName: '".$countryName.
-            		"', countryZone: '".$countryZoneUid.
-            		"', countryZoneName: '".$dealer->getCountryZoneName().
-            		"', countryZoneIsoCode: '".$dealer->getCountryZoneIsoCode().
-            		($amountOfDealers == $countStep ? "'}" : "'},");
+		$results = array();
 
-            $countStep++;
-        }
-        $jsArray .= '];';
+		foreach($dealers as $dealer) {
 
-        return $jsArray;
-	}
+			$country = $dealer->getCountry();
+			$countryName = !empty( $country ) ? $country->getShortNameEn() : '';
+			$countryZone = $dealer->getCountryZone();
+			$countryZoneUid = !empty( $countryZone ) ? $countryZone->getUid() : 0;
 
-	/**
-	 * Validate status
-	 *
-	 * @param array $args
-	 * @return  int
-	 */
-	protected function checkStatus($args) {
-		// Check if search started
-		if(isset($args['action'])) {
-			// Check if search value not empty
-			if(empty($args['searchValue']))
-				return self::searchValueEmpty;
-			else
-				return self::searchValueOK;
+			$results[] = array(
+				"name" => str_replace("'", "\'", $dealer->getName()),
+				"lat" => $dealer->getLat(),
+				"lng" => $dealer->getLng(),
+				"address" => str_replace ("'","\'",$dealer->getAdrress()),
+				"zipcode" => $dealer->getZipcode(),
+				"zipcodeSearch" => $dealer->getZipcodeSearch(),
+				"city" => str_replace("'","\'",$dealer->getCity()),
+				"telephone" => $dealer->getTelephone(),
+				"telephone_clear" => str_replace(array(' ','-'),'',$dealer->getTelephone()),
+				"website" => $dealer->getWebsite(),
+				"email" => $dealer->getEmail(),
+				"uid" => (string)$dealer->getUid(),
+				"categories" => $dealer->getCategoriesJSON(),
+				"country" => (string)$dealer->getCountryUid(),
+				"countryName" => $countryName,
+				"countryZone" => (string)$countryZoneUid,
+				"countryZoneName" => $dealer->getCountryZoneName(),
+				"countryZoneIsoCode" => $dealer->getCountryZoneIsoCode()
+			);
 		}
 
-		return self::searchDidntStart;
+		return json_encode( $results );
+
 	}
 
 	/**
@@ -313,72 +198,11 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         } while($resp['status'] == 'OVER_QUERY_LIMIT');
 	}
 
-	/** 
-	 * Calculate distance
-	 *
-	 * @param float $latitudeFrom
-	 * @param float $longitudeFrom
-	 * @param float $latitudeTo
-	 * @param float $longitudeTo
-	 * @return float distance
-	 */
-	protected function getDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo) {
-		
-		$earthRadius = 6371000;
-
-		// convert from degrees to radians
-	  	$latFrom = deg2rad($latitudeFrom);
-	  	$lonFrom = deg2rad($longitudeFrom);
-	  	$latTo = deg2rad(floatval($latitudeTo));
-	  	$lonTo = deg2rad(floatval($longitudeTo));
-
-	  	$latDelta = $latTo - $latFrom;
-	  	$lonDelta = $lonTo - $lonFrom;
-
-	  	$angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
-	  	return $angle * $earthRadius;
-	}
-
 	protected function getCountriesListJSON() {
 
 		$countriesList = $this->dealersRepository->getDealersUniqueCountriesUids();
 
 		return json_encode($countriesList);
-	}
-
-	
-
-	/** 
-	 * import once 
-	 *
-	 */
-	public function importAction() {
-
-		/*if(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('importStart') == 'go') {
-			
-			if (($handle = fopen("typo3conf/ext/pxa_dealers/Resources/Public/cb12_05112014_final.csv", "r")) !== FALSE) {
-			
-				while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			    	$dealerModel = $this->objectManager->get('PXA\\PxaDealers\\Domain\\Model\\Dealers');
-
-
-			        $dealerModel->setName(trim($data[0]));
-					$dealerModel->setAdrress(trim($data[1]));
-					$dealerModel->setCity(trim($data[2]));
-					$dealerModel->setZipcode(trim($data[3]));
-					$dealerModel->setZipcodeSearch(trim($data[3]));
-					$dealerModel->setCountry('Deutchland');
-
-					
-			        $this->dealersRepository->add($dealerModel);
-			        if($row == 4) break;
-			        $row++;
-			    }
-			    fclose($handle);
-			}
-		    
-		}*/
-		exit(0);
 	}
 
 }
