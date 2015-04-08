@@ -18,7 +18,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
   <f:if condition="{dealers -> f:count()} > 0">
     <f:then>
-      <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+      <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px">
+        <div class="loader-wrp">
+          <div class="loader"></div>
+        </div>
+      </div>
         <script type="text/javascript">
           <f:format.raw>{jsArray}</f:format.raw>
           var pxa_dealers_enabled = 1
@@ -50,14 +54,18 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
             <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}" data-partnerType="{dealer.partnerType}">
 
-              <f:if condition="{dealer.partnerType}">
-                <f:image src="EXT:pxa_dealers/Resources/Public/Images/empty-gold-coin-icon.jpg" alt="gold" width="25px" height="25px" />
-                <f:comment>
-                  Alingsås
-                  <f:image src="Resources/Public/Images/empty-gold-coin-icon.jpg" alt="gold" width="25px" height="25px" />
-                </f:comment>
+              <f:if condition="{dealer.partnerType}==1">
+                <f:then>
+                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/golden-coin.png" alt="gold" width="25px" height="25px" />
+                </f:then>
+                <f:else>
+                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/silver-coin.png" alt="silver" width="25px" height="25px" />
+                </f:else>
               </f:if>
               <b class="dealer-name">{dealer.name}</b>
+              <f:if condition="{dealer.partnerType}==1">
+                  <br /><span class="golder-type-text"><f:translate key="tx_pxadealers.golden_partner_label" /></span>
+              </f:if>
               <f:if condition="{settings.showLogo}">
                 <div class="dealer-logo">
                   <f:if condition="{dealer.logo}">
@@ -102,7 +110,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
         <button type="button" class="close" data-dismiss="alert">×</button>
         <f:translate key="error.NoResult" />
       </div>
-      <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+      <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px">
+        <div class="loader-wrp hidden">
+          <div class="loader"></div>
+        </div>
+      </div>
       <div id="ajax-load-dealer">
         <h2 class="dealers-header pre-loader">
           <f:translate key="ajax_preload" />

@@ -125,6 +125,18 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type">
 				<source>Partner type</source>
 			</trans-unit>
+
+			<trans-unit id="tx_pxadealers_country_list.header">
+				<source>Country</source>
+			</trans-unit>
+
+			<trans-unit id="tx_pxadealers_categories_list.header">
+				<source>Categories</source>
+			</trans-unit>
+
+			<trans-unit id="tx_pxadealers.golden_partner_label">
+				<source>Gullberg &amp; Jansson Gold Partner</source>
+			</trans-unit>
 			
 		</body>
 	</file>
