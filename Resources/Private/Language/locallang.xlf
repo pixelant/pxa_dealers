@@ -137,6 +137,10 @@
 			<trans-unit id="tx_pxadealers.golden_partner_label">
 				<source>Gullberg &amp; Jansson Gold Partner</source>
 			</trans-unit>
+
+			<trans-unit id="tx_pxadealers.silver_partner_label">
+				<source>Gullberg &amp; Jansson Silver Partner</source>
+			</trans-unit>
 			
 		</body>
 	</file>

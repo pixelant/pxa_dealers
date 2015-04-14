@@ -56,15 +56,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
               <f:if condition="{dealer.partnerType}==1">
                 <f:then>
-                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/golden-coin.png" alt="gold" width="25px" height="25px" />
+                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/coin_gold.png" alt="gold" width="18px" height="18px" />
                 </f:then>
                 <f:else>
-                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/silver-coin.png" alt="silver" width="25px" height="25px" />
+                  <f:image src="EXT:pxa_dealers/Resources/Public/Images/coin_silver.png" alt="silver" width="18px" height="18px" />
                 </f:else>
               </f:if>
               <b class="dealer-name">{dealer.name}</b>
               <f:if condition="{dealer.partnerType}==1">
-                  <br /><span class="golder-type-text"><f:translate key="tx_pxadealers.golden_partner_label" /></span>
+                  <f:then>
+                    <br /><span class="partner-type-text golder-type-text"><f:translate key="tx_pxadealers.golden_partner_label" /></span>
+                  </f:then>
+                  <f:else>
+                    <br /><span class="partner-type-text silver-type-text"><f:translate key="tx_pxadealers.silver_partner_label" /></span>
+                  </f:else>
               </f:if>
               <f:if condition="{settings.showLogo}">
                 <div class="dealer-logo">
