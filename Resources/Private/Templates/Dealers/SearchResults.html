@@ -40,6 +40,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
           <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
+            <f:comment>
+
             <f:if condition="{settings.newRow}">
 
               <f:if condition="<pxa:isNewRow current=\"{itemIterationDealers.index}\" needed=\"{settings.newRow}\"/>">
@@ -49,7 +51,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
             </f:if>
 
-            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+            </f:comment>
+
+            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
 
               <b class="dealer-name">{dealer.name}</b>
               <f:if condition="{settings.showLogo}">
