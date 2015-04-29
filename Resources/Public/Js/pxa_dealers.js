@@ -185,7 +185,11 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d;
 }
 
-function findClosest(markers, position) {
+function findClosest(markers, position, ignoreResultsLimit) {
+
+  if( typeof ignoreResultsLimit == "undefined" ) {
+    ignoreResultsLimit = false;
+  }
 
   if( typeof(position)==='undefined') {
     // Malmo
@@ -216,7 +220,14 @@ function findClosest(markers, position) {
     return ((a.distance < b.distance) ? -1 : ((a.distance > b.distance) ? 1 : 0));
   });
 
-  closest = closest.slice(0, settings.resultLimit);
+  if(ignoreResultsLimit == false) {
+      closest = closest.slice(0, settings.resultLimit);
+  }
+
+    //console.log(position);
+    //console.log(positionLat);
+    //console.log(positionLong);
+    //console.log(closest);
 
   var closestUids = [];
   $.each(closest, function(index, closestItem){
@@ -571,7 +582,7 @@ function belongsToList(marker, list) {
   return ( $.inArray(marker['uid'], list) !== -1 );
 }
 
-function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList, boundsFailed, markersListToExtend) {
+function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList, boundsFailed, markersListToExtend, boundsSearchType) {
 
     var allDealersListItemsCopy = $(allDealersListItems).clone();
 
@@ -662,7 +673,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
                     }
 
                     for (var i = 0; i < results.length; i++) {
-                        if (results[i].types[0] === "locality") {
+                        if (results[i].types[0] === "locality" || results[i].types[1] == "sublocality") {
                             if(typeof results[i].geometry.bounds != 'undefined') {
                                 bounds = results[i].geometry.bounds;
                             } else {
@@ -704,7 +715,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
                         //});
 
                         filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, bounds, FB_MARKERS,
-                            true);
+                            true, [], false, [], "city");
                     } else {
                         filterMarkers(allDealersListItems, selectedCountry, selectedCountryZone, searchString, FB_CITY,
                             true,'', true);
@@ -720,6 +731,20 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
     }
 
+    // City bounds search
+    if(typeof boundsSearchType !== 'undefined' && boundsSearchType == 'city' && typeof searchString == 'object') {
+        if(filteredDealersMarkers.length < settings.resultLimit * 1) {
+
+            var filteredMarkers = getFilteredMarkersForClosestSearch(markers, selectedCountry, selectedCountryZone);
+            var closest = findClosest(filteredMarkers, searchString.getCenter(), true);
+
+            closest = closest.slice(0, settings.resultLimit * 1);
+
+            filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, "", fitBoundsType, extendedZipSearch, closest);
+            return 1;
+        }
+    }
+
     // Zip search
     if(extendedZipSearch === true && /\d+/.test(searchString) && typeof searchString !== 'object') {
         if(filteredDealersMarkers.length < settings.resultLimit * 1) {
@@ -729,12 +754,10 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
                 return 1;
             } else {
                 if(filteredDealersMarkers.length == 0) {
-                    console.log(fitBoundsType);
                     filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, "", fitBoundsType, extendedZipSearch);
                     return 1;
                 } else {
                     if( filteredDealersMarkers.length >= settings.resultLimit * 1 ) {
-                        console.log("more than limit");
                         filteredDealersMarkers = filteredDealersMarkers.slice(0, settings.resultLimit * 1);
                         filteredDealers = [];
                         $(filteredDealersMarkers).each(function(index, item){
