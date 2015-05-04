@@ -20,12 +20,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:then>
       <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
         <script type="text/javascript">
-          var markers = <f:format.raw>{dealersJson}</f:format.raw>
-          var pxa_dealers_enabled = 1
+          var dealers = <f:format.raw>{dealersJson}</f:format.raw>
+          var pxa_dealers_enabled = 1;
           var initialSearchValue = "<f:format.raw>{searchValue}</f:format.raw>";
           var settings = <v:format.json.encode value="{settings}" useTraversableKeys="0" preventRecursion="1" />
           //var enDealers = <v:format.json.encode value="{dealers}" useTraversableKeys="0" preventRecursion="1" />
-          var markersArray = [];
           var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
           var countriesList = <f:format.raw>{countriesList}</f:format.raw>
           var labels = [];
