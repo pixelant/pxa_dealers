@@ -34,16 +34,17 @@
                 </TCEforms>
           </settings.resultLimit>
 
-          <settings.newRow>
-                <TCEforms>
-                  <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.newRow</label>
-                  <config>
-                    <type>input</type>
-                    <size>10</size>
-                    <eval>int</eval>           
-                  </config>
-                </TCEforms>
-          </settings.newRow>
+          <!--<settings.newRow>-->
+                <!--<TCEforms>-->
+                  <!--<label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.newRow</label>-->
+                  <!--<disabled>1</disabled>-->
+                  <!--<config>-->
+                    <!--<type>input</type>-->
+                    <!--<size>10</size>-->
+                    <!--<eval>int</eval>           -->
+                  <!--</config>-->
+                <!--</TCEforms>-->
+          <!--</settings.newRow>-->
 
           <settings.additionalWrapperClass>
                 <TCEforms>
@@ -77,15 +78,6 @@
                   </config>
                 </TCEforms>
           </settings.elementAdditionalClass>
-
-          <settings.searchForStates>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.searchForStates</label>
-                <config>
-                <type>check</type>
-              </config>
-            </TCEforms>
-          </settings.searchForStates>
 
           <settings.clusterMarkers>
             <TCEforms>
@@ -141,30 +133,6 @@
               </config>
             </TCEforms>
           </settings.mapZoomLevel>
-
-          <settings.cityZoneExtendBy>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.cityZoneExtendBy</label>
-              <config>
-                <type>input</type>
-                <size>30</size>
-                <eval>int</eval>
-                <default>4</default>
-              </config>
-            </TCEforms>
-          </settings.cityZoneExtendBy>
-
-          <settings.zipZoneExtendBy>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.zipZoneExtendBy</label>
-              <config>
-                <type>input</type>
-                <size>30</size>
-                <eval>int</eval>
-                <default>4</default>
-              </config>
-            </TCEforms>
-          </settings.zipZoneExtendBy>
           
         </el>
       </ROOT>

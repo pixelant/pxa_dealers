@@ -103,10 +103,6 @@
 				<source>Enable country selector</source>
 			</trans-unit>
 
-			<trans-unit id="flexform.searchForStates">
-				<source>Search for USA states ( requires static info tables extension )</source>
-			</trans-unit>
-
 			<trans-unit id="flexform.clusterMarkers">
 				<source>Enable markers clusterization</source>
 			</trans-unit>
@@ -134,14 +130,6 @@
 
 			<trans-unit id="flexform.mapZoomLevel">
 				<source>Map zoom level</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.cityZoneExtendBy">
-				<source>Extend city zone by</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.zipZoneExtendBy">
-				<source>Extend zip zone by</source>
 			</trans-unit>
 
 		</body>
