@@ -181,7 +181,7 @@ function PxaDealers() {
         var city = dealer['city'] ? '<br/>' + dealer['city'] : '';
 
         var telephone= dealer['telephone'] ? "<br/><a href=\"tel:" + dealer['telephone_clear'] +
-                                             "\">Tel: " + dealer['telephone'] + "</a>": '';
+                                             "\">Phone: " + dealer['telephone'] + "</a>": '';
         var email = dealer['email'] ? "<br/><a href=\"mailto:" + dealer['email']+"\">" +
                                       dealer['email']+ "</a>" : '';
 
@@ -196,6 +196,9 @@ function PxaDealers() {
         } else {
             var website = '';
         }
+
+        var fax = dealer['fax'] ? "<br/><a href=\"tel:" + dealer['fax_clear'] +
+                                        "\">Fax: " + dealer['fax'] + "</a>": '';
 
         var imageStreetPreviewContent = '<td><div class="image-street-preview">';
         imageStreetPreviewContent += '<a href="#streetview" data-marker-id="' + dealer['uid']
@@ -212,6 +215,7 @@ function PxaDealers() {
         infowindowCont += zipcode;
         infowindowCont += city;
         infowindowCont += telephone;
+        infowindowCont += fax;
         infowindowCont += email;
         infowindowCont += website;
         infowindowCont += imageStreetPreviewContent;

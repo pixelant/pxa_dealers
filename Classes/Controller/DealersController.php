@@ -101,6 +101,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				"city" => str_replace("'","\'",$dealer->getCity()),
 				"telephone" => $dealer->getTelephone(),
 				"telephone_clear" => str_replace(array(' ','-'),'',$dealer->getTelephone()),
+				"fax" => $dealer->getFax(),
+				"fax_clear" => str_replace(array(' ','-'),'',$dealer->getFax()),
 				"website" => $dealer->getWebsite(),
 				"email" => $dealer->getEmail(),
 				"uid" => (string)$dealer->getUid(),
