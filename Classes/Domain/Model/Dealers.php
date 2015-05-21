@@ -162,6 +162,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $categories = NULL;
 
 	/**
+	 * partnerType
+	 *
+	 * @var \integer $partnerType
+	 */
+	protected $partnerType = 0;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -639,6 +646,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Returns the partnerType
+	 *
+	 * @return \integer $partnerType
+	 */
+	public function getPartnerType() {
+		return $this->partnerType;
+	}
+
+	/**
+	 * Sets the partnerType
+	 *
+	 * @param \integer $partnerType
+	 * @return void
+	 */
+	public function setPartnerType($partnerType) {
+		$this->partnerType = $partnerType;
 	}
 
 }

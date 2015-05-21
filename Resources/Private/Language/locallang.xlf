@@ -125,6 +125,13 @@
 			<trans-unit id="dealers_found">
                 <source>dealers found</source>
             </trans-unit>
+
+            <trans-unit id="partnerType_premium_official">
+                <source>Premium Aimpoint Reseller</source>
+            </trans-unit>
+            <trans-unit id="partnerType_standard_official">
+                <source>Aimpoint Reseller</source>
+            </trans-unit>
 			
 		</body>
 	</file>

@@ -165,6 +165,15 @@ function PxaDealers() {
     self.getAddress = function ( dealer, callback ) {
 
         var markerIcon = self.pluginSettings.map.markerImage;
+
+        // 0 - standard partner
+        // 1 - premium partner
+        if( dealer['partnerType'] == 0 ) {
+            markerIcon = self.pluginSettings.map.markerImageStandardPartner;
+        } else if( dealer['partnerType'] == 1 ) {
+            markerIcon = self.pluginSettings.map.markerImagePremiumPartner;
+        }
+
         var pos = new google.maps.LatLng( dealer['lat'], dealer['lng'] );
 
         var address = dealer['address'] ? '<br/>' + dealer['address'] : '';

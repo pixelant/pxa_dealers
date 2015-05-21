@@ -32,6 +32,8 @@ plugin.tx_pxadealers {
 			stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
 			name = {$plugin.tx_pxadealers.settings.map.name}
 			markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+            markerImagePremiumPartner = {$plugin.tx_pxadealers.settings.map.markerImagePremiumPartner}
+            markerImageStandardPartner = {$plugin.tx_pxadealers.settings.map.markerImageStandardPartner}
 		}
 
 		countryNameIso3Mapping {

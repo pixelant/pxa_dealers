@@ -18,6 +18,8 @@ plugin.tx_pxadealers {
 			name = Custom map
 			#markerImage = EXT:pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
 			markerImage = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+		    markerImagePremiumPartner = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/aimpoint_red_marker.png
+		    markerImageStandardPartner = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/aimpoint_black_marker.png
 		}
 		showAllCountriesOption = 1
 	}

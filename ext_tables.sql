@@ -25,6 +25,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	lat_lng_is_set tinyint(1) DEFAULT '0' NOT NULL,
 	product_areas int(11) unsigned DEFAULT '0' NOT NULL,
 	logo text NOT NULL,
+	partner_type int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
