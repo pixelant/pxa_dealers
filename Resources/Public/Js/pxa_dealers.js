@@ -589,7 +589,7 @@ function PxaDealers() {
     self.updateAll = function(dealers) {
         self.clearMap();
         self.updateMap(dealers);
-        self.updateCards(dealers);
+        self.updateCardsIsotope(dealers);
     }
 
     // Update map
@@ -672,6 +672,44 @@ function PxaDealers() {
         });
     }
 
+
+    self.updateCardsIsotope = function(dealers) {
+
+        var dealerUids = [];
+
+        $.each(dealers, function (index, dealer) {
+            dealerUids.push( parseInt(dealer.uid) );
+        });
+
+        $("#pxa-dealers-list-container").isotope({
+                                                     filter: function() {
+                                                         var uid = $(this).data("uid");
+
+                                                         if( dealerUids.indexOf(uid) !== -1 ) {
+                                                             return true;
+                                                         } else {
+                                                             return false;
+                                                         }
+                                                     },
+                                                     sortBy : 'name'
+                                                 });
+
+
+
+        if(dealers.length == 0) {
+            var dealersHeader = self.labels.notDealersFoundFilteringMessage;
+        } else {
+            var dealersHeader = dealers.length + " " + self.labels.dealers_found;
+        }
+
+        $("#dealers-header").addClass("hidden-dealers-header");
+        $(".dealers-header").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd',
+                           function() {
+                               $("#dealers-header").html(dealersHeader);
+                               $("#dealers-header").removeClass("hidden-dealers-header");
+                           });
+    }
+
 }
 
 function checkLocation() {
@@ -751,6 +789,18 @@ function populateCountryZones(country) {
 if (typeof pxa_dealers_enabled != 'undefined') {
 
     $( document ).ready(function() {
+
+        // ISOTOPE TEST
+
+        $("#pxa-dealers-list-container").isotope({
+                                                     itemSelector: '.isotope-item',
+                                                     layoutMode: 'fitRows',
+                                                     getSortData: {
+                                                         name: '[data-name]'
+                                                     }
+                                                 });
+
+        //
 
         pxa_dealers.allDealersList = $(".pxa-dealers-list-container .dealer-item").clone();
         pxa_dealers.originalDealersHeader = $("#dealers-header-original").html();

@@ -14,3 +14,16 @@
 .pxa-dealers > .categories .category-item{
 	list-style-type: none;
 }
+
+.tx-pxa-dealers .dealers-header{
+	visibility:visible;
+	opacity:1;
+	transition-delay:0s;
+	transition:visibility 0s ease-in 0.1s,opacity 0.1s ease-in;
+}
+
+.tx-pxa-dealers .dealers-header.hidden-dealers-header{
+	visibility:hidden;
+	opacity:0;
+}
+

@@ -24,35 +24,24 @@ Otherwise your changes will be overwritten the next time you save the extension 
           var pxa_dealers_enabled = 1;
           var initialSearchValue = "<f:format.raw>{searchValue}</f:format.raw>";
           var settings = <v:format.json.encode value="{settings}" useTraversableKeys="0" preventRecursion="1" />
-          //var enDealers = <v:format.json.encode value="{dealers}" useTraversableKeys="0" preventRecursion="1" />
-          var noResultsFoundLabel = "{f:translate(key: 'notDealersFoundFilteringMessage')}";
           var countriesList = <f:format.raw>{countriesList}</f:format.raw>
           var labels = [];
           labels['country_list.all_country_zones'] = '<f:translate key="country_list.all_country_zones" />';
+		  labels['dealers_found'] = '<f:translate key="dealers_found" />';
+		  labels['notDealersFoundFilteringMessage'] = '<f:translate key="notDealersFoundFilteringMessage" />';
         </script>
       <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
-      <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>
+      <h2 class="dealers-header" id="dealers-header">{dealers -> f:count()} <f:translate key="dealers_found" /></h2>
 
-      <div class="pxa-dealers-list-container">
+      <div class="pxa-dealers-list-container" id="pxa-dealers-list-container">
 
+		  <f:comment>
         <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
+		  </f:comment>
 
           <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
-            <f:comment>
-
-            <f:if condition="{settings.newRow}">
-
-              <f:if condition="<pxa:isNewRow current=\"{itemIterationDealers.index}\" needed=\"{settings.newRow}\"/>">
-                </div>
-                <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
-              </f:if>
-
-            </f:if>
-
-            </f:comment>
-
-            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-name="{dealer.name}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
 
               <b class="dealer-name">{dealer.name}</b>
               <f:if condition="{settings.showLogo}">
@@ -90,8 +79,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </div>
 
           </f:for>
-
+		  <f:comment>
         </div>
+		</f:comment>
       </div>
     </f:then>
     <f:else>

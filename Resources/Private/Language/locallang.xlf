@@ -121,6 +121,10 @@
 			<trans-unit id="find_closest.button_caption">
 				<source>Find closest</source>
 			</trans-unit>
+
+			<trans-unit id="dealers_found">
+                <source>dealers found</source>
+            </trans-unit>
 			
 		</body>
 	</file>
