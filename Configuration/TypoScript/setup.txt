@@ -36,6 +36,8 @@ plugin.tx_pxadealers {
             markerImageStandardPartner = {$plugin.tx_pxadealers.settings.map.markerImageStandardPartner}
 		}
 
+		flagsPath = {$plugin.tx_pxadealers.settings.flagsPath}
+
 		countryNameIso3Mapping {
 			canada = can
 			usa = usa

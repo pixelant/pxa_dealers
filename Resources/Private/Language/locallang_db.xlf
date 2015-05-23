@@ -141,6 +141,13 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.standard">
 				<source>Standard</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.country_wide">
+				<source>Country wide</source>
+			</trans-unit>
+
+            <trans-unit id="flexform.showCountryWide">
+                <source>Show country wide dealers</source>
+            </trans-unit>
 
 		</body>
 	</file>

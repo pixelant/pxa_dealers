@@ -21,6 +21,7 @@ plugin.tx_pxadealers {
 		    markerImagePremiumPartner = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/aimpoint_red_marker.png
 		    markerImageStandardPartner = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/aimpoint_black_marker.png
 		}
+		flagsPath = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/Flags
 		showAllCountriesOption = 1
 	}
 }

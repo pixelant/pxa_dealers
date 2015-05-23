@@ -63,14 +63,21 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$args = $this->request->getArguments();
 
-		$dealers = $this->checkDealers( $this->dealersRepository->findAll() );
+		$regularDealers = $this->dealersRepository->findByCountryWide(0);
+		$regularDealers = $this->checkDealers( $regularDealers );
+
+		if( $this->settings['showCountryWide'] == 1) {
+			$allDealers = $this->dealersRepository->findAll();
+		} else {
+			$allDealers = $regularDealers;
+		}
 
 		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
 		$this->view->assign('countriesList', $this->getCountriesListJSON());
 		$this->view->assign('searchValue', $searchValue);
-		$this->view->assign('dealersJson', $this->generateJSOfDealers($dealers));
-		$this->view->assign('dealers',$dealers);
+		$this->view->assign('dealersJson', $this->generateJSOfDealers( $regularDealers ));
+		$this->view->assign('dealers', $allDealers);
 	}
 
 	/**

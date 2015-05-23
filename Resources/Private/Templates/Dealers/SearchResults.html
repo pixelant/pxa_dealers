@@ -20,7 +20,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			<f:then>
 				<div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
 				<script type="text/javascript">
-					var dealers = <f:format.raw>{dealersJson}</f:format.raw>
+					var dealers = <f:format.raw>{dealersJson}</f:format.raw>;
 					var pxa_dealers_enabled = 1;
 					var initialSearchValue = "<f:format.raw>{searchValue}</f:format.raw>";
 					var settings = <v:format.json.encode value="{settings}" useTraversableKeys="0" preventRecursion="1" />
@@ -41,7 +41,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 					<f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
-						<div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-name="{dealer.name}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+						<div  id="dealer-{itemIterationDealers.index}"
+							  class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}"
+							  data-name="{dealer.name}" data-uid="{dealer.uid}"
+							  data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}"
+							  data-country-wide="{dealer.countryWide}"
+							  data-country-uid="{dealer.countryUid}"
+								>
 
 							<f:if condition="{settings.showLogo}">
 								<f:if condition="{dealer.partnerType} == 1">
@@ -59,12 +65,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 							</f:if>
 
 							<div class="dealer-marker-indicator">
-								<f:if condition="{dealer.partnerType} == 0">
-									<f:image src="{settings.map.markerImageStandardPartner}" alt="premium partner" />
-								</f:if>
-								<f:if condition="{dealer.partnerType} == 1">
-									<f:image src="{settings.map.markerImagePremiumPartner}" alt="premium partner" />
-								</f:if>
+								<f:image src="{pxa:dealerMarkerIndicator(dealer: dealer, settings: settings)}"
+										 alt="dealer type icon" />
 							</div>
 
 							<div class="dealer-card-info">

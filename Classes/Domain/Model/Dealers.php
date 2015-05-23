@@ -169,6 +169,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $partnerType = 0;
 
 	/**
+	 * countryWide
+	 *
+	 * @var \integer $countryWide
+	 */
+	protected $countryWide = '';
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -665,6 +672,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPartnerType($partnerType) {
 		$this->partnerType = $partnerType;
+	}
+
+	/**
+	 * Returns the countryWide
+	 *
+	 * @return \integer $countryWide
+	 */
+	public function getCountryWide() {
+		return $this->countryWide;
+	}
+
+	/**
+	 * Sets the countryWide
+	 *
+	 * @param \integer $countryWide
+	 * @return void
+	 */
+	public function setCountryWide($countryWide) {
+		$this->countryWide = $countryWide;
 	}
 
 }

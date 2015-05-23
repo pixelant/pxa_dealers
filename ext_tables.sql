@@ -26,6 +26,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	product_areas int(11) unsigned DEFAULT '0' NOT NULL,
 	logo text NOT NULL,
 	partner_type int(11) DEFAULT '0' NOT NULL,
+	country_wide int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

@@ -694,15 +694,43 @@ function PxaDealers() {
             dealerUids.push( parseInt(dealer.uid) );
         });
 
+        var counter = 0;
+
         $("#pxa-dealers-list-container").isotope({
                                                      filter: function() {
                                                          var uid = $(this).data("uid");
+                                                         var isOk = []
 
+                                                         // Dealers
                                                          if( dealerUids.indexOf(uid) !== -1 ) {
+                                                             counter++;
+                                                             isOk.push( true );
+                                                         } else {
+                                                             isOk.push( false );
+                                                         }
+
+                                                         // Country wide
+                                                         if ( self.pluginSettings['showCountryWide'] == 1 ) {
+
+                                                             var countryWide = $(this).data("country-wide");
+                                                             var countryUid = $(this).data("country-uid");
+
+                                                             if( countryWide == 1 &&
+                                                                 ( countryUid == self.selectedCountry || self.selectedCountry == 0) ) {
+                                                                 counter++;
+                                                                 isOk.push( true );
+                                                             } else {
+                                                                 isOk.push( false );
+                                                             }
+
+                                                         }
+
+                                                         if( isOk.indexOf(true) !== -1) {
                                                              return true;
                                                          } else {
                                                              return false;
                                                          }
+
                                                      },
                                                      sortBy : 'name'
                                                  });
@@ -712,7 +740,7 @@ function PxaDealers() {
         if(dealers.length == 0) {
             var dealersHeader = self.labels.notDealersFoundFilteringMessage;
         } else {
-            var dealersHeader = dealers.length + " " + self.labels.dealers_found;
+            var dealersHeader = counter + " " + self.labels.dealers_found;
         }
 
         $("#dealers-header").addClass("hidden-dealers-header");
