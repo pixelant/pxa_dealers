@@ -641,5 +641,15 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return 0;
 	}
 
+	/**
+	 * Set sys language
+	 *
+	 * @param int $sysLanguageUid
+	 * @return void
+	 */
+	public function setSysLanguageUid($sysLanguageUid) {
+		$this->_languageUid = $sysLanguageUid;
+	}
+
 }
 ?>

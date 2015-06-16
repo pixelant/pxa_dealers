@@ -3,6 +3,7 @@ var markerclusterer;
 var originalDealersHeader;
 var allDealersListItems;
 var countriesList;
+var hideAll = true;
 
 var FB_COUNTRY = 0;
 var FB_STATE = 1;
@@ -75,11 +76,6 @@ function runAjax(position) {
       $(".pxa-dealers .dealer-cityzip-search").val("");
       $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
       $(".pxa-dealers .dealer-country-states").val($(".pxa-dealers .dealer-country-states option:first").val());
-      //$('#ajax-load-dealer .pre-loader').remove();
-      //$('#ajax-load-dealer .dealers-header.after-load').show();
-      //$('#ajax-load-dealer').append(data.html);
-      //console.log(data);
-      //console.log("vse horosho");
       filterMarkers( allDealersListItems,
           $(".pxa-dealers .dealer-countries").val(),
           $(".pxa-dealers .dealer-country-states").val(),
@@ -168,8 +164,6 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 
 function findClosest(position) {
 
-  //console.log("closest");
-
   if( typeof(position)==='undefined') {
     positionLat = '51.165691';
     positionLong = "10.451526";
@@ -203,7 +197,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
   if( typeof(doMarkersFilter)==='undefined') doMarkersFilter = true;
 
-  var bounds = new google.maps.LatLngBounds();       
+  var bounds = new google.maps.LatLngBounds();
   var infowindow = new google.maps.InfoWindow();       
                  
   var mapOptions = {
@@ -245,7 +239,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
   for (i = 0;  i < markers.length; i++) {
 
-    if((markers[i]['lat'] != '') && (markers[i]['lng'] != '')) {
+    if((markers[i]['lat'] != '') && (markers[i]['lng'] != '') && markers[i]['address'] != '') {
 
       var pos = new google.maps.LatLng(markers[i]['lat'],markers[i]['lng']);
 
@@ -258,6 +252,14 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
         bounds.extend(pos);
       });
+
+      // Do not show markers when page opened the first time
+      if(hideAll == true) {
+        markersArray[markers[i]['uid']].setVisible(false);
+        if (settings.clusterMarkers == 1) {
+          markerclusterer.removeMarker(markersArray[markers[i]['uid']], true);
+        }
+      }
 
       markersProcessed.push(markers[i]);
 
@@ -274,8 +276,18 @@ function initializeMapPxaDealers(doMarkersFilter) {
           google.maps.event.removeListener(listener); 
       });                            
   } else {
-    map.fitBounds(bounds);
-      map.setCenter(bounds.getCenter()); 
+    if(hideAll) {
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( { 'address': "Italy"}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          map.fitBounds(results[0].geometry.viewport);
+        }
+      });
+    } else {
+      map.fitBounds(bounds);
+      map.setCenter(bounds.getCenter());
+    }
   }
 
   var filterOn = FB_MARKERS;
@@ -285,8 +297,8 @@ function initializeMapPxaDealers(doMarkersFilter) {
   }
 
   if(doMarkersFilter === true) {
-    filterMarkers( allDealersListItems, 
-        $(".pxa-dealers .dealer-countries").val(), 
+    filterMarkers( allDealersListItems,
+        $(".pxa-dealers .dealer-countries").val(),
         $(".pxa-dealers .dealer-country-states").val(),
         $(".pxa-dealers .dealer-cityzip-search").val(),
         filterOn);
@@ -437,8 +449,8 @@ function dealersFitLocation(markers, type) {
           google.maps.event.removeListener(listener); 
       });                            
     } else {
-      map.fitBounds(bounds);
-      map.setCenter(bounds.getCenter());
+        map.fitBounds(bounds);
+        map.setCenter(bounds.getCenter());
     }
 
     return true;
@@ -535,6 +547,9 @@ function belongsToList(marker, list) {
 
 function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZone, searchString, fitBoundsType, extendedZipSearch, prefilteredList) {
 
+  hideAll = false;
+  $(".pxa-dealers-list-container").removeClass("hidden");
+
     var allDealersListItemsCopy = $(allDealersListItems).clone();
 
     var filteredDealers = [];
@@ -562,11 +577,13 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
         isOk.push( containsSearchString(marker, searchString) );
       }
 
-      console.log( belongsToList(marker, prefilteredList) );
-
       if( prefilteredList !== undefined && prefilteredList.length > 0 ) {
         isOk.push( belongsToList(marker, prefilteredList) );
       }
+
+      //if(hideAll) {
+      //  isOk.push( false );
+      //}
 
       if( $.inArray(false, isOk) === -1 ) {
 
@@ -590,7 +607,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
     });
 
-    if(extendedZipSearch === true) {
+    if(extendedZipSearch === true && /\d+/.test(searchString)) {
       var zipLimit = 10;
 
       if(filteredDealers <= zipLimit) {
@@ -654,7 +671,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
       $(".dealers-header").fadeToggle( "fast", "linear", function() {
         if(enabledDealersListItems.length <= 0) {
-          $(".dealers-header").text(noResultsFoundLabel);
+            $(".dealers-header").text(noResultsFoundLabel);
         } else {
           $(".dealers-header").html(originalDealersHeader);
           $(".dealers-header #dealers-count").html(enabledDealersListItems.length);
@@ -701,7 +718,13 @@ $( document ).ready(function() {
   }
 
   allDealersListItems = $(".pxa-dealers-list-container .dealer-item").clone();
-  initializeMapPxaDealers(true);
+
+  if(hideAll == true) {
+    $(".dealers-header").text(labels['message.searchForSomething']);
+    $(".dealers-header").removeClass("hidden");
+  }
+
+  initializeMapPxaDealers(!hideAll);
 
   // Show google street view
   $(document).on('click', '.street-switch-trigger', function(event) {

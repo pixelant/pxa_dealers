@@ -201,7 +201,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             		"', country: '".$dealer->getCountryUid().
 					"', countryName: '".$countryName.
             		"', countryZone: '".$countryZoneUid.
-            		"', countryZoneName: '".$dealer->getCountryZoneName().
+            		"', countryZoneName: '".addslashes(htmlspecialchars($dealer->getCountryZoneName())).
             		"', countryZoneIsoCode: '".$dealer->getCountryZoneIsoCode().
             		($amountOfDealers == $countStep ? "'}" : "'},");
 

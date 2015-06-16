@@ -29,11 +29,16 @@ Otherwise your changes will be overwritten the next time you save the extension 
           var countriesList = <f:format.raw>{countriesList}</f:format.raw>
           var labels = [];
           labels['country_list.all_country_zones'] = '<f:translate key="country_list.all_country_zones" />';
+          labels['message.searchForSomething'] = '<f:translate key="message.searchForSomething" />';
         </script>
       <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
-      <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>
+      <f:comment>
+        <h2 class="dealers-header"><f:translate key="message.searchForSomething"</h2>
+      </f:comment>
+      <h2 class="dealers-header hidden"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></h2>
 
-      <div class="pxa-dealers-list-container">
+
+      <div class="pxa-dealers-list-container hidden">
 
         <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
 

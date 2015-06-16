@@ -121,6 +121,10 @@
 			<trans-unit id="find_closest.button_caption">
 				<source>Find closest</source>
 			</trans-unit>
+
+			<trans-unit id="message.searchForSomething">
+				<source>Please search for city/zip to see the results.</source>
+			</trans-unit>
 			
 		</body>
 	</file>

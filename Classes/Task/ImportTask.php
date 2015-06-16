@@ -130,13 +130,13 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
           $new_dealer_rec = $this->objectManager->get("PXA\PxaDealers\Domain\Model\Dealers");
 
           // Name
-          $new_dealer_rec->setName( trim($data[$i][0]) );
+          $new_dealer_rec->setName( htmlspecialchars(trim($data[$i][0])) );
 
           // Address
-          $new_dealer_rec->setAdrress( trim($data[$i][1]) );
+          $new_dealer_rec->setAdrress( htmlspecialchars(trim($data[$i][1])) );
 
           // City
-          $new_dealer_rec->setCity( trim($data[$i][2]) );
+          $new_dealer_rec->setCity( htmlspecialchars(trim($data[$i][2])) );
 
           // Zip
           $new_dealer_rec->setZipcode( trim($data[$i][3]) );
@@ -185,7 +185,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
           }
 
           // Phone
-          $new_dealer_rec->setTelephone( trim($data[$i][5]) );
+          $new_dealer_rec->setTelephone( htmlspecialchars(trim($data[$i][5])) );
 
           // Lat and lng
           $position = array_map( 'trim', explode(',', $data[$i][6]) );
@@ -204,15 +204,21 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
           // Page id
           $new_dealer_rec->setPid($this->records_storage_pid);
 
+	      // HARDCODED for now (should be moved to additional fields)
+	      $new_dealer_rec->setSysLanguageUid(7);
+
           // Set storage
           $defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
           $defaultQuerySettings->setRespectStoragePage(false);
           $defaultQuerySettings->setStoragePageIds(array($this->records_storage_pid));
+          $defaultQuerySettings->setSysLanguageUid(7);
           $this->dealersRepository->setDefaultQuerySettings($defaultQuerySettings);
 
           $exsistedDealers = $this->dealersRepository->findByNameAndPosition($new_dealer_rec->getName(), $new_dealer_rec->getLat(), $new_dealer_rec->getLng());
 
-          if($exsistedDealers->count() <= 0) {
+	$trimmedAddress = trim($data[$i][1]);
+
+          if($exsistedDealers->count() <= 0 && !empty($trimmedAddress) ) {
             // Add to repo
             $this->dealersRepository->add($new_dealer_rec);
           }
