@@ -63,6 +63,9 @@ class DealerMarkerIndicatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 			if( $dealer->getPartnerType() == 1 ) {
 				return $settings['map']['markerImagePremiumPartner'];
 			}
+			if( $dealer->getPartnerType() == 2 ) {
+				return $settings['map']['markerImageCommercialPartner'];
+			}
 		}
 
 		return "";

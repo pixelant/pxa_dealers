@@ -148,6 +148,9 @@
             <trans-unit id="flexform.showCountryWide">
                 <source>Show country wide dealers</source>
             </trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.commercial">
+				<source>Commercial</source>
+			</trans-unit>
 
 		</body>
 	</file>

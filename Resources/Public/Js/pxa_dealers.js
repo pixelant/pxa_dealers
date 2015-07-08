@@ -174,6 +174,8 @@ function PxaDealers() {
             markerIcon = self.pluginSettings.map.markerImageStandardPartner;
         } else if( dealer['partnerType'] == 1 ) {
             markerIcon = self.pluginSettings.map.markerImagePremiumPartner;
+        } else if( dealer['partnerType'] == 2 ) {
+            markerIcon = self.pluginSettings.map.markerImageCommercialPartner;
         }
 
         var pos = new google.maps.LatLng( dealer['lat'], dealer['lng'] );

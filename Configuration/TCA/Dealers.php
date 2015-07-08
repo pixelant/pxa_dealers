@@ -279,6 +279,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 						'items' => array(
 								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.standard', 0),
 								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.premium', 1),
+								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.commercial', 2),
 						),
 						'size' => 1,
 						'maxitems' => 1,
