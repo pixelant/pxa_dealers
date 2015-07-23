@@ -2,7 +2,6 @@ if( $(".tx-pxa-dealers").length > 0 ) {
 
 var countriesList;
 
-var pxa_dealers = new PxaDealers();
 
 var FB_COUNTRY = 0;
 var FB_STATE = 1;
@@ -972,5 +971,5 @@ if (typeof pxa_dealers_enabled != 'undefined') {
     });
 
 }
-
+var pxa_dealers = new PxaDealers();
 }
