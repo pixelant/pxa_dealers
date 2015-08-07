@@ -221,8 +221,9 @@ function PxaDealers() {
             var website = '';
         }
 
-        var fax = dealer['fax'] ? "<br/><a href=\"tel:" + dealer['fax_clear'] +
-                                        "\">Fax: " + dealer['fax'] + "</a>": '';
+        //var fax = dealer['fax'] ? "<br/><a href=\"tel:" + dealer['fax_clear'] +
+        //                                "\">Fax: " + dealer['fax'] + "</a>": '';
+        var fax = dealer['fax'] ? "<br/><span>Fax: " + dealer['fax'] + "</span>": '';
 
         var imageStreetPreviewContent = '<td><div class="image-street-preview">';
         imageStreetPreviewContent += '<a href="#streetview" data-marker-id="' + dealer['uid']

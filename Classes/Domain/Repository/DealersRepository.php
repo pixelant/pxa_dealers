@@ -119,7 +119,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
   			if( isset($settings['nameCountryMapping'][$uid]) ) {
 				$countryName = $settings['nameCountryMapping'][$uid];
   			} else {
-  				$countryName =$country->getShortNameLocal();
+  				$countryName =$country->getShortNameEn();
   			}
 
   			$results[$uid] = $countryName;
