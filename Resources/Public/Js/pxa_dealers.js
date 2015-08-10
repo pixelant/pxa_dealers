@@ -248,7 +248,9 @@ function PxaDealers() {
         infowindowCont += fax;
         infowindowCont += email;
         infowindowCont += website;
-        infowindowCont += imageStreetPreviewContent;
+        if( typeof dealer['showStreetView'] != 'undefined' && dealer['showStreetView'] == 1 ) {
+            infowindowCont += imageStreetPreviewContent;
+        }
         infowindowCont += "</div></tr></table>";
 
         var marker = new google.maps.Marker({

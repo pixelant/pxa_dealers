@@ -158,6 +158,9 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.address_part_2">
 				<source>Address (part 2)</source>
 			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.show_street_view">
+				<source>Show street view for this dealer</source>
+			</trans-unit>
 
 		</body>
 	</file>
