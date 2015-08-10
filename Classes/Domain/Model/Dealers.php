@@ -162,6 +162,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $categories = NULL;
 
 	/**
+	 * showStreetView
+	 *
+	 * @var \boolean $showStreetView
+	 */
+	protected $showStreetView = 1;
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -641,5 +648,23 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		return 0;
 	}
 
+	/**
+	 * Returns the showStreetView
+	 *
+	 * @return \boolean $showStreetView
+	 */
+	public function getShowStreetView() {
+		return $this->showStreetView;
+	}
+
+	/**
+	 * Sets the showStreetView
+	 *
+	 * @param \boolean $showStreetView
+	 * @return void
+	 */
+	public function setShowStreetView($showStreetView) {
+		$this->showStreetView = $showStreetView;
+	}
 }
 ?>

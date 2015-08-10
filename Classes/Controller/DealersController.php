@@ -109,7 +109,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				"countryName" => $countryName,
 				"countryZone" => (string)$countryZoneUid,
 				"countryZoneName" => $dealer->getCountryZoneName(),
-				"countryZoneIsoCode" => $dealer->getCountryZoneIsoCode()
+				"countryZoneIsoCode" => $dealer->getCountryZoneIsoCode(),
+				"showStreetView" => $dealer->getShowStreetView()
 			);
 		}
 
