@@ -201,6 +201,8 @@ function PxaDealers() {
         var pos = new google.maps.LatLng( dealer['lat'], dealer['lng'] );
 
         var address = dealer['address'] ? '<br/>' + dealer['address'] : '';
+        var address1 = dealer['addressPart1'] ? '<br/>' + dealer['addressPart1'] : '';
+        var address2 = dealer['addressPart2'] ? '<br/>' + dealer['addressPart2'] : '';
         var zipcode = dealer['zipcode'] ? '<br/>' + dealer['zipcode'] : '';
         var city = dealer['city'] ? '<br/>' + dealer['city'] : '';
         var countryName = dealer['countryName'] ? '<br/><b>' + dealer['countryName'] + '</b>' : '';
@@ -237,7 +239,8 @@ function PxaDealers() {
         var infowindowCont = "<div class=\"google-map-marker\">";
         infowindowCont += "<table><tr><td>";
         infowindowCont += "<strong>" + dealer['name']+"</strong>";
-        infowindowCont += address;
+        infowindowCont += address1;
+        infowindowCont += address2;
         infowindowCont += zipcode;
         infowindowCont += city;
         infowindowCont += countryName;

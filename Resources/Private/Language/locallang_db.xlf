@@ -152,6 +152,13 @@
 				<source>Commercial</source>
 			</trans-unit>
 
+			<trans-unit id="tx_pxadealers_domain_model_dealers.address_part_1">
+				<source>Address (part 1)</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.address_part_2">
+				<source>Address (part 2)</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

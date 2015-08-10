@@ -1,8 +1,6 @@
 <?php
 namespace PXA\PxaDealers\Domain\Model;
 
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -92,7 +90,6 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Adrress for google maps
 	 *
 	 * @var \string
-	 * @validate NotEmpty
 	 */
 	protected $adrress;
 
@@ -174,6 +171,20 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @var \integer $countryWide
 	 */
 	protected $countryWide = '';
+
+	/**
+	 * addressPart1
+	 *
+	 * @var \string $addressPart1
+	 */
+	protected $addressPart1 = '';
+
+	/**
+	 * addressPart2
+	 *
+	 * @var \string $addressPart2
+	 */
+	protected $addressPart2 = '';
 
 	/**
 	 * __construct
@@ -335,7 +346,12 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * @return \string $adrress
 	 */
 	public function getAdrress() {
-		return $this->adrress;
+
+		$addressParts = [];
+		$addressParts[] = trim( $this->getAddressPart1() );
+		$addressParts[] = trim( $this->getAddressPart2() );
+
+		return implode(" ", $addressParts);
 	}
 
 	/**
@@ -691,6 +707,44 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setCountryWide($countryWide) {
 		$this->countryWide = $countryWide;
+	}
+
+	/**
+	 * Returns the addressPart1
+	 *
+	 * @return \string $addressPart1
+	 */
+	public function getAddressPart1() {
+		return $this->addressPart1;
+	}
+
+	/**
+	 * Sets the addressPart1
+	 *
+	 * @param \string $addressPart1
+	 * @return void
+	 */
+	public function setAddressPart1($addressPart1) {
+		$this->addressPart1 = $addressPart1;
+	}
+
+	/**
+	 * Returns the addressPart2
+	 *
+	 * @return \string $addressPart2
+	 */
+	public function getAddressPart2() {
+		return $this->addressPart2;
+	}
+
+	/**
+	 * Sets the addressPart2
+	 *
+	 * @param \string $addressPart2
+	 * @return void
+	 */
+	public function setAddressPart2($addressPart2) {
+		$this->addressPart2 = $addressPart2;
 	}
 
 }
