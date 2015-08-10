@@ -203,6 +203,7 @@ function PxaDealers() {
         var address = dealer['address'] ? '<br/>' + dealer['address'] : '';
         var zipcode = dealer['zipcode'] ? '<br/>' + dealer['zipcode'] : '';
         var city = dealer['city'] ? '<br/>' + dealer['city'] : '';
+        var countryName = dealer['countryName'] ? '<br/><b>' + dealer['countryName'] + '</b>' : '';
 
         var telephone= dealer['telephone'] ? "<br/><a href=\"tel:" + dealer['telephone_clear'] +
                                              "\">Phone: " + dealer['telephone'] + "</a>": '';
@@ -239,6 +240,7 @@ function PxaDealers() {
         infowindowCont += address;
         infowindowCont += zipcode;
         infowindowCont += city;
+        infowindowCont += countryName;
         infowindowCont += telephone;
         infowindowCont += fax;
         infowindowCont += email;
