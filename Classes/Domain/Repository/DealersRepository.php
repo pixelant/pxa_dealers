@@ -326,9 +326,11 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param string $lng
 	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
 	 */
-	public function findByNameAndPosition($name, $lat, $lng) {
+	public function findByNameAndPosition($name, $lat, $lng, $pid) {
 
 		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectStoragePage(true);
+		$query->getQuerySettings()->setStoragePageIds(array($pid));
 
 		$query->matching(
 			$query->logicalAnd(

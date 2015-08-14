@@ -72,32 +72,18 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 				$taskInfo['records_storage_pid'] = '';
 			}
 		}
-
-
-		if (empty($taskInfo['records_per_run_limit'])) {
-			if ($parentObject->CMD == 'add') {
-				// In case of new task and if field is empty, set default storage pid
-				$taskInfo['records_per_run_limit'] = 100;
-			} elseif ($parentObject->CMD == 'edit') {
-				// In case of edit, and editing a test task, set to internal value if not data was submitted already
-				$taskInfo['records_per_run_limit'] = $task->records_per_run_limit;
-			} else {
-				// Otherwise set an empty value, as it will not be used anyway
-				$taskInfo['records_per_run_limit'] = '';
-			}
-		}
 		
-		// filepath for .csv file
-		if (empty($taskInfo['file_path'])) {
+		// folder_path for .csv files
+		if (empty($taskInfo['folder_path'])) {
 			if ($parentObject->CMD == 'add') {
 				// In case of new task and if field is empty, set default path and file name
-				$taskInfo['file_path'] = "fileadmin/source.csv";
+				$taskInfo['folder_path'] = "fileadmin/dealers_import";
 			} elseif ($parentObject->CMD == 'edit') {
 				// In case of edit, and editing a test task, set to internal value if not data was submitted already
-				$taskInfo['file_path'] = $task->file_path;
+				$taskInfo['folder_path'] = $task->folder_path;
 			} else {
 				// Otherwise set an empty value, as it will not be used anyway
-				$taskInfo['file_path'] = '';
+				$taskInfo['folder_path'] = '';
 			}
 		}
 
@@ -119,10 +105,38 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 			}
 		}
 
+		// Force import
+		if (empty($taskInfo['force_import'])) {
+			if ($parentObject->CMD == 'add') {
+				// In case of new task and if field is empty, set default force_import
+				$taskInfo['force_import'] = 0;
+			} elseif ($parentObject->CMD == 'edit') {
+				// In case of edit, and editing a test task, set to internal value if not data was submitted already
+				$taskInfo['force_import'] = $task->force_import;
+			} else {
+				// Otherwise set an empty value, as it will not be used anyway
+				$taskInfo['force_import'] = 0;
+			}
+		}
+
+		if (empty($taskInfo['record_syslang_uid'])) {
+			if ($parentObject->CMD == 'add') {
+				// In case of new task and if field is empty, set default record_syslang_uid
+				$taskInfo['record_syslang_uid'] = 0;
+			} elseif ($parentObject->CMD == 'edit') {
+				// In case of edit, and editing a test task, set to internal value if not data was submitted already
+				$taskInfo['record_syslang_uid'] = $task->record_syslang_uid;
+			} else {
+				// Otherwise set an empty value, as it will not be used anyway
+				$taskInfo['record_syslang_uid'] = 0;
+			}
+		}
+
 		// Write the code for the field
 
 		$additionalFields = array();
 
+		// Storage pid
 		$fieldID = 'task_records_storage_pid';
 		$fieldCode = '<input type="text" name="tx_scheduler[records_storage_pid]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['records_storage_pid']) . '" size="30" />';
 
@@ -134,37 +148,56 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 			'cshLabel' => $fieldID
 		);
 
-		$fieldID = 'task_records_per_run_limit';
-		$fieldCode = '<input type="text" name="tx_scheduler[records_per_run_limit]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['records_per_run_limit']) . '" size="30" />';
+		// Folder path
+		$fieldID = 'folder_path';
+		$fieldCode = '<input type="text" name="tx_scheduler[folder_path]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['folder_path']) . '" size="50" />';
 		
 		$additionalFields[$fieldID] = array(
 			'code' => $fieldCode,
 			// TODO change hardcoded label to LLL
-			'label' => 'Records per run',
-			'cshKey' => '_MOD_tools_txschedulerM1',
-			'cshLabel' => $fieldID
-		);
-		
-		$fieldID = 'file_path';
-		$fieldCode = '<input type="text" name="tx_scheduler[file_path]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['file_path']) . '" size="50" />';
-		
-		$additionalFields[$fieldID] = array(
-			'code' => $fieldCode,
-			// TODO change hardcoded label to LLL
-			'label' => 'File path to imported file',
+			'label' => 'Folder path to imported files from',
 			'cshKey' => '_MOD_tools_txschedulerM1',
 			'cshLabel' => $fieldID
 		);
 
+		// Country
 		$fieldID = 'country';
 		$fieldCode = '<input type="text" name="tx_scheduler[country]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['country']) . '" size="50" />';
 
 		$additionalFields[$fieldID] = array(
 			'code' => $fieldCode,
 			// TODO change hardcoded label to LLL
-			'label' => 'Default country',
+			'label' => 'Default country ( ISO3 )',
 			'cshKey' => '_MOD_tools_txschedulerM1',
 			'cshLabel' => $fieldID
+		);
+
+		// Force import
+		$fieldID = 'force_import';
+		$fieldCode = '<input type="checkbox" name="tx_scheduler[force_import]" id="' . $fieldID
+				. '" value="1"' . ($taskInfo['force_import'] == 1 ? ' checked="checked"' : '') .'/>';
+
+		$additionalFields[$fieldID] = array(
+				'code' => $fieldCode,
+			// TODO change hardcoded label to LLL
+				'label' => 'Force import',
+				'cshKey' => '_MOD_tools_txschedulerM1',
+				'cshLabel' => $fieldID
+		);
+
+		// Records sys language
+		if(is_null($taskInfo['record_syslang_uid'])) {
+			$taskInfo['record_syslang_uid'] = 0;
+		}
+		$fieldID = 'record_syslang_uid';
+		$fieldCode = '<input type="text" name="tx_scheduler[record_syslang_uid]" id="' . $fieldID . '" value="' . htmlspecialchars($taskInfo['record_syslang_uid']) . '" size="30" />';
+
+		$additionalFields[$fieldID] = array(
+				'code' => $fieldCode,
+			// TODO change hardcoded label to LLL
+				'label' => 'Records system language uid',
+				'cshKey' => '_MOD_tools_txschedulerM1',
+				'cshLabel' => $fieldID
 		);
 
 		return $additionalFields;
@@ -192,32 +225,16 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 		} else {
 			$result = TRUE;
 		}
-
-		$submittedData['records_per_run_limit'] = trim($submittedData['records_per_run_limit']);
-		if (empty($submittedData['records_per_run_limit'])) {
+		
+		$submittedData['folder_path'] = trim($submittedData['folder_path']);
+		if (empty($submittedData['folder_path'])) {
 			// TODO change hardcoded message to LLL
-			$parentObject->addMessage($GLOBALS['LANG']->sL('Please fill out the "Records per run" field'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
-			$result = FALSE;
-		} elseif( !is_numeric($submittedData['records_per_run_limit']) ) {
-			// TODO change hardcoded message to LLL
-			$parentObject->addMessage($GLOBALS['LANG']->sL('"Records per run" field has to be numeric'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
-			$result = FALSE;
-		} else {
-			$result = TRUE;
+			$submittedData['folder_path'] = "fileadmin/dealers_import";
 		}
 		
-		$submittedData['file_path'] = trim($submittedData['file_path']);
-		if (empty($submittedData['file_path'])) {
+		if( !file_exists( PATH_site.$submittedData['folder_path']) ) {
 			// TODO change hardcoded message to LLL
-			$submittedData['file_path'] = "fileadmin/user_upload/ftp_upload/sms_hmab.csv";
-		}
-		
-		if( !is_file( PATH_site.$submittedData['file_path']) ) {
-			// TODO change hardcoded message to LLL
-			$parentObject->addMessage($GLOBALS['LANG']->sL('Imported file doesn\'t exist'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
-			$result = FALSE;
-		} elseif ( strpos($submittedData['file_path'], '.csv') === FALSE ) {
-			$parentObject->addMessage($GLOBALS['LANG']->sL('Imported file has wrong format'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+			$parentObject->addMessage($GLOBALS['LANG']->sL('Import folder doesn\'t exist'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 			$result = FALSE;
 		} else {
 			$result = TRUE;
@@ -234,6 +251,20 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 			}
 		}
 
+		if( empty($submittedData['force_import']) ) {
+			$submittedData['force_import'] = 0;
+		}
+
+		if( !is_numeric($submittedData['record_syslang_uid']) ) {
+			// TODO change hardcoded message to LLL
+			$parentObject->addMessage($GLOBALS['LANG']->sL('"Records system language uid" field has to be numeric'), \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+			$result = FALSE;
+		} else {
+			$result = TRUE;
+		}
+
+		$submittedData['record_syslang_uid'] = intval($submittedData['record_syslang_uid']);
+
 		return $result;
 	}
 
@@ -248,8 +279,9 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 	public function saveAdditionalFields(array $submittedData, \TYPO3\CMS\Scheduler\Task\AbstractTask $task) {
 
 		$task->records_storage_pid = $submittedData['records_storage_pid'];
-		$task->records_per_run_limit = $submittedData['records_per_run_limit'];
-		$task->file_path = $submittedData['file_path'];
+		$task->folder_path = $submittedData['folder_path'];
+		$task->force_import = $submittedData['force_import'];
+		$task->record_syslang_uid = $submittedData['record_syslang_uid'];
 
 		// Default country
 		if( !empty($submittedData['country']) ) {
