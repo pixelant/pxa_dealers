@@ -285,7 +285,12 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 
 		// Default country
 		if( !empty($submittedData['country']) ) {
-			$task->country = $this->countryRepository->findByIsoCodeA3($submittedData['country'])->getFirst()->getUid();
+			$country = $this->countryRepository->findByIsoCodeA3($submittedData['country'])->getFirst();
+			if(is_object($country)) {
+				$task->country = $country->getUid();
+			} else {
+				return false;
+			}
 		} else {
 			$task->country = 0;
 		}
