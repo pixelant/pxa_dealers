@@ -330,6 +330,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		$query = $this->createQuery();
 		$query->getQuerySettings()->setRespectStoragePage(true);
+		$query->getQuerySettings()->setRespectSysLanguage(false);
 		$query->getQuerySettings()->setStoragePageIds(array($pid));
 
 		$query->matching(

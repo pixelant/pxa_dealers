@@ -156,7 +156,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 	 */
 	public function getAdditionalInformation() {
 
-		$dataPieces = [];
+		$dataPieces = array();
 
 		// Import to
 		$dataPieces[] = $this->records_storage_pid;
@@ -228,7 +228,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 
 	public function folderMDate($folder_path) {
 
-		$modDates = [];
+		$modDates = array();
 
 		$folder = new \DirectoryIterator( $folder_path );
 		foreach ($folder as $fileinfo) {
