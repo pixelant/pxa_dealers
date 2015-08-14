@@ -14,3 +14,24 @@
 .pxa-dealers > .categories .category-item{
 	list-style-type: none;
 }
+
+.pxa-dealers form.form-search-dealer {
+	position: relative;
+}
+.pxa-dealers form.form-search-dealer:before {
+	display: block;
+	width: 14px;
+	height: 14px;
+	content: "\e003";
+	font-family: 'Glyphicons Halflings';
+	background-position: -48px 0;
+	position: absolute;
+	top:8px;
+	left:8px;
+	opacity: .5;
+	z-index: 1000;
+}
+
+.pxa-dealers .dealer-cityzip-search{
+	padding-left: 30px;
+}

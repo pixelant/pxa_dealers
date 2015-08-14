@@ -19,42 +19,44 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		var countryStatesCollection = <f:format.raw>{countryZones}</f:format.raw>;
 	</script>
 
-	<f:if condition="{settings.dealers_countries_selector}">
+		<f:if condition="{settings.dealers_countries_selector}">
 
-		<!-- Country selector -->
-
-	  	<div class="form-group">
-
-			<label for="dealer-countries"><f:translate key="country_list_select_country" /></label>
-			<f:form.select name="dealer-countries" class="form-control dealer-countries" property="dealer-country" options="{countries}" value="{selectedLanguage}"/>
-
-		</div>
-
-		<f:if condition="{settings.dealers_countries_states_selector}">
-
-			<!-- Country zone selector -->
+			<!-- Country selector -->
 
 			<div class="form-group">
 
-				<label for="dealer-country-states"><f:translate key="country_list_select_zone" /></label>
-				<f:form.select name="dealer-country-states" class="form-control dealer-country-states" property="dealer-country-states" options='{0:"<f:translate key=\"country_list.all_country_zones\" />"}' value="0"/>
+				<label for="dealer-countries"><f:translate key="country_list_select_country" /></label>
+				<f:form.select name="dealer-countries" class="form-control dealer-countries" property="dealer-country" options="{countries}" value="{selectedLanguage}"/>
+
 			</div>
+
+			<f:if condition="{settings.dealers_countries_states_selector}">
+
+				<!-- Country zone selector -->
+
+				<div class="form-group">
+
+					<label for="dealer-country-states"><f:translate key="country_list_select_zone" /></label>
+					<f:form.select name="dealer-country-states" class="form-control dealer-country-states" property="dealer-country-states" options='{0:"<f:translate key=\"country_list.all_country_zones\" />"}' value="0"/>
+				</div>
+
+			</f:if>
 
 		</f:if>
 
-	</f:if>
+		<f:if condition="{settings.dealers_countries_cityzip_search}">
 
-	<f:if condition="{settings.dealers_countries_cityzip_search}">
+			<!-- City / zone search -->
+			<form class="form-search form-search-dealer form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<f:form.textfield class="form-control dealer-cityzip-search" name="dealer-cityzip-search" value="" placeholder='<f:translate key="country_list_city_zip_search" />'/>
+						<span class="input-group-btn"><button type="submit" class="btn btn-primary"><f:translate key="country_list_city_zip_search_button" /></button></span>
+					</div>
+				</div>
+			</form>
 
-		<!-- City / zone search -->
-
-		<div class="form-group">
-
-			<f:form.textfield class="form-control dealer-cityzip-search" name="dealer-cityzip-search" value="" placeholder='<f:translate key="country_list_city_zip_search" />'/>
-
-		</div>
-
-	</f:if>
+		</f:if>
 
 </div>
 

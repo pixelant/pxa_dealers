@@ -708,6 +708,15 @@ function populateCountryZones(country) {
     }
 }
 
+function citySearchSubmit(allDealersListItems, searchValue) {
+    filterMarkers(allDealersListItems,
+                  $(".pxa-dealers .dealer-countries").val(),
+                  $(".pxa-dealers .dealer-country-states").val(),
+                  searchValue,
+                  FB_CITY,
+                  true);
+}
+
 if (typeof pxa_dealers_enabled != 'undefined') {
 
 $( document ).ready(function() {
@@ -795,17 +804,15 @@ $( document ).ready(function() {
   // City/zip search entered
   $(".pxa-dealers .dealer-cityzip-search").keypress(function (e) {
     if(e.which == 13) {
-
-      var searchValue = $(this).val();
-
-      filterMarkers(allDealersListItems, 
-          $(".pxa-dealers .dealer-countries").val(), 
-          $(".pxa-dealers .dealer-country-states").val(), 
-          searchValue, 
-          FB_CITY,
-          true);
+        e.preventDefault();
+        citySearchSubmit(allDealersListItems, $(this).val());
     }
   });
+
+    $(".pxa-dealers .form-search-dealer").submit(function (e) {
+        e.preventDefault();
+        citySearchSubmit(allDealersListItems, $(this).find('.dealer-cityzip-search').val());
+    });
 
   // Find closest
   $(".pxa-dealers-find-closest .find-closest-btn").click(function () {

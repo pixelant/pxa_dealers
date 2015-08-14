@@ -125,6 +125,10 @@
 			<trans-unit id="message.searchForSomething">
 				<source>Please search for city/zip to see the results.</source>
 			</trans-unit>
+
+			<trans-unit id="country_list_city_zip_search_button">
+				<source>Search</source>
+			</trans-unit>
 			
 		</body>
 	</file>
