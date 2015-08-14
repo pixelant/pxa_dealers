@@ -57,6 +57,9 @@ plugin.tx_pxadealers {
 		#Show "All countries" option in the country filter select box"
 		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
 
+		hideAll = {$plugin.tx_pxadealers.settings.hideAll}
+		centerOnCountry = {$plugin.tx_pxadealers.settings.centerOnCountry}
+
 	}
 }
 

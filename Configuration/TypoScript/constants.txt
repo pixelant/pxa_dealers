@@ -20,5 +20,7 @@ plugin.tx_pxadealers {
 			markerImage = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
 		}
 		showAllCountriesOption = 1
+		hideAll = 0
+		centerOnCountry =
 	}
 }

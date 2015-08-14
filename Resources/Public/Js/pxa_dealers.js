@@ -278,7 +278,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
   } else {
     if(hideAll) {
       var geocoder = new google.maps.Geocoder();
-      geocoder.geocode( { 'address': "Italy"}, function(results, status) {
+      geocoder.geocode( { 'address': settings.centerOnCountry }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           map.setCenter(results[0].geometry.location);
           map.fitBounds(results[0].geometry.viewport);
