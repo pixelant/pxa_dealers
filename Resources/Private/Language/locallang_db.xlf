@@ -162,6 +162,13 @@
 				<source>Show street view for this dealer</source>
 			</trans-unit>
 
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.testcenter">
+				<source>Testcenter</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_dealers.partner_type.butik">
+				<source>Butik</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

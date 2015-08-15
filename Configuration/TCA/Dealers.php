@@ -280,6 +280,8 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.standard', 0),
 								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.premium', 1),
 								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.commercial', 2),
+								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.testcenter', 3),
+								array('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.partner_type.butik', 4),
 						),
 						'size' => 1,
 						'maxitems' => 1,

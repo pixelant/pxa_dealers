@@ -22,7 +22,6 @@ namespace PXA\PxaDealers\ViewHelpers;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * View helper to check if a value is numeric.
@@ -65,6 +64,12 @@ class DealerMarkerIndicatorViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\A
 			}
 			if( $dealer->getPartnerType() == 2 ) {
 				return $settings['map']['markerImageCommercialPartner'];
+			}
+			if( $dealer->getPartnerType() == 3 ) {
+				return $settings['map']['markerImageTestcenter'];
+			}
+			if( $dealer->getPartnerType() == 4 ) {
+				return $settings['map']['markerImageButik'];
 			}
 		}
 

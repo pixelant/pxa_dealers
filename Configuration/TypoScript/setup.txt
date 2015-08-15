@@ -35,6 +35,8 @@ plugin.tx_pxadealers {
             markerImagePremiumPartner = {$plugin.tx_pxadealers.settings.map.markerImagePremiumPartner}
             markerImageStandardPartner = {$plugin.tx_pxadealers.settings.map.markerImageStandardPartner}
             markerImageCommercialPartner = {$plugin.tx_pxadealers.settings.map.markerImageCommercialPartner}
+            markerImageTestcenter = {$plugin.tx_pxadealers.settings.map.markerImageTestcenter}
+            markerImageButik = {$plugin.tx_pxadealers.settings.map.markerImageButik}
 		}
 
 		flagsPath = {$plugin.tx_pxadealers.settings.flagsPath}
