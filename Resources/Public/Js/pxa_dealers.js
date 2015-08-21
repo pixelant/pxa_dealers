@@ -196,7 +196,11 @@ function PxaDealers() {
             markerIcon = self.pluginSettings.map.markerImagePremiumPartner;
         } else if( dealer['partnerType'] == 2 ) {
             markerIcon = self.pluginSettings.map.markerImageCommercialPartner;
-        }
+        } else if( dealer['partnerType'] == 3 ) {
+		markerIcon = self.pluginSettings.map.markerImageTestcenter;
+	} else if( dealer['partnerType'] == 4 ) {
+		markerIcon = self.pluginSettings.map.markerImageButik;
+	}
 
         var pos = new google.maps.LatLng( dealer['lat'], dealer['lng'] );
 
