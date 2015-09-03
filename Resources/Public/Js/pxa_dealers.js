@@ -527,7 +527,8 @@ function containsSearchString(marker, searchString) {
     var processedZipcode = marker['zipcode'].replace(expression,'').toLowerCase();
     var processedSearchString = searchString.replace(expression,'').toLowerCase();
 
-    if( processedZipcode.startsWith(processedSearchString) || processedZipcode.substr(2).startsWith(processedSearchString)) {
+      if( processedZipcode.startsWith(processedSearchString) ||
+          ( /^[a-zA-Z]+$/.test(processedZipcode.substr(0,2)) && processedZipcode.substr(2).startsWith(processedSearchString ))) {
       return true;
     }
 
@@ -608,7 +609,12 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
     });
 
     if(extendedZipSearch === true && /\d+/.test(searchString)) {
-      var zipLimit = 10;
+
+        var zipLimit = 1;
+
+        if(typeof settings.zipLimit != 'undefined') {
+            zipLimit = settings.zipLimit;
+        }
 
       if(filteredDealers <= zipLimit) {
         if(searchString.length > 2) {

@@ -59,6 +59,7 @@ plugin.tx_pxadealers {
 
 		hideAll = {$plugin.tx_pxadealers.settings.hideAll}
 		centerOnCountry = {$plugin.tx_pxadealers.settings.centerOnCountry}
+		zipLimit = {$plugin.tx_pxadealers.settings.zipLimit}
 
 	}
 }
