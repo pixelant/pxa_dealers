@@ -176,7 +176,7 @@ function PxaDealers() {
         }
 
         self.selectedCountry = $(".pxa-dealers .dealer-countries").val();
-        self.selectedCountryZone = $(".pxa-dealers .dealer-countries").val();
+        self.selectedCountryZone = $(".pxa-dealers .dealer-country-states").val();
         self.searchString = $(".pxa-dealers .dealer-cityzip-search").val();
         self.fitBoundsType = filterOn;
         self.filterDealers();
@@ -861,6 +861,8 @@ function populateCountryZones(country) {
         }
 
     }
+
+    $(".pxa-dealers .dealer-country-states").trigger("chosen:updated");
 }
 
 if (typeof pxa_dealers_enabled != 'undefined') {
