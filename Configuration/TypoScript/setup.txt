@@ -63,20 +63,12 @@ plugin.tx_pxadealers {
 
 		#Show "All countries" option in the country filter select box"
 		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
+		includeGoogleMaps = {$plugin.tx_pxadealers.settings.includeGoogleMaps}
+        includeLocalScripts = {$plugin.tx_pxadealers.settings.includeLocalScripts}
 
 	}
 }
 
-#[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
-
-page.includeJSlibs.googleapi.external = 1
-page.includeJSlibs.googleapi.excludeFromConcatenation = 1
-page.includeJSlibs.googleapi.disableCompression = 1
-page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
-
-#[global]
-page.includeJSFooter.pxa_dealers_markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
-page.includeJSFooter.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
 
 findClosestAjax = PAGE
@@ -85,7 +77,6 @@ findClosestAjax.config.disableAllHeaderCode = 1
 findClosestAjax.config.no_cache = 1
 findClosestAjax.config.additionalHeaders = Content-type: application/json
 findClosestAjax.config.disablePreviewNotification = 1
-
   
 findClosestAjax.10 = USER
 findClosestAjax.10 {

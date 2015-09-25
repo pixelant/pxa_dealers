@@ -26,5 +26,7 @@ plugin.tx_pxadealers {
 		}
 		flagsPath = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/Flags
 		showAllCountriesOption = 1
+		includeGoogleMaps = 1
+        includeLocalScripts = 1
 	}
 }
