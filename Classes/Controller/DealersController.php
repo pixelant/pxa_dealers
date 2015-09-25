@@ -46,6 +46,25 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	protected $dealersRepository;
 
 	/**
+	 * init action
+	 *
+	 * @return void
+	 */
+	public function initializeAction() {
+		$path_to_js = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('pxa_dealers') . "Resources/Public/Js/";
+
+		if( $this->settings['includeGoogleMaps'] == 1) {
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?sensor=false",
+					'text/javascript', false, false, '', true, '|');
+		}
+
+		if( $this->settings['includeLocalScripts'] == 1) {
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($path_to_js . "markerclusterer.js");
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($path_to_js . "pxa_dealers.js");
+		}
+	}
+
+	/**
 	 * action searchForm
 	 *
 	 * @return void
