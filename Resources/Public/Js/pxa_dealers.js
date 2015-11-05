@@ -148,8 +148,7 @@ function PxaDealers() {
         }
 
         var filterOn = FB_MARKERS;
-
-        if( $(".pxa-dealers .dealer-countries").val() != 0 ) {
+        if( $(".pxa-dealers .dealer-countries").val() != 0 && $(".pxa-dealers .dealer-countries").val() !== undefined ) {
             filterOn = FB_COUNTRY;
         }
 
