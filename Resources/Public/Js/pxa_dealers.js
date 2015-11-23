@@ -768,7 +768,7 @@ function PxaDealers() {
                                                          }
 
                                                      },
-                                                     sortBy : 'name'
+                                                     sortBy: [ 'isPremium', 'name' ]
                                                  });
 
 
@@ -875,7 +875,11 @@ if (typeof pxa_dealers_enabled != 'undefined') {
                                                      itemSelector: '.isotope-item',
                                                      layoutMode: 'fitRows',
                                                      getSortData: {
-                                                         name: '[data-name]'
+                                                         name: '[data-name]',
+                                                         isPremium: function(item){
+                                                             console.log( $(item).data("partner-type") );
+                                                             return $(item).data("partner-type") != 1;
+                                                         }
                                                      }
                                                  });
 
