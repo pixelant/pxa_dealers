@@ -212,18 +212,19 @@ function PxaDealers() {
         var countryName = dealer['countryName'] ? '<br/><b>' + dealer['countryName'] + '</b>' : '';
 
         var telephone= dealer['telephone'] ? "<br/><a href=\"tel:" + dealer['telephone_clear'] +
-                                             "\">Phone: " + dealer['telephone'] + "</a>": '';
+                                             "\">" + self.labels['infoWindowPhone'] + " " + dealer['telephone'] + "</a>": '';
         var email = dealer['email'] ? "<br/><a href=\"mailto:" + dealer['email']+"\">" +
                                       dealer['email']+ "</a>" : '';
 
         if(dealer['website']) {
             // Check if website starts from http
             var websiteUrl = dealer['website'];
+            var websiteUrlTitle = websiteUrl;
             if(!(/^http:\/\//.test(dealer['website']))) {
                 websiteUrl = 'http://'+websiteUrl;
             }
 
-            var website = "<br/><a href=" + websiteUrl + " target=\"_blank\" class=\"website-link\">" + websiteUrl + '</a>';
+            var website = "<br/><a href=" + websiteUrl + " target=\"_blank\" class=\"website-link\">" + websiteUrlTitle + '</a>';
         } else {
             var website = '';
         }

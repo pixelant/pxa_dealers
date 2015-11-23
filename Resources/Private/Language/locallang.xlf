@@ -132,6 +132,9 @@
             <trans-unit id="partnerType_standard_official">
                 <source>Aimpoint Reseller</source>
             </trans-unit>
+            <trans-unit id="infoWindowPhone">
+                <source>Phone:</source>
+            </trans-unit>
 			
 		</body>
 	</file>
