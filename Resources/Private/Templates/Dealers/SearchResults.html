@@ -29,6 +29,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           labels['country_list.all_country_zones'] = '<f:translate key="country_list.all_country_zones" />';
 		  labels['dealers_found'] = '<f:translate key="dealers_found" />';
 		  labels['notDealersFoundFilteringMessage'] = '<f:translate key="notDealersFoundFilteringMessage" />';
+		  labels['infoWindowPhone'] = '<f:translate key="infoWindowPhone" />';
         </script>
       <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
       <h2 class="dealers-header" id="dealers-header">{dealers -> f:count()} <f:translate key="dealers_found" /></h2>
@@ -67,7 +68,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <span class="dealer-buyItNow"><f:link.external uri="{dealer.buyItNow}" target="_blank"><f:translate key="dealers_results_buy_it_now" /></f:link.external></span><br>
                 </f:if>
                 <f:if condition="{dealer.telephone}">
-                    <span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>">Tel:&nbsp;{dealer.telephone}</a></span><br>
+					<span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>"><f:translate key="infoWindowPhone" />&nbsp;{dealer.telephone}</a></span><br>
                 </f:if>
                 <f:if condition="{dealer.fax}">
                     <span class="dealer-fax"><a href="tel:<pxa:dealers phone='{dealer.fax}'/>">Fax:&nbsp;{dealer.fax}</a></span><br>
