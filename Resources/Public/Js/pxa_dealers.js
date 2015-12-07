@@ -67,6 +67,7 @@ function PxaDealers() {
     self.prefilteredList = {};
 
     self.lastFilteredDealers = [];
+    self.lastSearchType = "";
 
     self.filteredDealersUids = [];
     self.filteredDealers = [];
@@ -451,6 +452,12 @@ function PxaDealers() {
     }
 
     self.cityZipSearch = function(searchString) {
+
+        if( self.lastSearchType == 'cityZip' ) {
+            self.filterDealers();
+        }
+
+        self.lastSearchType = "cityZip";
 
         if(searchString == '') {
             self.updateAll(self.lastFilteredDealers);
@@ -878,7 +885,6 @@ if (typeof pxa_dealers_enabled != 'undefined') {
                                                      getSortData: {
                                                          name: '[data-name]',
                                                          isPremium: function(item){
-                                                             console.log( $(item).data("partner-type") );
                                                              return $(item).data("partner-type") != 1;
                                                          }
                                                      }
