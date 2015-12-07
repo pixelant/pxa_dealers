@@ -130,7 +130,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			),
 		),
 		'buy_it_now' => array(
-			'exclude' => 0,
+			'exclude' => 1,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.buy_it_now',
 			'config' => array(
 				'type' => 'input',

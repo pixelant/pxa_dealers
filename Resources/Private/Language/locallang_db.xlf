@@ -131,7 +131,7 @@
 			<trans-unit id="flexform.mapZoomLevel">
 				<source>Map zoom level</source>
 			</trans-unit>
-
+            
 			<trans-unit id="tx_pxadealers_domain_model_dealers.show_street_view">
 				<source>Show street view for this dealer</source>
 			</trans-unit>
