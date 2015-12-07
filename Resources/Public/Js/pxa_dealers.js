@@ -67,6 +67,7 @@ function PxaDealers() {
     self.prefilteredList = {};
 
     self.lastFilteredDealers = [];
+    self.lastSearchType = "";
 
     self.filteredDealersUids = [];
     self.filteredDealers = [];
@@ -404,6 +405,12 @@ function PxaDealers() {
     }
 
     self.cityZipSearch = function(searchString) {
+
+        if( self.lastSearchType == 'cityZip' ) {
+            self.filterDealers();
+        }
+
+        self.lastSearchType = "cityZip";
 
         if(searchString == '') {
             self.updateAll(self.lastFilteredDealers);
