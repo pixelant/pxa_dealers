@@ -133,9 +133,20 @@
               </config>
             </TCEforms>
           </settings.mapZoomLevel>
-          
-        </el>
-      </ROOT>
-    </main>
-  </sheets>
+
+            <settings.defaultCountry>
+                <TCEforms>
+                    <label>Default country</label>
+                    <config>
+                        <type>input</type>
+                        <size>30</size>
+                        <eval>trim</eval>
+                    </config>
+                </TCEforms>
+            </settings.defaultCountry>
+
+                </el>
+            </ROOT>
+        </main>
+    </sheets>
 </T3DataStructure>
