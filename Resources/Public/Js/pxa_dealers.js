@@ -526,7 +526,10 @@ function PxaDealers() {
             addressParts.push(searchString);
 
             geocoderOptions.address = addressParts.join(", ");
-            geocoderOptions.address = "";
+
+            if(searchType == 'zip') {
+                geocoderOptions.address = "";
+            }
 
             geocoder.geocode(geocoderOptions, function (results, status) {
 
