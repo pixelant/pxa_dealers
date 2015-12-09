@@ -68,6 +68,7 @@ function PxaDealers() {
 
     self.lastFilteredDealers = [];
     self.lastSearchType = "";
+    self.zipSearchType = "googleCall";
 
     self.filteredDealersUids = [];
     self.filteredDealers = [];
@@ -238,7 +239,7 @@ function PxaDealers() {
         imageStreetPreviewContent += '<a href="#streetview" data-marker-id="' + dealer['uid']
                                      + '" class="street-switch-trigger website-link">';
         imageStreetPreviewContent += '<img src="http://maps.googleapis.com/maps/api/streetview?size=90x70&location=' +
-                                     dealer['lat'] + ',' + dealer['lng']+'&sensor=false" /><br>';
+                                     dealer['lat'] + ',' + dealer['lng']+'" /><br>';
         imageStreetPreviewContent += '<span>Streetview</span></a>';
         imageStreetPreviewContent += '</div></td>';
 
@@ -453,7 +454,9 @@ function PxaDealers() {
 
     self.cityZipSearch = function(searchString) {
 
-        if( self.lastSearchType == 'cityZip' ) {
+        var searchType;
+
+        if( self.lastSearchType == 'cityZip') {
             self.filterDealers();
         }
 
@@ -465,6 +468,10 @@ function PxaDealers() {
         }
 
         if(/\d+/.test(searchString)) {
+            searchType = "zip";
+        }
+
+        if(searchType == 'zip' && self.zipSearchType == 'searchSimilar') {
 
             // THIS IS TEMPORARY SOLUTION. SHOULD BE CHANGED BY USING SOME POSTCODES/GEOPOSITION DATABASE OR API
 
@@ -472,15 +479,20 @@ function PxaDealers() {
 
             if(foundDealers.length == 0) {
                 self.updateAll(self.lastFilteredDealers);
+                self.zipSearchType = "googleCall";
                 return true;
             } else {
                 foundDealers = foundDealers.slice(0, self.pluginSettings.resultLimit);
                 self.fitBoundsType = FB_MARKERS;
                 self.updateAll(foundDealers);
+                self.zipSearchType = "googleCall";
                 return true;
             }
 
         } else {
+
+            // Default country
+            var defaultCountryName = self.pluginSettings['defaultCountry'];
 
             var geocoder = new google.maps.Geocoder();
             var geocoderOptions = {};
@@ -488,6 +500,11 @@ function PxaDealers() {
 
             var addressParts = [];
             var allowedGeocodeAnswersTypes = ['locality', 'sublocality'];
+            if(searchType == 'zip') {
+                allowedGeocodeAnswersTypes = ['postal_code'];
+                geocoderOptions.componentRestrictions.country = defaultCountryName;
+                geocoderOptions.componentRestrictions.postalCode = searchString;
+            }
 
             // Get country name
             if ( self.selectedCountry != 0 && self.selectedCountry != 'row' ) {
@@ -507,7 +524,9 @@ function PxaDealers() {
             }
 
             addressParts.push(searchString);
+
             geocoderOptions.address = addressParts.join(", ");
+            geocoderOptions.address = "";
 
             geocoder.geocode(geocoderOptions, function (results, status) {
 
@@ -528,16 +547,48 @@ function PxaDealers() {
 
                     if (typeof bounds === 'object') {
 
+                        //var originalBounds = bounds;
+                        //var pos1 = new google.maps.LatLng(
+                        //    originalBounds.getNorthEast().lat() + 2,
+                        //    originalBounds.getNorthEast().lng() + 2 * 2
+                        //);
+                        //var pos2 = new google.maps.LatLng(
+                        //    originalBounds.getSouthWest().lat() - 2,
+                        //    originalBounds.getSouthWest().lng() - 2 * 2
+                        //);
+                        //bounds.extend(pos1);
+                        //bounds.extend(pos2);
+
+                        //var rectangle = new google.maps.Rectangle({
+                        //                                              strokeColor: '#FF0000',
+                        //                                              strokeOpacity: 0.8,
+                        //                                              strokeWeight: 2,
+                        //                                              fillColor: '#FF0000',
+                        //                                              fillOpacity: 0.35,
+                        //                                              map: self.map,
+                        //                                              bounds: bounds
+                        //                                          });
+
                         var closestMarkers = self.findClosest(self.lastFilteredDealers, bounds.getCenter());
 
                         self.fitBoundsType = FB_MARKERS;
                         self.updateAll(closestMarkers);
 
                     } else {
-                        self.updateAll([]);
+                        if( searchType == 'zip' ) {
+                            self.zipSearchType = "searchSimilar";
+                            self.cityZipSearch(searchString);
+                        } else {
+                            self.updateAll([]);
+                        }
                     }
                 } else {
-                    self.updateAll([]);
+                    if( searchType == 'zip' ) {
+                        self.zipSearchType = "searchSimilar";
+                        self.cityZipSearch(searchString);
+                    } else {
+                        self.updateAll([]);
+                    }
                 }
             });
         }
