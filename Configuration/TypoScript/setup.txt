@@ -28,8 +28,6 @@ page.includeJSFooterlibs.googleapi = https://maps.googleapis.com/maps/api/js?sen
 
 #[global]
 
-page.includeJSFooterlibs.googleapi.external = 1
-page.includeJSFooterlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
 page.includeJSFooter.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
 
