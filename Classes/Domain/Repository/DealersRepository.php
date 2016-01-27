@@ -35,6 +35,32 @@ namespace PXA\PxaDealers\Domain\Repository;
 class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
+	 * Find delears by dealers by city and zipcode
+	 *
+	 * @param string $search
+	 * @param integer $limit limit of results
+	 * @return \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult
+	 */
+
+	public function getDealers($search, $limit = NULL) {
+		
+		if($limit)
+			$searchResult = $this->findDealersWithLimit($search,$limit);
+		else 
+			$searchResult = $this->findDealers($search);
+						
+		$query = $this->createQuery();
+		$query->matching($query->like('city', '%' . $search . '%'));
+		if($limit)
+			$query->setLimit((integer)$limit);
+		$query->execute();
+
+		$searchResult[] = $query->execute();
+
+		return $this->processQueryResult($searchResult);
+	}
+
+	/**
 	 * Find delears by zipcode
 	 *
 	 * @param string $zipcode
@@ -80,7 +106,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$constraints = array();
 
 			$query = $this->createQuery();
-
+			
 			foreach ($searchedZipcodes as $searchedZipcode) {
 				$constraints[] = $query->logicalNot($query->like('zipcode_search', $searchedZipcode . '%'));
 			}
@@ -109,19 +135,22 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			
 		} while($limit > 0);
 
-
-		return $this->processQueryResult($queryResults);
+		return $queryResults;
+		//return $this->processQueryResult($queryResults);
 	}
 
 
 	private function processQueryResult($queryResults) {
 		$searchResult = $queryResults[0];
 		unset($queryResults[0]);
-
+		$tempArray = array();
 		foreach ($queryResults as $queryResult) {
 			foreach ($queryResult as $singleResult) {
-				$offset = $searchResult->count();				
-				$searchResult->offsetSet($offset,$singleResult);
+				$offset = $searchResult->count();
+				if(!in_array($singleResult->getUid(), $tempArray)){
+					$searchResult->offsetSet($offset,$singleResult);
+					$tempArray[] = $singleResult->getUid();
+				}
 			}			
 		}
 
@@ -161,8 +190,8 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			
 		} while(strlen($zipcode) > 0);
 
-
-		return $this->processQueryResult($queryResults);
+		return $queryResults;
+		//return $this->processQueryResult($queryResults);
 	}
 }
 ?>

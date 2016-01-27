@@ -78,14 +78,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		if($status == self::searchValueOK) {
 			$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
-
-			if(is_numeric($zipcode)) {
-				$dealers = $this->dealersRepository->getDealersByZipCode($zipcode,$this->settings['resultLimit']);
-			} else {
-				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
-			}
-
-			// Check is some of the dealers has no coordinates
+			
+			$dealers = $this->dealersRepository->getDealers($args['searchValue'],$this->settings['resultLimit']);
 			$this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 
@@ -93,16 +87,19 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
 		        $this->view->assign('jsArray', $jsArray);
-				$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
+
+		        $GLOBALS['TSFE']->additionalFooterData['sometest'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=initializeMapPxaDealers'></script>";
+				//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
 	        } else {
-	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+	        	//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 	        }
 
 	        $this->view->assign('dealers',$dealers);					
 		    $this->view->assign('searchValue',$args['searchValue']);
 		} else {
-			
-			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
+			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+			//$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 		}
 
 		$this->view->assign('status',$status);		
@@ -117,7 +114,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function findClosestAjaxAction($latitude, $longitude) {
 		$dealers = $this->dealersRepository->findAll();
-
+		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('findClosestAjaxAction');
 		$this->checkDealers($dealers);
 		$dealers = $dealers->toArray();
 
@@ -217,10 +214,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return boolean 
 	 */
 	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
-
 		foreach ($dealers as $dealer) {
 			if($dealer->getLatLngIsSet() == FALSE) {				
-                
                 $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity() . ', ' . $dealer->getCountry();
                 $response = $this->getAddress($address);
                 
