@@ -164,7 +164,8 @@ $( document ).ready(function() {
   $('form[name="searchDealers"]').on('submit',function(event){
     event.preventDefault();
     var url = $(this).attr('action').replace(/\/?$/, '/') + $(this).find('input[name="tx_pxadealers_pxadealerssearchresults[searchValue]"]').val();
-
+    var url = url + '/' + $(this).find('select[name="tx_pxadealers_pxadealerssearchresults[searchBy]"]').val();
+    
     url = (url.charAt(0) != '/' ? ('/'+url) : url);
 
     window.document.location = url;

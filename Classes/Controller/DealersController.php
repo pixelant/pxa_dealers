@@ -78,8 +78,12 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		if($status == self::searchValueOK) {
 			$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
-			
-			$dealers = $this->dealersRepository->getDealers($args['searchValue'],$this->settings['resultLimit']);
+			if($args['searchBy'] == 1) {
+				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+			} else {
+				$dealers = $this->dealersRepository->getDealersByZipCode($args['searchValue'],$this->settings['resultLimit']);
+			}
+
 			$this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 

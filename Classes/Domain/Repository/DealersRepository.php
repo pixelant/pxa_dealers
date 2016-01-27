@@ -135,8 +135,8 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			
 		} while($limit > 0);
 
-		return $queryResults;
-		//return $this->processQueryResult($queryResults);
+		//return $queryResults;
+		return $this->processQueryResult($queryResults);
 	}
 
 
@@ -190,8 +190,8 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			
 		} while(strlen($zipcode) > 0);
 
-		return $queryResults;
-		//return $this->processQueryResult($queryResults);
+		//return $queryResults;
+		return $this->processQueryResult($queryResults);
 	}
 }
 ?>
