@@ -50,10 +50,18 @@
 			<trans-unit id="tx_pxadealers_domain_model_assortment.icon">
 				<source>Icon of assortment</source>
 			</trans-unit>
-			
+			<trans-unit id="tx_pxadealers_domain_model_assortment.searchBy">
+				<source>Search by:</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_assortment.searchByZip">
+				<source>Postcode</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_assortment.searchByCity">
+				<source>City</source>
+			</trans-unit>
 
 			<trans-unit id="error.NoResult">
-				<source>Found no dealers. Try searching with a different zipcode or city.</source>
+				<source>No pharmacies were found. Please enter another post code or city.</source>
 			</trans-unit>
 			<trans-unit id="error.NoResultAdditional">
 				<source>Falls Ihre Apotheke in diese Übersicht nicht aufgeführt ist, kann jede Apotheke in Deutschland selbstverständlich den attraktiven CB12 Doppelpack über den pharmazeutischen Großhandel innerhalb kurzer Zeit für Sie besorgen.</source>
@@ -72,12 +80,12 @@
 				<source>Search</source>
 			</trans-unit>
 			<trans-unit id="searchDidntStart">
-				<source>Please, enter something to start search</source>
+				<source>Please enter a post code or city to start searching.</source>
 			</trans-unit>			
 
 			
 			<trans-unit id="closest_dealer">
-				<source>%s closest dealers</source>
+				<source>%s pharmacies were found nearby</source>
 			</trans-unit>
 			<trans-unit id="ajax_loaded_dealer">
 				<source>Closest pharmacies according to your location</source>

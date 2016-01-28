@@ -95,6 +95,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           <button type="button" class="close" data-dismiss="alert">×</button>
           <f:translate key="error.NoResult" />
         </div>
+        <f:comment>
         <p><f:translate key="error.NoResultAdditional" /></p>
         <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
         <div id="ajax-load-dealer">
@@ -104,6 +105,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
           </h2>
           <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
         </div>
+      </f:comment>
       </f:else>
     </f:if>
     
