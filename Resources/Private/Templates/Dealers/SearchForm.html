@@ -16,7 +16,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
     <f:form action="searchResults" name="searchDealers" pageUid="{settings.searchResultPage}" pluginName="pxadealerssearchresults">
     <f:translate key="tx_pxadealers_domain_model_assortment.searchBy" />
         <f:form.radio name="searchBy" value="0" checked="1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByZip" />
-        <f:form.radio name="searchBy" value="1" checked="{searchBy}==1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByCity" />
+        <f:form.radio name="searchBy" value="1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByCity" />
     	<f:form.textfield name="searchValue" additionalAttributes="{placeholder: '{f:translate(key: \'placeholder\')}'}"/>
     	<f:form.submit name="submit" class="btn btn-primary btn-arrow" value="{f:translate(key: 'submitvalue')}" />
     </f:form>
