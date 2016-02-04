@@ -14,12 +14,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
 <f:section name="main">
 <div class="pxa-dealers">
     <f:form action="searchResults" name="searchDealers" pageUid="{settings.searchResultPage}" pluginName="pxadealerssearchresults">
+
+
     <f:translate key="tx_pxadealers_domain_model_assortment.searchBy" />
-        <f:form.radio name="searchBy" value="0" checked="1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByZip" />
-        <f:form.radio name="searchBy" value="1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByCity" />
+        <label class="dealer-radio">
+        <f:form.radio name="searchBy" value="1" checked="1" /><f:translate key="tx_pxadealers_domain_model_assortment.searchByCity" />
+        </label>
+        <label class="dealer-radio">
+        <f:form.radio name="searchBy" value="0"  /><f:translate key="tx_pxadealers_domain_model_assortment.searchByZip" />
+        </label>
+
     	<f:form.textfield name="searchValue" additionalAttributes="{placeholder: '{f:translate(key: \'placeholder\')}'}"/>
     	<f:form.submit name="submit" class="btn btn-primary btn-arrow" value="{f:translate(key: 'submitvalue')}" />
-    </f:form>
+   
+ </f:form>
 
 </div>
 </f:section>
