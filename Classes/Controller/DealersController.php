@@ -92,15 +92,15 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		        $this->view->assign('jsArray', $jsArray);
 
-		        $GLOBALS['TSFE']->additionalFooterData['sometest'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=initializeMapPxaDealers'></script>";
+		        $GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', initializeMapPxaDealers);";
 	        } else {
-	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 	        }
 
 	        $this->view->assign('dealers',$dealers);					
 		    $this->view->assign('searchValue',$args['searchValue']);
 		} else {
-			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "google.maps.event.addDomListener(window, 'load', showDefaultMap);";
 		}
 
 		$this->view->assign('status',$status);		
