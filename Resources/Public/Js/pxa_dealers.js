@@ -106,7 +106,7 @@ function switchToStreetView(i) {
   return false;
 }
 function getAddress(pos,map,infowindow, callback) {
-  var markerIcon = "typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_dblue.png";
+  var markerIcon = "typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png";
 
 //  var markerIcon = "fileadmin/Pixelant/Extensions/pxa_dealer/map_marker_icon_dblue.png";
 
