@@ -12,5 +12,5 @@ plugin.tx_pxadealers {
 		storagePid =
 	}
 	# cat=plugin.tx_pxadealers//b; type=string; label=Google Geolocation API KEY
-	GeoLocationApiKey = 
+	geoLocationApiKey = 
 }
