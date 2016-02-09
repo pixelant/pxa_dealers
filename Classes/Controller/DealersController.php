@@ -25,6 +25,7 @@ namespace PXA\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\Exception\InvalidVariableException;
 
 /**
  *
@@ -84,15 +85,20 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				$dealers = $this->dealersRepository->getDealersByZipCode($args['searchValue'],$this->settings['resultLimit']);
 			}
 
-			$this->checkDealers($dealers,$defaultCountry);
+			$checkDealers = $this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 
-		    	$amountOfDealers = $dealers->count();
-				$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
+		    	if($checkDealers){
+		    		$amountOfDealers = $dealers->count();
+					$jsArray = $this->generateJSOfDealers($dealers,$dealers->count());
 
-		        $this->view->assign('jsArray', $jsArray);
+			        $this->view->assign('jsArray', $jsArray);
 
-		        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=initializeMapPxaDealers'></script>";
+			        $GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=initializeMapPxaDealers'></script>";	
+			        $this->view->assign('errorApi',0);
+		    	}else{
+		    		$this->view->assign('errorApi',1);
+		    	}
 	        } else {
 	        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
 	        }
@@ -102,7 +108,6 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		} else {
 			$GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
 		}
-
 		$this->view->assign('status',$status);		
 	}
 
@@ -115,8 +120,10 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function findClosestAjaxAction($latitude, $longitude) {
 		$dealers = $this->dealersRepository->findAll();
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('findClosestAjaxAction');
-		$this->checkDealers($dealers);
+		if($this->checkApi()){
+			$checkDealers = $this->checkDealers($dealers);
+		}
+		
 		$dealers = $dealers->toArray();
 
 		$dealersWithDistance = array();
@@ -209,26 +216,60 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	/**
+	 * Check if Google API KEY is valid
+	 *
+	 * @return  boolean
+	 */
+	protected function checkApi() {
+		// Check if Google Api valid
+		if(isset($this->settings['GeoLocationApiKey']) && !empty($this->settings['GeoLocationApiKey'])){
+			$url = "https://maps.google.com/maps/api/geocode/json";
+			$url .= "?key=".$this->settings['GeoLocationApiKey'];
+		}else{
+			$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=testAddress";
+		}
+		
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_URL, $url);
+        $resp_json = curl_exec($c);
+        curl_close($c);        
+
+        $resp = json_decode($resp_json, true);
+
+        if($resp['status'] == 'REQUEST_DENIED') {
+            return FALSE;
+        }
+        if($resp['status'] == 'OVER_QUERY_LIMIT') {
+            return FALSE;
+        }
+
+        return TRUE;
+	}
+
+	/**
 	 * Check if dealer was changed. And if it was get Lat and Lng
 	 *
 	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers
 	 * @return boolean 
 	 */
 	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
+		$result = TRUE;
 		foreach ($dealers as $dealer) {
 			if($dealer->getLatLngIsSet() == FALSE) {				
                 $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity() . ', ' . $dealer->getCountry();
-                $response = $this->getAddress($address);
-                
-                $dealer->setLat($response['results'][0]['geometry']['location']['lat']);
-                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
-        	    $dealer->setLatLngIsSet(1);
-                $this->dealersRepository->update($dealer);   
-                              
+                if($this->checkApi()){
+                	$response = $this->getAddress($address);
+	                $dealer->setLat($response['results'][0]['geometry']['location']['lat']);
+	                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
+	        	    $dealer->setLatLngIsSet(1);
+	                $this->dealersRepository->update($dealer);
+                }else{
+                	$result = FALSE;
+                }
 			}
 		}
-
-		return TRUE;
+		return $result;
 	}
 
 	/**
@@ -238,9 +279,14 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return array
 	 */
 	protected function getAddress($address) {
-		$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=";
-		$url .= urlencode($address);
-
+		if(isset($this->settings['GeoLocationApiKey']) && !empty($this->settings['GeoLocationApiKey'])){
+			$url = "https://maps.google.com/maps/api/geocode/json?sensor=false&address=";
+			$url .= urlencode($address);
+			$url .= "&key=".$this->settings['GeoLocationApiKey'];
+		}else{
+			$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=";
+			$url .= urlencode($address);
+		}
 		do {
             $c = curl_init();
             curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
@@ -252,6 +298,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
             if($resp['status'] == 'OK') {
                 return $resp;
+            }
+            if($resp['status'] == 'REQUEST_DENIED') {
+                throw new InvalidVariableException('REQUEST_DENIED from Google API', 1388149150);
             }
             if ($resp['status'] == 'OVER_QUERY_LIMIT') {
                 usleep(2000000);
