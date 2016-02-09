@@ -46,66 +46,76 @@ Otherwise your changes will be overwritten the next time you save the extension 
   </f:if>
 
   <f:if condition="{status} == 2">
-    <f:if condition="{dealers -> f:count()} > 0">
+    <f:if condition="{errorApi} != 1">
       <f:then>
-        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-        <script type="text/javascript">
-          <f:format.raw>{jsArray}</f:format.raw>
-          var markersArray = [];
-        </script>
-        <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
+        <f:if condition="{dealers -> f:count()} > 0">
+          <f:then>
+          <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+            <script type="text/javascript">
+              <f:format.raw>{jsArray}</f:format.raw>
+              var markersArray = [];
+            </script>
+            <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
 
-        <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
-          
-          <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
+            <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
+              
+              <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
-            <f:if condition="{settings.newRow}">              
-                  
-              <f:if condition="<pxa:isNewRow current=\"{itemIterationDealers.index}\" needed=\"{settings.newRow}\"/>">
-                </div>
-                <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">                   
-              </f:if>
-                
-            </f:if>
-
-            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}">
-              <b>{dealer.name}</b>
-              <p class="dealer-info">
-                <span class="dealer-address">{dealer.adrress}</span><br>
-                <span class="dealer-zipcode">{dealer.zipcode}</span><br>
-                <span class="dealer-address">{dealer.city}</span><br>
-                <f:if condition="{dealer.website}">                    
-                    <span class="dealer-website"><f:link.external uri="{dealer.website}" target="_blank">{dealer.website}</f:link.external></span><br>
-                </f:if>                
-                <f:if condition="{dealer.telephone}">                    
-                    <span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>">Tel:&nbsp;{dealer.telephone}</a></span><br>
-                </f:if>                
-                <f:if condition="{dealer.email}">                    
-                    <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
+                <f:if condition="{settings.newRow}">              
+                      
+                  <f:if condition="<pxa:isNewRow current=\"{itemIterationDealers.index}\" needed=\"{settings.newRow}\"/>">
+                    </div>
+                    <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">                   
+                  </f:if>
+                    
                 </f:if>
-              </p>
-            </div>
-            
-          </f:for>
 
-        </div>
+                <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}">
+                  <b>{dealer.name}</b>
+                  <p class="dealer-info">
+                    <span class="dealer-address">{dealer.adrress}</span><br>
+                    <span class="dealer-zipcode">{dealer.zipcode}</span><br>
+                    <span class="dealer-address">{dealer.city}</span><br>
+                    <f:if condition="{dealer.website}">                    
+                        <span class="dealer-website"><f:link.external uri="{dealer.website}" target="_blank">{dealer.website}</f:link.external></span><br>
+                    </f:if>                
+                    <f:if condition="{dealer.telephone}">                    
+                        <span class="dealer-telephone"><a href="tel:<pxa:dealers phone='{dealer.telephone}'/>">Tel:&nbsp;{dealer.telephone}</a></span><br>
+                    </f:if>                
+                    <f:if condition="{dealer.email}">                    
+                        <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
+                    </f:if>
+                  </p>
+                </div>
+                
+              </f:for>
+
+            </div>
+          </f:then>
+          <f:else>
+            <div class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <f:translate key="error.NoResult" />
+            </div>
+            <f:comment>
+            <p><f:translate key="error.NoResultAdditional" /></p>
+            <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+            <div id="ajax-load-dealer">
+              <h2 class="dealers-header pre-loader">
+                <f:translate key="ajax_preload" />
+                <f:image src="EXT:pxa_dealers/Resources/Public/Icons/ajax_loader_blue.gif" alt="ajax-loader" />
+              </h2>
+              <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
+            </div>
+          </f:comment>
+          </f:else>
+        </f:if>
       </f:then>
       <f:else>
         <div class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <f:translate key="error.NoResult" />
-        </div>
-        <f:comment>
-        <p><f:translate key="error.NoResultAdditional" /></p>
-        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-        <div id="ajax-load-dealer">
-          <h2 class="dealers-header pre-loader">
-            <f:translate key="ajax_preload" />
-            <f:image src="EXT:pxa_dealers/Resources/Public/Icons/ajax_loader_blue.gif" alt="ajax-loader" />
-          </h2>
-          <h2 class="dealers-header after-load"><f:translate key="ajax_loaded_dealer" /></h2>
-        </div>
-      </f:comment>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <f:translate key="error.ApiError" />
+          </div>
       </f:else>
     </f:if>
     

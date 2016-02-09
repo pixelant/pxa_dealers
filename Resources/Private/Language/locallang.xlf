@@ -72,6 +72,9 @@
 			<trans-unit id="error.EmptyValue">
 				<source>You need to fill in zipcode or city</source>
 			</trans-unit>
+			<trans-unit id="error.ApiError">
+				<source>Google API Key in not valid or API key reached daily query limit</source>
+			</trans-unit>
 
 			<trans-unit id="placeholder">
 				<source>Enter postcode or city</source>
