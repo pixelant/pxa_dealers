@@ -99,13 +99,13 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		    		$this->view->assign('errorApi',1);
 		    	}
 	        } else {
-	        	$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+	        	$GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
 	        }
 
 	        $this->view->assign('dealers',$dealers);					
 		    $this->view->assign('searchValue',$args['searchValue']);
 		} else {
-			$GLOBALS['TSFE']->additionalJavaScript['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
+			$GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
 		}
 
 		$this->view->assign('status',$status);		
