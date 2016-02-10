@@ -84,7 +84,6 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			} else {
 				$dealers = $this->dealersRepository->getDealersByZipCode($args['searchValue'],$this->settings['resultLimit']);
 			}
-
 			$checkDealers = $this->checkDealers($dealers,$defaultCountry);
 
 		    if($dealers->count() > 0) { 
@@ -264,8 +263,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
 	        	    $dealer->setLatLngIsSet(1);
 	                $this->dealersRepository->update($dealer);
-	                $result = TRUE;
                 }
+			}else{
+				$result = TRUE;
 			}
 		}
 		return $result;
