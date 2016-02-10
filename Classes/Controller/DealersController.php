@@ -259,11 +259,13 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity() . ', ' . $dealer->getCountry();
                 if($this->checkApi()){
                 	$response = $this->getAddress($address);
-	                $dealer->setLat($response['results'][0]['geometry']['location']['lat']);
-	                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
-	        	    $dealer->setLatLngIsSet(1);
-	                $this->dealersRepository->update($dealer);
-	                $result = TRUE;
+                        if($response['results'][0]['geometry']['location']['lat'] != '' && $response['results'][0]['geometry']['location']['lng'] != ''){
+                                $dealer->setLat($response['results'][0]['geometry']['location']['lat']);
+                                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
+                                $dealer->setLatLngIsSet(1);
+                                $this->dealersRepository->update($dealer);
+                        }
+                    $result = TRUE;
                 }
 			}else{
 				$result = TRUE;
