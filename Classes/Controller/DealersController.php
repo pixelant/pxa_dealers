@@ -222,9 +222,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	protected function checkApi() {
 		// Check if Google Api valid
-		if(isset($this->settings['GeoLocationApiKey']) && !empty($this->settings['GeoLocationApiKey'])){
+		if(isset($this->settings['geoLocationApiKey']) && !empty($this->settings['geoLocationApiKey'])){
 			$url = "https://maps.google.com/maps/api/geocode/json";
-			$url .= "?key=".$this->settings['GeoLocationApiKey'];
+			$url .= "?key=".$this->settings['geoLocationApiKey'];
 		}else{
 			$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=testAddress";
 		}
@@ -279,10 +279,10 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return array
 	 */
 	protected function getAddress($address) {
-		if(isset($this->settings['GeoLocationApiKey']) && !empty($this->settings['GeoLocationApiKey'])){
+		if(isset($this->settings['geoLocationApiKey']) && !empty($this->settings['geoLocationApiKey'])){
 			$url = "https://maps.google.com/maps/api/geocode/json?sensor=false&address=";
 			$url .= urlencode($address);
-			$url .= "&key=".$this->settings['GeoLocationApiKey'];
+			$url .= "&key=".$this->settings['geoLocationApiKey'];
 		}else{
 			$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=";
 			$url .= urlencode($address);
