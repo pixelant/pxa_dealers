@@ -263,6 +263,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
 	        	    $dealer->setLatLngIsSet(1);
 	                $this->dealersRepository->update($dealer);
+	                $result = TRUE;
                 }
 			}else{
 				$result = TRUE;
