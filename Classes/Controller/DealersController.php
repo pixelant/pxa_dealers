@@ -254,7 +254,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return boolean 
 	 */
 	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
-		$result = TRUE;
+		$result = FALSE;
 		foreach ($dealers as $dealer) {
 			if($dealer->getLatLngIsSet() == FALSE) {				
                 $address = $dealer->getAdrress(). ', ' . $dealer->getZipcode() . ' ' . $dealer->getCity() . ', ' . $dealer->getCountry();
@@ -264,8 +264,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	                $dealer->setLng($response['results'][0]['geometry']['location']['lng']);
 	        	    $dealer->setLatLngIsSet(1);
 	                $this->dealersRepository->update($dealer);
-                }else{
-                	$result = FALSE;
+	                $result = TRUE;
                 }
 			}
 		}
