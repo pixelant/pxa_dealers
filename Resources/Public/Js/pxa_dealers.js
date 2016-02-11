@@ -47,12 +47,12 @@ function showError(error) {
 
 function showDefaultMap() {
   var mapOptions = {
-            center: new google.maps.LatLng(51.165691,10.451526), 
-            zoom: 4,
+            center: new google.maps.LatLng(53.6706,-2.4100), 
+            zoom: 6,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
       };
   var map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);
-  checkLocation();
+  //checkLocation();
 }
 function initializeMapPxaDealers() {
   /*var styles = '[{ "elementType": "geometry", "stylers": [ { "hue": "#0055ff" }, { "saturation": -84 } ] },{ "elementType": "labels", "stylers": [ { "hue": "#0022ff" }, { "saturation": -69 } ] }]';
