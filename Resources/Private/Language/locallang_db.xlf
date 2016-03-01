@@ -51,6 +51,9 @@
 			<trans-unit id="flexform.searchResultPage">
 				<source>Page with search results</source>
 			</trans-unit>
+			<trans-unit id="flexform.searchLimit">
+				<source>Search limit</source>
+			</trans-unit>
 			<trans-unit id="flexform.resultLimit">
 				<source>Limit of results</source>
 			</trans-unit>

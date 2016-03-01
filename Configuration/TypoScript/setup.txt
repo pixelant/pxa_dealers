@@ -29,6 +29,7 @@ plugin.tx_pxadealers {
 
 #[global]
 
+page.includeJSlibs.markerclusterer = http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js
 page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
 

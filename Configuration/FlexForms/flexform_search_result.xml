@@ -22,6 +22,18 @@
                 </TCEforms>
           </settings.mapHeight>
 
+          <settings.searchLimit>
+                <TCEforms>
+                  <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.searchLimit</label>
+                  <config>
+                    <type>input</type>
+                    <default>12</default> 
+                    <size>10</size>
+                    <eval>int</eval>            
+                  </config>
+                </TCEforms>
+          </settings.searchLimit>
+
           <settings.resultLimit>
                 <TCEforms>
                   <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.resultLimit</label>

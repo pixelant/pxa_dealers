@@ -5,3 +5,10 @@
 #ajax-load-dealer .after-load {
 	display: none;
 }
+#preview-pre-loader {
+    display: none;
+    text-align: center;
+}
+.pxa-dealers-list {
+	display: none;
+}
