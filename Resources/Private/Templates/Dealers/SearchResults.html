@@ -54,18 +54,20 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <script type="text/javascript">
               <f:format.raw>{jsArray}</f:format.raw>
               var markersArray = [];
+              <f:format.raw>{resultLimit}</f:format.raw>
+              <f:format.raw>{numberOfColumns}</f:format.raw>
             </script>
             <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
 
-            <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
+            <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}" id="0">
               
               <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
                 <f:if condition="{settings.newRow}">              
-                      
                   <f:if condition="<pxa:isNewRow current=\"{itemIterationDealers.index}\" needed=\"{settings.newRow}\"/>">
                     </div>
-                    <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">                   
+                    <v:var.set name="row" value="{v:math.division(a: itemIterationDealers.index, fail: 1, b: settings.newRow)}"/>
+                    <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}" id="{row}">                   
                   </f:if>
                     
                 </f:if>

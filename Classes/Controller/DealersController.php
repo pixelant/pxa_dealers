@@ -80,9 +80,9 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if($status == self::searchValueOK) {
 			$zipcode = preg_replace('/\s+/', '', $args['searchValue']);
 			if($args['searchBy'] == 1) {
-				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['resultLimit']);
+				$dealers = $this->dealersRepository->getDealersByCity($args['searchValue'],$this->settings['searchLimit']);
 			} else {
-				$dealers = $this->dealersRepository->getDealersByZipCode($args['searchValue'],$this->settings['resultLimit']);
+				$dealers = $this->dealersRepository->getDealersByZipCode($args['searchValue'],$this->settings['searchLimit']);
 			}
 			$checkDealers = $this->checkDealers($dealers,$defaultCountry);
 
@@ -109,6 +109,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 
 		$this->view->assign('status',$status);		
+		$this->view->assign('resultLimit', 'var resultLimit = '.$this->settings['resultLimit']);
+		$this->view->assign('numberOfColumns', 'var numberOfColumns = '.$this->settings['newRow']);
 	}
 
 	/**

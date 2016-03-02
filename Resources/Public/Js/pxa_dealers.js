@@ -93,6 +93,7 @@ function initializeMapPxaDealers() {
     map.fitBounds(bounds);
       map.setCenter(bounds.getCenter()); 
   }
+  var mc = new MarkerClusterer(map, markersArray);
 }
 function switchToStreetView(i) {
   var position = markersArray[i].getPosition();
@@ -178,4 +179,23 @@ $( document ).ready(function() {
 
     window.document.location = url;
   });
+
+  var numberOfRows = Math.floor(resultLimit/numberOfColumns);
+
+  for (i = 0; i < numberOfRows; i++) { 
+      $('#' + i).fadeIn();
+  }
+
+  $(window).scroll(function() {
+  var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
+  var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
+  var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
+    if ($(window).scrollTop() >= bottomOfDocWithOffset) {
+      var tempRawId = parseInt(lastRawId, 10);
+      for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
+          $('#' + i).fadeIn();
+      }
+    }
+  });
+
 });
