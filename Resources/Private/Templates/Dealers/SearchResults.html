@@ -58,7 +58,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
             </script>
             <h2 class="dealers-header"><f:translate key="closest_dealer" arguments="{0: '{dealers -> f:count()}'}" /></h2>
 
-            <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">
+            <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}" id="0">
               
               <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 

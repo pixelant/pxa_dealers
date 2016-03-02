@@ -183,7 +183,7 @@ $( document ).ready(function() {
 
   var numberOfRows = Math.floor(resultLimit/numberOfColumns);
 
-  for (i = 0; i <= numberOfRows; i++) { 
+  for (i = 0; i < numberOfRows; i++) { 
       $('#' + i).fadeIn();
   }
 
