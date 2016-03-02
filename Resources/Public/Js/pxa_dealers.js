@@ -187,9 +187,11 @@ $( document ).ready(function() {
   }
 
   $(window).scroll(function() {
+  var lastDiv = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last()
   var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
   var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
-  var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
+  //var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
+  var bottomOfDocWithOffset = lastDiv.offset().top + lastDiv.innerHeight() - $(window).height();
     if ($(window).scrollTop() >= bottomOfDocWithOffset) {
       var tempRawId = parseInt(lastRawId, 10);
       for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
