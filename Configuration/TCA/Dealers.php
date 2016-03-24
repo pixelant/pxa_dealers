@@ -20,6 +20,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
 			'config' => array(
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
@@ -34,6 +35,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
 			'config' => array(
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'items' => array(
 					array('', 0),
 				),
@@ -143,6 +145,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country',
 			'config' => array(
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'foreign_table' => 'static_countries',
 				'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
 				'size' => 1,
@@ -163,6 +166,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			//'displayCond' => 'FIELD:country:IN:220,36,54,13,41,65,148,14,104,74,97,29,157,72,170,93',
 			'config' => array(
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'foreign_table' => 'static_country_zones',
 				'foreign_table_where' => 'AND static_country_zones.zn_country_uid = ###REC_FIELD_country### ORDER BY static_country_zones.uid',
 				'items' => array(
