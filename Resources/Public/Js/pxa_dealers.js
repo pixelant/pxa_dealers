@@ -856,6 +856,8 @@ if (typeof pxa_dealers_enabled != 'undefined') {
 
     $( document ).ready(function() {
 
+        var pxa_dealers = new PxaDealers();
+
         // ISOTOPE TEST
 
         $("#pxa-dealers-list-container").isotope({
@@ -872,12 +874,15 @@ if (typeof pxa_dealers_enabled != 'undefined') {
         pxa_dealers.originalDealersHeader = $("#dealers-header-original").html();
         pxa_dealers.initializeMapPxaDealers();
         pxa_dealers.selectedCountry = $(".pxa-dealers .dealer-countries").val();
-        //console.log(pxa_dealers);
 
         // If results page was opened by using external search filed - apply the search
         if(initialSearchValue.length > 0) {
             $(".pxa-dealers .dealer-cityzip-search").val(initialSearchValue);
             $(".pxa-dealers .dealer-countries").val($(".pxa-dealers .dealer-countries option:first").val());
+            initialSearchValue = "";
+            setTimeout(function(){
+                $(".pxa-dealers .dealer-cityzip-search").trigger("search");
+            },50);
         }
 
         // Show google street view
@@ -892,15 +897,6 @@ if (typeof pxa_dealers_enabled != 'undefined') {
         if( $(".pxa-dealers .dealer-countries").length && $(".pxa-dealers .dealer-country-states").length ) {
             populateCountryZones( $(".pxa-dealers .dealer-countries").val() );
         }
-
-        $('form[name="searchDealers"]').on('submit', function(event){
-            event.preventDefault();
-            var url = $(this).attr('action').replace(/\/?$/, '/') + $(this).find('input[name="tx_pxadealers_pxadealerssearchresults[searchValue]"]').val();
-
-            url = (url.charAt(0) != '/' ? ('/'+url) : url);
-
-            window.document.location = url;
-        });
 
         // Categories change
         $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
@@ -954,13 +950,15 @@ if (typeof pxa_dealers_enabled != 'undefined') {
         });
 
         // City/zip search entered
-        $(".pxa-dealers .dealer-cityzip-search").keypress(function (e) {
-            if(e.which == 13) {
+        $(".pxa-dealers .dealer-cityzip-search").on("keypress search", function (e) {
+
+            if(e.type == "search" || (e.type = "keypress" && e.which == 13) ) {
 
                 var searchValue = $(this).val();
                 pxa_dealers.cityZipSearch(searchValue);
 
             }
+
         });
 
         // Find closest
@@ -993,5 +991,19 @@ if (typeof pxa_dealers_enabled != 'undefined') {
     });
 
 }
-var pxa_dealers = new PxaDealers();
+
+    $( document ).ready(function() {
+
+        $('form[name="searchDealers"]').on('submit', function(event){
+            event.preventDefault();
+
+            var url = $(this).attr('action').replace(/\/?$/, '/') + $(this).find('input[name="tx_pxadealers_pxadealerssearchresults[searchValue]"]').val();
+
+            url = (url.charAt(0) != '/' ? ('/'+url) : url);
+
+            window.document.location = url;
+        });
+
+    });
+
 }
