@@ -52,7 +52,6 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function getDealersUniqueCountriesUids() {
 
 		$query = $this->createQuery();
-		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
 
 		/* really bad way of doing things.*/
 
@@ -69,7 +68,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		
 		$query->statement($statement);
 
-		$result = $query->execute();
+		$result = $query->execute(true);
 
 		if( function_exists("array_column") ) {
 			$result = array_column($result, 'country');
