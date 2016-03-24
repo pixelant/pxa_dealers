@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_pxadealers_domain_model_dealers'] = array(
 	'ctrl' => $TCA['tx_pxadealers_domain_model_dealers']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, telephone, fax, website, buy_it_now, zipcode, city, country, country_zone email, lat, lng, lat_lng_is_set, show_street_view',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, telephone, fax, website, buy_it_now, zipcode, adrress, city, country, country_zone email, lat, lng, lat_lng_is_set, show_street_view',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, logo, country, country_zone, zipcode, city, telephone, fax, email, website, buy_it_now, show_street_view, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, name, logo, country, country_zone, zipcode, adrress, city, telephone, fax, email, website, buy_it_now, show_street_view, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
