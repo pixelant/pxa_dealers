@@ -88,7 +88,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function getDealersUniqueCountries() {
 
 		// get countries
-		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+		$countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
 
 		$query = $countryRepository->createQuery();
 		$query->matching(
@@ -106,7 +106,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	public function getDealersUniqueCountriesFormatted() {
 
-		$tsService = $this->objectManager->get("\TYPO3\CMS\Extbase\Service\TypoScriptService");
+		$tsService = $this->objectManager->get("TYPO3\CMS\Extbase\Service\TypoScriptService");
 		$ts = $tsService->convertTypoScriptArrayToPlainArray( $GLOBALS['TSFE']->tmpl->setup );
 		$settings = $ts['plugin']['tx_pxadealers']['settings'];
 
@@ -188,7 +188,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		}
 
 		// get states
-		$countryZoneRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
+		$countryZoneRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
 
 		$query = $countryZoneRepository->createQuery();
 		$query->matching(

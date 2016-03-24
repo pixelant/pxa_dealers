@@ -111,7 +111,7 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
 		$countryZonesCollection = array();
 
-		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+		$countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
 
 		// get all country-zones for all presented countries
 		if( $this->settings['dealers_countries_states_selector'] ) {

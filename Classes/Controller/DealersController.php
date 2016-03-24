@@ -53,11 +53,18 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	public function initializeAction() {
 		$path_to_js = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('pxa_dealers') . "Resources/Public/Js/";
 
+		// Include google maps lib
 		if( $this->settings['includeGoogleMaps'] == 1) {
 			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?sensor=false",
 					'text/javascript', false, false, '', true, '|');
 		}
 
+		// Include built-in isotope lib
+		if( $this->settings['includeIsotope'] == 1) {
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($path_to_js . "isotope.pkgd.min.js");
+		}
+
+		// Include local scripts
 		if( $this->settings['includeLocalScripts'] == 1) {
 			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($path_to_js . "markerclusterer.js");
 			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterFile($path_to_js . "pxa_dealers.js");

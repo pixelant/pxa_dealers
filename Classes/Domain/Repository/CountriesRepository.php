@@ -64,12 +64,12 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$localNames = array();
 
         // Check if static info table extension repository exists
-		if ( !class_exists("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
+		if ( !class_exists("SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository") ) {
 			return $localNames;
 		}
 
 		// get states
-		$countryZoneRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
+		$countryZoneRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
 
 		$query = $countryZoneRepository->createQuery();
 		$query->matching(
@@ -126,7 +126,7 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	public function getCountryNamesForUids($uidList) {
 
-		$countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+		$countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
 
 		$resultArray = array();
 

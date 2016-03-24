@@ -1,5 +1,5 @@
 {namespace pxa=PXA\PxaDealers\ViewHelpers}
-{namespace v=\FluidTYPO3\Vhs\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
 
 <f:layout name="Default" />
 This Template is responsible for creating a table of domain objects.
@@ -18,12 +18,13 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
   <f:if condition="{dealers -> f:count()} > 0">
     <f:then>
+
       <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
         <script type="text/javascript">
           var dealers = <f:format.raw>{dealersJson}</f:format.raw>
           var pxa_dealers_enabled = 1;
           var initialSearchValue = "<f:format.raw>{searchValue}</f:format.raw>";
-          var settings = <v:format.json.encode value="{settings}" useTraversableKeys="0" preventRecursion="1" />
+          var settings = {v:format.json.encode(value:"{settings}", useTraversableKeys:0, preventRecursion:1)}
           var countriesList = <f:format.raw>{countriesList}</f:format.raw>
           var labels = [];
           labels['country_list.all_country_zones'] = '<f:translate key="country_list.all_country_zones" />';

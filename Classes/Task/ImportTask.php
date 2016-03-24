@@ -64,8 +64,8 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
 
     // Init repositories
     $this->dealersRepository = $this->objectManager->get("PXA\PxaDealers\Domain\Repository\DealersRepository");
-    $this->countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
-    $this->countryZoneRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
+    $this->countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+    $this->countryZoneRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
 
     $default_storage_pid = 1;
 

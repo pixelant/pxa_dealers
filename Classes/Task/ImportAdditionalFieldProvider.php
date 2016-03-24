@@ -46,7 +46,7 @@ class ImportAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFi
 
 	public function __construct() {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Object\ObjectManager");
-		$this->countryRepository = $this->objectManager->get("\SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+		$this->countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
 	}
 
 	/**

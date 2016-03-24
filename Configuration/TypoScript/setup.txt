@@ -58,6 +58,7 @@ plugin.tx_pxadealers {
 		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
 		includeGoogleMaps = {$plugin.tx_pxadealers.settings.includeGoogleMaps}
         includeLocalScripts = {$plugin.tx_pxadealers.settings.includeLocalScripts}
+        includeIsotope = {$plugin.tx_pxadealers.settings.includeIsotope}
 
 	}
 }
