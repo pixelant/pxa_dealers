@@ -33,6 +33,12 @@ if (!defined('TYPO3_MODE')) {
 	'Pxa Dealers: Find Closest'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	$_EXTKEY,
+	'Pxadealersmap',
+	'Pxa Dealers: Map'
+);
+
 /* Add FlexForm */
 
 $pluginSignature = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
@@ -47,6 +53,9 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerscountries'] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerscountries', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_countries.xml');
+
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealersmap'] = 'pi_flexform';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealersmap', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_map.xml');
 /****************************************/
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Pxa Dealers');

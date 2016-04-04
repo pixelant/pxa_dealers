@@ -9,7 +9,10 @@
     <f:if condition="{dealers -> f:count()} > 0">
       <f:then>
 
-        <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+        <f:if condition="{settings.showMap}">
+          <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+        </f:if>
+
         <script type="text/javascript">
           var dealers = <f:format.raw>{dealersJson}</f:format.raw>
           var pxa_dealers_enabled = 1;
@@ -80,7 +83,11 @@
       <button type="button" class="close" data-dismiss="alert">×</button>
       <f:translate key="error.NoResult" />
     </div>
-    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+
+    <f:if condition="{settings.showMap}">
+      <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
+    </f:if>
+
     <div id="ajax-load-dealer">
       <h2 class="dealers-header pre-loader">
         <f:translate key="ajax_preload" />

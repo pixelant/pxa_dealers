@@ -232,5 +232,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		return json_encode($countriesList);
 	}
 
+	public function showMapAction() {
+	}
+
 }
 ?>

@@ -856,8 +856,6 @@ if (typeof pxa_dealers_enabled != 'undefined') {
 
         var pxa_dealers = new PxaDealers();
 
-        console.log(pxa_dealers.pluginSettings.layoutType);
-
         // If using grid layout - init isotope
         if( pxa_dealers.pluginSettings.layoutType == 'grid' ) {
 

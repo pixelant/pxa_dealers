@@ -9,18 +9,7 @@
           <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
         </TCEforms>
         <type>array</type>
-        <el>	 
-          <settings.mapHeight>
-                <TCEforms>
-                  <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
-                  <config>
-                    <type>input</type>
-                    <default>555</default> 
-                    <size>10</size>
-                    <eval>int</eval>           
-                  </config>
-                </TCEforms>
-          </settings.mapHeight>
+        <el>
 
           <settings.resultLimit>
                 <TCEforms>
@@ -87,7 +76,6 @@
                 </config>
             </TCEforms>
           </settings.clusterMarkers>
-
 
           <settings.showLogo>
             <TCEforms>
@@ -163,6 +151,30 @@
               </config>
             </TCEforms>
           </settings.layoutType>
+
+          <settings.showMap>
+            <TCEforms>
+              <label>Show map</label>
+              <onChange>reload</onChange>
+              <config>
+                <type>check</type>
+                <default>1</default>
+              </config>
+            </TCEforms>
+          </settings.showMap>
+
+          <settings.mapHeight>
+            <TCEforms>
+              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
+              <displayCond>FIELD:settings.showMap:=:1</displayCond>
+              <config>
+                <type>input</type>
+                <default>555</default>
+                <size>10</size>
+                <eval>int</eval>
+              </config>
+            </TCEforms>
+          </settings.mapHeight>
 
                 </el>
             </ROOT>

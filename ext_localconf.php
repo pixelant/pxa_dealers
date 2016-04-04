@@ -72,6 +72,19 @@ if (!defined('TYPO3_MODE')) {
 	)
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'PXA.' . $_EXTKEY,
+	'Pxadealersmap',
+	array(
+		'Dealers' => 'showMap',
+
+	),
+	// non-cacheable actions
+	array(
+		'Dealers' => 'showMap',
+	)
+);
+
 // Hook before dealer is saved 
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['PxaDealers\\Hook\\DealersHook'] = 'EXT:pxa_dealers/Classes/Hook/PxaDealersHook.php:&PXA\\PxaDealers\\Hook\\PxaDealersHook';
 
