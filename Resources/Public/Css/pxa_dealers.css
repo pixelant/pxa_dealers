@@ -27,3 +27,42 @@
 	opacity:0;
 }
 
+.pxa-dealers-list-container.alphabet {
+	overflow: hidden;
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	-o-column-count: 4;
+	column-count: 4;
+}
+
+@media (max-width: 1200px) {
+	.pxa-dealers-list-container.alphabet {
+		overflow: hidden;
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		-o-column-count: 3;
+		column-count: 3;
+	}
+}
+
+
+@media (max-width: 1024px) {
+	.pxa-dealers-list-container.alphabet {
+		overflow: hidden;
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		-o-column-count: 2;
+		column-count: 2;
+	}
+}
+
+@media only screen
+and (max-width: 640px) {
+	.pxa-dealers-list-container.alphabet {
+		overflow: hidden;
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		-o-column-count: 1;
+		column-count: 1;
+	}
+}

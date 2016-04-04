@@ -145,6 +145,25 @@
                 </TCEforms>
             </settings.defaultCountry>
 
+          <settings.layoutType>
+            <TCEforms>
+              <label>Default country</label>
+              <config>
+                <type>select</type>
+                <items type="array">
+                  <numIndex index="0" type="array">
+                    <numIndex index="0">Grid</numIndex>
+                    <numIndex index="1">grid</numIndex>
+                  </numIndex>
+                  <numIndex index="1" type="array">
+                    <numIndex index="0">Alphabet</numIndex>
+                    <numIndex index="1">alphabet</numIndex>
+                  </numIndex>
+                </items>
+              </config>
+            </TCEforms>
+          </settings.layoutType>
+
                 </el>
             </ROOT>
         </main>

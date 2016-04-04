@@ -35,7 +35,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
       <div id="dealers-header-original" style="display:none !important"><f:translate key="closest_dealer" arguments="{0: '<span id=\"dealers-count\">{dealers -> f:count()}</span>'}" /></div>
       <h2 class="dealers-header" id="dealers-header">{dealers -> f:count()} <f:translate key="dealers_found" /></h2>
 
-      <div class="pxa-dealers-list-container" id="pxa-dealers-list-container">
+      <div class="pxa-dealers-list-container{f:if(condition: '{settings.layoutType} == "alphabet"', then: ' alphabet')}"
+           id="pxa-dealers-list-container">
 
 		  <f:comment>
         <div class="pxa-dealers-list{f:if(condition: settings.additionalListWrapperClass, then: ' {settings.additionalListWrapperClass}')}">

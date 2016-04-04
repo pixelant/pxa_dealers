@@ -653,7 +653,14 @@ function PxaDealers() {
     self.updateAll = function(dealers) {
         self.clearMap();
         self.updateMap(dealers);
-        self.updateCardsIsotope(dealers);
+
+        if( self.pluginSettings.layoutType == "alphabet" ) {
+            self.updateCards(dealers);
+        }
+
+        if( self.pluginSettings.layoutType == "grid" ) {
+            self.updateCardsIsotope(dealers)
+        }
     }
 
     // Update map
@@ -678,46 +685,36 @@ function PxaDealers() {
 
         var dealerUids = [];
 
+        enabledDealersListItems = [];
+
         $.each( dealers, function(index, dealer) {
+            enabledDealersListItems.push (
+                self.allDealersList.filter( ".isotope-item[data-uid='" + dealer.uid + "']")
+            );
             dealerUids.push(dealer.uid);
         });
 
-        enabledDealersListItems = [];
+        var letters = [];
 
         $(".pxa-dealers-list-container").fadeToggle( "fast", "linear", function() {
 
             $(".pxa-dealers-list-container").html('');
 
-            self.allDealersList.each( function() {
-                $this = $(this);
-                if( $.inArray($this.attr("data-uid"), dealerUids) !== -1 ) {
-                    enabledDealersListItems.push(this);
-                    $(".pxa-dealers-list-container").append(this);
-                }
-            });
-
             enabledDealersListItems.sort(function(a, b){
                 return $(a).find(".dealer-name").text() > $(b).find(".dealer-name").text() ? 1 : -1;
             });
 
-            var counter = 0;
-            var newRow;
-
             $(enabledDealersListItems).each(function() {
-
-                if(counter === 0) {
-                    newRow = $("<div class='pxa-dealers-list " + self.pluginSettings.additionalListWrapperClass + "'></div>");
-                    $(".pxa-dealers-list-container").append(newRow);
+                if( letters.indexOf( $(this).data("name")[0] ) < 0 ) {
+                    letters.push ( $(this).data("name")[0] );
                 }
+                $(".pxa-dealers-list-container").append(this);
+            });
 
-                $(newRow).append(this);
-
-                counter++;
-
-                if(counter == self.pluginSettings.newRow) {
-                    counter = 0;
+            $(letters).each(function(index, val){
+                if ( $(".letter-heading#" + val + "-letter").length <= 0 ) {
+                    $(".isotope-item[data-name^='" + val + "']").first().before("<div id='" + val + "-letter' class='letter-heading'>" + val + "</div>");
                 }
-
             });
 
             $("#dealers-count").html(enabledDealersListItems.length);
@@ -734,6 +731,7 @@ function PxaDealers() {
 
             $(".pxa-dealers-list-container").fadeToggle( "fast", "linear");
         });
+
     }
 
 
@@ -858,17 +856,19 @@ if (typeof pxa_dealers_enabled != 'undefined') {
 
         var pxa_dealers = new PxaDealers();
 
-        // ISOTOPE TEST
+        console.log(pxa_dealers.pluginSettings.layoutType);
 
-        $("#pxa-dealers-list-container").isotope({
-                                                     itemSelector: '.isotope-item',
-                                                     layoutMode: 'fitRows',
-                                                     getSortData: {
-                                                         name: '[data-name]'
-                                                     }
-                                                 });
+        // If using grid layout - init isotope
+        if( pxa_dealers.pluginSettings.layoutType == 'grid' ) {
 
-        //
+            $("#pxa-dealers-list-container").isotope({
+                itemSelector: '.isotope-item',
+                layoutMode: 'fitRows',
+                getSortData: {
+                    name: '[data-name]'
+                }
+            });
+        }
 
         pxa_dealers.allDealersList = $(".pxa-dealers-list-container .dealer-item").clone();
         pxa_dealers.originalDealersHeader = $("#dealers-header-original").html();
