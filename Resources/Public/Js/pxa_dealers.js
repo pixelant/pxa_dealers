@@ -307,7 +307,8 @@ function PxaDealers() {
     self.belongsToCategories = function(marker, selectedCategories) {
 
         var categories = JSON.parse( marker['categories'] );
-        if( categories.length == 0 ) {
+
+        if( selectedCategories.length == 0 ) {
             return true;
         } else {
             return arrayIntersect(categories, selectedCategories);
