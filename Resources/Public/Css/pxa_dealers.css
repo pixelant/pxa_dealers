@@ -27,7 +27,13 @@
 	opacity:0;
 }
 
-.pxa-dealers-list-container.alphabet {
+.dealer-item {
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+.pxa-dealers-list-container.alphabet .items-collection{
 	overflow: hidden;
 	-webkit-column-count: 4;
 	-moz-column-count: 4;
@@ -36,7 +42,7 @@
 }
 
 @media (max-width: 1200px) {
-	.pxa-dealers-list-container.alphabet {
+	.pxa-dealers-list-container.alphabet .items-collection{
 		overflow: hidden;
 		-webkit-column-count: 3;
 		-moz-column-count: 3;
@@ -47,7 +53,7 @@
 
 
 @media (max-width: 1024px) {
-	.pxa-dealers-list-container.alphabet {
+	.pxa-dealers-list-container.alphabet .items-collection{
 		overflow: hidden;
 		-webkit-column-count: 2;
 		-moz-column-count: 2;
@@ -58,7 +64,7 @@
 
 @media only screen
 and (max-width: 640px) {
-	.pxa-dealers-list-container.alphabet {
+	.pxa-dealers-list-container.alphabet .items-collection{
 		overflow: hidden;
 		-webkit-column-count: 1;
 		-moz-column-count: 1;

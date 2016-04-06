@@ -716,6 +716,7 @@ function PxaDealers() {
                 if ( $(".letter-heading#" + val + "-letter").length <= 0 ) {
                     $(".isotope-item[data-name^='" + val + "']").first().before("<div id='" + val + "-letter' class='letter-heading'>" + val + "</div>");
                 }
+                $(".isotope-item[data-name^='" + val + "']").wrapAll( "<div class='items-collection " + val + "-letter-collection' />" );
             });
 
             $("#dealers-count").html(enabledDealersListItems.length);
