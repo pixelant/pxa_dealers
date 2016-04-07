@@ -48,12 +48,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<f:if condition="{settings.dealers_countries_cityzip_search}">
 
 		<!-- City / zone search -->
-
-		<div class="form-group">
-
-			<f:form.textfield class="form-control dealer-cityzip-search" name="dealer-cityzip-search" value="" placeholder='<f:translate key="country_list_city_zip_search" />'/>
-
-		</div>
+		<f:render partial="ZipCitySearch" />
 
 	</f:if>
 
