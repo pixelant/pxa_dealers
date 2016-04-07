@@ -165,8 +165,10 @@ function PxaDealers() {
 
     // Get map marker
     self.getAddress = function ( dealer, callback ) {
+        
+        var markerType = $(".dealer-item[data-uid=" + dealer.uid + "]").data("marker-type");
+        var markerIcon = self.pluginSettings.map.markerTypes[markerType];
 
-        var markerIcon = self.pluginSettings.map.markerImage;
         var pos = new google.maps.LatLng( dealer['lat'], dealer['lng'] );
 
         var address = dealer['address'] ? '<br/>' + dealer['address'] : '';

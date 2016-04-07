@@ -33,7 +33,11 @@
 
         <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
 
-          <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-name="{dealer.name}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+          <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}"
+                data-name="{dealer.name}"
+                data-uid="{dealer.uid}"
+                data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}"
+                data-marker-type="default">
 
             <div class="dealer-header">
               <b class="dealer-name">{dealer.name}</b>
