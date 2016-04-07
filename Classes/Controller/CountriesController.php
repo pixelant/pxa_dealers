@@ -108,7 +108,6 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$countryNames = $this->countriesRepository->getCountryNamesForUids( array_keys($countries) );
 		$this->view->assign('countryNames', json_encode( $countryNames ));
 
-
 		$countryZonesCollection = array();
 
 		$countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
@@ -138,6 +137,31 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$this->view->assign('countries', $countries);
 		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));
 		$this->view->assign('selectedLanguage', $selected);
+	}
+
+	public function countriesSelectorAction(){
+	}
+
+	public function statesSelectorAction(){
+
+		$countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
+
+		// Get country
+		$countryObject = $countryRepository->findByUid($this->settings['statesCountry']);
+
+		$countries = [];
+		$countries[$this->settings['statesCountry']] = $countryObject->getShortNameEn();
+
+		// Get country zones
+		$countryZonesCollection = array();
+		$countryZonesCollection[$this->settings['statesCountry']] = $this->countriesRepository
+			->getAvaliableCountryZonesByCountry( $countryObject );
+
+		$this->view->assign('countries', $countries);
+		$this->view->assign('countryZones', json_encode( $countryZonesCollection ));
+	}
+
+	public function zipCitySearchAction(){
 	}
 
 }

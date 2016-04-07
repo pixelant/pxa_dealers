@@ -1,45 +1,98 @@
 <T3DataStructure>
-  <meta>
-    <langDisable>1</langDisable>
-  </meta>
-  <sheets>
-    <main>
-      <ROOT>
-        <TCEforms>
-          <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
-        </TCEforms>
-        <type>array</type>
-        <el>	 
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <main>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
 
-      <settings.dealers_countries_selector>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesSelector</label>
-              <config>
-               <type>check</type>
-              </config>
-            </TCEforms>
-      </settings.dealers_countries_selector>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <onChange>reload</onChange>
+                            <label>LLL:EXT:pxa_product_manager/Resources/Private/Language/locallang_db_local.xlf:flexform.mode</label>
+                            <config>
+                                <type>select</type>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">Country selector</numIndex>
+                                        <numIndex index="1">Countries->countriesSelector</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">States selector</numIndex>
+                                        <numIndex index="1">Countries->statesSelector</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Zip/city search</numIndex>
+                                        <numIndex index="1">Countries->zipCitySearch</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">All selectors</numIndex>
+                                        <numIndex index="1">Countries->list</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
 
-      <settings.dealers_countries_states_selector>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesStatesSelector</label>
-              <config>
-               <type>check</type>
-              </config>
-            </TCEforms>
-      </settings.dealers_countries_states_selector>
+                    <settings.statesCountry>
+                        <TCEforms>
+                            <label>Country</label>
+                            <displayCond>FIELD:switchableControllerActions:IN:Countries->statesSelector</displayCond>
+                            <config>
+                                <type>select</type>
+                                <maxitems>1</maxitems>
+                                <size>1</size>
+                                <autoSizeMax>20</autoSizeMax>
+                                <minitems>1</minitems>
+                                <foreign_table>static_countries</foreign_table>
+                                <foreign_table_where>AND static_countries.deleted = 0 order by static_countries.cn_short_en</foreign_table_where>
+                                <allowNonIdValues>0</allowNonIdValues>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.statesCountry>
 
-      <settings.dealers_countries_cityzip_search>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesCityZipSearch</label>
-              <config>
-               <type>check</type>
-              </config>
-            </TCEforms>
-      </settings.dealers_countries_cityzip_search>
+                    <settings.dealers_countries_selector>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesSelector</label>
+                            <displayCond>FIELD:switchableControllerActions:IN:Countries->list</displayCond>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_countries_selector>
 
-        </el>
-      </ROOT>
-    </main>
-  </sheets>
+                    <settings.dealers_countries_states_selector>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesStatesSelector</label>
+                            <displayCond>FIELD:switchableControllerActions:IN:Countries->list</displayCond>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_countries_states_selector>
+
+                    <settings.dealers_countries_cityzip_search>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCountiesCityZipSearch</label>
+                            <displayCond>FIELD:switchableControllerActions:IN:Countries->list</displayCond>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_countries_cityzip_search>
+
+                </el>
+            </ROOT>
+        </main>
+    </sheets>
 </T3DataStructure>
