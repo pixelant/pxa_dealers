@@ -87,7 +87,7 @@
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
-				<source>No retailers were found. Try searching with a different zip code or remove the filtering to the left.</source>
+				<source>No retailers were found. Try searching with a different zip code or remove the filtering options.</source>
 			</trans-unit>
 
 			<trans-unit id="country_list_select_zone">

@@ -725,7 +725,7 @@ function PxaDealers() {
 
             $(".dealers-header").fadeToggle( "fast", "linear", function() {
                 if(enabledDealersListItems.length <= 0) {
-                    $(".dealers-header").text(noResultsFoundLabel);
+                    $(".dealers-header").text(self.labels.notDealersFoundFilteringMessage);
                 } else {
                     $(".dealers-header").html(self.originalDealersHeader);
                     $(".dealers-header #dealers-count").html(enabledDealersListItems.length);
