@@ -17,6 +17,10 @@ plugin.tx_pxadealers {
 			stylesJSON = 
 			name = Custom map
 			enableCategoriesFilteringZoom = 1
+			markerClusterer {
+			    maxZoom = 9
+			    gridSize = 60
+			}
 		}
 		showAllCountriesOption = 1
 		includeGoogleMaps = 1

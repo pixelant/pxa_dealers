@@ -112,8 +112,10 @@ function PxaDealers() {
 
         // Enable marker clusterer
         if(self.pluginSettings.clusterMarkers == 1) {
+
             self.markerclusterer = new MarkerClusterer(self.map, [], {
-                maxZoom: 9
+                maxZoom: parseInt(self.pluginSettings.map.markerClusterer.maxZoom),
+                gridSize: parseInt(self.pluginSettings.map.markerClusterer.gridSize)
             });
         }
 
