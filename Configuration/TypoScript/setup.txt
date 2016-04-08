@@ -37,6 +37,7 @@ plugin.tx_pxadealers {
             markerTypes {
               default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
             }
+            enableCategoriesFilteringZoom = {$plugin.tx_pxadealers.settings.map.enableCategoriesFilteringZoom}
 			#markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
 		}
 

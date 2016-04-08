@@ -16,6 +16,7 @@ plugin.tx_pxadealers {
 		map {
 			stylesJSON = 
 			name = Custom map
+			enableCategoriesFilteringZoom = 1
 		}
 		showAllCountriesOption = 1
 		includeGoogleMaps = 1

@@ -905,7 +905,12 @@ if (typeof pxa_dealers_enabled != 'undefined') {
             var $this = $(this);
             $this.parent().toggleClass('selected');
 
-            pxa_dealers.fitBoundsType = FB_MARKERS;
+            if( pxa_dealers.pluginSettings.map.enableCategoriesFilteringZoom == 1) {
+                pxa_dealers.fitBoundsType = FB_MARKERS;
+            } else {
+                pxa_dealers.fitBoundsType = FB_NONE;
+            }
+
             pxa_dealers.filterDealers();
         });
 
