@@ -23,6 +23,7 @@ plugin.tx_pxadealers {
 			}
 		}
 		showAllCountriesOption = 1
+		showUncategorizedIfNoCategorySelected = 1
 		includeGoogleMaps = 1
         includeLocalScripts = 1
         includeIsotope = 0

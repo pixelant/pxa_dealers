@@ -67,6 +67,7 @@ plugin.tx_pxadealers {
 
 		#Show "All countries" option in the country filter select box"
 		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
+		showUncategorizedIfNoCategorySelected = {$plugin.tx_pxadealers.settings.showUncategorizedIfNoCategorySelected}
 		includeGoogleMaps = {$plugin.tx_pxadealers.settings.includeGoogleMaps}
         includeLocalScripts = {$plugin.tx_pxadealers.settings.includeLocalScripts}
         includeIsotope = {$plugin.tx_pxadealers.settings.includeIsotope}

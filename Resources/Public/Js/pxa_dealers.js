@@ -313,7 +313,7 @@ function PxaDealers() {
         var categories = JSON.parse( marker['categories'] );
 
         if( selectedCategories.length == 0 ) {
-            return true;
+            return (self.pluginSettings.showUncategorizedIfNoCategorySelected == 1);
         } else {
             return arrayIntersect(categories, selectedCategories);
         }
