@@ -46,9 +46,19 @@ function showError(error) {
 }
 
 function showDefaultMap() {
+  if (typeof(defaultMapCoordinates) !== 'undefined'){
+    var coordinates = defaultMapCoordinates.split(",");
+  }else{
+    var coordinates = ["40.712784", "-74.005941"];
+  }
+  if (typeof(defaultMapZoom) !== 'undefined'){
+    var myZoom = defaultMapZoom;
+  }else{
+    var myZoom = 6;
+  }
   var mapOptions = {
-            center: new google.maps.LatLng(53.6706,-2.4100), 
-            zoom: 6,
+            center: new google.maps.LatLng(coordinates[0],coordinates[1]), 
+            zoom: myZoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
       };
   var map = new google.maps.Map(document.getElementById("pxa-dealers-map"),mapOptions);

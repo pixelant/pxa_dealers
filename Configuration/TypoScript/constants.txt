@@ -13,4 +13,8 @@ plugin.tx_pxadealers {
 	}
 	# cat=plugin.tx_pxadealers//b; type=string; label=Google Geolocation API KEY
 	geoLocationApiKey = 
+	# cat=plugin.tx_pxadealers//c; type=string; label=Default Map Coordinates
+	defaultMapCoordinates = 
+	# cat=plugin.tx_pxadealers//d; type=string; label=Default Map Zoom
+	defaultMapZoom = 
 }

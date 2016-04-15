@@ -65,7 +65,13 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function searchFormAction() {
+		if($this->settings['defaultMapCoordinates'] != ''){
+			$this->view->assign('defaultMapCoordinates', 'var defaultMapCoordinates = "'.$this->settings['defaultMapCoordinates'].'"');
+		}
 		
+		if($this->settings['defaultMapZoom'] != ''){
+			$this->view->assign('defaultMapZoom', 'var defaultMapZoom = '.$this->settings['defaultMapZoom']);
+		}
 	}
 
 	/**

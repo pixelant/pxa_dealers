@@ -19,6 +19,8 @@ plugin.tx_pxadealers {
 			resultLimit = 12
 		}
 		geoLocationApiKey = {$plugin.tx_pxadealers.geoLocationApiKey}
+		defaultMapCoordinates = {$plugin.tx_pxadealers.defaultMapCoordinates}
+		defaultMapZoom = {$plugin.tx_pxadealers.defaultMapZoom}
 	}
 }
 

@@ -12,6 +12,17 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
+<f:if condition="{defaultMapZoom} != ''">
+    <script type="text/javascript">
+        <f:format.raw>{defaultMapZoom}</f:format.raw>
+    </script>
+</f:if>
+<f:if condition="{defaultMapCoordinates} != ''">
+    <script type="text/javascript">
+        <f:format.raw>{defaultMapCoordinates}</f:format.raw>
+    </script>
+</f:if>
+
 <div class="pxa-dealers">
     <f:form action="searchResults" name="searchDealers" pageUid="{settings.searchResultPage}" pluginName="pxadealerssearchresults">
 
