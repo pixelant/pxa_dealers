@@ -214,14 +214,16 @@ $( document ).ready(function() {
               $('#' + i).fadeIn();
           }
         }
-      var myId = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last().attr('id');
-      myId = myId.split('-');
-      for (k = 0; k < myId[1]; k++) { 
-          if(k%2== 0){
-            var maxHeight = Math.max($('#dealer-' + k).height(), $('#dealer-' + (k+1)).height());
-            $('#dealer-' + k).height(maxHeight);
-            $('#dealer-' + (k+1)).height(maxHeight);
-          }
+      if(window.innerWidth > 500){
+        var myId = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last().attr('id');
+        myId = myId.split('-');
+        for (k = 0; k < myId[1]; k++) { 
+            if(k%2== 0){
+              var maxHeight = Math.max($('#dealer-' + k).height(), $('#dealer-' + (k+1)).height());
+              $('#dealer-' + k).height(maxHeight);
+              $('#dealer-' + (k+1)).height(maxHeight);
+            }
+        }  
       }
     });
   }
