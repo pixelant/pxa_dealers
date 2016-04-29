@@ -174,11 +174,16 @@ function getAddress(pos,map,infowindow, callback) {
 
 $( document ).ready(function() {
   
+  if($('.pxa-dealers').length > 0){
+    if(window.location.href.split('/').pop() == 0 && window.location.href.split('/').pop() != ''){
+      $('input[name="tx_pxadealers_pxadealerssearchresults[searchBy]"][value="0"]').attr('checked',true);
+      $('input[name="tx_pxadealers_pxadealerssearchresults[searchBy]"][value="1"]').attr('checked',false);
+    }
+  }
   $('form[name="searchDealers"] [type="radio"]').on('change', function(){
     $('[checked="checked"]').attr('checked',false)
     $(this).attr('checked','true')
   })
-
 
   $('form[name="searchDealers"]').on('submit',function(event){
     event.preventDefault();
@@ -189,25 +194,27 @@ $( document ).ready(function() {
 
     window.document.location = url;
   });
+  
+  if($('.pxa-dealers-list').length > 0){
+    var numberOfRows = Math.floor(resultLimit/numberOfColumns);
 
-  var numberOfRows = Math.floor(resultLimit/numberOfColumns);
-
-  for (i = 0; i < numberOfRows; i++) { 
-      $('#' + i).fadeIn();
-  }
-
-  $(window).scroll(function() {
-  var lastDiv = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last()
-  var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
-  var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
-  //var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
-  var bottomOfDocWithOffset = lastDiv.offset().top + lastDiv.innerHeight() - $(window).height();
-    if ($(window).scrollTop() >= bottomOfDocWithOffset) {
-      var tempRawId = parseInt(lastRawId, 10);
-      for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
-          $('#' + i).fadeIn();
-      }
+    for (i = 0; i < numberOfRows; i++) { 
+        $('#' + i).fadeIn();
     }
-  });
+
+    $(window).scroll(function() {
+    var lastDiv = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last()
+    var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
+    var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
+    //var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
+    var bottomOfDocWithOffset = lastDiv.offset().top + lastDiv.innerHeight() - $(window).height();
+      if ($(window).scrollTop() >= bottomOfDocWithOffset) {
+        var tempRawId = parseInt(lastRawId, 10);
+        for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
+            $('#' + i).fadeIn();
+        }
+      }
+    });
+  }
 
 });
