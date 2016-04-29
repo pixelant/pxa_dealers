@@ -203,16 +203,25 @@ $( document ).ready(function() {
     }
 
     $(window).scroll(function() {
-    var lastDiv = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last()
-    var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
-    var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
-    //var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
-    var bottomOfDocWithOffset = lastDiv.offset().top + lastDiv.innerHeight() - $(window).height();
-      if ($(window).scrollTop() >= bottomOfDocWithOffset) {
-        var tempRawId = parseInt(lastRawId, 10);
-        for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
-            $('#' + i).fadeIn();
+      var lastDiv = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last()
+      var lastRaw = $('.pxa-dealers-list').filter(":visible").last();
+      var lastRawId = $('.pxa-dealers-list').filter(":visible").last().attr('id');
+      //var bottomOfDocWithOffset = ($(document).height() - $(window).height()) - ($(window).height()/3); //avoid offset().top because of css
+      var bottomOfDocWithOffset = lastDiv.offset().top + lastDiv.innerHeight() - $(window).height();
+        if ($(window).scrollTop() >= bottomOfDocWithOffset) {
+          var tempRawId = parseInt(lastRawId, 10);
+          for (i = tempRawId + 1; i <= tempRawId + numberOfRows; i++) { 
+              $('#' + i).fadeIn();
+          }
         }
+      var myId = $('.pxa-dealers-list').filter(":visible").find('.dealer-item').last().attr('id');
+      myId = myId.split('-');
+      for (k = 0; k < myId[1]; k++) { 
+          if(k%2== 0){
+            var maxHeight = Math.max($('#dealer-' + k).height(), $('#dealer-' + (k+1)).height());
+            $('#dealer-' + k).height(maxHeight);
+            $('#dealer-' + (k+1)).height(maxHeight);
+          }
       }
     });
   }
