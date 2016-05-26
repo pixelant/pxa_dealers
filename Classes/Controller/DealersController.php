@@ -66,11 +66,11 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function searchFormAction() {
 		if($this->settings['defaultMapCoordinates'] != ''){
-			$this->view->assign('defaultMapCoordinates', 'var defaultMapCoordinates = "'.$this->settings['defaultMapCoordinates'].'"');
+			$this->view->assign('defaultMapCoordinates', 'var defaultMapCoordinates = "'.$this->settings['defaultMapCoordinates'].'";');
 		}
 		
 		if($this->settings['defaultMapZoom'] != ''){
-			$this->view->assign('defaultMapZoom', 'var defaultMapZoom = '.$this->settings['defaultMapZoom']);
+			$this->view->assign('defaultMapZoom', 'var defaultMapZoom = '.$this->settings['defaultMapZoom'] . ';');
 		}
 	}
 
@@ -116,14 +116,14 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$this->view->assign('status',$status);		
 		if($this->settings['resultLimit'] != 0){
-			$this->view->assign('resultLimit', 'var resultLimit = '.$this->settings['resultLimit']);
+			$this->view->assign('resultLimit', 'var resultLimit = '.$this->settings['resultLimit'] . ';');
 		}else{
-			$this->view->assign('resultLimit', 'var resultLimit = ' . 18);
+			$this->view->assign('resultLimit', 'var resultLimit = 18;');
 		}
 		if($this->settings['newRow'] != 0){
-			$this->view->assign('numberOfColumns', 'var numberOfColumns = '.$this->settings['newRow']);
+			$this->view->assign('numberOfColumns', 'var numberOfColumns = '.$this->settings['newRow'] . ';');
 		}else{
-			$this->view->assign('numberOfColumns', 'var numberOfColumns = 2');
+			$this->view->assign('numberOfColumns', 'var numberOfColumns = 2;');
 		}
 		
 	}
