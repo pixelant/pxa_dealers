@@ -109,8 +109,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$GLOBALS['TSFE']->additionalFooterData['googleApi'] = "<script src='https://maps.googleapis.com/maps/api/js?callback=showDefaultMap'></script>";
 		}
 		$this->view->assign('status',$status);		
-		$this->view->assign('resultLimit', 'var resultLimit = '.$this->settings['resultLimit']);
-		$this->view->assign('numberOfColumns', 'var numberOfColumns = '.$this->settings['newRow']);
+		$this->view->assign('resultLimit', 'var resultLimit = '.$this->settings['resultLimit'] . ';');
+		$this->view->assign('numberOfColumns', 'var numberOfColumns = '.$this->settings['newRow'] . ';');
 	}
 
 	/**
