@@ -1,6 +1,9 @@
 <?php
 namespace PXA\PxaDealers\Task;
 
+$forceUtfPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pxa_dealers') . 'Classes/Utility/ForceUTF8/Encoding.php';
+require_once $forceUtfPath;
+
 class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 
 	/**
@@ -251,6 +254,11 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 
 		$params['filename'] = $fullFilePath;
 
+		$data = file_get_contents($fullFilePath);
+		$dataFixed = \ForceUTF8\Encoding::fixUTF8($data);
+		$utf8String = \ForceUTF8\Encoding::toUTF8($dataFixed);
+		file_put_contents($fullFilePath, $utf8String);
+
 		$data = $this->connector->fetchArray($params);
 
 		if(!empty($data)) {
@@ -266,13 +274,13 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 				$new_dealer_rec = $this->objectManager->get("PXA\PxaDealers\Domain\Model\Dealers");
 
 				// Name
-				$new_dealer_rec->setName( htmlspecialchars(trim($dataItem[0])) );
+				$new_dealer_rec->setName( trim($dataItem[0]) );
 
 				// Address
-				$new_dealer_rec->setAdrress( htmlspecialchars(trim($dataItem[1])) );
+				$new_dealer_rec->setAdrress( trim($dataItem[1]) );
 
 				// City
-				$new_dealer_rec->setCity( htmlspecialchars(trim($dataItem[2])) );
+				$new_dealer_rec->setCity( trim($dataItem[2]) );
 
 				// Zip
 				$new_dealer_rec->setZipcode( trim($dataItem[3]) );
@@ -321,7 +329,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 				}
 
 				// Phone
-				$new_dealer_rec->setTelephone( htmlspecialchars(trim($dataItem[5])) );
+				$new_dealer_rec->setTelephone( trim($dataItem[5]) );
 
 				// Lat and lng
 				$position = array_map( 'trim', explode(',', $dataItem[6]) );
