@@ -132,6 +132,13 @@
 				<source>Imports dealers records from file</source>
 			</trans-unit>
 
+			<trans-unit id="tx_pxadealers.task.сleanUpCoordinatesCacheTask.name">
+				<source>Cleanup coordinates cache</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers.task.сleanUpCoordinatesCacheTask.description">
+				<source>Cleanup dealers coordinates cache</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

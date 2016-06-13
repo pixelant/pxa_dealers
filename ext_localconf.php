@@ -101,4 +101,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\
 	'additionalFields' => "PXA\PxaDealers\Task\ImportAdditionalFieldProvider"
 );
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\Task\CleanUpCoordinatesCacheTask"] = array(
+	'extension'        => $_EXTKEY,
+	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.сleanUpCoordinatesCacheTask.name',
+	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.CleanUpCoordinatesCacheTask.description',
+	'additionalFields' => "PXA\PxaDealers\Task\CleanUpCoordinatesCacheAdditionalFieldProvider"
+);
+
 ?>
