@@ -30,7 +30,7 @@ plugin.tx_pxadealers {
 #[global]
 
 [PIDinRootline = {$plugin.tx_pxadealers.pageUid}]
-page.includeJSlibs.markerclusterer = http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js
+page.includeJSlibs.markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
 page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
 page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
 [global]
