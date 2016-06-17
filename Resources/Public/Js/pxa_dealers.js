@@ -227,10 +227,30 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
   panorama = map.getStreetView();
 
+  // Styles
+  var clusterStyles = [{
+    textColor: 'black',
+    url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m1.png',
+    height: 52,
+    width: 53
+  }, {
+    textColor: 'black',
+    url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m2.png',
+    height: 55,
+    width: 56
+  }, {
+    textColor: 'black',
+    url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m3.png',
+    height: 65,
+    width: 66
+  }
+  ];
+
   // Enable marker clasterer
   if(settings.clusterMarkers == 1) {
     markerclusterer = new MarkerClusterer(map, [], {
-        maxZoom: 9
+        maxZoom: 9,
+        styles: clusterStyles
     });
 
   }
