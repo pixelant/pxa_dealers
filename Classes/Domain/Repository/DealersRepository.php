@@ -30,7 +30,7 @@ use FluidTYPO3\Flux\Utility\DebuggerUtility;
 /**
  *
  *
- * @package pxa_purus_dealers
+ * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */

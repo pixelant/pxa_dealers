@@ -1,5 +1,5 @@
 #
-# Table structure for table 'tx_pxapurusdealers_domain_model_dealers'
+# Table structure for table 'tx_pxadealers_domain_model_dealers'
 #
 CREATE TABLE tx_pxadealers_domain_model_dealers (
 
