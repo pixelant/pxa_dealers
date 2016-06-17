@@ -110,12 +110,32 @@ function PxaDealers() {
         // Panorama
         self.panorama = self.map.getStreetView();
 
+        // Styles
+        var clusterStyles = [{
+            textColor: 'black',
+            url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m1.png',
+            height: 52,
+            width: 53
+        }, {
+            textColor: 'black',
+            url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m2.png',
+            height: 55,
+            width: 56
+        }, {
+            textColor: 'black',
+            url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m3.png',
+            height: 65,
+            width: 66
+        }
+        ];
+
         // Enable marker clusterer
         if(self.pluginSettings.clusterMarkers == 1) {
 
             self.markerclusterer = new MarkerClusterer(self.map, [], {
                 maxZoom: parseInt(self.pluginSettings.map.markerClusterer.maxZoom),
-                gridSize: parseInt(self.pluginSettings.map.markerClusterer.gridSize)
+                gridSize: parseInt(self.pluginSettings.map.markerClusterer.gridSize),
+                styles: clusterStyles
             });
         }
 
