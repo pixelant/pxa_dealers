@@ -253,8 +253,8 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					$address .= ', ' . $country->getShortNameEn();
 				}
 
-
-				if( $cachedCoordinates = $this->getCachedCoordinates($address) ) {
+				$cachedCoordinates = $this->getCachedCoordinates($address);
+				if( $cachedCoordinates ) {
 					$dealer->setLat($cachedCoordinates['lat']);
 					$dealer->setLng($cachedCoordinates['lng']);
 					$dealer->setLatLngIsSet(1);
@@ -410,8 +410,13 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 	protected function setCachedCoordinates($address, $lat, $lng) {
 
+		$addressHash = hash("md5", $address);
+		$address = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($address), 'tx_pxadealers_coordinates_cache');
+		$lat = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($lat), 'tx_pxadealers_coordinates_cache');
+		$lng = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($lng), 'tx_pxadealers_coordinates_cache');
+
 		$result = $GLOBALS['TYPO3_DB'] -> sql_query(
-			"INSERT IGNORE INTO tx_pxadealers_coordinates_cache (hash,address,lat,lng) VALUES ('" . hash("md5", $address) . "','{$address}','{$lat}','{$lng}')"
+			"INSERT IGNORE INTO tx_pxadealers_coordinates_cache (hash,address,lat,lng) VALUES ('{$addressHash}',{$address},{$lat},{$lng})"
 		);
 
 		return $result;
