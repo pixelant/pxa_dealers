@@ -1,0 +1,66 @@
+<f:layout name="BackendModule" />
+
+<f:section name="main">
+
+  <f:flashMessages />
+
+  <div class="container-fluid">
+    <div class="col-md-6">
+      <f:form class="import-dealers-form" action="import" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label for="file">File</label>
+          <f:form.upload class="form-control file-upload-field" name="file" id="file" />
+        </div>
+        <div class="form-group">
+          <label for="storagePid">Storage pid</label>
+          <f:form.textfield class="form-control storage-pid" name="storagePid" id="storagePid" required="1"/>
+        </div>
+        <div class="form-group">
+          <label for="defaultCountry">Default country ( ISO3 )</label>
+          <f:form.textfield class="form-control" name="defaultCountry" id="defaultCountry" title="
+NLD : Netherlands, ITA : Italy, SWE : Sweden, DEU : Germany, ESP : Spain, USA : United States of America, BRA : Brazil, FRA : France, PRT : Portugal, CZE : Czech Republic, GRC : Greece, GBR : United Kingdom, IRL : Ireland" />
+        </div>
+        <div class="form-group">
+          <label for="languageUid">Language</label>
+          <select class="form-control" name="tx_pxadealers_user_pxadealersimport[languageUid]" id="languageUid">
+            <f:for each="{systemLanguages}" as="systemLanguage">
+              <option value="{systemLanguage.uid}">{systemLanguage.title}</option>
+            </f:for>
+          </select>
+        </div>
+        <div class="form-group">
+          <f:form.submit value="Import" class="btn btn-default submit-btn"/>
+        </div>
+      </f:form>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="warning-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Warning</h4>
+        </div>
+        <div class="modal-body">
+          <p>Your are going to delete all <span class="dealers-count"></span> dealers in <span class="folder-uid"></span> folder and replace it with the new ones from the file. </p>
+          <p>Are you sue you want to do this?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning approve-form-submit">Import</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    var getDealersInfoAjaxUrl = '<f:uri.action action="getDealersInfoAjax" />';
+  </script>
+
+</f:section>

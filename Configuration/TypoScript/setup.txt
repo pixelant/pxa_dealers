@@ -96,3 +96,15 @@ findClosestAjax.10 {
 		}
 	}
 }
+
+ # Module configuration
+module.tx_pxadealers_import {
+	persistence {
+		storagePid = {$module.tx_pxadealers_import.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_pxadealers_import.view.templateRootPath}
+		partialRootPath = {$module.tx_pxadealers_import.view.partialRootPath}
+		layoutRootPath = {$module.tx_pxadealers_import.view.layoutRootPath}
+	}
+}

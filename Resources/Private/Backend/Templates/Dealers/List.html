@@ -1,0 +1,55 @@
+
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Listing for Dealers</h1>
+
+<f:flashMessages />
+
+<table  class="tx_pxadealers" >
+	<tr>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.name" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.title" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.telephone" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.website" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.adrress" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.zipcode" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.description" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.lat" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.lng" /></th>
+		<th><f:translate key="tx_pxadealers_domain_model_dealers.lat_lng_is_set" /></th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{dealerss}" as="dealers">
+		<tr>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.name}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.title}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.telephone}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.website}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.adrress}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.zipcode}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.description}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.lat}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.lng}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{dealers : dealers}"> {dealers.latLngIsSet}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{dealers : dealers}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{dealers : dealers}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New Dealers</f:link.action>
+</f:section>

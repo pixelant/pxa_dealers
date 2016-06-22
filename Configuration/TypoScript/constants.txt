@@ -25,3 +25,18 @@ plugin.tx_pxadealers {
 		zipLimit = 1
 	}
 }
+
+module.tx_pxadealers_import {
+	view {
+		# cat=module.tx_pxadealers_import/file; type=string; label=Path to template root (BE)
+		templateRootPath = EXT:pxa_dealers/Resources/Private/Backend/Templates/
+		# cat=module.tx_pxadealers_import/file; type=string; label=Path to template partials (BE)
+		partialRootPath = EXT:pxa_dealers/Resources/Private/Backend/Partials/
+		# cat=module.tx_pxadealers_import/file; type=string; label=Path to template layouts (BE)
+		layoutRootPath = EXT:pxa_dealers/Resources/Private/Backend/Layouts/
+	}
+	persistence {
+		# cat=module.tx_pxadealers_import//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}

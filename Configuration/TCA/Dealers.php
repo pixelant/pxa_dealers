@@ -61,6 +61,13 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 				'type' => 'check',
 			),
 		),
+		'deleted' => array(
+			'exclude' => 1,
+			'label' => 'deleted',
+			'config' => array(
+				'type' => 'check',
+			),
+		),
 		'starttime' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
@@ -269,6 +276,13 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 				'size' => 5,
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
 				'disallowed' => '',
+			),
+		),
+		'just_added' => array(
+			'exclude' => 1,
+			'label' => 'just_added',
+			'config' => array(
+				'type' => 'check',
 			),
 		),
 	),

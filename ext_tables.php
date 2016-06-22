@@ -89,4 +89,27 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
         'categories'
 );
 
+if (TYPO3_MODE === 'BE') {
+
+	/**
+	 * Registers a Backend Module
+	 */
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+		'PXA.' . $_EXTKEY,
+		'user',	 // Make module a submodule of 'user'
+		'import',	// Submodule key
+		'',						// Position
+		array(
+			'Import' => 'index, import, getDealersInfoAjax',
+
+		),
+		array(
+			'access' => 'user,group',
+			'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_import.xlf',
+		)
+	);
+
+}
+
 ?>
