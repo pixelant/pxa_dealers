@@ -44,7 +44,7 @@ require_once $utilityFolderPath . 'PHPExcel/Classes/PHPExcel.php';
 class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
-	const ALLOWED_FILE_EXTENSIONS = ['xlsx', 'csv'];
+	private $allowedFileExtensions = ['xlsx', 'csv'];
 
 	/**
 	 *  countryRepository
@@ -99,7 +99,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		$imageFileType = pathinfo($args['file']['name'], PATHINFO_EXTENSION);
 
 		// Check filetype
-		if( !in_array($imageFileType, self::ALLOWED_FILE_EXTENSIONS) ) {
+		if( !in_array($imageFileType, $this->allowedFileExtensions) ) {
 			die( "Wrong file type" );
 		}
 
