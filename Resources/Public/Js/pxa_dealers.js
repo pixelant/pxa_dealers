@@ -342,9 +342,9 @@ function getAddress(uid,pos,map,infowindow,callback) {
 
   var markerType = $(".dealer-item[data-uid=" + uid + "]").data("marker-type");
   if(typeof markerType == 'undefined') {
-    var markerIcon = self.pluginSettings.map.markerTypes['default'];
+    var markerIcon = self.settings.map.markerTypes['default'];
   } else {
-    var markerIcon = self.pluginSettings.map.markerTypes[markerType];
+    var markerIcon = self.settings.map.markerTypes[markerType];
   }
 
   var address = markers[i]['address'] ? '<br/>' + markers[i]['address'] : '';
