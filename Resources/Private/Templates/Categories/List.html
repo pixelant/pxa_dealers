@@ -19,7 +19,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	<ul class="categories">
 
 		<f:for each="{categories}" as="category" key="catkey">
-			<li class="category-item selected" data-category-uid="{category.uid}">
+			<li class="category-item" data-category-uid="{category.uid}">
 
 				<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='<v:variable.get name="enabledCategories.{catkey}" />'/>
 				<label for="dealers-category-{category.uid}">{category.title}</label>

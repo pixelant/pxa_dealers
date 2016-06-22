@@ -533,11 +533,14 @@ function belongsToCountryZone(marker, selectedCountryZone) {
 
 function belongsToCategories(marker, selectedCategories) {
   var categories = JSON.parse( marker['categories'] );
-  if( categories.length == 0 ) {
-    return true;
-  } else {
-    return arrayIntersect(categories, selectedCategories);
-  }
+
+  return arrayIntersect(categories, selectedCategories);
+
+  // if( categories.length == 0 ) {
+  //   return true;
+  // } else {
+  //   return arrayIntersect(categories, selectedCategories);
+  // }
 }
 
 function containsSearchString(marker, searchString) {
@@ -596,7 +599,8 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
         isOk.push( belongsToCountryZone(marker, selectedCountryZone) );
       }
 
-      if( $(".pxa-dealers > .categories").length > 0 ) {
+
+      if( $(".pxa-dealers > .categories").length > 0 && $(".pxa-dealers > .categories .selected").length > 0 ) {
         isOk.push( belongsToCategories(marker, selectedCategories) );
       }
 
