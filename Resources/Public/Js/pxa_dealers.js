@@ -263,7 +263,7 @@ function initializeMapPxaDealers(doMarkersFilter) {
 
       var pos = new google.maps.LatLng(markers[i]['lat'],markers[i]['lng']);
 
-      getAddress(pos,map,infowindow,function(markerMap){
+      getAddress(markers[i]['uid'],pos,map,infowindow,function(markerMap){
         markersArray[markers[i]['uid']] = markerMap;
 
         if(settings.clusterMarkers == 1) {
@@ -338,8 +338,14 @@ function switchToStreetView(i) {
   return false;
 }
 
-function getAddress(pos,map,infowindow,callback) {
-  var markerIcon = settings.map.markerImage;
+function getAddress(uid,pos,map,infowindow,callback) {
+
+  var markerType = $(".dealer-item[data-uid=" + uid + "]").data("marker-type");
+  if(typeof markerType == 'undefined') {
+    var markerIcon = self.pluginSettings.map.markerTypes['default'];
+  } else {
+    var markerIcon = self.pluginSettings.map.markerTypes[markerType];
+  }
 
   var address = markers[i]['address'] ? '<br/>' + markers[i]['address'] : '';
   var zipcode = markers[i]['zipcode'] ? '<br/>' + markers[i]['zipcode'] : '';

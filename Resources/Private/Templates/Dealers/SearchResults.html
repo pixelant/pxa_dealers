@@ -53,7 +53,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
             </f:if>
 
-            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}" data-uid="{dealer.uid}" data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}">
+            <div  id="dealer-{itemIterationDealers.index}"
+                  class="dealer-item{f:if(condition: settings.elementAdditionalClass, then: ' {settings.elementAdditionalClass}')}"
+                  data-uid="{dealer.uid}"
+                  data-categories="{pxa:implodeCategories(categories: '{dealer.categories}')}"
+                  data-marker-type="default">
 
               <b class="dealer-name">{dealer.name}</b>
               <f:if condition="{settings.showLogo}">

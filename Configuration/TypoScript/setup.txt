@@ -20,7 +20,9 @@ plugin.tx_pxadealers {
 			map {
 				stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
 				name = {$plugin.tx_pxadealers.settings.map.name}
-				markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+				markerTypes {
+                    default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+                }
 			}
 		}
 		
@@ -31,7 +33,9 @@ plugin.tx_pxadealers {
 		map {
 			stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
 			name = {$plugin.tx_pxadealers.settings.map.name}
-			markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+            markerTypes {
+                default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+			}
 		}
 
 		countryNameIso3Mapping {
