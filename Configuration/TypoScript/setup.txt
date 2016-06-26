@@ -72,6 +72,8 @@ plugin.tx_pxadealers {
         includeLocalScripts = {$plugin.tx_pxadealers.settings.includeLocalScripts}
         includeIsotope = {$plugin.tx_pxadealers.settings.includeIsotope}
 
+        searchResultPage = {$plugin.tx_pxadealers.settings.searchResultPage}
+
 	}
 }
 

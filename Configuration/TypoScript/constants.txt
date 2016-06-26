@@ -27,5 +27,6 @@ plugin.tx_pxadealers {
 		includeGoogleMaps = 1
         includeLocalScripts = 1
         includeIsotope = 0
+        searchResultPage =
 	}
 }
