@@ -587,6 +587,30 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
     var selectedCategories = getSelectedCategories();
 
+  if( $(".easypickSelector").length > 0 ) {
+
+    if( $("input[name=easypickSelector]:checked").val() == 'easypick' ) {
+      var markerType = settings.easypickMarkerTypeName;
+    }
+
+    for (var key in markersArray) {
+
+      if(typeof markersArray[key] != 'object') {
+        continue;
+      }
+
+      if(typeof markerType == 'undefined') {
+        var markerIcon = self.settings.map.markerTypes['default'];
+      } else {
+        var markerIcon = self.settings.map.markerTypes[markerType];
+      }
+
+      markersArray[key].setIcon(markerIcon);
+
+    }
+
+  }
+
     $.each( markers, function( index, marker ) {
 
       var isOk = [];
@@ -601,7 +625,9 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
 
       if( $(".pxa-dealers > .categories").length > 0 && $(".pxa-dealers > .categories .selected").length > 0 ) {
-        isOk.push( belongsToCategories(marker, selectedCategories) );
+        if( selectedCategories.indexOf(-1) < 0 ) {
+          isOk.push( belongsToCategories(marker, selectedCategories) );
+        }
       }
 
       if( $(".pxa-dealers .dealer-cityzip-search").length > 0 ) {
@@ -714,6 +740,22 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
         }
         $(".dealers-header").fadeToggle( "fast", "linear");
       });
+
+      // Easypick radio
+      if( $(".easypickSelector").length > 0 ) {
+        if( $("input[name=easypickSelector]:checked").val() == 'easypick' ) {
+
+          $(".dealer-item.easypick-type .default-card-image").addClass('hidden');
+          $(".dealer-item.easypick-type .easypick-card-image").removeClass('hidden');
+
+        } else {
+
+          $(".dealer-item.easypick-type .default-card-image").removeClass('hidden');
+          $(".dealer-item.easypick-type .easypick-card-image").addClass('hidden');
+
+        }
+
+      }
       
       $(".pxa-dealers-list-container").fadeToggle( "fast", "linear");
     });
@@ -794,8 +836,30 @@ $( document ).ready(function() {
 
   // Categories change
   $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
+
     var $this = $(this);
     $this.parent().toggleClass('selected');
+
+    filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), $(".pxa-dealers .dealer-cityzip-search").val(), FB_MARKERS);
+
+  });
+
+  // Easypick radio
+  $(".pxa-dealers > .easypickSelector ").on("change", function() {
+
+    if( $(this).val() == 'default') {
+
+      $(".pxa-dealers .categories .dealers-category-all").addClass('selected');
+      $(".pxa-dealers .categories .dealers-category-easypick").removeClass('selected');
+
+    }
+
+    if( $(this).val() == 'easypick') {
+
+      $(".pxa-dealers .categories .dealers-category-all").removeClass('selected');
+      $(".pxa-dealers .categories .dealers-category-easypick").addClass('selected');
+
+    }
 
     filterMarkers(allDealersListItems, $(".pxa-dealers .dealer-countries").val(), $(".pxa-dealers .dealer-country-states").val(), $(".pxa-dealers .dealer-cityzip-search").val(), FB_MARKERS);
 

@@ -21,6 +21,7 @@ plugin.tx_pxadealers {
 		hideAll = 0
 		centerOnCountry =
 		zipLimit = 1
+		easypickMarkerTypeName = easypick
 	}
 }
 

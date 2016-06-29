@@ -5,31 +5,54 @@ This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
 in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
+Resources:
+Private:
+Templates:
+List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
 
-<div class="pxa-dealers">
+	<div class="pxa-dealers">
 
-	<ul class="categories">
+		<f:if condition="{settings.pluginType} == 'default'">
+			<ul class="categories">
 
-		<f:for each="{categories}" as="category" key="catkey">
-			<li class="category-item" data-category-uid="{category.uid}">
+				<f:for each="{categories}" as="category" key="catkey">
+					<li class="category-item" data-category-uid="{category.uid}">
 
-				<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='<v:variable.get name="enabledCategories.{catkey}" />'/>
-				<label for="dealers-category-{category.uid}">{category.title}</label>
-				<span class="icon"><i class="fa fa-check"></i></span>
+						<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='<v:variable.get name="enabledCategories.{catkey}" />'/>
+						<label for="dealers-category-{category.uid}"><span></span>{category.title}</label>
+						<span class="icon"><i class="fa fa-check"></i></span>
 
-			</li>
-		</f:for>
-		
-	</ul>
+					</li>
+				</f:for>
 
-</div>
+			</ul>
+		</f:if>
+
+		<f:if condition="{settings.pluginType} == 'tepeeasypick'">
+
+			<f:form.radio class="easypickSelector" id="easypickSelector-easypick" name="easypickSelector" value="easypick" />
+			<label for="easypickSelector-easypick">{easypickCategory.title}</label>
+			<f:form.radio class="easypickSelector" id="easypickSelector-default" name="easypickSelector" value="default" checked="1" />
+			<label for="easypickSelector-default">{settings.allDealersRadioLabel}</label>
+
+			<ul class="categories hidden">
+
+				<li class="category-item dealers-category-easypick" data-category-uid="{easypickCategory.uid}">
+					<f:form.checkbox id="dealers-category-{easypickCategory.uid}" property="dealer-category" value="1" checked='0'/>
+				</li>
+
+				<li class="category-item dealers-category-all" data-category-uid="-1">
+					<f:form.checkbox id="dealers-category-all" property="dealer-category" value="1" checked='1'/>
+				</li>
+
+			</ul>
+
+		</f:if>
+
+	</div>
 
 </f:section>

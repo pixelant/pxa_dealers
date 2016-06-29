@@ -69,6 +69,10 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 			}
 		}
 
+		if(!empty($this->settings['easypickCategory'])) {
+			$this->view->assign('easypickCategory', $this->categoriesRepository->findByUid($this->settings['easypickCategory']));
+		}
+
 		$this->view->assign('categories',$categoriesList);
 		$this->view->assign('enabledCategories', $enabledCategories);
 	}
