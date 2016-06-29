@@ -845,7 +845,7 @@ $( document ).ready(function() {
   });
 
   // Easypick radio
-  $(".pxa-dealers > .easypickSelector ").on("change", function() {
+  $(".pxa-dealers .easypickSelector ").on("change", function() {
 
     if( $(this).val() == 'default') {
 
