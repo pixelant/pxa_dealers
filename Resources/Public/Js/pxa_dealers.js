@@ -402,7 +402,7 @@ function getSelectedCategories() {
 
   var selectedCategories = [];
 
-  $('.pxa-dealers > .categories > .selected').each( function() {
+  $('.pxa-dealers .categories .selected').each( function() {
     selectedCategories.push( parseInt($(this).attr("data-category-uid")) );
   });
 
@@ -623,8 +623,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
         isOk.push( belongsToCountryZone(marker, selectedCountryZone) );
       }
 
-
-      if( $(".pxa-dealers > .categories").length > 0 && $(".pxa-dealers > .categories .selected").length > 0 ) {
+      if( $(".pxa-dealers .categories").length > 0 && $(".pxa-dealers .categories .selected").length > 0 ) {
         if( selectedCategories.indexOf(-1) < 0 ) {
           isOk.push( belongsToCategories(marker, selectedCategories) );
         }
