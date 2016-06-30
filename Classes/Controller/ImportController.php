@@ -115,7 +115,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 		}
 
-		$this->importDealers($dataArray, $args['defaultCountry'], $args['languageUid'], $args['storagePid']);
+		$this->importDealers($dataArray, $args['defaultCountry'], $args['languageUid'], $args['storagePid'], $args['prependPhoneZero']);
 
 		// Show warning
 
@@ -168,7 +168,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @param $languageUid
 	 * @param $storagePid
 	 */
-	protected function importDealers($data, $defaultCountry, $languageUid, $storagePid)
+	protected function importDealers($data, $defaultCountry, $languageUid, $storagePid, $prependPhoneZero)
 	{
 
 		foreach ($data as $dataItem) {
@@ -248,7 +248,15 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 
 			// Phone
-			$new_dealer_rec->setTelephone( trim($dataItem[5]) );
+			$phone = trim($dataItem[5]);
+
+			if($prependPhoneZero) {
+				if( $phone[0] != '0') {
+					$phone = "0" . $phone;
+				}
+			}
+
+			$new_dealer_rec->setTelephone( $phone );
 
 			// Lat and lng
 			$position = array_map( 'trim', explode(',', $dataItem[6]) );
