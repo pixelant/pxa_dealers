@@ -71,6 +71,14 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	protected $dealersRepository;
 
 	/**
+	 *  categoriesRepository
+	 *
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
+	 * @inject
+	 */
+	protected $categoriesRepository;
+
+	/**
 	 * Index action
 	 */
 	public function indexAction()
@@ -171,6 +179,10 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	protected function importDealers($data, $defaultCountry, $languageUid, $storagePid, $prependPhoneZero)
 	{
 
+
+		// remove headers
+		array_shift($data);
+
 		foreach ($data as $dataItem) {
 
 			// Little validation/correction
@@ -258,11 +270,29 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 			$new_dealer_rec->setTelephone( $phone );
 
-			// Lat and lng
-			$position = array_map( 'trim', explode(',', $dataItem[6]) );
+			$extensionConfiguration = unserialize(
+				$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['pxa_dealers']
+			);
 
-			$lat = isset($position[0]) ? $position[0] : "";
-			$lng = isset($position[1]) ? $position[1] : "";
+			if( !empty($extensionConfiguration['easyPickCategoryUid']) && $dataItem[6] == '1') {
+				$easyPickCategory = $this->categoriesRepository->findByUid( $extensionConfiguration['easyPickCategoryUid'] );
+
+				if( is_object($easyPickCategory) ) {
+
+					$new_dealer_rec->addCategory( $easyPickCategory );
+
+				}
+
+			}
+
+//			// Lat and lng
+//			$position = array_map( 'trim', explode(',', $dataItem[6]) );
+
+//			$lat = isset($position[0]) ? $position[0] : "";
+//			$lng = isset($position[1]) ? $position[1] : "";
+
+			$lat = "";
+			$lng = "";
 
 			$new_dealer_rec->setLat($lat);
 			$new_dealer_rec->setLng($lng);

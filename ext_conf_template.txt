@@ -1,0 +1,2 @@
+# cat=basic/enable/101; type=string; label=LLL:EXT:pxa_product_manager/Resources/Private/Language/locallang_db_local.xml:extconf.single_view_pids
+easyPickCategoryUid =
