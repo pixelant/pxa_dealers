@@ -589,20 +589,35 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
 
   if( $(".easypickSelector").length > 0 ) {
 
+    if(typeof markerType == 'undefined') {
+      var markerIcon = self.settings.map.markerTypes['default'];
+    } else {
+      var markerIcon = self.settings.map.markerTypes[markerType];
+    }
+
     if( $("input[name=easypickSelector]:checked").val() == 'easypick' ) {
-      var markerType = settings.easypickMarkerTypeName;
+
+      var markerIcon = self.settings.map.markerTypes[settings.easypickMarkerTypeName];
+
+      if( $(".easypick-selector-wrapper").data("ep-icon-height") != undefined
+          && $(".easypick-selector-wrapper").data("ep-icon-width")  != undefined
+          && $(".easypick-selector-wrapper").data("ep-icon-cpos-x")  != undefined
+          && $(".easypick-selector-wrapper").data("ep-icon-cpos-y")  != undefined
+      ) {
+
+        var markerIcon = new google.maps.MarkerImage(self.settings.map.markerTypes[settings.easypickMarkerTypeName],
+            new google.maps.Size($(".easypick-selector-wrapper").data("ep-icon-width"), $(".easypick-selector-wrapper").data("ep-icon-height")),
+            new google.maps.Point(0, 0),
+            new google.maps.Point($(".easypick-selector-wrapper").data("ep-icon-cpos-x"), $(".easypick-selector-wrapper").data("ep-icon-cpos-y")));
+
+      }
+
     }
 
     for (var key in markersArray) {
 
       if(typeof markersArray[key] != 'object') {
         continue;
-      }
-
-      if(typeof markerType == 'undefined') {
-        var markerIcon = self.settings.map.markerTypes['default'];
-      } else {
-        var markerIcon = self.settings.map.markerTypes[markerType];
       }
 
       markersArray[key].setIcon(markerIcon);
