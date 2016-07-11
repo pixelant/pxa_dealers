@@ -166,18 +166,32 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					$address .= ', ' . $country->getShortNameEn();
 				}
 
-				$response = $this->getAddress($address);
-
-				// Check if we actually get the location. If not set setLatLngIsSet to -1 to exclude it from returned dealers collection
-				if(!$response) {
-					$dealer->setLatLngIsSet(-1);
-					$this->dealersRepository->update($dealer);
-					$toUnset[] = $dealerKey;
-				} else {
-					$dealer->setLat($response['results'][0]['geometry']['location']['lat']);
-					$dealer->setLng($response['results'][0]['geometry']['location']['lng']);
+				$cachedCoordinates = $this->getCachedCoordinates($address);
+				if( $cachedCoordinates ) {
+					$dealer->setLat($cachedCoordinates['lat']);
+					$dealer->setLng($cachedCoordinates['lng']);
 					$dealer->setLatLngIsSet(1);
 					$this->dealersRepository->update($dealer);
+				} else {
+
+					$response = $this->getAddress($address);
+
+					// Check if we actually get the location. If not set setLatLngIsSet to -1 to exclude it from returned dealers collection
+					if(!$response) {
+						$dealer->setLatLngIsSet(-1);
+						$this->dealersRepository->update($dealer);
+						$toUnset[] = $dealerKey;
+					} else {
+						$dealer->setLat($response['results'][0]['geometry']['location']['lat']);
+						$dealer->setLng($response['results'][0]['geometry']['location']['lng']);
+						$dealer->setLatLngIsSet(1);
+						$this->setCachedCoordinates(
+							$address,
+							$response['results'][0]['geometry']['location']['lat'],
+							$response['results'][0]['geometry']['location']['lng']
+						);
+						$this->dealersRepository->update($dealer);
+					}
 				}
 			}
 
@@ -233,6 +247,36 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	public function showMapAction() {
+	}
+
+	protected function getCachedCoordinates($address) {
+		
+		$hash = hash("md5", strtolower($address));
+
+		$result = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+			"uid, lat, lng",
+			"tx_pxadealers_coordinates_cache",
+			"hash='" . $hash . "'"
+		);
+
+		return $result;
+
+	}
+
+	protected function setCachedCoordinates($address, $lat, $lng) {
+
+		$addressHash = hash("md5", strtolower($address));
+
+		$address = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($address), 'tx_pxadealers_coordinates_cache');
+		$lat = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($lat), 'tx_pxadealers_coordinates_cache');
+		$lng = $GLOBALS['TYPO3_DB']->fullQuoteStr(strip_tags($lng), 'tx_pxadealers_coordinates_cache');
+
+		$result = $GLOBALS['TYPO3_DB'] -> sql_query(
+			"INSERT IGNORE INTO tx_pxadealers_coordinates_cache (hash,address,lat,lng) VALUES ('{$addressHash}',{$address},{$lat},{$lng})"
+		);
+
+		return $result;
+
 	}
 
 }

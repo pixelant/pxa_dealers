@@ -26,6 +26,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	product_areas int(11) unsigned DEFAULT '0' NOT NULL,
 	logo text NOT NULL,
 	show_street_view tinyint(1) DEFAULT '1' NOT NULL,
+  just_added tinyint(1) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -54,5 +55,23 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 	KEY language (l10n_parent,sys_language_uid)
+
+);
+
+#
+# Table structure for table 'tx_pxadealers_coordinates_cache'
+#
+CREATE TABLE tx_pxadealers_coordinates_cache (
+
+	uid int(11) NOT NULL auto_increment,
+
+	hash varchar(255) DEFAULT '' NOT NULL,
+	address text DEFAULT '' NOT NULL,
+	lat varchar(255) DEFAULT '' NOT NULL,
+	lng varchar(255) DEFAULT '' NOT NULL,
+	crdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+	PRIMARY KEY (uid),
+	UNIQUE (hash)
 
 );

@@ -169,6 +169,20 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $showStreetView = 1;
 
 	/**
+	 * justAdded
+	 *
+	 * @var boolean $justAdded
+	 */
+	protected $justAdded = '';
+
+	/**
+	 * deleted
+	 *
+	 * @var boolean $deleted
+	 */
+	protected $deleted = '';
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -666,5 +680,44 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	public function setShowStreetView($showStreetView) {
 		$this->showStreetView = $showStreetView;
 	}
+
+	/**
+	 * Returns the justAdded
+	 *
+	 * @return boolean $justAdded
+	 */
+	public function getJustAdded() {
+		return $this->justAdded;
+	}
+
+	/**
+	 * Sets the justAdded
+	 *
+	 * @param boolean $justAdded
+	 * @return void
+	 */
+	public function setJustAdded($justAdded) {
+		$this->justAdded = $justAdded;
+	}
+
+	/**
+	 * Returns the deleted
+	 *
+	 * @return boolean $deleted
+	 */
+	public function getDeleted() {
+		return $this->deleted;
+	}
+
+	/**
+	 * Sets the deleted
+	 *
+	 * @param boolean $deleted
+	 * @return void
+	 */
+	public function setDeleted($deleted) {
+		$this->deleted = $deleted;
+	}
+
 }
 ?>

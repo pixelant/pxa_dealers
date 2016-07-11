@@ -283,6 +283,20 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 						'default' => 1,
 				),
 		),
+		'just_added' => array(
+			'exclude' => 1,
+			'label' => 'just_added',
+			'config' => array(
+				'type' => 'check',
+			),
+		),
+		'deleted' => array(
+			'exclude' => 1,
+			'label' => 'deleted',
+			'config' => array(
+				'type' => 'check',
+			),
+		),
 	),
 );
 
