@@ -45,6 +45,10 @@
 			<trans-unit id="ajax_preload">
 				<target>Söker närmaste återförsäljare</target>
 			</trans-unit>
+			<trans-unit id="dealers_found">
+                <source>dealers found</source>
+                <target>hittade butiker</target>
+            </trans-unit>
 
 		</body>
 	</file>
