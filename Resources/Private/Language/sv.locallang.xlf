@@ -50,6 +50,11 @@
                 <target>hittade butiker</target>
             </trans-unit>
 
+			<trans-unit id="country_list_city_zip_search">
+				<source>search for city or zip...</source>
+				<target>Ange postnummer eller ort</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
