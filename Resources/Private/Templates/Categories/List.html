@@ -5,34 +5,59 @@ This Template is responsible for creating a table of domain objects.
 
 If you modify this template, do not forget to change the overwrite settings
 in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
+Resources:
+Private:
+Templates:
+List.html: keep
 
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="main">
 
-<div class="pxa-dealers">
+	<div class="pxa-dealers">
 
-	<ul class="categories">
+		<ul class="categories">
 
-		<f:for each="{categories}" as="category" key="catkey">
+			<f:if condition="{settings.filterType} == 'checkbox'">
+				<f:then>
 
-			<v:variable.set name="isChecked" value="{v:variable.get(name: 'enabledCategories.{catkey}')}" />
+					<f:for each="{categories}" as="category" key="catkey">
 
-			<li class="category-item{f:if(condition: isChecked, then: ' selected')}" data-category-uid="{category.uid}">
+						<v:variable.set name="isChecked" value="{v:variable.get(name: 'enabledCategories.{catkey}')}" />
 
-				<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='{isChecked}' />
-				<label for="dealers-category-{category.uid}">{category.title}</label>
-				<span class="icon"><i class="fa fa-check"></i></span>
+						<li class="category-item{f:if(condition: isChecked, then: ' selected')}" data-category-uid="{category.uid}">
 
-			</li>
-		</f:for>
-		
-	</ul>
+							<f:form.checkbox id="dealers-category-{category.uid}" property="dealer-category" value="1" checked='{isChecked}' />
+							<label for="dealers-category-{category.uid}">{category.title}</label>
+							<span class="icon"><i class="fa fa-check"></i></span>
 
-</div>
+						</li>
+					</f:for>
+
+				</f:then>
+				<f:else>
+
+					<f:if condition="{settings.showAllMarkersOption}">
+						<li class="category-item category-item-radio category-item-all selected" data-category-uid="-1">
+							<a href="#" data-uid="-1">All</a>
+						</li>
+					</f:if>
+
+					<f:for each="{categories}" as="category" key="catkey">
+
+						<li class="category-item category-item-radio category-item-{category.uid}" data-category-uid="{category.uid}">
+
+							<a class="category-item-link category-item-link-{category.uid}" href="#" data-uid="{category.uid}">{category.title}</a>
+
+						</li>
+
+					</f:for>
+
+				</f:else>
+			</f:if>
+
+		</ul>
+
+	</div>
 
 </f:section>

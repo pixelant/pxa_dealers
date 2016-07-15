@@ -332,6 +332,10 @@ function PxaDealers() {
 
         var categories = JSON.parse( marker['categories'] );
 
+        if( selectedCategories.indexOf(-1) >= 0 ) {
+            return true;
+        }
+
         if( selectedCategories.length == 0 ) {
             return (self.pluginSettings.showUncategorizedIfNoCategorySelected == 1);
         } else {
@@ -922,10 +926,27 @@ if (typeof pxa_dealers_enabled != 'undefined') {
             populateCountryZones( $(".pxa-dealers .dealer-countries").val() );
         }
 
-        // Categories change
+        // Categories change checkbox mode
         $(".pxa-dealers > .categories .category-item input[type='checkbox']").on("change", function() {
             var $this = $(this);
             $this.parent().toggleClass('selected');
+
+            if( pxa_dealers.pluginSettings.map.enableCategoriesFilteringZoom == 1) {
+                pxa_dealers.fitBoundsType = FB_MARKERS;
+            } else {
+                pxa_dealers.fitBoundsType = FB_NONE;
+            }
+
+            pxa_dealers.filterDealers();
+        });
+
+        // Categories change radio mode
+        $(".pxa-dealers .categories .category-item-radio").on("click", function(e) {
+
+            e.preventDefault();
+
+            $(this).addClass("selected");
+            $(".pxa-dealers .categories .category-item-radio").not($(this)).removeClass('selected');
 
             if( pxa_dealers.pluginSettings.map.enableCategoriesFilteringZoom == 1) {
                 pxa_dealers.fitBoundsType = FB_MARKERS;

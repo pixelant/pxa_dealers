@@ -1,62 +1,93 @@
 <T3DataStructure>
-  <meta>
-    <langDisable>1</langDisable>
-  </meta>
-  <sheets>
-    <main>
-      <ROOT>
-        <TCEforms>
-          <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
-        </TCEforms>
-        <type>array</type>
-        <el>	 
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <main>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
 
-      <settings.dealers_categories>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategories</label>
-              <config>
-               <type>select</type>
-                <autoSizeMax>50</autoSizeMax>
-                <foreign_table>sys_category</foreign_table>
-                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
-                <maxitems>9999</maxitems>
-                <!--<renderMode>tree</renderMode>-->
-                <size>10</size>
-                <!--<treeConfig>-->
-                    <!--<appearance>-->
-                            <!--<expandAll>1</expandAll>-->
-                            <!--<showHeader>1</showHeader>-->
-                    <!--</appearance>-->
-                    <!--<parentField>parent</parentField>-->
-                <!--</treeConfig>-->
-              </config>
-            </TCEforms>
-      </settings.dealers_categories>
+                    <settings.filterType>
+                        <TCEforms>
+                            <label>Filter type</label>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">Checkboxes</numIndex>
+                                        <numIndex index="1">checkbox</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">Radio buttons</numIndex>
+                                        <numIndex index="1">radio</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.filterType>
 
-      <settings.dealers_categories_enabled>
-            <TCEforms>
-              <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategoriesEnabled</label>
-              <config>
-               <type>select</type>
-                <autoSizeMax>50</autoSizeMax>
-                <foreign_table>sys_category</foreign_table>
-                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
-                <maxitems>9999</maxitems>
-                <renderMode>tree</renderMode>
-                <size>10</size>
-                <treeConfig>
-                    <appearance>
-                            <expandAll>1</expandAll>
-                            <showHeader>1</showHeader>
-                    </appearance>
-                    <parentField>parent</parentField>
-                </treeConfig>
-              </config>
-            </TCEforms>
-      </settings.dealers_categories_enabled>      
+                    <settings.dealers_categories>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategories</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <!--<renderMode>tree</renderMode>-->
+                                <size>10</size>
+                                <!--<treeConfig>-->
+                                <!--<appearance>-->
+                                <!--<expandAll>1</expandAll>-->
+                                <!--<showHeader>1</showHeader>-->
+                                <!--</appearance>-->
+                                <!--<parentField>parent</parentField>-->
+                                <!--</treeConfig>-->
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_categories>
 
-        </el>
-      </ROOT>
-    </main>
-  </sheets>
+                    <settings.dealers_categories_enabled>
+                        <TCEforms>
+                            <displayCond>FIELD:settings.filterType:=:checkbox</displayCond>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategoriesEnabled</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <renderMode>tree</renderMode>
+                                <size>10</size>
+                                <treeConfig>
+                                    <appearance>
+                                        <expandAll>1</expandAll>
+                                        <showHeader>1</showHeader>
+                                    </appearance>
+                                    <parentField>parent</parentField>
+                                </treeConfig>
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_categories_enabled>
+
+                    <settings.showAllMarkersOption>
+                        <TCEforms>
+                            <displayCond>FIELD:settings.filterType:=:radio</displayCond>
+                            <label>Show all markers option</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </settings.showAllMarkersOption>
+
+                </el>
+            </ROOT>
+        </main>
+    </sheets>
 </T3DataStructure>
