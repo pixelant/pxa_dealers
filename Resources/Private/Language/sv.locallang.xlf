@@ -55,6 +55,11 @@
 				<target>Ange postnummer eller ort</target>
 			</trans-unit>
 
+            <trans-unit id="categoriesFilter.radio.all">
+                <source>All</source>
+                <target>Alla</target>
+            </trans-unit>
+
 		</body>
 	</file>
 </xliff>
