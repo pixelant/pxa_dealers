@@ -57,7 +57,7 @@
 
             <trans-unit id="categoriesFilter.radio.all">
                 <source>All</source>
-                <target>Alla</target>
+                <target>Alla Butiker</target>
             </trans-unit>
 
 		</body>
