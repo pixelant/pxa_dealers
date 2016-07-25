@@ -233,7 +233,7 @@ function PxaDealers() {
         infowindowCont += email;
         infowindowCont += website;
         if( typeof dealer['showStreetView'] != 'undefined' && dealer['showStreetView'] == 1 ) {
-            infowindowCont += imageStreetPreviewContent;
+            infowindowCont += "STREET_MAP";
         }
         infowindowCont += "</div></tr></table>";
 
@@ -243,10 +243,33 @@ function PxaDealers() {
                                                 animation: google.maps.Animation.DROP,
                                                 icon: markerIcon
                                             });
+
         google.maps.event.addListener(marker, 'click', function() {
             self.infowindow.setContent(infowindowCont);
             self.infowindow.open(self.map, marker);
         });
+
+        if( typeof dealer['showStreetView'] != 'undefined' && dealer['showStreetView'] == 1 ) {
+            var streetview = new google.maps.StreetViewService();
+            streetview.getPanoramaByLocation(pos, 50, function (data, status) {
+                if (status == 'OK') {
+
+                    infowindowCont = infowindowCont.replace("STREET_MAP", imageStreetPreviewContent);
+
+                    google.maps.event.addListener(marker, 'click', function() {
+                        self.infowindow.setContent(infowindowCont);
+                        self.infowindow.open(self.map, marker);
+                    });
+                } else {
+                    infowindowCont = infowindowCont.replace("STREET_MAP", '');
+                }
+            });
+        } else {
+            google.maps.event.addListener(marker, 'click', function() {
+                self.infowindow.setContent(infowindowCont);
+                self.infowindow.open(self.map, marker);
+            });
+        }
 
         self.bounds.extend(pos);
 
