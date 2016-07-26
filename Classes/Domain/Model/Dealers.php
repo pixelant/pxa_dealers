@@ -183,6 +183,13 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $deleted = '';
 
 	/**
+	 * isStaticCoordinates
+	 *
+	 * @var \boolean $isStaticCoordinates
+	 */
+	protected $isStaticCoordinates = '';
+
+	/**
 	 * __construct
 	 */
 	public function __construct() {
@@ -717,6 +724,25 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setDeleted($deleted) {
 		$this->deleted = $deleted;
+	}
+
+	/**
+	 * Returns the isStaticCoordinates
+	 *
+	 * @return boolean $isStaticCoordinates
+	 */
+	public function getIsStaticCoordinates() {
+		return $this->isStaticCoordinates;
+	}
+
+	/**
+	 * Sets the isStaticCoordinates
+	 *
+	 * @param boolean $isStaticCoordinates
+	 * @return void
+	 */
+	public function setIsStaticCoordinates($isStaticCoordinates) {
+		$this->isStaticCoordinates = $isStaticCoordinates;
 	}
 
 }

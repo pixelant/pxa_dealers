@@ -122,4 +122,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\
 	'additionalFields' => "PXA\PxaDealers\Task\CleanUpCoordinatesCacheAdditionalFieldProvider"
 );
 
+// Add evaluate functions
+
+$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'] = '\PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates';
+
 ?>

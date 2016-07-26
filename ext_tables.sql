@@ -27,6 +27,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	logo text NOT NULL,
 	show_street_view tinyint(1) DEFAULT '1' NOT NULL,
   just_added tinyint(1) DEFAULT '0' NOT NULL,
+  is_static_coordinates tinyint(1) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
