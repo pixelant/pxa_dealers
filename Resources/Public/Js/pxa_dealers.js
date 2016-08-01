@@ -586,6 +586,7 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
     var filteredDealersMarkers = [];
 
     var selectedCategories = getSelectedCategories();
+    var easyPickCategoryId = $(".dealers-category-easypick").data("categoryUid");
 
   if( $(".easypickSelector").length > 0 ) {
 
@@ -641,6 +642,8 @@ function filterMarkers (allDealersListItems, selectedCountry, selectedCountryZon
       if( $(".pxa-dealers .categories").length > 0 && $(".pxa-dealers .categories .selected").length > 0 ) {
         if( selectedCategories.indexOf(-1) < 0 ) {
           isOk.push( belongsToCategories(marker, selectedCategories) );
+        } else {
+          isOk.push( !belongsToCategories(marker, [easyPickCategoryId]) )
         }
       }
 
