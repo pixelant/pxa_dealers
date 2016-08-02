@@ -343,5 +343,28 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		return $query->execute();
 	}
+
+	public function findByNameAddressAndPid($name, $address, $pid) {
+
+		$query = $this->createQuery();
+		$query->getQuerySettings()->setRespectStoragePage(true);
+		$query->getQuerySettings()->setRespectSysLanguage(false);
+		$query->getQuerySettings()->setStoragePageIds(array($pid));
+
+		$query->setOrderings(
+			array(
+				'crdate' => \Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+    		)
+		);
+
+		$query->matching(
+			$query->logicalAnd(
+				$query->equals("name", $name),
+				$query->equals("adrress", $address)
+			)
+		);
+
+		return $query->execute();
+	}
 }
 ?>

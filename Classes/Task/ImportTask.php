@@ -271,13 +271,22 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 					}
 				}
 
-				$new_dealer_rec = $this->objectManager->get("PXA\PxaDealers\Domain\Model\Dealers");
+				$name = trim($dataItem[0]);
+				$address = trim( $dataItem[1] );
+
+				$existedDealers = $this->dealersRepository->findByNameAddressAndPid( $name, $address, $this->records_storage_pid );
+
+				if( $existedDealers->count() <= 0 ) {
+					$new_dealer_rec = $this->objectManager->get("PXA\PxaDealers\Domain\Model\Dealers");
+				} else {
+					$new_dealer_rec = $existedDealers[0];
+				}
 
 				// Name
-				$new_dealer_rec->setName( trim($dataItem[0]) );
+				$new_dealer_rec->setName( $name );
 
 				// Address
-				$new_dealer_rec->setAdrress( trim($dataItem[1]) );
+				$new_dealer_rec->setAdrress( $address );
 
 				// City
 				$new_dealer_rec->setCity( trim($dataItem[2]) );
@@ -357,17 +366,11 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 				$defaultQuerySettings->setStoragePageIds(array($this->records_storage_pid));
 				$this->dealersRepository->setDefaultQuerySettings($defaultQuerySettings);
 
-				$existedDealers = $this->dealersRepository->findByNameAndPosition($new_dealer_rec->getName(),
-						$new_dealer_rec->getLat(),
-						$new_dealer_rec->getLng(),
-						$this->records_storage_pid
-				);
-
-				$trimmedAddress = trim($dataItem[1]);
-
-				if($existedDealers->count() <= 0 && !empty($trimmedAddress) ) {
+				if( $existedDealers->count() <= 0 ) {
 					// Add to repo
 					$this->dealersRepository->add($new_dealer_rec);
+				} else {
+					$this->dealersRepository->update($new_dealer_rec);
 				}
 
 			}
