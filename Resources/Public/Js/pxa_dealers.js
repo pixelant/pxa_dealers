@@ -219,7 +219,7 @@ function PxaDealers() {
         imageStreetPreviewContent += '<a href="#streetview" data-marker-id="' + dealer['uid']
                                      + '" class="street-switch-trigger website-link">';
         imageStreetPreviewContent += '<img src="http://maps.googleapis.com/maps/api/streetview?size=90x70&location=' +
-                                     dealer['lat'] + ',' + dealer['lng']+'" /><br>';
+                                     dealer['lat'] + ',' + dealer['lng'] + '&key=' + self.pluginSettings.googleJavascriptApiKey + '"/><br>';
         imageStreetPreviewContent += '<span>Streetview</span></a>';
         imageStreetPreviewContent += '</div></td>';
 

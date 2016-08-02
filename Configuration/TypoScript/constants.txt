@@ -28,5 +28,6 @@ plugin.tx_pxadealers {
         includeLocalScripts = 1
         includeIsotope = 0
         searchResultPage =
+        googleJavascriptApiKey =
 	}
 }

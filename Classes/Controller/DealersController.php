@@ -55,7 +55,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		// Include google maps lib
 		if( $this->settings['includeGoogleMaps'] == 1) {
-			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?sensor=false",
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?key={$this->settings['googleJavascriptApiKey']}",
 					'text/javascript', false, false, '', true, '|');
 		}
 
@@ -215,7 +215,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return array
 	 */
 	protected function getAddress($address) {
-		$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=";
+		$url = "http://maps.google.com/maps/api/geocode/json?key={$this->settings['googleJavascriptApiKey']}&address=";
 		$url .= urlencode($address);
 
 		do {

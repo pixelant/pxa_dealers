@@ -74,6 +74,8 @@ plugin.tx_pxadealers {
 
         searchResultPage = {$plugin.tx_pxadealers.settings.searchResultPage}
 
+        googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+
 	}
 }
 
