@@ -13,13 +13,12 @@
           <f:form.upload class="form-control file-upload-field" name="file" id="file" />
         </div>
         <div class="form-group">
-          <label for="storagePid">Storage pid</label>
-          <f:form.textfield class="form-control storage-pid" name="storagePid" id="storagePid" required="1"/>
-        </div>
-        <div class="form-group">
           <label for="defaultCountry">Default country ( ISO3 )</label>
-          <f:form.textfield class="form-control" name="defaultCountry" id="defaultCountry" title="
-NLD : Netherlands, ITA : Italy, SWE : Sweden, DEU : Germany, ESP : Spain, USA : United States of America, BRA : Brazil, FRA : France, PRT : Portugal, CZE : Czech Republic, GRC : Greece, GBR : United Kingdom, IRL : Ireland" />
+          <select class="form-control" name="defaultCountry" id="defaultCountry">
+            <f:for each="{countries}" as="country">
+              <option value="{country.value}">{country.name}</option>
+            </f:for>
+          </select>
         </div>
         <div class="form-group">
           <label for="languageUid">Language</label>

@@ -79,12 +79,54 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	protected $categoriesRepository;
 
 	/**
+	 * @var \int pageId
+	 */
+	protected $pageId = null;
+
+    public function initializeAction() {
+        $this->pageId = (int) GeneralUtility::_GET("id");
+    }
+
+	/**
 	 * Index action
 	 */
 	public function indexAction()
 	{
+		
 		$systemLanguages = $this->getSystemLanguages();
+
+		$extensionConfiguration = unserialize(
+			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['pxa_dealers']
+		);
+
+		$countries = [];
+
+		if( !empty($extensionConfiguration['countriesList']) ) {
+
+			$countryRows = array_map(function($item){
+				if( !empty($item) ) {
+					return trim($item);
+				}
+			}, array_filter(array_unique(explode(',', $extensionConfiguration['countriesList']))));
+
+			foreach ($countryRows as $countryRow) {
+				$countryColumns = array_map(function($item) {
+					if( !empty($item) ) {
+						return trim($item);
+					}
+				}, array_filter(explode('=>', $countryRow)));
+				$countries[] = [
+					'value' => $countryColumns[0],
+					'name' => $countryColumns[1]
+				];
+			}
+			
+		}
+
+		asort($countries);
+
 		$this->view->assign("systemLanguages", $systemLanguages);
+		$this->view->assign("countries", $countries);
 	}
 
 	public function importAction()
@@ -98,9 +140,8 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			die("Please specify the file");
 		}
 
-		if( empty($args['storagePid'])) {
-			// TODO: make a better message
-			die("Please specify a storage folder");
+		if( empty($this->pageId)) {
+			die("Please select a storage page");
 		}
 
 		// Get file type
@@ -123,7 +164,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 		}
 
-		$this->importDealers($dataArray, $args['defaultCountry'], $args['languageUid'], $args['storagePid'], $args['prependPhoneZero']);
+		$this->importDealers($dataArray, $args['defaultCountry'], $args['languageUid'], $args['prependPhoneZero']);
 
 		// Show warning
 
@@ -174,9 +215,8 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @param $data
 	 * @param $defaultCountry
 	 * @param $languageUid
-	 * @param $storagePid
 	 */
-	protected function importDealers($data, $defaultCountry, $languageUid, $storagePid, $prependPhoneZero)
+	protected function importDealers($data, $defaultCountry, $languageUid, $prependPhoneZero)
 	{
 
 
@@ -303,7 +343,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 
 			// Page id
-			$new_dealer_rec->setPid($storagePid);
+			$new_dealer_rec->setPid($this->pageId);
 
 			// HARDCODED for now (should be moved to additional fields)
 			$new_dealer_rec->setSysLanguageUid( $languageUid );
@@ -317,7 +357,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			// Set storage
 			$defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 			$defaultQuerySettings->setRespectStoragePage(false);
-			$defaultQuerySettings->setStoragePageIds(array($storagePid));
+			$defaultQuerySettings->setStoragePageIds(array($this->pageId));
 			$this->dealersRepository->setDefaultQuerySettings($defaultQuerySettings);
 
 			$this->dealersRepository->add($new_dealer_rec);
@@ -326,7 +366,7 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
 		$this->objectManager->get("TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager")->persistAll();
 
-		$this->turnOnNewRecords($storagePid);
+		$this->turnOnNewRecords($this->pageId);
 
 	}
 
@@ -374,15 +414,13 @@ class ImportController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	public function getDealersInfoAjaxAction()
 	{
 
-		$args = $this->request->getArguments();
-
-		if( empty($args['storagePid']) ) {
+		if( $this->pageId == NULL ) {
 			return 0;
 		}
 
 		$defaultQuerySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 		$defaultQuerySettings->setRespectSysLanguage(false);
-		$defaultQuerySettings->setStoragePageIds(array($args['storagePid']));
+		$defaultQuerySettings->setStoragePageIds(array($this->pageId));
 		$this->dealersRepository->setDefaultQuerySettings($defaultQuerySettings);
 		$dealersCount = $this->dealersRepository->findAll()->count();
 

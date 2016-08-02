@@ -96,7 +96,7 @@ if (TYPO3_MODE === 'BE') {
 	 */
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		'PXA.' . $_EXTKEY,
-		'user',	 // Make module a submodule of 'user'
+		'web',	 // Make module a submodule of 'web'
 		'import',	// Submodule key
 		'',						// Position
 		array(

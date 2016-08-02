@@ -1,2 +1,4 @@
 # cat=basic/enable/101; type=string; label=LLL:EXT:pxa_product_manager/Resources/Private/Language/locallang_db_local.xml:extconf.single_view_pids
 easyPickCategoryUid =
+# cat=basic/enable/102; type=string; label=Countries list in "ISO3 => NAME" format (ex.: NDL => Netherlands)
+countriesList = NLD => Netherlands, ITA => Italy, SWE => Sweden, DEU => Germany, ESP => Spain, USA => United States of America, BRA => Brazil, FRA => France, PRT => Portugal, CZE => Czech Republic, GRC => Greece, GBR => United Kingdom, IRL => Ireland
