@@ -54,7 +54,16 @@ class CategoriesFilterOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Re
             $query->in('uid', $uids)
         );
 
-        return $query->execute();
+        $results = $query->execute();
+
+        // Sort by uid list order
+        $indexedResults = array_fill_keys($uids, "1");
+        foreach ($results as $resultItem) {
+            $uid = $resultItem->getUid();
+            $indexedResults[$uid] = $resultItem;
+        }
+
+        return $indexedResults;
 
     }
 
