@@ -11,10 +11,10 @@
 Extension Name
 =================
 
-:Extension name: Pxa Purus Dealers
-:Extension key: pxa_purus_dealers
+:Extension name: Pxa Dealers
+:Extension key: pxa_dealers
 :Version: 
-:Description: manuals covering TYPO3 extension "Pxa Purus Dealers"
+:Description: manuals covering TYPO3 extension "Pxa Dealers"
 :Language: en
 :Author: Andriy Oprysko
 :Creation: 2014-03-18
