@@ -43,11 +43,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 						</li>
 					</f:if>
 
-					<f:for each="{categories}" as="category" key="catkey">
+					<f:for each="{categoriesFilterOptions}" as="categoriesFilterOption">
 
-						<li class="category-item category-item-radio category-item-{category.uid}" data-category-uid="{category.uid}">
+						<li class="category-item category-item-radio category-item-{categoriesFilterOption.uid}" data-category-uid="{categoriesFilterOption.categories}">
 
-							<a class="category-item-link category-item-link-{category.uid}" href="#" data-uid="{category.uid}">{category.title}</a>
+							<a class="category-item-link category-item-link-{categoriesFilterOption.uid}" href="#" data-uid="{categoriesFilterOption.uid}">{categoriesFilterOption.name}</a>
 
 						</li>
 

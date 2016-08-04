@@ -120,10 +120,14 @@ CREATE TABLE tx_pxadealers_domain_model_categoriesfilteroption (
 );
 
 #
-# Table structure for table 'sys_category'
+# Table structure for table 'tx_pxadealers_categoriesfilteroption_category_mm'
 #
-CREATE TABLE sys_category (
+CREATE TABLE tx_pxadealers_categoriesfilteroption_category_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 
-	categoriesfilteroption  int(11) unsigned DEFAULT '0' NOT NULL,
-
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );

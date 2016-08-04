@@ -139,19 +139,43 @@ return array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_categoriesfilteroption.categories',
 			'config' => array(
-				'type' => 'inline',
+				'type' => 'select',
+				'renderType' => 'selectMultipleSideBySide',
 				'foreign_table' => 'sys_category',
-				'foreign_field' => 'categoriesfilteroption',
+				'MM' => 'tx_pxadealers_categoriesfilteroption_category_mm',
+				'size' => 10,
+				'autoSizeMax' => 30,
 				'maxitems' => 9999,
-				'appearance' => array(
-					'collapseAll' => 0,
-					'levelLinksPosition' => 'top',
-					'showSynchronizationLink' => 1,
-					'showPossibleLocalizationRecords' => 1,
-					'showAllLocalizationLink' => 1
+				'minitems' => 1,
+				'multiple' => 0,
+				'wizards' => array(
+					'_PADDING' => 1,
+					'_VERTICAL' => 1,
+					'edit' => array(
+						'module' => array(
+							'name' => 'wizard_edit',
+						),
+						'type' => 'popup',
+						'title' => 'Edit',
+						'icon' => 'edit2.gif',
+						'popup_onlyOpenIfSelected' => 1,
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+						),
+					'add' => Array(
+						'module' => array(
+							'name' => 'wizard_add',
+						),
+						'type' => 'script',
+						'title' => 'Create new',
+						'icon' => 'add.gif',
+						'params' => array(
+							'table' => 'sys_category',
+							'pid' => '###CURRENT_PID###',
+							'setValue' => 'prepend'
+						),
+					),
 				),
 			),
-
 		),
 		
 	),

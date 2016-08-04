@@ -1,12 +1,11 @@
 <?php
 namespace PXA\PxaDealers\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2016 Andriy Oprysko <andriy@pixelant.se>, Pixelant
+ *  (c) 2016
  *
  *  All rights reserved
  *
@@ -28,7 +27,7 @@ namespace PXA\PxaDealers\Domain\Model;
  ***************************************************************/
 
 /**
- * CategoriesFilterOption
+ * CategoriesFilterOptions
  */
 class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
@@ -51,7 +50,6 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      * Categories
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
-     * @cascade remove
      */
     protected $categories = null;
     

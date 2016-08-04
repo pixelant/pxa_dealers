@@ -46,6 +46,14 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 	protected $categoriesRepository;
 
 	/**
+	 *  categoriesFilterOptionRepository
+	 *
+	 * @var \PXA\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
+	 * @inject
+	 */
+	protected $categoriesFilterOptionRepository;
+
+	/**
 	 * action list
 	 *
 	 * @return void
@@ -68,8 +76,33 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 				$categoriesList[] = $category;
 			}
 		}
+		
+		$categoriesFilterOptions = $this->categoriesFilterOptionRepository->findByUids( $this->settings['dealers_categoriesFilterOptions'] );
+
+		$categoriesFilterOptionsArray = [];
+
+		foreach ($categoriesFilterOptions as $categoriesFilterOption) {
+
+			$categories = [];
+			foreach ($categoriesFilterOption->getCategories() as $category) {
+				$categories[] = $category->getUid();
+			}
+
+			if( !empty($categories) ) {
+				$categories = implode(",", $categories);
+			} else {
+				$categories = '';
+			}
+
+			$categoriesFilterOptionsArray[] = [
+				'uid' => $categoriesFilterOption->getUid(),
+				'name' => $categoriesFilterOption->getName(),
+				'categories' => $categories,
+			];
+		}
 
 		$this->view->assign('categories',$categoriesList);
+		$this->view->assign('categoriesFilterOptions', $categoriesFilterOptionsArray);
 		$this->view->assign('enabledCategories', $enabledCategories);
 	}
 

@@ -1,12 +1,11 @@
 <?php
 namespace PXA\PxaDealers\Controller;
 
-
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2016 Andriy Oprysko <andriy@pixelant.se>, Pixelant
+ *  (c) 2016
  *
  *  All rights reserved
  *
@@ -44,11 +43,12 @@ class CategoriesFilterOptionController extends \TYPO3\CMS\Extbase\Mvc\Controller
     /**
      * action list
      *
+     * @param PXA\PxaDealers\Domain\Model\CategoriesFilterOption
      * @return void
      */
     public function listAction()
     {
-        $categoriesFilterOptions = $this->categoriesFilterOptionRepository->findAll();
+        $categoriesFilterOptions = $this->categoriesFilterOptionsRepository->findAll();
         $this->view->assign('categoriesFilterOptions', $categoriesFilterOptions);
     }
 

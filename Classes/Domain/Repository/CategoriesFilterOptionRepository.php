@@ -1,12 +1,11 @@
 <?php
 namespace PXA\PxaDealers\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2016 Andriy Oprysko <andriy@pixelant.se>, Pixelant
+ *  (c) 2016
  *
  *  All rights reserved
  *
@@ -36,8 +35,27 @@ class CategoriesFilterOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Re
     /**
      * @var array
      */
-    protected $defaultOrderings = array(
-        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-    );
+//    protected $defaultOrderings = array(
+//        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+//    );
+
+    public function findByUids($uids)
+    {
+        if( empty($uids) ) {
+            return [];
+        }
+
+        if( !is_array($uids) ) {
+            $uids = explode(',', $uids);
+        }
+
+        $query = $this->createQuery();
+        $query->matching(
+            $query->in('uid', $uids)
+        );
+
+        return $query->execute();
+
+    }
 
 }

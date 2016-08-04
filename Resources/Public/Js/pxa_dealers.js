@@ -335,7 +335,13 @@ function PxaDealers() {
         var selectedCategories = [];
 
         $('.pxa-dealers > .categories > .selected').each( function() {
-            selectedCategories.push( parseInt($(this).attr("data-category-uid")) );
+
+            var categories = $(this).attr("data-category-uid").split(",");
+
+            $(categories).each( function() {
+                selectedCategories.push( parseInt(this) );
+            });
+
         });
 
         return selectedCategories;
@@ -392,7 +398,6 @@ function PxaDealers() {
             }
 
             if( $(".pxa-dealers > .categories").length > 0 ) {
-                console.log(selectedCategories);
                 isOk.push( self.belongsToCategories(dealer, selectedCategories) );
             }
 

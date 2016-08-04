@@ -32,6 +32,7 @@
 
                     <settings.dealers_categories>
                         <TCEforms>
+                            <displayCond>FIELD:settings.filterType:=:checkbox</displayCond>
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategories</label>
                             <config>
                                 <type>select</type>
@@ -85,6 +86,21 @@
                             </config>
                         </TCEforms>
                     </settings.showAllMarkersOption>
+
+                    <settings.dealers_categoriesFilterOptions>
+                        <TCEforms>
+                            <displayCond>FIELD:settings.filterType:=:radio</displayCond>
+                            <label>Categories filter options</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>tx_pxadealers_domain_model_categoriesfilteroption</foreign_table>
+                                <foreign_table_where>AND tx_pxadealers_domain_model_categoriesfilteroption.sys_language_uid IN (-1, 0) ORDER BY tx_pxadealers_domain_model_categoriesfilteroption.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <size>10</size>
+                            </config>
+                        </TCEforms>
+                    </settings.dealers_categoriesFilterOptions>
 
                 </el>
             </ROOT>
