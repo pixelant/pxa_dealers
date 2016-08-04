@@ -143,6 +143,19 @@
 				<source>Cleanup dealers coordinates cache</source>
 			</trans-unit>
 
+			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption">
+				<source>Categories Filter Option</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.systemname">
+				<source>Systemname</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.categories">
+				<source>Categories</source>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

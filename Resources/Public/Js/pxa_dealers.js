@@ -392,6 +392,7 @@ function PxaDealers() {
             }
 
             if( $(".pxa-dealers > .categories").length > 0 ) {
+                console.log(selectedCategories);
                 isOk.push( self.belongsToCategories(dealer, selectedCategories) );
             }
 

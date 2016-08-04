@@ -98,4 +98,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
         'categories'
 );
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_pxadealers_domain_model_categoriesfilteroption', 'EXT:pxa_dealers/Resources/Private/Language/locallang_csh_tx_pxadealers_domain_model_categoriesfilteroption.xlf');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_pxadealers_domain_model_categoriesfilteroption');
+
 ?>
