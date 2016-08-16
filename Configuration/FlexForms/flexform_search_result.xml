@@ -135,7 +135,7 @@
 
           <settings.layoutType>
             <TCEforms>
-              <label>Default country</label>
+              <label>Layout type</label>
               <config>
                 <type>select</type>
                 <items type="array">
