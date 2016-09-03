@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Utility\EvalFunctions;
+namespace Pixelant\PxaDealers\Utility\EvalFunctions;
 
 class EvaluateGoogleMapsCoordinates {
 

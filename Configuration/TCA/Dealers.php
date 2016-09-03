@@ -241,7 +241,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'required,trim,PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'
+				'eval' => 'required,trim,Pixelant\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'
 			),
 		),
 		'lng' => array(
@@ -251,7 +251,7 @@ $TCA['tx_pxadealers_domain_model_dealers'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'required,trim,PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'
+				'eval' => 'required,trim,Pixelant\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'
 			),
 		),
 		'lat_lng_is_set' => array(

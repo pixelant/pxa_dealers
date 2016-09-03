@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
+namespace Pixelant\PxaDealers\Controller;
 
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
@@ -40,7 +40,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 *  dealersRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
 	 * @inject
 	 */
 	protected $dealersRepository;

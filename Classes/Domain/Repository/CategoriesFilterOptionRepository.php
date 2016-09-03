@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Domain\Repository;
+namespace Pixelant\PxaDealers\Domain\Repository;
 
 /***************************************************************
  *

@@ -1,9 +1,9 @@
 <?php
-namespace PXA\PxaDealers\Task;
+namespace Pixelant\PxaDealers\Task;
 
 /**
  * Class CleanUpCoordinatesCacheTask
- * @package PXA\PxaDealers\Task
+ * @package Pixelant\PxaDealers\Task
  */
 class CleanUpCoordinatesCacheTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask  {
 

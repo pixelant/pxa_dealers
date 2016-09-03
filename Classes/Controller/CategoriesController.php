@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
+namespace Pixelant\PxaDealers\Controller;
 
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
 
@@ -48,7 +48,7 @@ class CategoriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
 	/**
 	 *  categoriesFilterOptionRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
 	 * @inject
 	 */
 	protected $categoriesFilterOptionRepository;

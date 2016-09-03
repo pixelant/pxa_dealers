@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Hook;
+namespace Pixelant\PxaDealers\Hook;
 
 class PxaDealersHook {
 	public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler &$reference) {

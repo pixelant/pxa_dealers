@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
+namespace Pixelant\PxaDealers\Controller;
 
 use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
 

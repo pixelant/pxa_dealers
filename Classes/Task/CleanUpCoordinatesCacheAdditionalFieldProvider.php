@@ -1,9 +1,9 @@
 <?php
-namespace PXA\PxaDealers\Task;
+namespace Pixelant\PxaDealers\Task;
 
 /**
  * Class CleanUpCoordinatesCacheAdditionalFieldProvider
- * @package PXA\PxaDealers\Task
+ * @package Pixelant\PxaDealers\Task
  */
 class CleanUpCoordinatesCacheAdditionalFieldProvider implements \TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface {
 

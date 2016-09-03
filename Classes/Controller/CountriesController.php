@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
+namespace Pixelant\PxaDealers\Controller;
 
 use \TYPO3\CMS\Extbase\Utility\LocalizationUtility as lu;
 
@@ -40,7 +40,7 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	/**
 	 *  countriesRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\CountriesRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\CountriesRepository
 	 * @inject
 	 */
 	protected $countriesRepository;
@@ -48,7 +48,7 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 	/**
 	 *  dealersRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
 	 * @inject
 	 */
 	protected $dealersRepository;

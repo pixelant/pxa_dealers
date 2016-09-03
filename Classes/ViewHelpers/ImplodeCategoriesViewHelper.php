@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\ViewHelpers;
+namespace Pixelant\PxaDealers\ViewHelpers;
 
 /***************************************************************
 *  Copyright notice

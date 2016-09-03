@@ -93,7 +93,7 @@ findClosestAjax.10 {
 	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
 	extensionName = PxaDealers
 	pluginName = Pxadealerssearchresults
-	vendorName = PXA
+	vendorName = Pixelant
 	switchableControllerActions {
 		Dealers {
              1 = findClosestAjax
