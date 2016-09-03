@@ -1,4 +1,8 @@
 <?php
+if (!defined ('TYPO3_MODE')) {
+	die ('Access denied.');
+}
+
 return array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_categoriesfilteroption',
