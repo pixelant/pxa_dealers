@@ -1,8 +1,6 @@
 <?php
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-use FluidTYPO3\Flux\Utility\DebuggerUtility;
-
 /***************************************************************
  *  Copyright notice
  *

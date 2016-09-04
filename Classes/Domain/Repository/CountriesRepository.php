@@ -1,9 +1,6 @@
 <?php
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 /***************************************************************
  *  Copyright notice
  *
