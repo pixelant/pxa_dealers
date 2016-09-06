@@ -29,5 +29,6 @@ plugin.tx_pxadealers {
         includeIsotope = 0
         searchResultPage =
         googleJavascriptApiKey =
+		googleJavascriptApiLanguage = en
 	}
 }
