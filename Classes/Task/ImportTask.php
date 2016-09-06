@@ -1,12 +1,12 @@
 <?php
-namespace PXA\PxaDealers\Task;
+namespace Pixelant\PxaDealers\Task;
 
 class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO3\CMS\Scheduler\ProgressProviderInterface {
 
   /**
    *  garbageRepository
    *
-   * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+   * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
    */
   protected $dealersRepository;
 
@@ -63,7 +63,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
 		$this->filepath = $this->file_path;
 
     // Init repositories
-    $this->dealersRepository = $this->objectManager->get("PXA\PxaDealers\Domain\Repository\DealersRepository");
+    $this->dealersRepository = $this->objectManager->get("Pixelant\PxaDealers\Domain\Repository\DealersRepository");
     $this->countryRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryRepository");
     $this->countryZoneRepository = $this->objectManager->get("SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository");
 
@@ -127,7 +127,7 @@ class ImportTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask implements \TYPO
 		    }
           }
 
-          $new_dealer_rec = $this->objectManager->get("PXA\PxaDealers\Domain\Model\Dealers");
+          $new_dealer_rec = $this->objectManager->get("Pixelant\PxaDealers\Domain\Model\Dealers");
 
           // Name
           $new_dealer_rec->setName( trim($data[$i][0]) );

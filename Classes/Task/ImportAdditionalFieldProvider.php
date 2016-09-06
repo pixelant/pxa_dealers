@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Task;
+namespace Pixelant\PxaDealers\Task;
 
 /***************************************************************
  *  Copyright notice

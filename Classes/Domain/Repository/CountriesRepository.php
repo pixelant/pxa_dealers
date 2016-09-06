@@ -1,8 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Domain\Repository;
-
-use \TYPO3\CMS\Extbase\Utility\DebuggerUtility as du;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+namespace Pixelant\PxaDealers\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
@@ -47,7 +44,7 @@ class CountriesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
  	/**
 	 *  dealersRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
 	 * @inject
 	 */
 	protected $dealersRepository;

@@ -1,5 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
+namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
  *
@@ -35,7 +35,7 @@ class CategoriesFilterOptionController extends \TYPO3\CMS\Extbase\Mvc\Controller
     /**
      * categoriesFilterOptionRepository
      *
-     * @var \PXA\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
+     * @var \Pixelant\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
      * @inject
      */
     protected $categoriesFilterOptionRepository = NULL;
@@ -43,7 +43,7 @@ class CategoriesFilterOptionController extends \TYPO3\CMS\Extbase\Mvc\Controller
     /**
      * action list
      *
-     * @param PXA\PxaDealers\Domain\Model\CategoriesFilterOption
+     * @param Pixelant\PxaDealers\Domain\Model\CategoriesFilterOption
      * @return void
      */
     public function listAction()

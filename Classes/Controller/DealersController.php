@@ -1,7 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Controller;
-
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
  *  Copyright notice
@@ -40,7 +38,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 *  dealersRepository
 	 *
-	 * @var \PXA\PxaDealers\Domain\Repository\DealersRepository
+	 * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
 	 * @inject
 	 */
 	protected $dealersRepository;

@@ -1,7 +1,5 @@
 <?php
-namespace PXA\PxaDealers\Domain\Repository;
-
-use FluidTYPO3\Flux\Utility\DebuggerUtility;
+namespace Pixelant\PxaDealers\Domain\Repository;
 
 /***************************************************************
  *  Copyright notice
@@ -73,7 +71,7 @@ class DealersRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		if( function_exists("array_column") ) {
 			$result = array_column($result, 'country');
 		} else {
-			$result = \PXA\PxaDealers\Utility\HelperFunctions::array_column($result, 'country');
+			$result = \Pixelant\PxaDealers\Utility\HelperFunctions::array_column($result, 'country');
 		}
 
 		return $result;

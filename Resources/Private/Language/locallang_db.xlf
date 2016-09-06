@@ -35,7 +35,7 @@
 				<source>State</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
-				<source>Adrress</source>
+				<source>Address</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
 				<source>Zipcode</source>

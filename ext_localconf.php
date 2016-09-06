@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealerssearchform',
 	array(
 		'Dealers' => 'searchForm',
@@ -18,7 +18,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealerssearchresults',
 	array(
 		'Dealers' => 'searchResults,import,findClosestAjax',
@@ -32,7 +32,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealerscategories',
 	array(
 		'Categories' => 'list',
@@ -46,7 +46,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealerscountries',
 	array(
 		'Countries' => 'list',
@@ -60,7 +60,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealersclosest',
 	array(
 		'Closest' => 'show',
@@ -73,7 +73,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'PXA.' . $_EXTKEY,
+	'Pixelant.' . $_EXTKEY,
 	'Pxadealersmap',
 	array(
 		'Dealers' => 'showMap',
@@ -86,7 +86,7 @@ if (!defined('TYPO3_MODE')) {
 );
 
 // Hook before dealer is saved 
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['PxaDealers\\Hook\\DealersHook'] = 'EXT:pxa_dealers/Classes/Hook/PxaDealersHook.php:&PXA\\PxaDealers\\Hook\\PxaDealersHook';
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['PxaDealers\\Hook\\DealersHook'] = 'EXT:pxa_dealers/Classes/Hook/PxaDealersHook.php:&Pixelant\\PxaDealers\\Hook\\PxaDealersHook';
 
 // Real url
 $TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['dealers-search'] = array(
@@ -107,23 +107,23 @@ $TYPO3_CONF_VARS['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['d
 );
 
 // Import task
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\Task\ImportTask"] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["Pixelant\PxaDealers\Task\ImportTask"] = array(
 	'extension'        => $_EXTKEY,
 	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.import.name',
 	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.import.description',
-	'additionalFields' => "PXA\PxaDealers\Task\ImportAdditionalFieldProvider"
+	'additionalFields' => "Pixelant\PxaDealers\Task\ImportAdditionalFieldProvider"
 );
 
 // Cleanup coordinated
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["PXA\PxaDealers\Task\CleanUpCoordinatesCacheTask"] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']["Pixelant\PxaDealers\Task\CleanUpCoordinatesCacheTask"] = array(
 	'extension'        => $_EXTKEY,
 	'title'            => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.сleanUpCoordinatesCacheTask.name',
 	'description'      => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_db.xlf:tx_pxadealers.task.CleanUpCoordinatesCacheTask.description',
-	'additionalFields' => "PXA\PxaDealers\Task\CleanUpCoordinatesCacheAdditionalFieldProvider"
+	'additionalFields' => "Pixelant\PxaDealers\Task\CleanUpCoordinatesCacheAdditionalFieldProvider"
 );
 
 // Add evaluate functions
 
-$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'] = '\PXA\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates';
+$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['Pixelant\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates'] = '\Pixelant\PxaDealers\Utility\EvalFunctions\EvaluateGoogleMapsCoordinates';
 
 ?>
