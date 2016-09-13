@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="nl" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+		<header/>
+		<body>
+
+			<trans-unit id="dealers_found">
+                <source>dealers found</source>
+                <target>gevonden winkels</target>
+            </trans-unit>
+
+			<trans-unit id="error.NoResult">
+				<target>Geen verkooppunten gevonden. Probeer een andere postcode of plaats.</target>
+			</trans-unit>
+
+            <trans-unit id="categoriesFilter.radio.all">
+                <source>All</source>
+                <target>Alle winkels</target>
+            </trans-unit>
+
+		</body>
+	</file>
+</xliff>

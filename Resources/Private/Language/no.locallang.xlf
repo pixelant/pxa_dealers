@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="no" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+		<header/>
+		<body>			
+
+			<trans-unit id="error.NoResult">
+				<target>Fant ingen forhandlere. Prøv å søke på et annet postnummer eller et sted.</target>
+			</trans-unit>
+			<trans-unit id="error.NotNumeric">
+				<target>Zipcode should be numeric</target>
+			</trans-unit>
+			
+			<trans-unit id="placeholder">
+				<target>Ange postnr eller en ort</target>
+			</trans-unit>
+			
+			<trans-unit id="filtrering">
+				<target>Filtrering</target>
+			</trans-unit>
+
+			<trans-unit id="closest_dealer">
+				<target>%s Återförsäljare närmast</target>
+			</trans-unit>
+
+			<trans-unit id="notDealersFoundFilteringMessage">
+				<target>Fant ingen forhandlere. Prøv å søke på et annet postnummer eller et sted.</target>
+			</trans-unit>
+			<trans-unit id="filtrering_notice">
+				<target>Klicka ur kryssrutorna för att filtrera ditt resultat.</target>
+			</trans-unit>
+
+			<trans-unit id="error.EmptyValue">
+				<target>Skriv in ett postnummer eller en ort</target>
+			</trans-unit>
+
+			<trans-unit id="submitvalue">
+				<target>Sök</target>
+			</trans-unit>
+
+			<trans-unit id="ajax_loaded_dealer">
+				<target>Närmaste återförsäljare</target>
+			</trans-unit>
+
+			<trans-unit id="ajax_preload">
+				<target>Söker närmaste återförsäljare</target>
+			</trans-unit>
+			<trans-unit id="dealers_found">
+                <source>dealers found</source>
+                <target>butikker funnet</target>
+            </trans-unit>
+
+			<trans-unit id="country_list_city_zip_search">
+				<source>search for city or zip...</source>
+				<target>Oppgi postnummer eller sted</target>
+			</trans-unit>
+
+            <trans-unit id="categoriesFilter.radio.all">
+                <source>All</source>
+                <target>Alle butikker</target>
+            </trans-unit>
+
+		</body>
+	</file>
+</xliff>
