@@ -97,9 +97,21 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		// Filter countries
 		if( !empty($this->settings['disallowedCountries']) ) {
 			$disallowedCountries = explode(",", $this->settings['disallowedCountries']);
-			$countries = array_filter($countries, function($key) use ($disallowedCountries) {
-				return !in_array($key, $disallowedCountries);
-			}, ARRAY_FILTER_USE_KEY);
+
+			// doesn't work below php 5.6
+//			$countries = array_filter($countries, function($key) use ($disallowedCountries) {
+//				return !in_array($key, $disallowedCountries);
+//			}, ARRAY_FILTER_USE_KEY);
+
+			$filteredCountries = [];
+			foreach ($countries as $countruUid => $country) {
+				if( !in_array($countruUid, $disallowedCountries) ) {
+					$filteredCountries[$countruUid] = $country;
+				}
+			}
+
+			$countries = $filteredCountries;
+
 		}
 
 		$diffCountries = array();
