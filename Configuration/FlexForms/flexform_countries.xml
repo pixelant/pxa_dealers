@@ -90,6 +90,20 @@
                             </config>
                         </TCEforms>
                     </settings.dealers_countries_cityzip_search>
+                    <settings.disallowedCountries>
+                        <TCEforms>
+                            <label>Disallowed countries</label>
+                            <config>
+                                <type>select</type>
+                                <foreign_table>static_countries</foreign_table>
+                                <foreign_table_where> ORDER BY static_countries.cn_short_en</foreign_table_where>
+                                <size>10</size>
+                                <autoSizeMax>20</autoSizeMax>
+                                <minitems>0</minitems>
+                                <maxitems>9999</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.disallowedCountries>
 
                 </el>
             </ROOT>

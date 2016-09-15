@@ -94,6 +94,14 @@ class CountriesController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
 		$countries = $this->dealersRepository->getDealersUniqueCountriesFormatted();
 
+		// Filter countries
+		if( !empty($this->settings['disallowedCountries']) ) {
+			$disallowedCountries = explode(",", $this->settings['disallowedCountries']);
+			$countries = array_filter($countries, function($key) use ($disallowedCountries) {
+				return !in_array($key, $disallowedCountries);
+			}, ARRAY_FILTER_USE_KEY);
+		}
+
 		$diffCountries = array();
 
 		if(!empty($mainCountries)){
