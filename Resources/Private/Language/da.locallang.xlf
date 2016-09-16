@@ -66,6 +66,16 @@
                 <target>Varemærke</target>
             </trans-unit>
 
+			<trans-unit id="country_list_select_country">
+				<source>Select country</source>
+				<target>Vælg land >></target>
+			</trans-unit>
+
+			<trans-unit id="country_list.all_countries">
+				<source>All countries</source>
+				<target>Alle lande</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

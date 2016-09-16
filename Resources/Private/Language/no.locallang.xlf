@@ -60,6 +60,16 @@
                 <target>Alle butikker</target>
             </trans-unit>
 
+			<trans-unit id="country_list_select_country">
+				<source>Select country</source>
+				<target>Velg land >></target>
+			</trans-unit>
+
+			<trans-unit id="country_list.all_countries">
+				<source>All countries</source>
+				<target>Alle land</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
