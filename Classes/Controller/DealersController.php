@@ -232,7 +232,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return array
 	 */
 	protected function getAddress($address) {
-		$url = "http://maps.google.com/maps/api/geocode/json?language={$this->settings['googleJavascriptApiLanguage']}&key={$this->settings['googleJavascriptApiKey']}&address=";
+		$url = "https://maps.google.com/maps/api/geocode/json?language={$this->settings['googleJavascriptApiLanguage']}&key={$this->settings['googleJavascriptApiServerKey']}&address=";
 		$url .= urlencode($address);
 
 		do {
