@@ -24,8 +24,9 @@
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
-				<target>Inga återförsäljare hittades. Prova att söka med ett annat postnummer eller ta bort filtreringen till vänster.</target>
+				<target>Inga butiker hittades. Försök att söka med ett annan postnummer eller ta bort filtreringsalternativ.</target>
 			</trans-unit>
+
 			<trans-unit id="filtrering_notice">
 				<target>Klicka ur kryssrutorna för att filtrera ditt resultat.</target>
 			</trans-unit>

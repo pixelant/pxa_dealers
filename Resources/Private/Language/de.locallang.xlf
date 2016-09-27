@@ -41,7 +41,7 @@
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
-				<target>Keinen Händler gefunden. Suchen Sie erneut mit einer anderen PLZ oder einem Ort.</target>
+				<target>Keine Shops gefunden. Starten Sie eine neue Suche mit einer anderen PLZ oder entfernen Sie die Filteroptionen.</target>
 			</trans-unit>
 
             <trans-unit id="categoriesFilter.radio.all">

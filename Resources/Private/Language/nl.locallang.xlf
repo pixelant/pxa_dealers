@@ -28,6 +28,11 @@
 				<target>Alle landen</target>
 			</trans-unit>
 
+			<trans-unit id="notDealersFoundFilteringMessage">
+				<source>No retailers were found. Try searching with a different zip code or remove the filtering options.</source>
+				<target>Er zijn geen winkels gevonden. Zoek op een andere postcode of verwijder de filteropties.</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

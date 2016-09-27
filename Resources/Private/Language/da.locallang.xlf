@@ -24,7 +24,7 @@
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
-				<target>Fandt ingen forhandler. Prøv at søge med et andet postnummer eller en anden by.</target>
+				<target>Der blev ikke fundet nogen butikker. Prøv at søge på et andet postnummer, eller fjern filterindstillingerne.</target>
 			</trans-unit>
 
 			<trans-unit id="filtrering_notice">
