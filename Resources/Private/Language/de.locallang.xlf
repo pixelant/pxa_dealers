@@ -2,14 +2,8 @@
 <xliff version="1.0">
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
 		<header/>
-		<body>			
+		<body>
 
-			<trans-unit id="error.NoResult">
-				<target>Es konnte keine Apotheke gefunden werden. Versuchen Sie es mit einer anderen PLZ oder Stadt.</target>
-			</trans-unit>
-			<trans-unit id="error.NoResultAdditional">
-				<target>Falls Ihre Apotheke in diese Übersicht nicht aufgeführt ist, kann jede Apotheke in Deutschland selbstverständlich den attraktiven CB12 Doppelpack über den pharmazeutischen Großhandel innerhalb kurzer Zeit für Sie besorgen.</target>
-			</trans-unit>
 			<trans-unit id="error.NotNumeric">
 				<target>Zipcode should be numeric</target>
 			</trans-unit>
@@ -28,20 +22,43 @@
 				<target>Filtrering</target>
 			</trans-unit>
 
-			<trans-unit id="closest_dealer">
-				<target>Es wurden %s Apotheken in Ihrer Nähe gefunden</target>
-			</trans-unit>
-			
-			<trans-unit id="ajax_loaded_dealer">
-				<target>Apotheken in Ihrer Nähe</target>
-			</trans-unit>
-			<trans-unit id="ajax_preload">
-				<target>Es wird nach Apotheken in Ihrer Nähe gesucht</target>
-			</trans-unit>
-
 			<trans-unit id="error.EmptyValue">
 				<target>Geben Sie eine PLZ oder eine Stadt</target>
 			</trans-unit>
+
+			<trans-unit id="country_list_city_zip_search">
+				<source>search for city or zip...</source>
+				<target>PLZ oder Ort angeben</target>
+			</trans-unit>
+
+			<trans-unit id="dealers_found">
+                <source>dealers found</source>
+                <target>gefundene Shops</target>
+            </trans-unit>
+
+			<trans-unit id="error.NoResult">
+				<target>Keinen Händler gefunden. Suchen Sie erneut mit einer anderen PLZ oder einem Ort.</target>
+			</trans-unit>
+
+			<trans-unit id="notDealersFoundFilteringMessage">
+				<target>Keine Shops gefunden. Starten Sie eine neue Suche mit einer anderen PLZ oder entfernen Sie die Filteroptionen.</target>
+			</trans-unit>
+
+            <trans-unit id="categoriesFilter.radio.all">
+                <source>All</source>
+                <target>Alle Shops</target>
+            </trans-unit>
+
+			<trans-unit id="country_list_select_country">
+				<source>Select country</source>
+				<target>Land auswählen >></target>
+			</trans-unit>
+
+			<trans-unit id="country_list.all_countries">
+				<source>All countries</source>
+				<target>Alle Länder</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

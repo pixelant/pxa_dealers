@@ -53,7 +53,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		// Include google maps lib
 		if( $this->settings['includeGoogleMaps'] == 1) {
-			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?key={$this->settings['googleJavascriptApiKey']}",
+			$GLOBALS['TSFE']->getPageRenderer()->addJsFooterLibrary("googlemapsapi", "https://maps.googleapis.com/maps/api/js?language={$this->settings['googleJavascriptApiLanguage']}&key={$this->settings['googleJavascriptApiKey']}",
 					'text/javascript', false, false, '', true, '|');
 		}
 
@@ -87,7 +87,24 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 		$args = $this->request->getArguments();
 
-		$dealers = $this->checkDealers( $this->dealersRepository->findAll() );
+		$allDealers = $this->dealersRepository->findAll();
+		$filteredDealers = [];
+
+		if( !empty($this->settings['allowedCountries']) ) {
+
+			$allowedCountries = explode(",", $this->settings['allowedCountries']);
+
+			foreach ($allDealers as $dealer) {
+				$country = $dealer->getCountry();
+				if( in_array($country->getUid(), $allowedCountries) ) {
+					$filteredDealers[] = $dealer;
+				}
+			}
+
+			$allDealers = $filteredDealers;
+		}
+
+		$dealers = $this->checkDealers( $allDealers );
 
 		$searchValue = ( isset($args['searchValue']) ) ? $args['searchValue'] : false;
 
@@ -145,10 +162,10 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	/**
 	 * Check if dealer was changed. And if it was get Lat and Lng
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers
+	 * @param $dealers
 	 * @return boolean 
 	 */
-	protected function checkDealers(\TYPO3\CMS\Extbase\Persistence\Generic\QueryResult $dealers) {
+	protected function checkDealers($dealers) {
 
 		$toUnset = array();
 
@@ -213,7 +230,7 @@ class DealersController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return array
 	 */
 	protected function getAddress($address) {
-		$url = "http://maps.google.com/maps/api/geocode/json?key={$this->settings['googleJavascriptApiKey']}&address=";
+		$url = "https://maps.google.com/maps/api/geocode/json?language={$this->settings['googleJavascriptApiLanguage']}&key={$this->settings['googleJavascriptApiServerKey']}&address=";
 		$url .= urlencode($address);
 
 		do {

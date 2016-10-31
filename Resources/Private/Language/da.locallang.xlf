@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="sv" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+	<file source-language="en" target-language="da" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
 		<header/>
-		<body>			
+		<body>
 
 			<trans-unit id="error.NoResult">
 				<target>Hittade inga återförsäljare. Prova att söka med ett annat postnummer eller en ort.</target>
@@ -24,7 +24,7 @@
 			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
-				<target>Inga butiker hittades. Försök att söka med ett annan postnummer eller ta bort filtreringsalternativ.</target>
+				<target>Der blev ikke fundet nogen butikker. Prøv at søge på et andet postnummer, eller fjern filterindstillingerne.</target>
 			</trans-unit>
 
 			<trans-unit id="filtrering_notice">
@@ -48,12 +48,12 @@
 			</trans-unit>
 			<trans-unit id="dealers_found">
                 <source>dealers found</source>
-                <target>hittade butiker</target>
+                <target>fundne butikke</target>
             </trans-unit>
 
 			<trans-unit id="country_list_city_zip_search">
 				<source>search for city or zip...</source>
-				<target>Ange postnummer eller ort</target>
+				<target>Angiv postnummer eller by</target>
 			</trans-unit>
 
             <trans-unit id="categoriesFilter.radio.all">
@@ -61,14 +61,19 @@
                 <target>Alla Butiker</target>
             </trans-unit>
 
+            <trans-unit id="product.filters.brands">
+                <source>Brands</source>
+                <target>Varemærke</target>
+            </trans-unit>
+
 			<trans-unit id="country_list_select_country">
 				<source>Select country</source>
-				<target>Välj land >></target>
+				<target>Vælg land >></target>
 			</trans-unit>
 
 			<trans-unit id="country_list.all_countries">
 				<source>All countries</source>
-				<target>Alla länder</target>
+				<target>Alle lande</target>
 			</trans-unit>
 
 		</body>
