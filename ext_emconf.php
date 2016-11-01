@@ -10,37 +10,32 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
-	'title' => 'Pxa Dealers',
-	'description' => 'Pxa Dealers',
-	'category' => 'plugin',
-	'author' => 'Andriy Oprysko',
-	'author_email' => 'andriy@pixelant.se',
-	'author_company' => 'Pixelant',
-	'shy' => '',
-	'priority' => '',
-	'module' => '',
-	'state' => 'alpha',
-	'internal' => '',
-	'uploadfolder' => '1',
-	'createDirs' => '',
-	'modify_tables' => '',
-	'clearCacheOnLoad' => 0,
-	'lockType' => '',
-	'version' => '2.2.0',
-	'constraints' => array(
-		'depends' => array(
-			'extbase' => '6.0',
-			'fluid' => '6.0',
-			'typo3' => '6.0',
-			'realurl' => '',
-			'static_info_tables' => ''
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
-
-?>
+$EM_CONF[$_EXTKEY] = [
+    'title' => 'Pxa Dealers',
+    'description' => 'Display dealers on a map',
+    'category' => 'plugin',
+    'author' => 'Andriy Oprysko',
+    'author_email' => 'andriy@pixelant.se',
+    'author_company' => 'Pixelant',
+    'shy' => '',
+    'priority' => '',
+    'module' => '',
+    'state' => 'stable',
+    'internal' => '',
+    'uploadfolder' => '0',
+    'createDirs' => '',
+    'modify_tables' => '',
+    'clearCacheOnLoad' => 0,
+    'lockType' => '',
+    'version' => '2.2.0',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '7.6.0-7.99.99',
+            'static_info_tables' => ''
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+];

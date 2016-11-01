@@ -19,7 +19,7 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.website">
 				<source>Website url</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
+			<trans-unit id="tx_pxadealers_domain_model_dealers.address">
 				<source>Address for google maps</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">

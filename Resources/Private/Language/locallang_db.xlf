@@ -10,31 +10,13 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.name">
 				<source>Name</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.city">
-				<source>City</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.email">
-				<source>E-mail</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.fax">
-				<source>Fax</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.telephone">
-				<source>Telephone</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.website">
-				<source>Website</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.buy_it_now">
-				<source>Buy it now link</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.country">
-				<source>Country</source>
-			</trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.country">
+                <source>Country</source>
+            </trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone">
 				<source>State</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
+			<trans-unit id="tx_pxadealers_domain_model_dealers.address">
 				<source>Address</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
@@ -43,21 +25,23 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode_search">
 				<source>Zipcode search value</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.description">
-				<source>Description</source>
-			</trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.gm_position">
+                <source>Google maps position</source>
+            </trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.lat">
-				<source>Lat</source>
+				<source>Latitude</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.lng">
-				<source>Lng</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lat_lng_is_set">
-				<source>Lat Lng Is Set</source>
+				<source>Longitude</source>
 			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.logo">
 				<source>Logo</source>
 			</trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.coordinates">
+                <source>Coordinates</source>
+            </trans-unit>
+
+
 			<trans-unit id="flexform.sheet_title">
 				<source>Configuration</source>
 			</trans-unit>
