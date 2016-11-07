@@ -40,7 +40,9 @@
             <trans-unit id="tx_pxadealers_domain_model_dealers.coordinates">
                 <source>Coordinates</source>
             </trans-unit>
-
+            <trans-unit id="tx_pxadealers_domain_model_dealers.city">
+                <source>City</source>
+            </trans-unit>
 
 			<trans-unit id="flexform.sheet_title">
 				<source>Configuration</source>
@@ -102,7 +104,7 @@
 			</trans-unit>
 
 			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
-				<source>none</source>
+				<source>None</source>
 			</trans-unit>
 
 			<trans-unit id="tx_pxadealers.task.import.name">
@@ -130,9 +132,6 @@
 			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption">
 				<source>Categories Filter Option</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.systemname">
-				<source>Systemname</source>
-			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.name">
 				<source>Name</source>
 			</trans-unit>
@@ -140,6 +139,12 @@
 				<source>Categories</source>
 			</trans-unit>
 
+            <trans-unit id="tca_be_map.noApiKey">
+                <source>Google api key is not set. Please, specify "{$plugin.tx_pxadealers.settings.googleJavascriptApiKey}" for current root line.</source>
+            </trans-unit>
+            <trans-unit id="tca_be_map.tooltip">
+                <source>Press this button to get marker position on map by address.</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

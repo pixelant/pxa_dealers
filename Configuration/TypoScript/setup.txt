@@ -75,6 +75,8 @@ plugin.tx_pxadealers {
         searchResultPage = {$plugin.tx_pxadealers.settings.searchResultPage}
 
         googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+        beMainJs = EXT:pxa_dealers/Resources/Public/Js/BE/PxaBeMaps.js
+
 		googleJavascriptApiServerKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiServerKey}
 		googleJavascriptApiLanguage = {$plugin.tx_pxadealers.settings.googleJavascriptApiLanguage}
 

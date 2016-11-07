@@ -26,15 +26,17 @@ return [
         ],
         'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng,lat_lng_is_set',
         'requestUpdate' => 'country',
-        'iconfile' => 'EXT:pxa_dealers/Resources/Public/Icons/tx_pxadealers_domain_model_dealers.gif'
+        'typeicon_classes' => [
+            'default' => 'ext-pxadealers-wizard-icon'
+        ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, address, country, country_zone, lat, lng, show_street_view, gm_position',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, country_zone, lat, lng, show_street_view, gm_position',
     ],
     'types' => [
         '1' => [
-            'showitem' => '--palette--;;paletteLangHidden, --palette--;;paletteMain, 
-		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.coordinates,--palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
+            'showitem' => '--palette--;;paletteLangHidden, name, logo, 
+		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
 		        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'
         ]
     ],
@@ -43,12 +45,8 @@ return [
             'showitem' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource',
             'canNotCollapse' => false
         ],
-        'paletteMain' => [
-            'showitem' => 'name, --linebreak--, logo',
-            'canNotCollapse' => false
-        ],
         'paletteNavigation' => [
-            'showitem' => 'address, zipcode, --linebreak--, gm_position',
+            'showitem' => 'address, city, zipcode, --linebreak--, gm_position',
             'canNotCollapse' => false
         ],
         'paletteCountry' => [
@@ -210,7 +208,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required,trim'
+                'eval' => 'trim'
             ],
         ],
 
@@ -310,7 +308,24 @@ return [
             'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.gm_position',
             'config' => [
                 'type' => 'user',
-                'userFunc' => \Pixelant\PxaDealers\Utility\TcaUtility::class . '->renderGoogleMapPosition'
+                'userFunc' => \Pixelant\PxaDealers\Utility\TcaUtility::class . '->renderGoogleMapPosition',
+                'parameters' => [
+                    'longitude' => 'lng',
+                    'latitude' => 'lat',
+                    'address' => 'address',
+                    'zipcode' => 'zipcode',
+                    'country' => 'country',
+                    'city' => 'city'
+                ],
+            ],
+        ],
+        'city' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.city',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim,required'
             ],
         ],
     ],

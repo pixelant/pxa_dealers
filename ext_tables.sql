@@ -12,6 +12,7 @@ CREATE TABLE tx_pxadealers_domain_model_dealers (
 	country_zone int(11) unsigned DEFAULT '0' NOT NULL,
 
 	address varchar(255) DEFAULT '' NOT NULL,
+  city varchar(255) DEFAULT '' NOT NULL,
 	zipcode varchar(255) DEFAULT '' NOT NULL,
 	zipcode_search varchar(255) DEFAULT '' NOT NULL,
 	lat double(11,6) DEFAULT '0.000000' NOT NULL,
@@ -75,7 +76,6 @@ CREATE TABLE tx_pxadealers_domain_model_categoriesfilteroption (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	systemname varchar(255) DEFAULT '' NOT NULL,
 	name varchar(255) DEFAULT '' NOT NULL,
 	categories int(11) unsigned DEFAULT '0' NOT NULL,
 

@@ -12,6 +12,7 @@ plugin.tx_pxadealers {
 		storagePid =
 	}
 
+    # customsubcategory=pxadealers=Main settings
 	settings {
 		map {
 			stylesJSON = 
@@ -28,7 +29,10 @@ plugin.tx_pxadealers {
         includeLocalScripts = 1
         includeIsotope = 0
         searchResultPage =
+
+        # cat=plugin.tx_pxadealers/pxadealers/010; type=string; label=Google Javascript Api Key
         googleJavascriptApiKey =
+
 		googleJavascriptApiServerKey =
 		googleJavascriptApiLanguage = en
 	}
