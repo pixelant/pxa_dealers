@@ -1,0 +1,27 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+     xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers">
+
+    <f:layout name="Default" />
+
+    <f:section name="main">
+        <![CDATA[
+        <script>
+        (function (w) {
+            var PxaDealersMaps = w.PxaDealersMaps || {};
+
+
+            PxaDealersMaps.FeSettings = PxaDealersMaps.FeSettings || {};
+        ]]>
+             PxaDealersMaps.FeSettings.settings = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{settings.map}" /></f:format.htmlentitiesDecode>;
+             PxaDealersMaps.FeSettings.dealers = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{dealers}" /></f:format.htmlentitiesDecode>;
+
+        <![CDATA[
+            w.PxaDealersMaps = PxaDealersMaps;
+        })(window);
+        </script>
+        ]]>
+    </f:section>
+</div>
+
+

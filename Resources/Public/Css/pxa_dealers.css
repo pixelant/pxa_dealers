@@ -11,6 +11,17 @@
 	padding: 0;
 }
 
+
+.tx-pxa-dealers .warning-message,
+.tx-pxa-dealers .error-message {
+    padding: 15px;
+}
+.tx-pxa-dealers .warning-message {
+    background-color: #fcf8e3;
+}
+.tx-pxa-dealers .error-message {
+    background-color: #f2dede;
+}
 .pxa-dealers > .categories .category-item{
 	list-style-type: none;
 }

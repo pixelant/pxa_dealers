@@ -8,8 +8,10 @@
 
 namespace Pixelant\PxaDealers\Utility;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 
@@ -44,7 +46,13 @@ class TcaUtility {
      * @return string
      */
     public function renderGoogleMapPosition(array &$PA, $pObj) {
-        $settings = $this->loadTS($PA['row']['pid']);
+        if($PA['row']['pid'] < 0) {
+            // then "Save and create new was clicked"
+            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealers', abs($PA['row']['pid']), 'pid')['pid'];
+        } else {
+            $pid = $PA['row']['pid'];
+        }
+        $settings = $this->loadTS($pid);
 
         $outPut = '';
 
@@ -53,7 +61,7 @@ class TcaUtility {
             $outPut .= $this->getJsConfiguration($PA);
 
             $pathGoogleMaps = 'https://maps.googleapis.com/maps/api/js?language=en&callback=initBEMap&key=' . $settings['googleJavascriptApiKey'];
-            $pathMainBEJs = '/' . str_replace(PATH_site, '', GeneralUtility::getFileAbsFileName($settings['beMainJs']));
+            $pathMainBEJs = '/' . PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($settings['beMainJs']));
 
             $outPut .= '<script src="' . $pathMainBEJs . '"></script>';
             $outPut .= '<script src="' . $pathGoogleMaps . '"></script>';
@@ -126,7 +134,7 @@ EOT;
         $htmlTemplate = <<<EOT
 <div id="element-wrapper-{$mapWrapper}">
     <p style="margin-bottom: 10px;">{$toolTip}</p>
-    <input type="button" onclick="PxaDealersMaps.BE.getAddressLatLng();return false;" value="Update marker position">
+    <input type="button" class="btn btn-info" onclick="PxaDealersMaps.BE.getAddressLatLng();return false;" value="Update marker position">
     <div id="$mapId" style="margin: 20px 0;width: 600px;height: 400px;"></div>
 </div>
 EOT;
@@ -139,8 +147,9 @@ EOT;
      * @return string
      */
     protected function translate($label) {
-        if ($label)
+        if ($label) {
             return $this->getLang()->sL('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:' . $label);
+        }
 
         return '';
     }

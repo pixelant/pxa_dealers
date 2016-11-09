@@ -1,0 +1,66 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+     xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers">
+
+    <f:layout name="Default" />
+
+    <f:section name="main">
+
+        <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
+
+            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item"
+                  data-name="{dealer.name}"
+                  data-uid="{dealer.uid}"
+                  data-categories="{dealer.categoriesString}"
+                  data-marker-type="default">
+
+                <div class="dealer-header">
+                    <b class="dealer-name">{dealer.name}</b>
+                </div>
+                <div id="dealer-body-{itemIterationDealers.index}" class="dealer-body">
+                    <f:if condition="{settings.dealersList.showLogo}">
+                        <div class="dealer-logo">
+                            <f:if condition="{dealer.logo}">
+                                <f:then>
+                                    <f:image image="{dealer.logo}"
+                                             title="{dealer.name}"
+                                             alt="{dealer.name}"
+                                             width="{settings.dealersList.imageWidth}"
+                                             height="{settings.dealersList.imageHeight}" />
+                                </f:then>
+                                <f:else>
+                                    <f:if condition="{settings.dealersList.showDefaultImageIfNoLogo}">
+                                        <f:image src="{settings.dealersList.noImagePath}"
+                                                 title="{dealer.name}"
+                                                 alt="{dealer.name}"
+                                                 width="{settings.dealersList.imageWidth}"
+                                                 height="{settings.dealersList.imageHeight}" />
+                                    </f:if>
+                                </f:else>
+                            </f:if>
+                        </div>
+                    </f:if>
+
+                    <p class="dealer-info">
+                        <span class="dealer-address">{dealer.address}</span><br>
+                        <span class="dealer-zipcode">{dealer.zipcode}</span><br>
+                        <span class="dealer-address">{dealer.city}</span><br>
+                        <f:if condition="{dealer.link}">
+                            <span class="link"><f:link.typolink parameter="{dealer.link}">{dealer.link}</f:link.typolink></span><br>
+                        </f:if>
+                        <f:if condition="{dealer.website}">
+                            <span class="dealer-website"><f:link.typolink parameter="{dealer.website}">{dealer.website}</f:link.typolink></span><br>
+                        </f:if>
+                        <f:if condition="{dealer.phone}">
+                            <span class="phone"><a href="tel:{pxa:phoneFormat(phone: dealer.telephone)}"><f:translate key="js.infoWindowPhone" />&nbsp;{dealer.phone}</a></span><br>
+                        </f:if>
+                        <f:if condition="{dealer.email}">
+                            <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
+                        </f:if>
+                    </p>
+                </div>
+            </div>
+
+        </f:for>
+    </f:section>
+</div>

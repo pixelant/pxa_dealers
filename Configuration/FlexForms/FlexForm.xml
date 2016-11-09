@@ -1,0 +1,225 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <label>Choose mode</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Map</numIndex>
+                                        <numIndex index="1">Dealers->map</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Categories menu</numIndex>
+                                        <numIndex index="1">Categories->list</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">Search by country, state and city/zipcode</numIndex>
+                                        <numIndex index="1">Dealers->search</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
+
+                    <settings.mapHeight>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
+                            <config>
+                                <type>input</type>
+                                <default>555</default>
+                                <size>10</size>
+                                <eval>int</eval>
+                            </config>
+                        </TCEforms>
+                    </settings.mapHeight>
+
+                    <settings.demand.orderBy>
+                        <TCEforms>
+                            <label>Order by field</label>
+                            <config>
+                                <type>select</type>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Name</numIndex>
+                                        <numIndex index="1">name</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Creation date</numIndex>
+                                        <numIndex index="1">crdate</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Edit date</numIndex>
+                                        <numIndex index="1">tstamp</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.orderBy>
+
+                    <settings.demand.orderDirection>
+                        <TCEforms>
+                            <label>Order Direction</label>
+                            <config>
+                                <type>select</type>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Ascending</numIndex>
+                                        <numIndex index="1">asc</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Descending</numIndex>
+                                        <numIndex index="1">desc</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.orderDirection>
+
+                    <settings.demand.countries>
+                        <TCEforms>
+                            <label>Display dealers only for countries. If nothing is selected = show all</label>
+                            <config>
+                                <type>select</type>
+                                <size>10</size>
+                                <renderType>selectMultipleSideBySide</renderType>
+                                <foreign_table>static_countries</foreign_table>
+                                <foreign_table_where>ORDER BY static_countries.cn_short_en</foreign_table_where>
+                                <autoSizeMax>30</autoSizeMax>
+                                <maxitems>99</maxitems>
+                                <minitems>0</minitems>
+                                <multiple>0</multiple>
+                                <wizards>
+                                    <_POSITION>top</_POSITION>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.countries>
+
+                    <settings.demand.categories>
+                        <TCEforms>
+                            <label>Display dealers only for categories.</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <renderMode>tree</renderMode>
+                                <size>10</size>
+                                <treeConfig>
+                                    <appearance>
+                                        <expandAll>1</expandAll>
+                                        <showHeader>1</showHeader>
+                                    </appearance>
+                                    <parentField>parent</parentField>
+                                </treeConfig>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.categories>
+                    <!--Category filter -->
+
+                    <settings.filterType>
+                        <TCEforms>
+                            <label>Filter type</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">Checkboxes</numIndex>
+                                        <numIndex index="1">checkbox</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">Radio buttons</numIndex>
+                                        <numIndex index="1">radio</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.filterType>
+
+                    <settings.filterBy>
+                        <TCEforms>
+                            <label>Filter using</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <default>groups</default>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">Categories groups</numIndex>
+                                        <numIndex index="1">groups</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">Single categories</numIndex>
+                                        <numIndex index="1">single</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.filterBy>
+
+                    <settings.dealersCategories>
+                        <TCEforms>
+                            <displayCond>FIELD:settings.filterBy:=:single</displayCond>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategories</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <renderMode>tree</renderMode>
+                                <size>10</size>
+                                <treeConfig>
+                                    <appearance>
+                                        <expandAll>1</expandAll>
+                                        <showHeader>1</showHeader>
+                                    </appearance>
+                                    <parentField>parent</parentField>
+                                </treeConfig>
+                            </config>
+                        </TCEforms>
+                    </settings.dealersCategories>
+
+                    <settings.dealersCategoriesFilterOptions>
+                        <TCEforms>
+                            <displayCond>FIELD:settings.filterBy:=:groups</displayCond>
+                            <label>Categories filter options</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>tx_pxadealers_domain_model_categoriesfilteroption</foreign_table>
+                                <foreign_table_where>AND tx_pxadealers_domain_model_categoriesfilteroption.sys_language_uid IN (-1, 0) ORDER BY tx_pxadealers_domain_model_categoriesfilteroption.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <size>10</size>
+                            </config>
+                        </TCEforms>
+                    </settings.dealersCategoriesFilterOptions>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

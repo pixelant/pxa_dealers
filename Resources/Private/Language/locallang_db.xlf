@@ -40,8 +40,26 @@
             <trans-unit id="tx_pxadealers_domain_model_dealers.coordinates">
                 <source>Coordinates</source>
             </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.paletteAdditionalFields">
+                <source>Additional fields</source>
+            </trans-unit>
             <trans-unit id="tx_pxadealers_domain_model_dealers.city">
                 <source>City</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.link">
+                <source>Link</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.phone">
+                <source>Phone</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.website">
+                <source>Website</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.description">
+                <source>Description</source>
             </trans-unit>
 
 			<trans-unit id="flexform.sheet_title">

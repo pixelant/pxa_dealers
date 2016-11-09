@@ -4,54 +4,6 @@
 		<header/>
 		<body>
 
-			<trans-unit id="tx_pxadealers_domain_model_dealers">
-				<source>Dealers</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.name">
-				<source>Name of dealer</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.title">
-				<source>Title of dealer</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.telephone">
-				<source>Telephone</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.website">
-				<source>Website url</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.address">
-				<source>Address for google maps</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
-				<source>Zipcode</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.description">
-				<source>Description </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lat">
-				<source> </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lng">
-				<source>Description </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lat_lng_is_set">
-				<source> </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.assortments">
-				<source>Assortments</source>
-			</trans-unit>
-			
-			<trans-unit id="tx_pxadealers_domain_model_assortment">
-				<source>Assortment</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.name">
-				<source>Name  of assortment</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.icon">
-				<source>Icon of assortment</source>
-			</trans-unit>
-			
-
 			<trans-unit id="error.NoResult">
 				<source>Found no dealers. Try searching with a different zipcode or city.</source>
 			</trans-unit>
@@ -73,18 +25,8 @@
 			</trans-unit>
 			<trans-unit id="searchDidntStart">
 				<source>Please, enter something to start search</source>
-			</trans-unit>			
+			</trans-unit>
 
-			
-			<trans-unit id="closest_dealer">
-				<source>%s dealers found</source>
-			</trans-unit>
-			<trans-unit id="ajax_loaded_dealer">
-				<source>Closest dealers according to your location</source>
-			</trans-unit>
-			<trans-unit id="ajax_preload">
-				<source>Looking for closest dealers</source>
-			</trans-unit>
 
 			<trans-unit id="notDealersFoundFilteringMessage">
 				<source>No retailers were found. Try searching with a different zip code or remove the filtering options.</source>
@@ -100,10 +42,6 @@
 
 			<trans-unit id="country_list_city_zip_search">
 				<source>search for city or zip...</source>
-			</trans-unit>
-
-			<trans-unit id="dealers_results_buy_it_now">
-				<source>buy it now</source>
 			</trans-unit>
 
 			<trans-unit id="country_list.other_countries">
@@ -125,9 +63,6 @@
 			<trans-unit id="dealers_found">
                 <source>dealers found</source>
             </trans-unit>
-            <trans-unit id="infoWindowPhone">
-                <source>Phone:</source>
-            </trans-unit>
             <trans-unit id="categoriesFilter.radio.all">
                 <source>All</source>
             </trans-unit>
@@ -140,7 +75,21 @@
 			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.categories">
 				<source>Categories</source>
 			</trans-unit>
-			
+
+            <trans-unit id="js.infoWindowPhone">
+                <source>Phone:</source>
+            </trans-unit>
+            <trans-unit id="js.streetView">
+                <source>Street view</source>
+            </trans-unit>
+
+
+            <trans-unit id="error.noApiKey">
+                <source>No api is set</source>
+            </trans-unit>
+            <trans-unit id="error.no_dealers">
+                <source>Nothing was found</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

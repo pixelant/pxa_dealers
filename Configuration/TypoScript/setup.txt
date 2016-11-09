@@ -1,106 +1,61 @@
 plugin.tx_pxadealers {
 	view {
-		templateRootPath = {$plugin.tx_pxadealers.view.templateRootPath}
-		partialRootPath = {$plugin.tx_pxadealers.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_pxadealers.view.layoutRootPath}
+		templateRootPaths {
+            5 = {$plugin.tx_pxadealers.view.templateRootPath}
+        }
+        partialRootPaths {
+            5 = {$plugin.tx_pxadealers.view.partialRootPath}
+        }
+        layoutRootPaths {
+            5 = {$plugin.tx_pxadealers.view.layoutRootPath}
+        }
 	}
 	persistence {
 		storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
 	}
-	features {
-		# uncomment the following line to enable the new Property Mapper.
-		# rewrittenPropertyMapper = 1
-	}
-	settings {
-		findClosestAjax {
-			additionalListWrapperClass = row-fluid
-			elementAdditionalClass = span3
-			newRow = 4
-			resultLimit = 12
-			map {
-				stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
-				name = {$plugin.tx_pxadealers.settings.map.name}
-				markerTypes {
-				  default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
-				}
-				#markerImage = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
-			}
-		}
-		
-		#countries.109.row = Rest of the world
-		#countries.0.sweden = Sverige
 
+	settings {
 		# Map settings
 		map {
-			stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
+
+            stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
 			name = {$plugin.tx_pxadealers.settings.map.name}
-            markerTypes {
-              default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
-            }
+
             markerClusterer {
+                enable = {$plugin.tx_pxadealers.settings.map.markerClusterer.enable}
                 maxZoom = {$plugin.tx_pxadealers.settings.map.markerClusterer.maxZoom}
                 gridSize = {$plugin.tx_pxadealers.settings.map.markerClusterer.gridSize}
+                markerIcon = {$plugin.tx_pxadealers.settings.map.markerClusterer.markerIcon}
             }
-            enableCategoriesFilteringZoom = {$plugin.tx_pxadealers.settings.map.enableCategoriesFilteringZoom}
-			#markerImage = {$plugin.tx_pxadealers.settings.map.markerImage}
+
+            markerTypes {
+                default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+            }
 		}
 
-		countryNameIso3Mapping {
-			canada = can
-			usa = usa
-		}
+        dealersList {
+            noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
+            showLogo = {$plugin.tx_pxadealers.settings.dealersList.showLogo}
+            showDefaultImageIfNoLogo = {$plugin.tx_pxadealers.settings.dealersList.showDefaultImageIfNoLogo}
+            imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
+            imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
+        }
 
-		# Countries which would display separately in countries filter (list of statiic info tables countries uid's)
-		mainCountries = 
+        scripts {
+            markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
+            isotope = EXT:pxa_dealers/Resources/Public/Js/isotope.pkgd.min.js
+            pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
+        }
+        styling {
+            pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
+        }
 
-		# Which language correspondes to which country (language uid = static info table country uid)
-		# Ex.: 0 = 186 (default lang = sweden)
-		languageCountryMapping {
-		}
-
-		# Change country name (displayed in the country filter)
-		# Ex: 74 = UK (United Kingdom = UK)
-		nameCountryMapping {
-		}
-
-		noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png
-
-		#Show "All countries" option in the country filter select box"
-		showAllCountriesOption = {$plugin.tx_pxadealers.settings.showAllCountriesOption}
-		showUncategorizedIfNoCategorySelected = {$plugin.tx_pxadealers.settings.showUncategorizedIfNoCategorySelected}
-		includeGoogleMaps = {$plugin.tx_pxadealers.settings.includeGoogleMaps}
-        includeLocalScripts = {$plugin.tx_pxadealers.settings.includeLocalScripts}
-        includeIsotope = {$plugin.tx_pxadealers.settings.includeIsotope}
-
-        searchResultPage = {$plugin.tx_pxadealers.settings.searchResultPage}
-
-        googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
         beMainJs = EXT:pxa_dealers/Resources/Public/Js/BE/PxaBeMaps.js
 
-		googleJavascriptApiServerKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiServerKey}
-		googleJavascriptApiLanguage = {$plugin.tx_pxadealers.settings.googleJavascriptApiLanguage}
+        googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+        googleJavascriptApiLanguage = {$plugin.tx_pxadealers.settings.googleJavascriptApiLanguage}
 
-	}
-}
-
-page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-
-findClosestAjax = PAGE
-findClosestAjax.typeNum = 7505726
-findClosestAjax.config.disableAllHeaderCode = 1
-findClosestAjax.config.no_cache = 1
-findClosestAjax.config.additionalHeaders = Content-type: application/json
-findClosestAjax.config.disablePreviewNotification = 1
-  
-findClosestAjax.10 = USER
-findClosestAjax.10 {
-	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-	extensionName = PxaDealers
-	pluginName = Pxadealerssearchresults
-	vendorName = Pixelant
-	switchableControllerActions {
-		Dealers {
-             1 = findClosestAjax
-		}
+        map.googleJavascriptApiKey < .googleJavascriptApiKey
+        map.googleJavascriptApiLanguage < .googleJavascriptApiLanguage
 	}
 }

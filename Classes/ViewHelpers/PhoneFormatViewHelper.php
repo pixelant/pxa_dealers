@@ -26,26 +26,18 @@ namespace Pixelant\PxaDealers\ViewHelpers;
 /**
  * View helper to check if a value is numeric.
  */
-class ImplodeCategoriesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class PhoneFormatViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	/**
 	 * Render the supplied value as a string
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
-	 * @return string categgories string
+	 * @param string $phone The separated string
+	 * @return string All data with kaltura
 	 */
 
-	public function render($categories) {
-
-		$result = array();
-
-		foreach ($categories as $category) {
-			$result[] = $category->getUid();
-		}
-
-	    return implode(",", $result);
+	public function render($phone) {
+		$search_mass[] = '-';
+	    $search_mass[] = ' ';
+	    return str_replace($search_mass,'',$phone);
     }
-
-	
 }
-?>

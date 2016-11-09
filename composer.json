@@ -7,8 +7,5 @@
         "psr-4": {
             "Pixelant\\PxaDealers\\": "Classes/"
         }
-    },
-    "require": {
-        "typo3/cms": ">=7.6.0 <=7.6.99"
     }
 }

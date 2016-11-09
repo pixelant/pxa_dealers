@@ -24,7 +24,7 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng,lat_lng_is_set',
+        'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng',
         'requestUpdate' => 'country',
         'typeicon_classes' => [
             'default' => 'ext-pxadealers-wizard-icon'
@@ -37,6 +37,7 @@ return [
         '1' => [
             'showitem' => '--palette--;;paletteLangHidden, name, logo, 
 		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
+		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
 		        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'
         ]
     ],
@@ -55,6 +56,10 @@ return [
         ],
         'paletteLatLng' => [
             'showitem' => 'lat, lng',
+            'canNotCollapse' => false
+        ],
+        'paletteAdditionalFields' => [
+            'showitem' => 'phone, --linebreak--, link, --linebreak--, website, --linebreak--, email, --linebreak--, description',
             'canNotCollapse' => false
         ]
     ],
@@ -301,7 +306,7 @@ return [
             'config' => [
                 'type' => 'check',
                 'default' => 1,
-            ],
+            ]
         ],
         'gm_position' => [
             'exclude' => 0,
@@ -316,8 +321,8 @@ return [
                     'zipcode' => 'zipcode',
                     'country' => 'country',
                     'city' => 'city'
-                ],
-            ],
+                ]
+            ]
         ],
         'city' => [
             'exclude' => 0,
@@ -326,7 +331,118 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required'
-            ],
+            ]
         ],
-    ],
+        'phone' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.phone',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim'
+            ]
+        ],
+        'website' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.website',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'wizards' => [
+                    '_PADDING' => 2,
+                    'link' => [
+                        'type' => 'popup',
+                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link_formlabel',
+                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                        'module' => [
+                            'name' => 'wizard_link',
+                        ],
+                        'params' => [
+                            'blindLinkOptions' => 'email'
+                        ],
+
+                        'JSopenParams' => 'height=600,width=800,status=0,menubar=0,scrollbars=1'
+                    ]
+                ],
+                'softref' => 'typolink'
+            ]
+        ],
+        'link' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.link',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'wizards' => [
+                    '_PADDING' => 2,
+                    'link' => [
+                        'type' => 'popup',
+                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link_formlabel',
+                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                        'module' => [
+                            'name' => 'wizard_link',
+                        ],
+                        'params' => [
+                            'blindLinkOptions' => 'email'
+                        ],
+
+                        'JSopenParams' => 'height=600,width=800,status=0,menubar=0,scrollbars=1'
+                    ]
+                ],
+                'softref' => 'typolink'
+            ]
+        ],
+        'email' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.email',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'wizards' => [
+                    '_PADDING' => 2,
+                    'link' => [
+                        'type' => 'popup',
+                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link_formlabel',
+                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                        'module' => [
+                            'name' => 'wizard_link',
+                        ],
+                        'params' => [
+                            'blindLinkOptions' => 'url,spec,file,folder,page'
+                        ],
+
+                        'JSopenParams' => 'height=600,width=800,status=0,menubar=0,scrollbars=1'
+                    ]
+                ],
+                'softref' => 'typolink'
+            ]
+        ],
+        'description' => [
+            'exclude' => 0,
+            'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
+            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.description',
+            'config' => [
+                'type' => 'text',
+                'cols' => 30,
+                'rows' => 5,
+                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'wizards' => [
+                    '_PADDING' => 2,
+                    'RTE' => [
+                        'notNewRecords' => 1,
+                        'RTEonly' => 1,
+                        'type' => 'script',
+                        'title' => 'Full screen Rich Text Editing',
+                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_rte.gif',
+                        'module' => [
+                            'name' => 'wizard_rte',
+                        ],
+                    ],
+                ],
+            ]
+        ]
+    ]
 ];
