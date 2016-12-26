@@ -13,9 +13,6 @@
             <trans-unit id="tx_pxadealers_domain_model_dealers.country">
                 <source>Country</source>
             </trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone">
-				<source>State</source>
-			</trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.address">
 				<source>Address</source>
 			</trans-unit>
@@ -61,101 +58,29 @@
             <trans-unit id="tx_pxadealers_domain_model_dealers.description">
                 <source>Description</source>
             </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealers.show_street_view">
+                <source>Show street view</source>
+            </trans-unit>
 
 			<trans-unit id="flexform.sheet_title">
 				<source>Configuration</source>
 			</trans-unit>
-			<trans-unit id="flexform.searchResultPage">
-				<source>Page with search results</source>
-			</trans-unit>
-			<trans-unit id="flexform.resultLimit">
-				<source>Limit of results</source>
-			</trans-unit>
+            <trans-unit id="flexform.sheet_title_map">
+                <source>Map configuration</source>
+            </trans-unit>
 			<trans-unit id="flexform.mapHeight">
 				<source>Map height</source>
 			</trans-unit>
-			<trans-unit id="flexform.additionalWrapperClass">
-				<source>Additional class for plugin wrapper in html</source>
-			</trans-unit>
-			<trans-unit id="flexform.additionalListWrapperClass">
-				<source>Additional class for wrapper of list of elements</source>
-			</trans-unit>
-			<trans-unit id="flexform.elementAdditionalClass">
-				<source>Additional class for list element</source>
-			</trans-unit>
-			<trans-unit id="flexform.newRow">
-				<source>Display result in rows. Enter amount of items in one row</source>
-			</trans-unit>
+            <trans-unit id="flexform.enableMarkerClusterer">
+                <source>Enable marker clusterer</source>
+            </trans-unit>
+            <trans-unit id="flexform.markerClustererMaxZoom">
+                <source>Marker clusterer maximum zoom</source>
+            </trans-unit>
+            <trans-unit id="flexform.mapContentElement">
+                <source>Connect filter to map content element</source>
+            </trans-unit>
 
-			<trans-unit id="flexform.dealersCategories">
-				<source>Choose categories to filter on</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.dealersCategoriesEnabled">
-				<source>Choose categories which will be checked by default</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.dealersCountiesStatesSelector">
-				<source>Enable states selector</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.dealersCountiesCityZipSearch">
-				<source>Enable dynamic search for city/zip</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.dealersCountiesSelector">
-				<source>Enable country selector</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.clusterMarkers">
-				<source>Enable markers clusterization</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.showLogo">
-				<source>Show dealer logo</source>
-			</trans-unit>
-			<trans-unit id="flexform.dealerLogoWidth">
-				<source>Logo width</source>
-			</trans-unit>
-			<trans-unit id="flexform.dealerLogoHeight">
-				<source>Logo height</source>
-			</trans-unit>
-
-			<trans-unit id="tx_pxadealers_domain_model_dealers.country_zone.none">
-				<source>None</source>
-			</trans-unit>
-
-			<trans-unit id="tx_pxadealers.task.import.name">
-				<source>Import dealers</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers.task.import.description">
-				<source>Imports dealers records from file</source>
-			</trans-unit>
-
-			<trans-unit id="flexform.mapZoomLevel">
-				<source>Map zoom level</source>
-			</trans-unit>
-
-			<trans-unit id="tx_pxadealers_domain_model_dealers.show_street_view">
-				<source>Show street view for this dealer</source>
-			</trans-unit>
-
-			<trans-unit id="tx_pxadealers.task.сleanUpCoordinatesCacheTask.name">
-				<source>Cleanup coordinates cache</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers.task.сleanUpCoordinatesCacheTask.description">
-				<source>Cleanup dealers coordinates cache</source>
-			</trans-unit>
-
-			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption">
-				<source>Categories Filter Option</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.name">
-				<source>Name</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.categories">
-				<source>Categories</source>
-			</trans-unit>
 
             <trans-unit id="tca_be_map.noApiKey">
                 <source>Google api key is not set. Please, specify "{$plugin.tx_pxadealers.settings.googleJavascriptApiKey}" for current root line.</source>
@@ -163,6 +88,9 @@
             <trans-unit id="tca_be_map.tooltip">
                 <source>Press this button to get marker position on map by address.</source>
             </trans-unit>
+			<trans-unit id="tca_be_map.buttonText">
+				<source>Update marker position according to chosen country and address fields</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

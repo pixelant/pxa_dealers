@@ -30,7 +30,7 @@ abstract class AbstractDemandRepository extends Repository {
 
     /**
      * @param Demand $demand
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findDemanded(Demand $demand) {
         $query = $this->createQuery();

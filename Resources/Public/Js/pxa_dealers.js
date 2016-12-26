@@ -2,39 +2,13 @@
     var document = w.document,
         PxaDealersMaps = w.PxaDealersMaps || {};
 
+    /**
+     * List of available filters for maps
+     *
+     */
+    PxaDealersMaps.Filters = PxaDealersMaps.Filters || {};
+
     PxaDealersMaps.FE = {
-
-        options: null,
-
-        dealers: [],
-
-        mapDom: null,
-        mapGoogle: null,
-
-        markerClusterer: null,
-        markers: [],
-        bounds: null,
-        infoWindow: null,
-        panorama: null,
-
-        /**
-         * init main options
-         *
-         * @param options
-         * @param map
-         */
-        init: function (options, map) {
-            var self = this;
-
-            self.options = $.extend({}, $.fn.pxaDealers.options, options);
-
-            if (map.length === 1) {
-                self.initHelperFunctions();
-                self.mapDom = map;
-                self.Map.init(map, self.options.dealers, self);
-            }
-        },
-
         /**
          * Init functions if browser doesn't support it
          *
@@ -65,233 +39,478 @@
             } else {
                 return "";
             }
-        },
-
-        /**
-         * map main methods
-         */
-        Map: {
-
-            /**
-             * init map and all required variables
-             *
-             * @param map
-             * @param dealers
-             * @param parent
-             */
-            init: function (map, dealers, parent) {
-                var self = this,
-                    settings = parent.options.settings;
-
-                parent.bounds = new google.maps.LatLngBounds();
-                parent.infoWindow = new google.maps.InfoWindow();
-
-                // Options
-                var mapOptions = {
-                    mapTypeControlOptions: {
-                        mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
-                    }
-                };
-
-                // Create map
-                parent.mapGoogle = new google.maps.Map(document.getElementById(map.attr("id")), mapOptions);
-
-                // Set map styles
-                // Check if styles was parsed correctly
-                var stylesIsJSON = true;
-                try {
-                    var stylesObj = $.parseJSON(settings.stylesJSON);
-                } catch (err) {
-                    stylesIsJSON = false;
-                }
-
-                if (stylesIsJSON) {
-                    var styledMap = new google.maps.StyledMapType(stylesObj, {name: settings.name});
-
-                    parent.mapGoogle.mapTypes.set('map_style', styledMap);
-                    parent.mapGoogle.setMapTypeId('map_style');
-                }
-
-                // Panorama
-                parent.panorama = parent.mapGoogle.getStreetView();
-
-                // Styles
-                var clusterStyles = [
-                    {
-                        textColor: 'black',
-                        url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m1.png',
-                        height: 52,
-                        width: 53
-                    },
-                    {
-                        textColor: 'black',
-                        url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m2.png',
-                        height: 55,
-                        width: 56
-                    },
-                    {
-                        textColor: 'black',
-                        url: 'typo3conf/ext/pxa_dealers/Resources/Public/Icons/MarkerClusterer/m3.png',
-                        height: 65,
-                        width: 66
-                    }
-                ];
-
-                // Enable marker cluster
-                if (settings.markerClusterer.enable == 1) {
-                    parent.markerClusterer = new MarkerClusterer(parent.mapGoogle, [], {
-                        maxZoom: parseInt(settings.markerClusterer.maxZoom),
-                        gridSize: parseInt(settings.markerClusterer.gridSize),
-                        styles: clusterStyles
-                    });
-                }
-
-                // Generate markers
-                $.each(dealers, function (index, dealer) {
-                    if ((dealer['lat'] != '') && (dealer['lng'] != '')) {
-
-                        self.generateMarker(dealer, parent, function (marker) {
-                            // save marker
-                            parent.markers[dealer['uid']] = dealer['marker'];
-
-                            if (settings.markerClusterer.enable == 1) {
-                                parent.markerClusterer.addMarker(marker, true);
-                            }
-                        });
-
-                        // save visible on map dealer
-                        parent.dealers.push(dealer);
-                    }
-                });
-
-
-                /// Fit bounds
-                if (parent.dealers.length == 1) {
-                    parent.mapGoogle.fitBounds(parent.bounds);
-                    var listener = google.maps.event.addListener(parent.mapGoogle, "idle", function () {
-                        parent.mapGoogle.setZoom(12);
-                        google.maps.event.removeListener(listener);
-                    });
-                } else {
-                    parent.mapGoogle.fitBounds(parent.bounds);
-                    parent.mapGoogle.setCenter(parent.bounds.getCenter());
-                }
-            },
-
-            /**
-             * generate marker for map
-             *
-             * @param dealer
-             * @param parent
-             * @param callback
-             */
-            generateMarker: function (dealer, parent, callback) {
-                var self = this,
-                    settings = parent.options.settings,
-                    pos = new google.maps.LatLng(dealer['lat'], dealer['lng']),
-                    infoWindowHtml = "";
-
-                var dealerDom = $(settings.dealerItemClass + "[data-uid=" + dealer.uid + "]"),
-                    markerType = dealerDom.data("marker-type"),
-                    markerIcon;
-
-                if (typeof settings.markerTypes[markerType] !== "undefined") {
-                    markerIcon = settings.markerTypes[markerType];
-                } else {
-                    markerIcon = settings.markerTypes["default"]
-                }
-
-                // html for left part of info window, mostly regular fields
-                var leftPart = [];
-                leftPart.push("<strong>" + dealer['name'] + "</strong>");
-
-                // simple fields
-                for (var i = 0, fields = ["address", "zipcode", "city"]; i < fields.length; i++) {
-                    if (dealer[fields[i]] != "") {
-                        leftPart.push(dealer[fields[i]]);
-                    }
-                }
-
-                // country
-                if (dealer["countryName"] != "") {
-                    leftPart.push("<b>" + dealer["countryName"] + "</b>");
-                }
-
-                // telephone
-                if (dealer["phone"] != "") {
-                    var phone = '<a href="tel:{0}">{1}</a>'.format(dealer['phoneClear'], (parent.translate("infoWindowPhone") + " " + dealer['phone'] ));
-                    leftPart.push(phone);
-                }
-
-                // email
-                if (dealer["email"] != "") {
-                    leftPart.push(dealer['email']);
-                }
-
-                // links fields
-                for (var i = 0, fields = ["website", "link"]; i < fields.length; i++) {
-                    if (dealer[fields[i]] != "") {
-                        leftPart.push(dealer[fields[i]]);
-                    }
-                }
-
-                var rightPart = '';
-
-                // street view
-                if (typeof dealer['showStreetView'] != 'undefined' && dealer['showStreetView'] == 1) {
-                    rightPart += '<div class="image-street-preview">';
-                    rightPart += '<a href="#streetview" data-marker-id="{0}" class="street-switch-trigger website-link">'.format(dealer['uid']);
-                    rightPart += '<img src="http://maps.googleapis.com/maps/api/streetview?language={0}&size=90x70&location={1},{2}&key={3}"/><br>'.format(
-                        settings.googleJavascriptApiLanguage,
-                        dealer["lat"],
-                        dealer["lng"],
-                        settings.googleJavascriptApiKey
-                    );
-                    rightPart += '<span>Streetview</span>';
-                    rightPart += '</a>';
-                    rightPart += '</div>';
-                }
-
-                infoWindowHtml += '<div class="google-map-marker"><table><tr>';
-
-                // left part
-                infoWindowHtml += '<td>' + leftPart.join("<br>") + '</td>';
-                //right part
-                if (rightPart != "") {
-                    infoWindowHtml += '<td>' + rightPart + '</td>';
-                }
-                //close tags
-                infoWindowHtml += '</tr></table></div>';
-
-
-                var marker = new google.maps.Marker({
-                    map: parent.mapGoogle,
-                    position: pos,
-                    animation: google.maps.Animation.DROP,
-                    icon: markerIcon
-                });
-
-                google.maps.event.addListener(marker, 'click', function () {
-                    parent.infoWindow.setContent(infoWindowHtml);
-                    parent.infoWindow.open(parent.mapGoogle, marker);
-                });
-
-                parent.bounds.extend(pos);
-
-                callback(marker);
-            }
         }
     };
 
+    function PxaDealersMapsRender() {
 
-    $.fn.pxaDealers = function (options) {
-        PxaDealersMaps.FE.init(options, this);
+        var self = this;
+
+        self.settings = null;
+
+        self.dealers = [];
+
+        self.mapDom = null;
+        self.mapGoogle = null;
+        self.mapParent = null;
+        self.panorama = null;
+
+        self.markerClusterer = null;
+        self.markers = [];
+
+        self.bounds = null;
+        self.infoWindow = null;
+        self.panorama = null;
+
+        self.isotope = null;
+
+        /**
+         * Init main options
+         *
+         * @param settings
+         * @param map
+         */
+        self.init = function (settings, map) {
+
+            self.settings = $.extend({}, $.fn.pxaDealers.settings, settings);
+
+            if (map.length === 1) {
+                PxaDealersMaps.FE.initHelperFunctions();
+
+                self.mapDom = map;
+                self.mapParent = map.parents(self.settings.mapParentWrapper);
+
+                self.initMap();
+
+                /**
+                 * show on map dealer
+                 */
+                self.mapParent.find(self.settings.showOnMapSelector).on("click", function (e) {
+                    self.clickShowOnMap(e, $(this));
+                });
+
+                /**
+                 * check if there are any filters available
+                 */
+                self.initFilters();
+
+                /**
+                 * switch to street view
+                 */
+                $(document).on('click', '.street-view-link', function (event) {
+                    event.preventDefault();
+                    var uid = $(this).data("marker-id");
+
+                    if (uid) {
+                        self.switchToStreetView(uid);
+                    }
+                });
+            }
+        };
+
+        /**
+         * Init map and all required variables
+         *
+         */
+        self.initMap = function () {
+            self.bounds = new google.maps.LatLngBounds();
+            self.infoWindow = new google.maps.InfoWindow();
+
+            // Options
+            var mapOptions = {
+                mapTypeControlOptions: {
+                    mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+                }
+            };
+
+            // Create map
+            self.mapGoogle = new google.maps.Map(document.getElementById(self.mapDom.attr("id")), mapOptions);
+
+            // Set map styles
+            // Check if styles was parsed correctly
+            var stylesIsJSON = true;
+            try {
+                var stylesObj = $.parseJSON(PxaDealersMaps.settings.stylesJSON);
+            } catch (err) {
+                stylesIsJSON = false;
+            }
+
+            if (stylesIsJSON) {
+                var styledMap = new google.maps.StyledMapType(stylesObj, {name: PxaDealersMaps.settings.name});
+
+                self.mapGoogle.mapTypes.set('map_style', styledMap);
+                self.mapGoogle.setMapTypeId('map_style');
+            }
+
+            // Panorama
+            self.panorama = self.mapGoogle.getStreetView();
+
+
+            // Enable marker cluster
+            if (PxaDealersMaps.settings.markerClusterer.enable == 1) {
+                self.markerClusterer = new MarkerClusterer(self.mapGoogle, [], {
+                    maxZoom: parseInt(PxaDealersMaps.settings.markerClusterer.maxZoom),
+                    imagePath: PxaDealersMaps.settings.markerClusterer.imagePath
+                });
+            }
+
+            // Generate markers
+            $.each(self.settings.dealers, function (index, dealer) {
+                if ((dealer['lat'] != '') && (dealer['lng'] != '')) {
+
+                    self.generateMarker(dealer, function (marker) {
+                        // save marker
+                        self.markers[dealer['uid']] = marker;
+
+                        if (PxaDealersMaps.settings.markerClusterer.enable == 1) {
+                            self.markerClusterer.addMarker(marker, true);
+                        }
+                    });
+
+                    // save visible on map dealer
+                    self.settings.dealers[index]['isVisible'] = true;
+                } else {
+                    self.settings.dealers[index]['isVisible'] = false;
+                }
+            });
+
+
+            /// Fit bounds
+            if (self.dealers.length == 1) {
+                self.mapGoogle.fitBounds(self.bounds);
+                var listener = google.maps.event.addListener(self.mapGoogle, "idle", function () {
+                    self.mapGoogle.setZoom(12);
+                    google.maps.event.removeListener(listener);
+                });
+            } else {
+                self.mapGoogle.fitBounds(self.bounds);
+                self.mapGoogle.setCenter(self.bounds.getCenter());
+            }
+        };
+
+        /**
+         * Click on link to show more detail on map
+         *
+         * @param e
+         * @param link
+         */
+        self.clickShowOnMap = function (e, link) {
+            e.preventDefault();
+
+            var uid = parseInt(link.data("dealer-uid"));
+
+            self.mapGoogle.setZoom(parseInt(PxaDealersMaps.settings.zoomToShowMarker));
+            self.mapGoogle.setCenter(self.markers[uid].getPosition());
+
+            self.infoWindow.setContent(self.getInfoWindowHtml(self.settings.dealers[uid]));
+            self.infoWindow.open(self.map, self.markers[uid]);
+
+            self.repaintMarkerClusterer(false);
+
+            $(self.settings.dealerItems + "." + self.settings.showOnMapActiveClass).removeClass(self.settings.showOnMapActiveClass);
+            $("#dealer-" + uid).addClass(self.settings.showOnMapActiveClass);
+
+            var scrollFix = parseInt($(document).width() > 991 ? PxaDealersMaps.settings.scrollFix : PxaDealersMaps.settings.scrollFixMobile);
+
+            $('html,body').animate({
+                scrollTop: (self.mapParent.offset().top + scrollFix)
+            }, 320);
+        };
+
+        /**
+         * Get marker for map
+         *
+         * @param dealer
+         * @param callback
+         */
+        self.generateMarker = function (dealer, callback) {
+            var pos = new google.maps.LatLng(dealer['lat'], dealer['lng']),
+                infoWindowHtml = "";
+
+            var dealerDom = $("#dealer-" + dealer.uid),
+                markerType = dealerDom.data("marker-type"),
+                markerIcon;
+
+            if (typeof PxaDealersMaps.settings.markerTypes[markerType] !== "undefined") {
+                markerIcon = PxaDealersMaps.settings.markerTypes[markerType];
+            } else {
+                markerIcon = PxaDealersMaps.settings.markerTypes["default"]
+            }
+
+            infoWindowHtml = self.getInfoWindowHtml(dealer);
+
+            var marker = new google.maps.Marker({
+                map: self.mapGoogle,
+                position: pos,
+                animation: google.maps.Animation.DROP,
+                icon: markerIcon
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                self.infoWindow.setContent(infoWindowHtml);
+                self.infoWindow.open(self.mapGoogle, marker);
+            });
+
+            self.bounds.extend(pos);
+
+            callback(marker);
+        };
+
+        /**
+         * Generate html for dealer popup info on map
+         *
+         * @param dealer
+         * @returns {string}
+         */
+        self.getInfoWindowHtml = function (dealer) {
+            var infoWindowHtml = "";
+
+            // html for left part of info window, mostly regular fields
+            var leftPart = [];
+            leftPart.push("<strong>" + dealer['name'] + "</strong>");
+
+            // simple fields
+            for (var i = 0, fields = ["address", "zipcode", "city"]; i < fields.length; i++) {
+                if (dealer[fields[i]] != "") {
+                    leftPart.push(dealer[fields[i]]);
+                }
+            }
+
+            // country
+            if (dealer["countryName"] != "") {
+                leftPart.push("<b>" + dealer["countryName"] + "</b>");
+            }
+
+            // telephone
+            if (dealer["phone"] != "") {
+                var phone = '<a href="tel:{0}">{1}</a>'.format(dealer['phoneClear'], (PxaDealersMaps.FE.translate("infoWindowPhone") + " " + dealer['phone'] ));
+                leftPart.push(phone);
+            }
+
+            // email
+            if (dealer["email"] != "") {
+                leftPart.push(dealer['email']);
+            }
+
+            // links fields
+            for (var i = 0, fields = ["website", "link"]; i < fields.length; i++) {
+                if (dealer[fields[i]] != "") {
+                    leftPart.push(dealer[fields[i]]);
+                }
+            }
+
+            var rightPart = '';
+
+            // street view
+            if (typeof dealer['showStreetView'] != 'undefined' && dealer['showStreetView'] == 1) {
+                rightPart += '<div class="image-street-preview">';
+                rightPart += '<a href="javascript: {}" class="street-view-link" data-marker-id="{0}" class="street-switch-trigger website-link">'.format(dealer['uid']);
+                rightPart += '<img src="http://maps.googleapis.com/maps/api/streetview?language={0}&size=90x70&location={1},{2}&key={3}"/><br>'.format(
+                    PxaDealersMaps.settings.googleJavascriptApiLanguage,
+                    dealer["lat"],
+                    dealer["lng"],
+                    PxaDealersMaps.settings.googleJavascriptApiKey
+                );
+                rightPart += '<span>' + PxaDealersMaps.FE.translate('streetView') + '</span>';
+                rightPart += '</a>';
+                rightPart += '</div>';
+            }
+
+            infoWindowHtml += '<div class="google-map-marker"><table><tr>';
+
+            // left part
+            infoWindowHtml += '<td>' + leftPart.join("<br>") + '</td>';
+            //right part
+            if (rightPart != "") {
+                infoWindowHtml += '<td>' + rightPart + '</td>';
+            }
+            //close tags
+            infoWindowHtml += '</tr></table></div>';
+
+            return infoWindowHtml
+        };
+
+        /**
+         * Switch map to street view
+         *
+         * @param uid
+         */
+        self.switchToStreetView = function (uid) {
+            var position = self.markers[uid].getPosition();
+
+            self.panorama.setPosition(position);
+            self.panorama.setPov({
+                    heading: 265,
+                    pitch: 0
+                }
+            );
+
+            self.panorama.setVisible(true);
+        };
+
+        /**
+         * Check if there are any filters in PxaDealersMaps.Filters["filter-{uid of currecnt map}"]
+         *
+         */
+        self.initFilters = function () {
+            if (typeof PxaDealersMaps.Filters["filter-" + self.settings.uid] !== "undefined") {
+
+                self.isotope = $(self.settings.itemsListWrapper).isotope({
+                    itemSelector: '.isotope-item',
+                    layoutMode: 'fitRows'
+                });
+
+                var currentFilter = PxaDealersMaps.Filters["filter-" + self.settings.uid];
+
+                for (var key in currentFilter) {
+                    if (!currentFilter.hasOwnProperty(key)) continue;
+
+                    if (currentFilter[key].type === "checkbox" || currentFilter[key].type === "selectbox") {
+                        var filterWrapper = $(currentFilter[key].idPrefix + key);
+
+                        if (filterWrapper.length > 0) {
+                            var filterItems = filterWrapper.find(currentFilter[key].item);
+                            // save items
+                            PxaDealersMaps.Filters["filter-" + self.settings.uid][key].filterItems = filterItems;
+
+                            filterItems.on(currentFilter[key].type === "selectbox" ? "change" : "click", function () {
+                                self.doFiltering(PxaDealersMaps.Filters["filter-" + self.settings.uid]);
+                            });
+                        }
+                    }
+                }
+            }
+        };
+
+        /**
+         * Generate jquery selector according to filters value and run isotope
+         *
+         * @param filters
+         */
+        self.doFiltering = function (filters) {
+            var selectors = [];
+
+            for (var key in filters) {
+                if (!filters.hasOwnProperty(key)) continue;
+                var currentFilterSelectors = [];
+
+                if (filters[key].type === "checkbox") {
+                    var checked = filters[key].filterItems.filter(":checked");
+
+                    $.each(checked, function () {
+                        var val = $(this).val();
+                        if (val != "" && val != "0") {
+                            // if value is comma-separated
+                            var valSplit = val.split(",");
+
+                            for (var i = 0; i < valSplit.length; i++) {
+                                currentFilterSelectors.push(filters[key].filteringPrefix + valSplit[i]);
+                            }
+                        }
+                    });
+                } else if (filters[key].type === "selectbox") {
+                    var val = filters[key].filterItems.val();
+
+                    if (val != "" && val != "0") {
+                        currentFilterSelectors.push(filters[key].filteringPrefix + val);
+                    }
+                }
+
+                /**
+                 * now if there is already selector create AND constraint
+                 */
+                if (selectors.length > 0) {
+                    for (var j = 0; j < currentFilterSelectors.length; j++) {
+                        for (var i = 0; i < selectors.length; i++) {
+                            selectors[i] = selectors[i] + currentFilterSelectors[j];
+                        }
+                    }
+                } else {
+                    selectors = currentFilterSelectors;
+                }
+            }
+
+            var selectorString = selectors.join(",");
+
+            self.isotope.isotope({
+                filter: selectorString
+            });
+            
+            self.processMarkersState(selectorString);
+        };
+
+        /**
+         * Filter hidden and visible markers
+         *
+         * @param selectorString
+         */
+        self.processMarkersState = function (selectorString) {
+            var allItems = $(self.settings.dealerItems),
+                visibleItems = selectorString != "" ? $(selectorString) : allItems;
+
+            if (selectorString != "") {
+                var hiddenItems = allItems.not(selectorString);
+
+                $.each(hiddenItems, function () {
+                    var $this = $(this),
+                        uid = $this.data("uid");
+
+                    self.markers[uid].setVisible(false);
+                });
+            }
+
+
+            $.each(visibleItems, function () {
+                var $this = $(this),
+                    uid = $this.data("uid");
+
+                self.markers[uid].setVisible(true);
+            });
+
+            self.repaintMarkerClusterer(true);
+        };
+
+        /**
+         * Repaint markers clusterer
+         *
+         * @param checkVisible
+         */
+        self.repaintMarkerClusterer = function(checkVisible) {
+            if (PxaDealersMaps.settings.markerClusterer.enable) {
+                if (checkVisible) {
+                    for (var key in  self.markers) {
+                        if (!self.markers.hasOwnProperty(key)) continue;
+
+                        self.markerClusterer.removeMarker(self.markers[key], true);
+
+                        if (self.markers[key].getVisible()) {console.log(self.markers[key]);
+                            self.markerClusterer.addMarker(self.markers[key], true);
+                        }
+                    }
+                }
+
+                self.markerClusterer.repaint();
+            }
+        }
+    }
+
+
+    $.fn.pxaDealers = function (settings) {
+        var pxaDealersMapsRenderer = new PxaDealersMapsRender();
+        pxaDealersMapsRenderer.init(settings, this);
+
+        // save object
+        PxaDealersMaps.Maps["map-" + settings.uid]["objectRenderer"] = pxaDealersMapsRenderer;
 
         return this;
     };
 
-    $.fn.pxaDealers.options = {
-        dealerItemClass: '.dealer-item'
+    $.fn.pxaDealers.settings = {
+        dealerItems: ".dealer-item",
+        showOnMapSelector: ".show-on-map-link",
+        showOnMapActiveClass: 'active',
+        mapParentWrapper: ".pxa-dealers-wrapper",
+        itemsListWrapper: ".pxa-dealers-list"
     };
 
     w.PxaDealersMaps = PxaDealersMaps;
@@ -300,19 +519,13 @@
 
 $(document).ready(function () {
 
-    if (typeof PxaDealersMaps.FeSettings !== "undefined") {
-        var settings = $.extend(
-            {},
-            PxaDealersMaps.FeSettings.settings,
-            {
-                dealerItemClass: '.dealer-item'
-            }
-        );
+    if (typeof PxaDealersMaps.Maps !== "undefined") {
 
-        $('#pxa-dealers-map').pxaDealers({
-            dealers: PxaDealersMaps.FeSettings.dealers,
-            settings: settings
-        });
+        for (var key in PxaDealersMaps.Maps) {
+            if (!PxaDealersMaps.Maps.hasOwnProperty(key)) continue;
+
+            $('#pxa-dealers-map-' + PxaDealersMaps.Maps[key]['uid']).pxaDealers(PxaDealersMaps.Maps[key]);
+        }
     }
 });
 
@@ -520,9 +733,9 @@ if ($(".tx-pxa-dealers").length > 0) {
             var city = dealer['city'] ? '<br/>' + dealer['city'] : '';
 
             var telephone = dealer['telephone'] ? "<br/><a href=\"tel:" + dealer['telephone_clear'] +
-            "\">" + self.labels['infoWindowPhone'] + " " + dealer['telephone'] + "</a>" : '';
+                "\">" + self.labels['infoWindowPhone'] + " " + dealer['telephone'] + "</a>" : '';
             var email = dealer['email'] ? "<br/><a href=\"mailto:" + dealer['email'] + "\">" +
-            dealer['email'] + "</a>" : '';
+                dealer['email'] + "</a>" : '';
 
             if (dealer['website']) {
                 // Check if website starts from http

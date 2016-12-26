@@ -1,42 +1,43 @@
 <?php
 namespace Pixelant\PxaDealers\Domain\Model;
 
-    /***************************************************************
-     *
-     *  Copyright notice
-     *
-     *  (c) 2016
-     *
-     *  All rights reserved
-     *
-     *  This script is part of the TYPO3 project. The TYPO3 project is
-     *  free software; you can redistribute it and/or modify
-     *  it under the terms of the GNU General Public License as published by
-     *  the Free Software Foundation; either version 3 of the License, or
-     *  (at your option) any later version.
-     *
-     *  The GNU General Public License can be found at
-     *  http://www.gnu.org/copyleft/gpl.html.
-     *
-     *  This script is distributed in the hope that it will be useful,
-     *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-     *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     *  GNU General Public License for more details.
-     *
-     *  This copyright notice MUST APPEAR in all copies of the script!
-     ***************************************************************/
+/***************************************************************
+ *
+ *  Copyright notice
+ *
+ *  (c) 2016
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * CategoriesFilterOptions
  */
-class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
     /**
      * name
      *
      * @var string
      */
-    protected $title= '';
+    protected $title = '';
 
     /**
      * Categories
@@ -48,7 +49,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
     /**
      * __construct
      */
-    public function __construct() {
+    public function __construct()
+    {
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }
@@ -61,7 +63,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      *
      * @return void
      */
-    protected function initStorageObjects() {
+    protected function initStorageObjects()
+    {
         $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
@@ -70,7 +73,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      *
      * @return string $name
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
@@ -80,7 +84,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      * @param string $title
      * @return void
      */
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
@@ -90,7 +95,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
      * @return void
      */
-    public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+    public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category)
+    {
         $this->categories->attach($category);
     }
 
@@ -100,7 +106,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      * @param \TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove The Category to be removed
      * @return void
      */
-    public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove) {
+    public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove)
+    {
         $this->categories->detach($categoryToRemove);
     }
 
@@ -109,7 +116,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
      */
-    public function getCategories() {
+    public function getCategories()
+    {
         return $this->categories;
     }
 
@@ -119,7 +127,8 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
      * @return void
      */
-    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories) {
+    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
+    {
         $this->categories = $categories;
     }
 

@@ -12,12 +12,9 @@ return [
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'sortby' => 'sorting',
-		'versioningWS' => 2,
-		'versioning_followPages' => TRUE,
 
 		'languageField' => 'sys_language_uid',
-		'transOrigPointerField' => 'l10n_parent',
-		'transOrigDiffSourceField' => 'l10n_diffsource',
+
 		'delete' => 'deleted',
 		'enablecolumns' => [
 			'disabled' => 'hidden',
@@ -33,7 +30,7 @@ return [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, categories',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, categories, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime']
+		'1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden, --palette--;;1, name, categories, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime']
 	],
 	'palettes' => [
 		'1' => ['showitem' => '']

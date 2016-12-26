@@ -1,37 +1,45 @@
 plugin.tx_pxadealers {
-	view {
-		templateRootPaths {
+    view {
+        templateRootPaths {
             5 = {$plugin.tx_pxadealers.view.templateRootPath}
         }
+
         partialRootPaths {
             5 = {$plugin.tx_pxadealers.view.partialRootPath}
         }
+
         layoutRootPaths {
             5 = {$plugin.tx_pxadealers.view.layoutRootPath}
         }
-	}
-	persistence {
-		storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
-	}
+    }
 
-	settings {
-		# Map settings
-		map {
+    persistence {
+        storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+    }
 
+    settings {
+        # Map settings
+        map {
             stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
-			name = {$plugin.tx_pxadealers.settings.map.name}
+            name = {$plugin.tx_pxadealers.settings.map.name}
+
+            zoomToShowMarker = 14
 
             markerClusterer {
                 enable = {$plugin.tx_pxadealers.settings.map.markerClusterer.enable}
                 maxZoom = {$plugin.tx_pxadealers.settings.map.markerClusterer.maxZoom}
-                gridSize = {$plugin.tx_pxadealers.settings.map.markerClusterer.gridSize}
-                markerIcon = {$plugin.tx_pxadealers.settings.map.markerClusterer.markerIcon}
+                imagePath = {$plugin.tx_pxadealers.settings.map.markerClusterer.imagePath}
             }
 
             markerTypes {
                 default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
             }
-		}
+
+            googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+
+            scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
+            scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
+        }
 
         dealersList {
             noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
@@ -46,16 +54,11 @@ plugin.tx_pxadealers {
             isotope = EXT:pxa_dealers/Resources/Public/Js/isotope.pkgd.min.js
             pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
         }
+
         styling {
             pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
         }
 
         beMainJs = EXT:pxa_dealers/Resources/Public/Js/BE/PxaBeMaps.js
-
-        googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
-        googleJavascriptApiLanguage = {$plugin.tx_pxadealers.settings.googleJavascriptApiLanguage}
-
-        map.googleJavascriptApiKey < .googleJavascriptApiKey
-        map.googleJavascriptApiLanguage < .googleJavascriptApiLanguage
-	}
+    }
 }

@@ -2,20 +2,6 @@
 defined('TYPO3_MODE') or die();
 
 $init = function($_EXTKEY) {
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        $_EXTKEY,
-        'Pxadealers',
-        'Pxa Dealers'
-    );
-
-    /* Add FlexForm */
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['pxadealers_pxadealers'] = 'pi_flexform';
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('pxadealers_pxadealers', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/FlexForm.xml');
-    /****************************************/
-
-    # remove some fields
-    $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['pxadealers_pxadealers'] = 'layout,select_key';
-
     # Add static template
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Pxa Dealers');
 

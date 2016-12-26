@@ -78,6 +78,7 @@
 
             TBE_EDITOR.fieldChanged(self.getConfiguration("tableName"), self.getConfiguration("recordUid"), self.getConfiguration("latitudeField"), self.getTypoFieldName("latitudeField"));
             TBE_EDITOR.fieldChanged(self.getConfiguration("tableName"), self.getConfiguration("recordUid"), self.getConfiguration("longitudeField"), self.getTypoFieldName("longitudeField"));
+
             TYPO3.FormEngine.Validation.validate();
         },
 
@@ -98,12 +99,14 @@
          * trigger by button in TCA
          */
         getAddressLatLng: function (e) {
-            var self = this;
-            self.generateAddress();
-            self.geocoder.geocode({'address':self.generateAddress()}, function(results, status) {
+            var self = this,
+                address = self.generateAddress();
+
+            self.geocoder.geocode({'address': address}, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
 
                     self.map.setCenter(results[0].geometry.location);
+                    self.map.setZoom(self.getConfiguration("zoom"));
                     self.marker.setPosition(results[0].geometry.location);
 
                     var lat = self.marker.getPosition().lat().toFixed(6),
@@ -115,8 +118,9 @@
 
                     self.triggerFieldsChange();
 
+                    PxaDealersMaps.BE.showMessage('success', 'Success', 'Latitude and longitude are set', 5);
                 } else {
-                    alert("Geocode was not successful for the following reason: " + status);
+                    PxaDealersMaps.BE.showMessage('error', 'Fail', 'Geocode was not successful. Nothing found for "' + address + '"', 5);
                 }
             });
 
@@ -148,6 +152,24 @@
 
     w.PxaDealersMaps = PxaDealersMaps;
 })(window);
+
+requirejs(['TYPO3/CMS/Backend/Notification'], function (Notification) {
+    (function (w) {
+        var PxaDealersMaps = w.PxaDealersMaps || {};
+
+        PxaDealersMaps.BE['showMessage'] = function (type, title, text, duration) {
+            if (type === 'error') {
+                Notification.error(title, text, duration);
+            } else {
+                Notification.success(title, text, duration);
+            }
+
+        };
+
+        w.PxaDealersMaps = PxaDealersMaps;
+    })(window);
+});
+
 
 function initBEMap() {
     PxaDealersMaps.BE.initialize();

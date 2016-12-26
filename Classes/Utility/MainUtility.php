@@ -6,7 +6,8 @@ namespace Pixelant\PxaDealers\Utility;
 
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
-class MainUtility {
+class MainUtility
+{
 
     /**
      * Generate FE link
@@ -17,13 +18,14 @@ class MainUtility {
      *
      * @return string
      */
-    static public function typoLink($parameter, $uriOnly = FALSE) {
+    public static function typoLink($parameter, $uriOnly = false)
+    {
         $confLink = array(
             'parameter' => $parameter,
             'useCacheHash' => 1,
         );
 
-        if(TRUE === $uriOnly) {
+        if (true === $uriOnly) {
             return self::getTSFE()->cObj->typoLink_URL($confLink);
         } else {
             return self::getTSFE()->cObj->typoLink('', $confLink);
@@ -33,7 +35,8 @@ class MainUtility {
     /**
      * @return TypoScriptFrontendController
      */
-    static public function getTSFE() {
+    public static function getTSFE()
+    {
         return $GLOBALS['TSFE'];
     }
 }

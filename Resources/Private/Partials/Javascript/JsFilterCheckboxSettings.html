@@ -1,0 +1,31 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+
+    <f:layout name="Default" />
+
+    <f:section name="main">
+        <script>
+            (function (w) {
+                var PxaDealersMaps = w.PxaDealersMaps || {};
+                PxaDealersMaps.Filters = PxaDealersMaps.Filters || {};
+
+                <f:render section="fluid" arguments="{_all}"/>
+
+                w.PxaDealersMaps = PxaDealersMaps;
+            })(window);
+        </script>
+    </f:section>
+
+    <f:section name="fluid">
+        PxaDealersMaps.Filters["filter-{settings.filter.mapContentElement -> f:format.raw()}"] = PxaDealersMaps.Filters["filter-{settings.filter.mapContentElement}"] || {};
+
+        PxaDealersMaps.Filters["filter-{settings.filter.mapContentElement}"]["{uid}"] = {
+            "idPrefix": "#pxa-dealer-map-filter-",
+            "type": "checkbox",
+            "item": "input[type=\"checkbox\"]",
+            "filteringPrefix": ".cat-"
+        };
+    </f:section>
+</div>
+
+

@@ -4,19 +4,20 @@
     <f:layout name="Default" />
 
     <f:section name="main">
-        <f:render partial="Javascript/JsSettings" section="main" arguments="{_all}"/>
+        <f:render partial="Javascript/JsMapSettings" section="main" arguments="{_all}"/>
 
-        <div class="pxa-dealers-list-wrapper">
-            <f:if condition="{settings.googleJavascriptApiKey}">
+        <div class="pxa-dealers-wrapper">
+            <f:if condition="{settings.map.googleJavascriptApiKey}">
                 <f:then>
-                    <div id="pxa-dealers-map" style="height: {f:if(condition: settings.mapHeight, then: settings.mapHeight , else: '550')}px"></div>
-
-                    <f:if condition="{dealers -> f:count()} == 0">
+                    <div id="pxa-dealers-map-{uid}" class="pxa-dealers-map" style="height: {f:if(condition: settings.map.mapHeight, then: settings.map.mapHeight , else: '550')}px"></div>
+                    <f:if condition="{dealers}">
                         <f:then>
-                            <p class="warning-message"><f:translate key="error.no_dealers"/></p>
+                            <div class="pxa-dealers-list">
+                                <f:render partial="Dealers/List" arguments="{_all}" section="main"/>
+                            </div>
                         </f:then>
                         <f:else>
-                            <f:render partial="Dealers/List" arguments="{_all}" section="main"/>
+                            <p class="warning-message"><f:translate key="error.no_dealers"/></p>
                         </f:else>
                     </f:if>
                 </f:then>

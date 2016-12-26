@@ -1,85 +1,39 @@
-#pxa-dealers-map img {
-	max-width: none;
+.pxa-dealers-map img {
+    max-width: none;
 }
-#ajax-load-dealer,
-#ajax-load-dealer .after-load {
-	display: none;
-}
-
-.pxa-dealers > .categories{
-	margin: 0;
-	padding: 0;
-}
-
 
 .tx-pxa-dealers .warning-message,
 .tx-pxa-dealers .error-message {
     padding: 15px;
 }
+
 .tx-pxa-dealers .warning-message {
     background-color: #fcf8e3;
 }
+
 .tx-pxa-dealers .error-message {
     background-color: #f2dede;
 }
-.pxa-dealers > .categories .category-item{
-	list-style-type: none;
+
+.pxa-dealers-list {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
 }
 
-.tx-pxa-dealers .dealers-header{
-	visibility:visible;
-	opacity:1;
-	transition-delay:0s;
-	transition:visibility 0s ease-in 0.1s,opacity 0.1s ease-in;
+.pxa-dealers-list .dealer-item {
+    box-sizing: border-box;
+    padding: 20px;
+    flex: 1;
 }
 
-.tx-pxa-dealers .dealers-header.hidden-dealers-header{
-	visibility:hidden;
-	opacity:0;
+@media screen and (max-width: 992px) {
+    .pxa-dealers-list .dealer-item {
+        flex-basis: 25%;
+    }
 }
-
-.dealer-item {
-	-webkit-column-break-inside: avoid;
-	page-break-inside: avoid;
-	break-inside: avoid;
-}
-
-.pxa-dealers-list-container.alphabet .items-collection{
-	overflow: hidden;
-	-webkit-column-count: 4;
-	-moz-column-count: 4;
-	-o-column-count: 4;
-	column-count: 4;
-}
-
-@media (max-width: 1200px) {
-	.pxa-dealers-list-container.alphabet .items-collection{
-		overflow: hidden;
-		-webkit-column-count: 3;
-		-moz-column-count: 3;
-		-o-column-count: 3;
-		column-count: 3;
-	}
-}
-
-
-@media (max-width: 1024px) {
-	.pxa-dealers-list-container.alphabet .items-collection{
-		overflow: hidden;
-		-webkit-column-count: 2;
-		-moz-column-count: 2;
-		-o-column-count: 2;
-		column-count: 2;
-	}
-}
-
-@media only screen
-and (max-width: 640px) {
-	.pxa-dealers-list-container.alphabet .items-collection{
-		overflow: hidden;
-		-webkit-column-count: 1;
-		-moz-column-count: 1;
-		-o-column-count: 1;
-		column-count: 1;
-	}
+@media screen and (max-width: 640px) {
+    .pxa-dealers-list .dealer-item {
+        flex-basis: 50%;
+    }
 }

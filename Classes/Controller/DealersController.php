@@ -43,13 +43,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DealersController extends ActionController {
-
-    /**
-     * fields from flexform conver to array
-     */
-    CONST FIELDS_ARRAY = 'countries,categories';
-
+class DealersController extends ActionController
+{
     /**
      *  dealersRepository
      *
@@ -69,7 +64,8 @@ class DealersController extends ActionController {
      *
      * @return void
      */
-    public function initializeAction() {
+    public function initializeAction()
+    {
         $this->includeFeCssAndJs();
         $this->getFrontendLabels();
     }
@@ -79,34 +75,21 @@ class DealersController extends ActionController {
      *
      * @return void
      */
-    public function mapAction() {
+    public function mapAction()
+    {
         $dealers = [];
-        $demand = Demand::getInstance(
-            $this->getDemanSettings($this->settings['demand'])
-        );
+
+        $demand = Demand::getInstance($this->settings['demand']);
 
         /** @var Dealers $dealer */
         foreach ($this->dealersRepository->findDemanded($demand) as $dealer) {
-            $dealers[] = $dealer->toArray();
+            $dealers[$dealer->getUid()] = $dealer->toArray();
         }
 
         $this->view->assignMultiple([
-            'dealers' => $dealers
+            'dealers' => $dealers,
+            'uid' => $this->configurationManager->getContentObject()->data['uid']
         ]);
-    }
-
-    /**
-     * @param $settings
-     * @return array
-     */
-    protected function getDemanSettings($settings) {
-        foreach ($settings as $field => $value) {
-            if (GeneralUtility::inList(self::FIELDS_ARRAY, $field)) {
-                $settings[$field] = GeneralUtility::intExplode(',', $value, TRUE);
-            }
-        }
-
-        return $settings;
     }
 
     /**
@@ -114,13 +97,13 @@ class DealersController extends ActionController {
      *
      * @return void
      */
-    protected function includeFeCssAndJs() {
-        if (!empty($this->settings['googleJavascriptApiKey'])) {
+    protected function includeFeCssAndJs()
+    {
+        if (!empty($this->settings['map']['googleJavascriptApiKey'])) {
             // google apis
             $pathGoogleMaps = sprintf(
-                'https://maps.googleapis.com/maps/api/js?language=%s&key=%s',
-                $this->settings['googleJavascriptApiLanguage'] ? $this->settings['googleJavascriptApiLanguage'] : 'en',
-                $this->settings['googleJavascriptApiKey']
+                'https://maps.googleapis.com/maps/api/js?key=%s',
+                $this->settings['map']['googleJavascriptApiKey']
             );
 
             $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
@@ -148,14 +131,15 @@ class DealersController extends ActionController {
      *
      * @return void
      */
-    protected function getFrontendLabels() {
+    protected function getFrontendLabels()
+    {
         /** @var LocalizationFactory $languageFactory */
         $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
 
         $langKey = MainUtility::getTSFE()->config['config']['language'];
         $labels = $languageFactory->getParsedData('EXT:pxa_dealers/Resources/Private/Language/locallang.xlf', $langKey ? $langKey : 'en');
 
-        if(!empty($labels[$langKey])) {
+        if (!empty($labels[$langKey])) {
             $labels = $labels[$langKey];
         } else {
             $labels = $labels['default'];

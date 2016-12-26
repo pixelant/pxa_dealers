@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Pxa Dealers',
-    'description' => 'Display dealers on a map',
+    'description' => 'Extension to display searchable dealers/shops or other points of interests on Google maps',
     'category' => 'plugin',
     'author' => 'Andriy Oprysko',
     'author_email' => 'andriy@pixelant.se',

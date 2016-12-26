@@ -97,13 +97,6 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     protected $country;
 
     /**
-     * Country
-     *
-     * @var \SJBR\StaticInfoTables\Domain\Model\CountryZone
-     */
-    protected $countryZone;
-
-    /**
      * Zipcode
      *
      * @var \string
@@ -308,35 +301,6 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     }
 
     /**
-     * Returns the country zone
-     *
-     * @return \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
-     */
-    public function getCountryZone() {
-        return $this->countryZone;
-    }
-
-    /**
-     * Sets the country zone
-     *
-     * @param \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
-     * @return void
-     */
-    public function setCountryZone($countryZone) {
-        $this->countryZone = $countryZone;
-    }
-
-    /**
-     * Returns true if country belongs to coutry zone
-     *
-     * @param \SJBR\StaticInfoTables\Domain\Model\CountryZone $countryZone
-     * @return boolean
-     */
-    public function belongsToCountryZone($countryZone) {
-        return ($countryZone == $this->getCountryZone());
-    }
-
-    /**
      * Returns the zipcode
      *
      * @return \string $zipcode
@@ -469,34 +433,6 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
         }
 
         return implode(',', $categories);
-
-    }
-
-    /**
-     * Returns dealer country zone uid
-     *
-     * @return string
-     */
-    public function getCountryZoneUid() {
-        return $this->getCountryZone() !== NULL ? $this->getCountryZone()->getUid() : 0;
-    }
-
-    /**
-     * Returns dealer country zone name
-     *
-     * @return string
-     */
-    public function getCountryZoneName() {
-        return $this->getCountryZone() !== NULL ? $this->getCountryZone()->getNameEn() : '';
-    }
-
-    /**
-     * Returns dealer country zone iso code
-     *
-     * @return string
-     */
-    public function getCountryZoneIsoCode() {
-        return $this->getCountryZone() !== NULL ? $this->getCountryZone()->getIsoCode() : '';
     }
 
     /**
@@ -575,13 +511,11 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             'link' => MainUtility::typoLink($this->getLink()),
             'email' => MainUtility::typoLink($this->getEmail()),
             'uid' => (string)$this->getUid(),
-            'categories' => $this->getCategoriesString(),
+            'categories' => $this->getCategories(),
             'country' => (string)$this->getCountryUid(),
             'countryName' => $this->getCountry() !== NULL ? $this->getCountry()->getShortNameEn() : '',
-            'countryZone' => $this->getCountryZone() ? (string)$this->getCountryZone()->getUid() : '0',
-            'countryZoneName' => $this->getCountryZoneName(),
-            'countryZoneIsoCode' => $this->getCountryZoneIsoCode(),
-            'showStreetView' => $this->getShowStreetView()
+            'showStreetView' => $this->getShowStreetView(),
+            'logo' => $this->getLogo()
         ];
     }
 }

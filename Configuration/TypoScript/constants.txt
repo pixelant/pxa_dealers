@@ -17,29 +17,26 @@ plugin.tx_pxadealers {
         # cat=plugin.tx_pxadealers/pxadealers/010; type=string; label=Google Javascript Api Key
         googleJavascriptApiKey =
 
-        # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Google Javascript Api Default language
-		googleJavascriptApiLanguage = en
-
         map {
-            # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Custom Json styling
+            # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Custom Json styling
             stylesJSON =
 
-            # cat=plugin.tx_pxadealers/pxadealers/040; type=string; label=Map name
+            # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Map name
             name = Map
 
             markerClusterer {
-                # cat=plugin.tx_pxadealers/pxadealers/045; type=options[Yes=1,No=0]; label=Enable marker cluster
-                enable = 1
+                enable = 0
+                maxZoom = 12
 
-                # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Marker cluster max zoom
-                maxZoom = 9
-
-                # cat=plugin.tx_pxadealers/pxadealers/060; type=int; label=Marker cluster grid size
-                gridSize = 60
-
-                # cat=plugin.tx_pxadealers/pxadealers/070; type=string; label=Custom cluster marker icon
-                markerIcon = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+                # cat=plugin.tx_pxadealers/pxadealers/040; type=string; label=Marker cluster images path
+                imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
             }
+
+            # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
+            scrollFix = 0
+
+            # cat=plugin.tx_pxadealers/pxadealers/060; type=int; label=Scroll fix for mobile view (width < 991)
+            scrollFixMobile = 0
         }
 	}
 
@@ -47,16 +44,16 @@ plugin.tx_pxadealers {
     settings {
         dealersList {
             # cat=plugin.tx_pxadealers/pxadealerslist/010; type=options[Yes=1,No=0]; label=Show logo
-            showLogo = 0
+            showLogo = 1
 
             # cat=plugin.tx_pxadealers/pxadealerslist/020; type=options[Yes=1,No=0]; label=Show default image if no logo
-            showDefaultImageIfNoLogo = 0
+            showDefaultImageIfNoLogo = 1
 
             # cat=plugin.tx_pxadealers/pxadealerslist/030; type=string; label=Image width
-            imageWidth = 0
+            imageWidth = 150m
 
             # cat=plugin.tx_pxadealers/pxadealerslist/040; type=string; label=Image height
-            imageHeight = 0
+            imageHeight = 150m
 
             # cat=plugin.tx_pxadealers/pxadealerslist/050; type=string; label=No image - image path
             noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png

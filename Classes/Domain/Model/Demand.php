@@ -11,7 +11,12 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  * Class Demand
  * @package Pixelant\PxaDealers\Domain\Model
  */
-class Demand {
+class Demand
+{
+    /**
+     * fields from flexform conver to array
+     */
+    CONST FIELDS_ARRAY = 'countries,categories';
 
     /**
      * filter by categories
@@ -40,56 +45,64 @@ class Demand {
     /**
      * @return array
      */
-    public function getCategories() {
+    public function getCategories()
+    {
         return $this->categories;
     }
 
     /**
      * @param array $categories
      */
-    public function setCategories($categories) {
+    public function setCategories($categories)
+    {
         $this->categories = $categories;
     }
 
     /**
      * @return array
      */
-    public function getCountries() {
+    public function getCountries()
+    {
         return $this->countries;
     }
 
     /**
      * @param array $countries
      */
-    public function setCountries($countries) {
+    public function setCountries($countries)
+    {
         $this->countries = $countries;
     }
 
     /**
      * @return string
      */
-    public function getOrderDirection() {
+    public function getOrderDirection()
+    {
         return $this->orderDirection;
     }
 
     /**
      * @param string $orderDirection
      */
-    public function setOrderDirection($orderDirection) {
+    public function setOrderDirection($orderDirection)
+    {
         $this->orderDirection = $orderDirection;
     }
 
     /**
      * @return string
      */
-    public function getOrderBy() {
+    public function getOrderBy()
+    {
         return $this->orderBy;
     }
 
     /**
      * @param string $orderBy
      */
-    public function setOrderBy($orderBy) {
+    public function setOrderBy($orderBy)
+    {
         $this->orderBy = $orderBy;
     }
 
@@ -99,15 +112,31 @@ class Demand {
      * @param array $demand
      * @return Demand
      */
-    static public function getInstance($demand = []) {
-        /** @var Demand $demanObject */
-        $demanObject = GeneralUtility::makeInstance(__CLASS__);
-        foreach ($demand as $item => $value) {
-            if(ObjectAccess::isPropertySettable($demanObject, $item)) {
-                ObjectAccess::setProperty($demanObject, $item, $value);
+    public static function getInstance($demand = [])
+    {
+        /** @var Demand $demandObject */
+        $demandObject = GeneralUtility::makeInstance(__CLASS__);
+        foreach (self::processDemandSettings($demand) as $item => $value) {
+            if (ObjectAccess::isPropertySettable($demandObject, $item)) {
+                ObjectAccess::setProperty($demandObject, $item, $value);
             }
         }
 
-        return $demanObject;
+        return $demandObject;
+    }
+
+    /**
+     * @param $settings
+     * @return array
+     */
+    protected static function processDemandSettings($settings)
+    {
+        foreach ($settings as $field => $value) {
+            if (GeneralUtility::inList(self::FIELDS_ARRAY, $field)) {
+                $settings[$field] = GeneralUtility::intExplode(',', $value, true);
+            }
+        }
+
+        return $settings;
     }
 }

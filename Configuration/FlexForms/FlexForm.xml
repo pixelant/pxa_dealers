@@ -23,9 +23,13 @@
                                     </numIndex>
                                     <numIndex index="2">
                                         <numIndex index="0">Categories menu</numIndex>
-                                        <numIndex index="1">Categories->list</numIndex>
+                                        <numIndex index="1">Filter->categoriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
+                                        <numIndex index="0">Countries filter</numIndex>
+                                        <numIndex index="1">Filter->countriesFilter</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
                                         <numIndex index="0">Search by country, state and city/zipcode</numIndex>
                                         <numIndex index="1">Dealers->search</numIndex>
                                     </numIndex>
@@ -33,18 +37,6 @@
                             </config>
                         </TCEforms>
                     </switchableControllerActions>
-
-                    <settings.mapHeight>
-                        <TCEforms>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
-                            <config>
-                                <type>input</type>
-                                <default>555</default>
-                                <size>10</size>
-                                <eval>int</eval>
-                            </config>
-                        </TCEforms>
-                    </settings.mapHeight>
 
                     <settings.demand.orderBy>
                         <TCEforms>
@@ -96,7 +88,7 @@
 
                     <settings.demand.countries>
                         <TCEforms>
-                            <label>Display dealers only for countries. If nothing is selected = show all</label>
+                            <label>Select countries. If nothing is selected = show all</label>
                             <config>
                                 <type>select</type>
                                 <size>10</size>
@@ -119,7 +111,7 @@
 
                     <settings.demand.categories>
                         <TCEforms>
-                            <label>Display dealers only for categories.</label>
+                            <label>Select categories</label>
                             <config>
                                 <type>select</type>
                                 <autoSizeMax>50</autoSizeMax>
@@ -138,88 +130,76 @@
                             </config>
                         </TCEforms>
                     </settings.demand.categories>
-                    <!--Category filter -->
 
-                    <settings.filterType>
+                    <settings.filter.mapContentElement>
                         <TCEforms>
-                            <label>Filter type</label>
-                            <onChange>reload</onChange>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapContentElement</label>
                             <config>
                                 <type>select</type>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <numIndex index="0">Checkboxes</numIndex>
-                                        <numIndex index="1">checkbox</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <numIndex index="0">Radio buttons</numIndex>
-                                        <numIndex index="1">radio</numIndex>
-                                    </numIndex>
-                                </items>
+                                <renderType>selectSingle</renderType>
+                                <foreign_table>tt_content</foreign_table>
+                                <foreign_table_where>AND tt_content.pid=###CURRENT_PID### AND tt_content.uid!=###THIS_UID### AND tt_content.list_type='pxadealers_pxadealers'</foreign_table_where>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
                             </config>
                         </TCEforms>
-                    </settings.filterType>
-
-                    <settings.filterBy>
-                        <TCEforms>
-                            <label>Filter using</label>
-                            <onChange>reload</onChange>
-                            <config>
-                                <default>groups</default>
-                                <type>select</type>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <numIndex index="0">Categories groups</numIndex>
-                                        <numIndex index="1">groups</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <numIndex index="0">Single categories</numIndex>
-                                        <numIndex index="1">single</numIndex>
-                                    </numIndex>
-                                </items>
-                            </config>
-                        </TCEforms>
-                    </settings.filterBy>
-
-                    <settings.dealersCategories>
-                        <TCEforms>
-                            <displayCond>FIELD:settings.filterBy:=:single</displayCond>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.dealersCategories</label>
-                            <config>
-                                <type>select</type>
-                                <autoSizeMax>50</autoSizeMax>
-                                <foreign_table>sys_category</foreign_table>
-                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
-                                <maxitems>9999</maxitems>
-                                <renderMode>tree</renderMode>
-                                <size>10</size>
-                                <treeConfig>
-                                    <appearance>
-                                        <expandAll>1</expandAll>
-                                        <showHeader>1</showHeader>
-                                    </appearance>
-                                    <parentField>parent</parentField>
-                                </treeConfig>
-                            </config>
-                        </TCEforms>
-                    </settings.dealersCategories>
-
-                    <settings.dealersCategoriesFilterOptions>
-                        <TCEforms>
-                            <displayCond>FIELD:settings.filterBy:=:groups</displayCond>
-                            <label>Categories filter options</label>
-                            <config>
-                                <type>select</type>
-                                <autoSizeMax>50</autoSizeMax>
-                                <foreign_table>tx_pxadealers_domain_model_categoriesfilteroption</foreign_table>
-                                <foreign_table_where>AND tx_pxadealers_domain_model_categoriesfilteroption.sys_language_uid IN (-1, 0) ORDER BY tx_pxadealers_domain_model_categoriesfilteroption.sorting ASC</foreign_table_where>
-                                <maxitems>9999</maxitems>
-                                <size>10</size>
-                            </config>
-                        </TCEforms>
-                    </settings.dealersCategoriesFilterOptions>
+                    </settings.filter.mapContentElement>
                 </el>
             </ROOT>
         </sDEF>
+        <map>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title_map</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.map.mapHeight>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
+                            <config>
+                                <type>input</type>
+                                <default>555</default>
+                                <size>10</size>
+                                <eval>int</eval>
+                            </config>
+                        </TCEforms>
+                    </settings.map.mapHeight>
+
+                    <settings.map.enableIsotope>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.enableIsotope</label>
+                            <config>
+                                <type>check</type>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.map.enableIsotope>
+
+                    <settings.map.markerClusterer.enable>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.enableMarkerClusterer</label>
+                            <config>
+                                <type>check</type>
+                                <default>0</default>
+                            </config>
+                        </TCEforms>
+                    </settings.map.markerClusterer.enable>
+
+                    <settings.map.markerClusterer.maxZoom>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.markerClustererMaxZoom</label>
+                            <config>
+                                <type>input</type>
+                                <default>12</default>
+                                <size>10</size>
+                                <eval>int,required</eval>
+                            </config>
+                        </TCEforms>
+                    </settings.map.markerClusterer.maxZoom>
+                </el>
+            </ROOT>
+        </map>
     </sheets>
 </T3DataStructure>

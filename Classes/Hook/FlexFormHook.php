@@ -33,7 +33,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package Pixelant\PxaDealers\Hook
  */
-class FlexFormHook {
+class FlexFormHook
+{
 
     /**
      * Fields list to remove on maps view
@@ -41,11 +42,27 @@ class FlexFormHook {
      * @var array
      */
     public $removedFieldsInMapView = [
-        'sDEF' => 'filterType,filterBy,dealersCategories,dealersCategoriesFilterOptions',
+        'sDEF' => 'filter.mapContentElement',
     ];
 
+    /**
+     * Fields to remove if category filter selected
+     *
+     * @var array
+     */
     public $removedFieldsInCategoriesFilterView = [
-        'sDEF' => 'mapHeight',
+        'sDEF' => 'demand.countries',
+        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+    ];
+
+    /**
+     * Fields to remove if countrie filter selected
+     *
+     * @var array
+     */
+    public $removedFieldsInCountriesFilterView = [
+        'sDEF' => 'demand.categories,demand.orderDirection,demand.orderBy',
+        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
     /**
@@ -57,7 +74,8 @@ class FlexFormHook {
      * @param string $table table name
      * @return void
      */
-    public function getFlexFormDS_postProcessDS(&$dataStructure, $conf, $row, $table) {
+    public function getFlexFormDS_postProcessDS(&$dataStructure, $conf, $row, $table)
+    {
         if ($table === 'tt_content' && $row['list_type'] === 'pxadealers_pxadealers' && is_array($dataStructure)) {
             $this->updateFlexforms($dataStructure, $row);
         }
@@ -70,7 +88,8 @@ class FlexFormHook {
      * @param array $row row of current record
      * @return void
      */
-    protected function updateFlexforms(array &$dataStructure, array $row) {
+    protected function updateFlexforms(array &$dataStructure, array $row)
+    {
         $selectedView = '';
 
         // get the first selected action
@@ -85,7 +104,6 @@ class FlexFormHook {
                 $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
                 $selectedView = $actionParts[0];
             }
-
             // new plugin element
         } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
             // use Map
@@ -98,8 +116,11 @@ class FlexFormHook {
                 case 'Dealers->map':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
                     break;
-                case 'Categories->list':
+                case 'Filter->categoriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
+                    break;
+                case  'Filter->countriesFilter':
+                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                     break;
                 default:
             }
@@ -113,7 +134,8 @@ class FlexFormHook {
      * @param array $fieldsToBeRemoved fields which need to be removed
      * @return void
      */
-    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved) {
+    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved)
+    {
         foreach ($fieldsToBeRemoved as $sheetName => $sheetFields) {
             $fieldsInSheet = GeneralUtility::trimExplode(',', $sheetFields, true);
 

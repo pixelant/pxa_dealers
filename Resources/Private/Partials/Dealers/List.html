@@ -5,45 +5,24 @@
     <f:layout name="Default" />
 
     <f:section name="main">
-
-        <f:for each="{dealers}" as="dealer" iteration="itemIterationDealers">
-
-            <div  id="dealer-{itemIterationDealers.index}" class="dealer-item isotope-item"
-                  data-name="{dealer.name}"
+        <f:for each="{dealers}" as="dealer">
+            <div  id="dealer-{dealer.uid}"
+                  class="dealer-item isotope-item{f:format.raw(value: ' cat-{category.uid}') -> f:for(each: dealer.categories, as: 'category')} country-{dealer.country}"
                   data-uid="{dealer.uid}"
-                  data-categories="{dealer.categoriesString}"
                   data-marker-type="default">
+
+                <f:render partial="Dealers/DealerImage" section="main" arguments="{dealer: dealer}"/>
 
                 <div class="dealer-header">
                     <b class="dealer-name">{dealer.name}</b>
                 </div>
-                <div id="dealer-body-{itemIterationDealers.index}" class="dealer-body">
-                    <f:if condition="{settings.dealersList.showLogo}">
-                        <div class="dealer-logo">
-                            <f:if condition="{dealer.logo}">
-                                <f:then>
-                                    <f:image image="{dealer.logo}"
-                                             title="{dealer.name}"
-                                             alt="{dealer.name}"
-                                             width="{settings.dealersList.imageWidth}"
-                                             height="{settings.dealersList.imageHeight}" />
-                                </f:then>
-                                <f:else>
-                                    <f:if condition="{settings.dealersList.showDefaultImageIfNoLogo}">
-                                        <f:image src="{settings.dealersList.noImagePath}"
-                                                 title="{dealer.name}"
-                                                 alt="{dealer.name}"
-                                                 width="{settings.dealersList.imageWidth}"
-                                                 height="{settings.dealersList.imageHeight}" />
-                                    </f:if>
-                                </f:else>
-                            </f:if>
-                        </div>
-                    </f:if>
 
+                <div class="dealer-body">
                     <p class="dealer-info">
                         <span class="dealer-address">{dealer.address}</span><br>
-                        <span class="dealer-zipcode">{dealer.zipcode}</span><br>
+                        <f:if condition="{dealer.link}">
+                            <span class="dealer-zipcode">{dealer.zipcode}</span><br>
+                        </f:if>
                         <span class="dealer-address">{dealer.city}</span><br>
                         <f:if condition="{dealer.link}">
                             <span class="link"><f:link.typolink parameter="{dealer.link}">{dealer.link}</f:link.typolink></span><br>
@@ -57,6 +36,8 @@
                         <f:if condition="{dealer.email}">
                             <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
                         </f:if>
+
+                        <span><a href="javascript: {}" data-dealer-uid="{dealer.uid}" class="show-on-map-link"><f:translate key="fe.showOnMap"/></a></span><br>
                     </p>
                 </div>
             </div>

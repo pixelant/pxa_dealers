@@ -9,12 +9,10 @@ $init = function ($_EXTKEY) {
         'Pxadealers',
         [
             'Dealers' => 'showMap, search',
-            'Categories' => 'list'
+            'Filter' => 'categoriesFilter'
         ],
         // non-cacheable actions
-        [
-
-        ]
+        []
     );
 
     // Hook before dealer is saved

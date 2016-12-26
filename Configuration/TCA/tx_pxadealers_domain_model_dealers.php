@@ -12,12 +12,8 @@ return [
         'cruser_id' => 'cruser_id',
         'dividers2tabs' => TRUE,
 
-        'versioningWS' => 2,
-        'versioning_followPages' => TRUE,
-        'origUid' => 't3_origuid',
         'languageField' => 'sys_language_uid',
-        'transOrigPointerField' => 'l10n_parent',
-        'transOrigDiffSourceField' => 'l10n_diffsource',
+
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -25,20 +21,20 @@ return [
             'endtime' => 'endtime',
         ],
         'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng',
-        'requestUpdate' => 'country',
+
         'typeicon_classes' => [
             'default' => 'ext-pxadealers-wizard-icon'
         ]
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, country_zone, lat, lng, show_street_view, gm_position',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, lat, lng, show_street_view, gm_position',
     ],
     'types' => [
         '1' => [
             'showitem' => '--palette--;;paletteLangHidden, name, logo, 
 		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
 		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
-		        --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'
+		        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'
         ]
     ],
     'palettes' => [
@@ -51,7 +47,7 @@ return [
             'canNotCollapse' => false
         ],
         'paletteCountry' => [
-            'showitem' => 'country, country_zone',
+            'showitem' => 'country',
             'canNotCollapse' => false
         ],
         'paletteLatLng' => [
@@ -173,31 +169,7 @@ return [
                 ],
             ],
         ],
-        'country_zone' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country_zone',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'static_country_zones',
-                'foreign_table_where' => 'AND static_country_zones.zn_country_uid = ###REC_FIELD_country### ORDER BY static_country_zones.uid',
-                'items' => [
-                    ['LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country_zone.none', 0]
-                ],
-                'disableNoMatchingValueElement' => 1,
-                'size' => 1,
-                'autoSizeMax' => 30,
-                'maxitems' => 1,
-                'multiple' => 0,
-                'default' => 0,
-                'wizards' => [
-                    '_POSITION' => 'top',
-                    'suggest' => [
-                        'type' => 'suggest'
-                    ],
-                ],
-            ],
-        ],
+
         'address' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.address',
@@ -257,10 +229,10 @@ return [
                         'enabledControls' => [
                             'info' => true,
                             'new' => false,
-                            'dragdrop' => true,
+                            'dragdrop' => false,
                             'sort' => false,
                             'hide' => true,
-                            'delete' => false,
+                            'delete' => true,
                             'localize' => false,
                         ]
                     ],
@@ -296,7 +268,7 @@ return [
 							--palette--;;filePalette'
                         ]
                     ],
-                    'maxitems' => 99
+                    'maxitems' => 1
                 ]
             )
         ],

@@ -25,23 +25,27 @@ namespace Pixelant\PxaDealers\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+
 /**
  * Hook class to modify zipcode
  *
  * @package Pixelant\PxaDealers\Hook
  */
-class PxaDealersHook {
+class PxaDealersHook
+{
 
     /**
      * Remove all spaces from zipcode to for search
      *
      * @param array $incomingFieldArray
-     * @param $table
-     * @param $id
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $reference
+     * @param string $table
+     * @param int $id
+     * @param DataHandler $reference
      * @return void
      */
-    public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler &$reference) {
+    public function processDatamap_preProcessFieldArray(array $incomingFieldArray, $table, $id, DataHandler $reference)
+    {
         if ($table === 'tx_pxadealers_domain_model_dealers') {
             $incomingFieldArray['zipcode_search'] = preg_replace('/[^0-9]/', '', $incomingFieldArray['zipcode']);
         }

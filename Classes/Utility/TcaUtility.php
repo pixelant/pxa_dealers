@@ -36,7 +36,8 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class TcaUtility {
+class TcaUtility
+{
 
     /**
      * Custom map element
@@ -45,22 +46,25 @@ class TcaUtility {
      * @param $pObj
      * @return string
      */
-    public function renderGoogleMapPosition(array &$PA, $pObj) {
-        if($PA['row']['pid'] < 0) {
+    public function renderGoogleMapPosition(array $PA, $pObj)
+    {
+        if ($PA['row']['pid'] < 0) {
             // then "Save and create new was clicked"
-            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealers', abs($PA['row']['pid']), 'pid')['pid'];
+            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealers', abs($PA['row']['pid']),
+                'pid')['pid'];
         } else {
             $pid = $PA['row']['pid'];
         }
+
         $settings = $this->loadTS($pid);
 
         $outPut = '';
 
-        if ($settings['googleJavascriptApiKey'] && $settings['beMainJs']) {
+        if ($settings['map']['googleJavascriptApiKey'] && $settings['beMainJs']) {
             $outPut .= $this->getHtml($PA);
             $outPut .= $this->getJsConfiguration($PA);
 
-            $pathGoogleMaps = 'https://maps.googleapis.com/maps/api/js?language=en&callback=initBEMap&key=' . $settings['googleJavascriptApiKey'];
+            $pathGoogleMaps = 'https://maps.googleapis.com/maps/api/js?callback=initBEMap&key=' . $settings['map']['googleJavascriptApiKey'];
             $pathMainBEJs = '/' . PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($settings['beMainJs']));
 
             $outPut .= '<script src="' . $pathMainBEJs . '"></script>';
@@ -80,7 +84,8 @@ class TcaUtility {
      * @param $PA
      * @return string
      */
-    protected function getJsConfiguration($PA) {
+    protected function getJsConfiguration($PA)
+    {
 
         $lat = (float)$PA['row'][$PA['parameters']['latitude']];
         $lng = (float)$PA['row'][$PA['parameters']['longitude']];
@@ -125,16 +130,18 @@ EOT;
      * @param $PA
      * @return string
      */
-    protected function getHtml($PA) {
+    protected function getHtml($PA)
+    {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
         $mapWrapper = $baseElementId . '_wrapper';
         $toolTip = $this->translate('tca_be_map.tooltip');
+        $buttonText = $this->translate('tca_be_map.buttonText');
 
         $htmlTemplate = <<<EOT
 <div id="element-wrapper-{$mapWrapper}">
-    <p style="margin-bottom: 10px;">{$toolTip}</p>
-    <input type="button" class="btn btn-info" onclick="PxaDealersMaps.BE.getAddressLatLng();return false;" value="Update marker position">
+    <p style="margin-bottom: 10px; padding: 15px;" class="bg-info">{$toolTip}</p>
+    <input type="button" class="btn btn-info" onclick="PxaDealersMaps.BE.getAddressLatLng();return false;" value="$buttonText">
     <div id="$mapId" style="margin: 20px 0;width: 600px;height: 400px;"></div>
 </div>
 EOT;
@@ -146,7 +153,8 @@ EOT;
      * @param string $label
      * @return string
      */
-    protected function translate($label) {
+    protected function translate($label)
+    {
         if ($label) {
             return $this->getLang()->sL('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:' . $label);
         }
@@ -157,7 +165,8 @@ EOT;
     /**
      * @return \TYPO3\CMS\Lang\LanguageService
      */
-    public function getLang() {
+    public function getLang()
+    {
         return $GLOBALS['LANG'];
     }
 
@@ -167,7 +176,8 @@ EOT;
      * @param $pageUid
      * @return array
      */
-    protected function loadTS($pageUid) {
+    protected function loadTS($pageUid)
+    {
         $settings = [];
 
         /** @var PageRepository $sysPageObj */
