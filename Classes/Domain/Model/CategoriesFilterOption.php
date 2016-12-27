@@ -37,7 +37,7 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      *
      * @var string
      */
-    protected $title = '';
+    protected $name = '';
 
     /**
      * Categories
@@ -73,20 +73,20 @@ class CategoriesFilterOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEnt
      *
      * @return string $name
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
      * Sets the name
      *
-     * @param string $title
+     * @param string $name
      * @return void
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
     }
 
     /**

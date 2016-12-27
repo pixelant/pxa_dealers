@@ -8,8 +8,8 @@ $init = function ($_EXTKEY) {
         'Pixelant.' . $_EXTKEY,
         'Pxadealers',
         [
-            'Dealers' => 'showMap, search',
-            'Filter' => 'categoriesFilter'
+            'Dealers' => 'map, search',
+            'Filter' => 'categoriesFilter, countriesFilter, categoriesCollectionFilter'
         ],
         // non-cacheable actions
         []

@@ -25,11 +25,10 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Pixelant\PxaDealers\Domain\Model\Dealers;
+use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\Demand;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -46,12 +45,12 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class DealersController extends ActionController
 {
     /**
-     *  dealersRepository
+     *  dealer repository
      *
-     * @var \Pixelant\PxaDealers\Domain\Repository\DealersRepository
+     * @var \Pixelant\PxaDealers\Domain\Repository\DealerRepository
      * @inject
      */
-    protected $dealersRepository;
+    protected $dealerRepository;
 
     /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
@@ -81,8 +80,8 @@ class DealersController extends ActionController
 
         $demand = Demand::getInstance($this->settings['demand']);
 
-        /** @var Dealers $dealer */
-        foreach ($this->dealersRepository->findDemanded($demand) as $dealer) {
+        /** @var Dealer $dealer */
+        foreach ($this->dealerRepository->findDemanded($demand) as $dealer) {
             $dealers[$dealer->getUid()] = $dealer->toArray();
         }
 

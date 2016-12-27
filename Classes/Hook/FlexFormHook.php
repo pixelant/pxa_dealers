@@ -56,6 +56,16 @@ class FlexFormHook
     ];
 
     /**
+     * Fields to remove if category filter selected
+     *
+     * @var array
+     */
+    public $removedFieldsInCategoriesCollectionFilterView = [
+        'sDEF' => 'demand.countries,demand.categories,demand.orderDirection,demand.orderBy',
+        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+    ];
+
+    /**
      * Fields to remove if countrie filter selected
      *
      * @var array
@@ -121,6 +131,9 @@ class FlexFormHook
                     break;
                 case  'Filter->countriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
+                    break;
+                case  'Filter->categoriesCollectionFilter':
+                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesCollectionFilterView);
                     break;
                 default:
             }

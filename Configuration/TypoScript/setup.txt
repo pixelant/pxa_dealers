@@ -52,6 +52,7 @@ plugin.tx_pxadealers {
         scripts {
             markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
             isotope = EXT:pxa_dealers/Resources/Public/Js/isotope.pkgd.min.js
+            pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers_plugin.js
             pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
         }
 

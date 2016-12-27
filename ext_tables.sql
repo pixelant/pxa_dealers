@@ -1,7 +1,7 @@
 #
 # Table structure for table 'tx_PxaDealers_domain_model_dealers'
 #
-CREATE TABLE tx_pxadealers_domain_model_dealers (
+CREATE TABLE tx_pxadealers_domain_model_dealer (
 
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,

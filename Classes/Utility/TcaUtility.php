@@ -50,7 +50,7 @@ class TcaUtility
     {
         if ($PA['row']['pid'] < 0) {
             // then "Save and create new was clicked"
-            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealers', abs($PA['row']['pid']),
+            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealer', abs($PA['row']['pid']),
                 'pid')['pid'];
         } else {
             $pid = $PA['row']['pid'];

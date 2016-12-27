@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers',
+        'title' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealer',
         'label' => 'name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -84,8 +84,8 @@ return [
                 'items' => [
                     ['', 0],
                 ],
-                'foreign_table' => 'tx_pxadealers_domain_model_dealers',
-                'foreign_table_where' => 'AND tx_pxadealers_domain_model_dealers.pid=###CURRENT_PID### AND tx_pxadealers_domain_model_dealers.sys_language_uid IN (-1,0)',
+                'foreign_table' => 'tx_pxadealers_domain_model_dealer',
+                'foreign_table_where' => 'AND tx_pxadealers_domain_model_dealer.pid=###CURRENT_PID### AND tx_pxadealers_domain_model_dealer.sys_language_uid IN (-1,0)',
             ],
         ],
         'l10n_diffsource' => [

@@ -18,19 +18,23 @@
                                 <type>select</type>
                                 <items>
                                     <numIndex index="1">
-                                        <numIndex index="0">Map</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.map</numIndex>
                                         <numIndex index="1">Dealers->map</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">Categories menu</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesFilter</numIndex>
                                         <numIndex index="1">Filter->categoriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
-                                        <numIndex index="0">Countries filter</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.countriesFilter</numIndex>
                                         <numIndex index="1">Filter->countriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="4">
-                                        <numIndex index="0">Search by country, state and city/zipcode</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesCollectionFilter</numIndex>
+                                        <numIndex index="1">Filter->categoriesCollectionFilter</numIndex>
+                                    </numIndex>
+                                    <numIndex index="5">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
                                         <numIndex index="1">Dealers->search</numIndex>
                                     </numIndex>
                                 </items>
@@ -38,9 +42,38 @@
                         </TCEforms>
                     </switchableControllerActions>
 
+                    <settings.filter.mapContentElement>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapContentElement</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <foreign_table>tt_content</foreign_table>
+                                <foreign_table_where>AND tt_content.pid=###CURRENT_PID### AND tt_content.uid!=###THIS_UID### AND tt_content.list_type='pxadealers_pxadealers'</foreign_table_where>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                            </config>
+                        </TCEforms>
+                    </settings.filter.mapContentElement>
+
+                    <settings.filter.categoriesFilterOptions>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.filter.categoriesFilterOptions</label>
+                            <config>
+                                <type>select</type>
+                                <foreign_table>tx_pxadealers_domain_model_categoriesfilteroption</foreign_table>
+                                <foreign_table_where> AND tx_pxadealers_domain_model_categoriesfilteroption.sys_language_uid IN (-1, 0)</foreign_table_where>
+                                <size>5</size>
+                                <minitems>1</minitems>
+                                <maxitems>999</maxitems>
+                            </config>
+                        </TCEforms>
+                    </settings.filter.categoriesFilterOptions>
+
                     <settings.demand.orderBy>
                         <TCEforms>
-                            <label>Order by field</label>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy</label>
                             <config>
                                 <type>select</type>
                                 <size>1</size>
@@ -66,7 +99,7 @@
 
                     <settings.demand.orderDirection>
                         <TCEforms>
-                            <label>Order Direction</label>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection</label>
                             <config>
                                 <type>select</type>
                                 <size>1</size>
@@ -88,7 +121,7 @@
 
                     <settings.demand.countries>
                         <TCEforms>
-                            <label>Select countries. If nothing is selected = show all</label>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.countries</label>
                             <config>
                                 <type>select</type>
                                 <size>10</size>
@@ -111,7 +144,7 @@
 
                     <settings.demand.categories>
                         <TCEforms>
-                            <label>Select categories</label>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.categories</label>
                             <config>
                                 <type>select</type>
                                 <autoSizeMax>50</autoSizeMax>
@@ -130,21 +163,6 @@
                             </config>
                         </TCEforms>
                     </settings.demand.categories>
-
-                    <settings.filter.mapContentElement>
-                        <TCEforms>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapContentElement</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <foreign_table>tt_content</foreign_table>
-                                <foreign_table_where>AND tt_content.pid=###CURRENT_PID### AND tt_content.uid!=###THIS_UID### AND tt_content.list_type='pxadealers_pxadealers'</foreign_table_where>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>1</minitems>
-                            </config>
-                        </TCEforms>
-                    </settings.filter.mapContentElement>
                 </el>
             </ROOT>
         </sDEF>

@@ -56,6 +56,19 @@ class FilterController extends ActionController
     protected $countryRepository;
 
     /**
+     * Filter by categories collections
+     *
+     * @return void
+     */
+    public function categoriesCollectionFilterAction()
+    {
+        $this->view->assignMultiple([
+            'categoriesCollections' => $this->categoriesFilterOptionRepository->findByUids(GeneralUtility::intExplode(',', $this->settings['filter']['categoriesFilterOptions'])),
+            'uid' => $this->configurationManager->getContentObject()->data['uid']
+        ]);
+    }
+
+    /**
      * Categories filter plugin
      *
      * @return void

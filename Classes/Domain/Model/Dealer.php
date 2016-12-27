@@ -34,7 +34,7 @@ use TYPO3\CMS\Extbase\Domain\Model\Category;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
     /**
      * Name of dealer
@@ -138,7 +138,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
      */
-    protected $categories = NULL;
+    protected $dealersCategories = NULL;
 
     /**
      * showStreetView
@@ -164,7 +164,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @return void
      */
     protected function initStorageObjects() {
-        $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->dealersCategories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -383,7 +383,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @return void
      */
     public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
-        $this->categories->attach($category);
+        $this->dealersCategories->attach($category);
     }
 
     /**
@@ -393,7 +393,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @return void
      */
     public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove) {
-        $this->categories->detach($categoryToRemove);
+        $this->dealersCategories->detach($categoryToRemove);
     }
 
     /**
@@ -401,8 +401,8 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
      */
-    public function getCategories() {
-        return $this->categories;
+    public function getDealersCategories() {
+        return $this->dealersCategories;
     }
 
     /**
@@ -411,8 +411,8 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
      * @return void
      */
-    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories) {
-        $this->categories = $categories;
+    public function setDealersCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dealersCategories) {
+        $this->dealersCategories = $dealersCategories;
     }
 
     /**
@@ -422,7 +422,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      */
     public function getCategoriesString() {
 
-        $categoriesObjects = $this->getCategories();
+        $categoriesObjects = $this->getDealersCategories();
         $categories = [];
 
         /** @var Category $categoryObject */
@@ -511,7 +511,7 @@ class Dealers extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             'link' => MainUtility::typoLink($this->getLink()),
             'email' => MainUtility::typoLink($this->getEmail()),
             'uid' => (string)$this->getUid(),
-            'categories' => $this->getCategories(),
+            'categories' => $this->getDealersCategories(),
             'country' => (string)$this->getCountryUid(),
             'countryName' => $this->getCountry() !== NULL ? $this->getCountry()->getShortNameEn() : '',
             'showStreetView' => $this->getShowStreetView(),

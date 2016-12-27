@@ -34,7 +34,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DealersRepository extends AbstractDemandRepository  {
+class DealerRepository extends AbstractDemandRepository  {
 
     /**
      * @param QueryInterface $query

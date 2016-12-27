@@ -3,10 +3,19 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
 		<header/>
 		<body>
+            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption">
+                <source>Category collection</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.categories">
+                <source>Categories</source>
+            </trans-unit>
 
-			<trans-unit id="tx_pxadealers_domain_model_dealers">
-				<source>Dealers</source>
-			</trans-unit>
+            <trans-unit id="tx_pxadealers_domain_model_dealer">
+                <source>Dealer</source>
+            </trans-unit>
 			<trans-unit id="tx_pxadealers_domain_model_dealers.name">
 				<source>Name</source>
 			</trans-unit>
@@ -80,7 +89,39 @@
             <trans-unit id="flexform.mapContentElement">
                 <source>Connect filter to map content element</source>
             </trans-unit>
-
+            <trans-unit id="flexform.actions.map">
+                <source>Map</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.categoriesFilter">
+                <source>Categories menu</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.countriesFilter">
+                <source>Countries filter</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.countriesFilter">
+                <source>Countries filter</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.categoriesCollectionFilter">
+                <source>Categories collection filter</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.search">
+                <source>Search by country, city and zipcode</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderBy">
+                <source>Order By field</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderDirection">
+                <source>Order Direction</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.countries">
+                <source>Select countries. If nothing is selected = show all</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.categories">
+                <source>Select categories</source>
+            </trans-unit>
+            <trans-unit id="flexform.filter.categoriesFilterOptions">
+                <source>Select categories filter options</source>
+            </trans-unit>
 
             <trans-unit id="tca_be_map.noApiKey">
                 <source>Google api key is not set. Please, specify "{$plugin.tx_pxadealers.settings.googleJavascriptApiKey}" for current root line.</source>

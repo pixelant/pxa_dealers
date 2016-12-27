@@ -31,45 +31,26 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  */
 class CategoriesFilterOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
     /**
-     * @var array
+     * Find categories collection by uids
+     *
+     * @param array $uids
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-//    protected $defaultOrderings = array(
-//        'sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
-//    );
-
-    public function findByUids($uids)
+    public function findByUids(array $uids)
     {
-        if( empty($uids) ) {
+        if(empty($uids) ) {
             return [];
         }
 
-        if( !is_array($uids) ) {
-            $uids = explode(',', $uids);
-        }
-
         $query = $this->createQuery();
+
+        $query->getQuerySettings()->setRespectStoragePage(false);
+
         $query->matching(
             $query->in('uid', $uids)
         );
 
-        $results = $query->execute();
-
-        // Return results if empty
-        if( $results->count() <= 0 ) {
-            return $results;
-        }
-
-        // Sort by uid list order
-        $indexedResults = array_fill_keys($uids, "1");
-        foreach ($results as $resultItem) {
-            $uid = $resultItem->getUid();
-            $indexedResults[$uid] = $resultItem;
-        }
-
-        return $indexedResults;
-
+        return $query->execute();
     }
-
 }

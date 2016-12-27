@@ -121,16 +121,16 @@ return [
 		],
 
 		'name' => [
-			'exclude' => 1,
+			'exclude' => 0,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_categoriesfilteroption.name',
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
+				'eval' => 'trim,required'
 			],
 		],
 		'categories' => [
-			'exclude' => 1,
+			'exclude' => 0,
 			'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_categoriesfilteroption.categories',
 			'config' => [
 				'type' => 'select',
