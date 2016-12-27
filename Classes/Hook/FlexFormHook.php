@@ -42,7 +42,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInMapView = [
-        'sDEF' => 'filter.mapContentElement',
+        'sDEF' => 'search.searchResultPage,filter.mapContentElement,filter.categoriesFilterOptions',
     ];
 
     /**
@@ -51,28 +51,38 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInCategoriesFilterView = [
-        'sDEF' => 'demand.countries',
-        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'sDEF' => 'demand.orderDirection,demand.orderBy,search.searchResultPage,demand.countries,filter.categoriesFilterOptions',
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
     /**
-     * Fields to remove if category filter selected
+     * Fields to remove if category collection filter selected
      *
      * @var array
      */
     public $removedFieldsInCategoriesCollectionFilterView = [
-        'sDEF' => 'demand.countries,demand.categories,demand.orderDirection,demand.orderBy',
-        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'sDEF' => 'search.searchResultPage,demand.countries,demand.categories,demand.orderDirection,demand.orderBy',
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
     /**
-     * Fields to remove if countrie filter selected
+     * Fields to remove if countries filter selected
      *
      * @var array
      */
     public $removedFieldsInCountriesFilterView = [
-        'sDEF' => 'demand.categories,demand.orderDirection,demand.orderBy',
-        'map' => 'map.mapHeight,map.enableIsotope,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'sDEF' => 'search.searchResultPage,demand.categories,demand.orderDirection,demand.orderBy,filter.categoriesFilterOptions',
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+    ];
+
+    /**
+     * Fields to remove if search was selected
+     *
+     * @var array
+     */
+    public $removedFieldsInSearchView = [
+        'sDEF' => 'filter.mapContentElement,demand.categories,demand.countries,demand.orderDirection,demand.orderBy,filter.categoriesFilterOptions',
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
     /**
@@ -134,6 +144,9 @@ class FlexFormHook
                     break;
                 case  'Filter->categoriesCollectionFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesCollectionFilterView);
+                    break;
+                case  'Dealers->search':
+                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
                     break;
                 default:
             }

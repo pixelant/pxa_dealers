@@ -89,6 +89,13 @@
             <trans-unit id="flexform.mapContentElement">
                 <source>Connect filter to map content element</source>
             </trans-unit>
+
+            <trans-unit id="flexform.actions.chooseMode">
+                <source>Choose mode</source>
+            </trans-unit>
+            <trans-unit id="flexform.actions.mode">
+                <source>Mode</source>
+            </trans-unit>
             <trans-unit id="flexform.actions.map">
                 <source>Map</source>
             </trans-unit>
@@ -122,6 +129,53 @@
             <trans-unit id="flexform.filter.categoriesFilterOptions">
                 <source>Select categories filter options</source>
             </trans-unit>
+            <trans-unit id="flexform.search.searchResultPage">
+                <source>Search result page</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderBy.name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderBy.crdate">
+                <source>Creation date</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderBy.tstamp">
+                <source>Edit date</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderDirection.desc">
+                <source>Descending</source>
+            </trans-unit>
+            <trans-unit id="flexform.demand.orderDirection.asc">
+                <source>Ascending</source>
+            </trans-unit>
+
+            <trans-unit id="be.recordStorage">
+                <source>Record storage</source>
+            </trans-unit>
+            <trans-unit id="be.all">
+                <source>All</source>
+            </trans-unit>
+            <trans-unit id="be.any">
+                <source>Any</source>
+            </trans-unit>
+            <trans-unit id="be.countries">
+                <source>Countries</source>
+            </trans-unit>
+            <trans-unit id="be.categories">
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="be.no_result">
+                <source>No result</source>
+            </trans-unit>
+            <trans-unit id="be.empty">
+                <source>[No title]</source>
+            </trans-unit>
+            <trans-unit id="be.categoriesFilterOptions">
+                <source>Categories filter options</source>
+            </trans-unit>
+            <trans-unit id="be.mapContentElement">
+                <source>Map content Element</source>
+            </trans-unit>
+
 
             <trans-unit id="tca_be_map.noApiKey">
                 <source>Google api key is not set. Please, specify "{$plugin.tx_pxadealers.settings.googleJavascriptApiKey}" for current root line.</source>

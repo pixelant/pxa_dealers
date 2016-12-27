@@ -4,7 +4,6 @@ $init = function () {
     /* Add FlexForm */
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['pxadealers_pxadealers'] = 'pi_flexform';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('pxadealers_pxadealers', 'FILE:EXT:pxa_dealers/Configuration/FlexForms/FlexForm.xml');
-    /****************************************/
 
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
         'pxa_dealers',
@@ -12,7 +11,7 @@ $init = function () {
         'Pxa Dealers'
     );
 
-# remove some fields
+    # remove some fields
     $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['pxadealers_pxadealers'] = 'layout,select_key';
 };
 $init();

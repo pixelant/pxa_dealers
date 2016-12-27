@@ -12,7 +12,7 @@
                 <el>
                     <switchableControllerActions>
                         <TCEforms>
-                            <label>Choose mode</label>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.chooseMode</label>
                             <onChange>reload</onChange>
                             <config>
                                 <type>select</type>
@@ -41,6 +41,26 @@
                             </config>
                         </TCEforms>
                     </switchableControllerActions>
+
+                    <settings.search.searchResultPage>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.search.searchResultPage</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.search.searchResultPage>
 
                     <settings.filter.mapContentElement>
                         <TCEforms>
@@ -81,15 +101,15 @@
                                 <minitems>1</minitems>
                                 <items>
                                     <numIndex index="1">
-                                        <numIndex index="0">Name</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.name</numIndex>
                                         <numIndex index="1">name</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">Creation date</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.crdate</numIndex>
                                         <numIndex index="1">crdate</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">Edit date</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.tstamp</numIndex>
                                         <numIndex index="1">tstamp</numIndex>
                                     </numIndex>
                                 </items>
@@ -107,11 +127,11 @@
                                 <minitems>1</minitems>
                                 <items>
                                     <numIndex index="1">
-                                        <numIndex index="0">Ascending</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.asc</numIndex>
                                         <numIndex index="1">asc</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">Descending</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.desc</numIndex>
                                         <numIndex index="1">desc</numIndex>
                                     </numIndex>
                                 </items>
@@ -185,22 +205,12 @@
                         </TCEforms>
                     </settings.map.mapHeight>
 
-                    <settings.map.enableIsotope>
-                        <TCEforms>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.enableIsotope</label>
-                            <config>
-                                <type>check</type>
-                                <default>0</default>
-                            </config>
-                        </TCEforms>
-                    </settings.map.enableIsotope>
-
                     <settings.map.markerClusterer.enable>
                         <TCEforms>
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.enableMarkerClusterer</label>
                             <config>
                                 <type>check</type>
-                                <default>0</default>
+                                <default>1</default>
                             </config>
                         </TCEforms>
                     </settings.map.markerClusterer.enable>

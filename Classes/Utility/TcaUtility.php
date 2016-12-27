@@ -72,7 +72,7 @@ class TcaUtility
 
 
         } else {
-            $outPut .= '<b>' . $this->translate('tca_be_map.noApiKey') . '</b>';
+            $outPut .= '<b>' . MainUtility::translate('tca_be_map.noApiKey') . '</b>';
         }
 
         return $outPut;
@@ -135,8 +135,8 @@ EOT;
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
         $mapWrapper = $baseElementId . '_wrapper';
-        $toolTip = $this->translate('tca_be_map.tooltip');
-        $buttonText = $this->translate('tca_be_map.buttonText');
+        $toolTip = MainUtility::translate('tca_be_map.tooltip');
+        $buttonText = MainUtility::translate('tca_be_map.buttonText');
 
         $htmlTemplate = <<<EOT
 <div id="element-wrapper-{$mapWrapper}">
@@ -147,27 +147,6 @@ EOT;
 EOT;
 
         return $htmlTemplate;
-    }
-
-    /**
-     * @param string $label
-     * @return string
-     */
-    protected function translate($label)
-    {
-        if ($label) {
-            return $this->getLang()->sL('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:' . $label);
-        }
-
-        return '';
-    }
-
-    /**
-     * @return \TYPO3\CMS\Lang\LanguageService
-     */
-    public function getLang()
-    {
-        return $GLOBALS['LANG'];
     }
 
     /**

@@ -53,6 +53,9 @@ $init = function ($_EXTKEY) {
             ['source' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/wizard_icon.svg']
         );
     }
+
+    // hook for extension BE view
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['pxadealers_pxadealers'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\PageLayoutView::class . '->getInfo';
 };
 
 $init($_EXTKEY);
