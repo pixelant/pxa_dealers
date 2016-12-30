@@ -136,13 +136,13 @@ class FlexFormHook
                 case 'Dealers->map':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
                     break;
-                case 'Filter->categoriesFilter':
+                case 'Dealers->categoriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
                     break;
-                case  'Filter->countriesFilter':
+                case  'Dealers->countriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                     break;
-                case  'Filter->categoriesCollectionFilter':
+                case  'Dealers->categoriesCollectionFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesCollectionFilterView);
                     break;
                 case  'Dealers->search':

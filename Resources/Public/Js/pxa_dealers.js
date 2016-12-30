@@ -1,3 +1,5 @@
+/*global PxaDealersMaps */
+
 $(document).ready(function () {
     if (typeof PxaDealersMaps !== "undefined") {
 

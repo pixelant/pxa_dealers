@@ -1,3 +1,5 @@
+/*global PxaDealersMaps */
+
 (function (w, $, google) {
     var document = w.document,
         PxaDealersMaps = w.PxaDealersMaps || {};

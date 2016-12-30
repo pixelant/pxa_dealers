@@ -23,15 +23,15 @@
                                     </numIndex>
                                     <numIndex index="2">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesFilter</numIndex>
-                                        <numIndex index="1">Filter->categoriesFilter</numIndex>
+                                        <numIndex index="1">Dealers->categoriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.countriesFilter</numIndex>
-                                        <numIndex index="1">Filter->countriesFilter</numIndex>
+                                        <numIndex index="1">Dealers->countriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="4">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesCollectionFilter</numIndex>
-                                        <numIndex index="1">Filter->categoriesCollectionFilter</numIndex>
+                                        <numIndex index="1">Dealers->categoriesCollectionFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="5">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
@@ -131,7 +131,7 @@
                                         <numIndex index="1">asc</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.desc</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.asc Descending</numIndex>
                                         <numIndex index="1">desc</numIndex>
                                     </numIndex>
                                 </items>

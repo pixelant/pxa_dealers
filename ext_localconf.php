@@ -8,11 +8,12 @@ $init = function ($_EXTKEY) {
         'Pixelant.' . $_EXTKEY,
         'Pxadealers',
         [
-            'Dealers' => 'map, search',
-            'Filter' => 'categoriesFilter, countriesFilter, categoriesCollectionFilter'
+            'Dealers' => 'map, search, categoriesFilter, countriesFilter, categoriesCollectionFilter'
         ],
         // non-cacheable actions
-        []
+        [
+
+        ]
     );
 
     // Hook before dealer is saved

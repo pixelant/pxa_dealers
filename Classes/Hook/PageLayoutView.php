@@ -53,7 +53,7 @@ class PageLayoutView
 
             $additionalInfo .= $this->getRecordsStorageInfo(GeneralUtility::intExplode(',', $params['row']['pages']));
 
-            if ($settings['switchableControllerActions'] === 'Filter->countriesFilter'
+            if ($settings['switchableControllerActions'] === 'Dealers->countriesFilter'
                 || $settings['switchableControllerActions'] === 'Dealers->map'
             ) {
 
@@ -61,13 +61,13 @@ class PageLayoutView
                     $settings['settings']['demand']['countries']);
             }
 
-            if ($settings['switchableControllerActions'] === 'Filter->categoriesCollectionFilter') {
+            if ($settings['switchableControllerActions'] === 'Dealers->categoriesCollectionFilter') {
 
                 $additionalInfo .= $this->getInfoFor('tx_pxadealers_domain_model_categoriesfilteroption', 'be.any',
                     'name', 'be.categoriesFilterOptions', $settings['settings']['filter']['categoriesFilterOptions']);
             }
 
-            if ($settings['switchableControllerActions'] === 'Filter->categoriesFilter'
+            if ($settings['switchableControllerActions'] === 'Dealers->categoriesFilter'
                 || $settings['switchableControllerActions'] === 'Dealers->map'
             ) {
 
@@ -84,7 +84,7 @@ class PageLayoutView
                     'flexform.search.searchResultPage', $settings['settings']['search']['searchResultPage']);
             }
 
-            if (GeneralUtility::inList('Filter->categoriesFilter,Filter->categoriesCollectionFilter,Filter->countriesFilter',
+            if (GeneralUtility::inList('Dealers->categoriesFilter,Dealers->categoriesCollectionFilter,Dealers->countriesFilter',
                 $settings['switchableControllerActions'])
             ) {
                 $additionalInfo .= $this->getInfoFor('tt_content', 'be.no_result', 'header',
@@ -177,8 +177,10 @@ class PageLayoutView
      */
     protected function getInfoOrderFields(array $settings)
     {
-        $output = sprintf('<b>%s</b>: %s<br>', MainUtility::translate('flexform.demand.orderBy'), MainUtility::translate('flexform.demand.orderBy.' . $settings['settings']['demand']['orderBy']));
-        $output .= sprintf('<b>%s</b>: %s<br>', MainUtility::translate('flexform.demand.orderDirection'), MainUtility::translate('flexform.demand.orderDirection.' . $settings['settings']['demand']['orderDirection']));
+        $output = sprintf('<b>%s</b>: %s<br>', MainUtility::translate('flexform.demand.orderBy'),
+            MainUtility::translate('flexform.demand.orderBy.' . $settings['settings']['demand']['orderBy']));
+        $output .= sprintf('<b>%s</b>: %s<br>', MainUtility::translate('flexform.demand.orderDirection'),
+            MainUtility::translate('flexform.demand.orderDirection.' . $settings['settings']['demand']['orderDirection']));
 
         return $output;
     }

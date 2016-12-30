@@ -59,14 +59,60 @@ class DealersController extends ActionController
     protected $pageRenderer;
 
     /**
-     * Initialuze
+     *  categoriesRepository
+     *
+     * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
+     * @inject
+     */
+    protected $categoriesRepository;
+
+    /**
+     *  categoriesFilterOptionRepository
+     *
+     * @var \Pixelant\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
+     * @inject
+     */
+    protected $categoriesFilterOptionRepository;
+
+    /**
+     * countryRepository
+     *
+     * @var \SJBR\StaticInfoTables\Domain\Repository\CountryRepository
+     * @inject
+     */
+    protected $countryRepository;
+
+    /**
+     * Initialize map
      *
      * @return void
      */
-    public function initializeAction()
+    public function initializeMapAction()
     {
-        $this->includeFeCssAndJs();
+        $this->includeFeCssAndJs('map');
         $this->getFrontendLabels();
+    }
+
+    /**
+     * Initialize Search
+     *
+     * @return void
+     */
+    public function initializeSearchAction()
+    {
+        $this->includeFeCssAndJs('suggest');
+    }
+
+    /**
+     * Search form
+     *
+     * @return void
+     */
+    public function searchAction()
+    {
+        $this->view->assignMultiple([
+            'language' => MainUtility::getTSFE()->sys_language_uid
+        ]);
     }
 
     /**
@@ -92,23 +138,115 @@ class DealersController extends ActionController
     }
 
     /**
-     * Inlcude required JS and Css from TS setup
+     * Filter by categories collections
      *
      * @return void
      */
-    protected function includeFeCssAndJs()
+    public function categoriesCollectionFilterAction()
     {
-        if (!empty($this->settings['map']['googleJavascriptApiKey'])) {
-            // google apis
-            $pathGoogleMaps = sprintf(
-                'https://maps.googleapis.com/maps/api/js?key=%s',
-                $this->settings['map']['googleJavascriptApiKey']
+        $this->view->assignMultiple([
+            'categoriesCollections' => $this->categoriesFilterOptionRepository->findByUids(GeneralUtility::intExplode(',', $this->settings['filter']['categoriesFilterOptions'])),
+            'uid' => $this->configurationManager->getContentObject()->data['uid']
+        ]);
+    }
+
+    /**
+     * Categories filter plugin
+     *
+     * @return void
+     */
+    public function categoriesFilterAction()
+    {
+        $this->view->assignMultiple([
+            'categories' => $this->getCategories(),
+            'uid' => $this->configurationManager->getContentObject()->data['uid']
+        ]);
+    }
+
+    /**
+     * Countries filter
+     *
+     * @return void
+     */
+    public function countriesFilterAction()
+    {
+        $this->view->assignMultiple([
+            'countries' => $this->getCountries(),
+            'uid' => $this->configurationManager->getContentObject()->data['uid']
+        ]);
+    }
+
+    /**
+     * Get list of cuntires
+     *
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    protected function getCountries()
+    {
+        if (!empty($this->settings['demand']['countries'])) {
+            $countriesUid = GeneralUtility::intExplode(',', $this->settings['demand']['countries']);
+
+            $query = $this->countryRepository->createQuery();
+
+            $query->matching(
+                $query->in('uid', $countriesUid)
             );
 
-            $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
+            return $query->execute();
+        } else {
+            return $this->countryRepository->findAll();
+        }
+    }
+
+    /**
+     * Get categories
+     *
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    protected function getCategories()
+    {
+        if (!empty($this->settings['demand']['categories'])) {
+            $categoriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['categories']);
+
+            $query = $this->categoriesRepository->createQuery();
+
+            if (count($categoriesUids) > 1) {
+                $criterion = $query->in('uid', $categoriesUids);
+            } else {
+                $criterion = $query->equals('parent', $categoriesUids[0]);
+            }
+
+            $query->matching(
+                $criterion
+            );
+
+            return $query->execute();
+        } else {
+            return $this->categoriesRepository->findAll();
+        }
+    }
+
+    /**
+     * Include required JS and Css from TS setup
+     *
+     * @param string $scripts
+     * @return void
+     */
+    protected function includeFeCssAndJs($scripts)
+    {
+        if (!empty($this->settings['map']['googleJavascriptApiKey'])) {
+            if ($scripts === 'map') {
+                // google apis
+                $pathGoogleMaps = sprintf(
+                    'https://maps.googleapis.com/maps/api/js?key=%s',
+                    $this->settings['map']['googleJavascriptApiKey']
+                );
+
+                $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
+            }
 
             // include JS
-            foreach ($this->settings['scripts'] as $script) {
+            foreach ($this->settings['scripts'][$scripts] as $script) {
                 $scriptPath = GeneralUtility::getFileAbsFileName($script);
                 if (file_exists($scriptPath)) {
                     $this->pageRenderer->addJsFooterFile(PathUtility::stripPathSitePrefix($scriptPath));
