@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixelant\PxaDealers\Domain\Model;
 
 /***************************************************************
@@ -24,8 +25,10 @@ namespace Pixelant\PxaDealers\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  *
@@ -34,7 +37,8 @@ use TYPO3\CMS\Extbase\Domain\Model\Category;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Dealer extends AbstractEntity
+{
 
     /**
      * Name of dealer
@@ -136,9 +140,9 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * categories
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category>
      */
-    protected $dealersCategories = NULL;
+    protected $dealersCategories = null;
 
     /**
      * showStreetView
@@ -150,7 +154,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * __construct
      */
-    public function __construct() {
+    public function __construct()
+    {
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }
@@ -163,7 +168,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return void
      */
-    protected function initStorageObjects() {
+    protected function initStorageObjects()
+    {
         $this->dealersCategories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
@@ -172,7 +178,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $name
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -182,7 +189,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $name
      * @return void
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
@@ -191,7 +199,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $city
      */
-    public function getCity() {
+    public function getCity()
+    {
         return $this->city;
     }
 
@@ -201,7 +210,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $city
      * @return void
      */
-    public function setCity($city) {
+    public function setCity($city)
+    {
         $this->city = $city;
     }
 
@@ -210,7 +220,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $email
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
@@ -220,7 +231,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $email
      * @return void
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
@@ -229,7 +241,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $telephone
      */
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->phone;
     }
 
@@ -239,7 +252,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $phone
      * @return void
      */
-    public function setPhone($phone) {
+    public function setPhone($phone)
+    {
         $this->phone = $phone;
     }
 
@@ -248,7 +262,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $website
      */
-    public function getWebsite() {
+    public function getWebsite()
+    {
         return $this->website;
     }
 
@@ -258,7 +273,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $website
      * @return void
      */
-    public function setWebsite($website) {
+    public function setWebsite($website)
+    {
         $this->website = $website;
     }
 
@@ -267,7 +283,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $adrress
      */
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
@@ -277,7 +294,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $address
      * @return void
      */
-    public function setAddress($address) {
+    public function setAddress($address)
+    {
         $this->address = $address;
     }
 
@@ -286,7 +304,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \SJBR\StaticInfoTables\Domain\Model\Country $country
      */
-    public function getCountry() {
+    public function getCountry()
+    {
         return $this->country;
     }
 
@@ -296,7 +315,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \SJBR\StaticInfoTables\Domain\Model\Country $country
      * @return void
      */
-    public function setCountry(\SJBR\StaticInfoTables\Domain\Model\Country $country) {
+    public function setCountry(\SJBR\StaticInfoTables\Domain\Model\Country $country)
+    {
         $this->country = $country;
     }
 
@@ -305,7 +325,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $zipcode
      */
-    public function getZipcode() {
+    public function getZipcode()
+    {
         return $this->zipcode;
     }
 
@@ -315,7 +336,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $zipcode
      * @return void
      */
-    public function setZipcode($zipcode) {
+    public function setZipcode($zipcode)
+    {
         $this->zipcode = $zipcode;
     }
 
@@ -324,7 +346,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $zipcodeSearch
      */
-    public function getZipcodeSearch() {
+    public function getZipcodeSearch()
+    {
         return $this->zipcodeSearch;
     }
 
@@ -334,7 +357,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $zipcodeSearch
      * @return void
      */
-    public function setZipcodeSearch($zipcodeSearch) {
+    public function setZipcodeSearch($zipcodeSearch)
+    {
         $this->zipcodeSearch = $zipcodeSearch;
     }
 
@@ -343,7 +367,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $lat
      */
-    public function getLat() {
+    public function getLat()
+    {
         return $this->lat;
     }
 
@@ -353,7 +378,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $lat
      * @return void
      */
-    public function setLat($lat) {
+    public function setLat($lat)
+    {
         $this->lat = $lat;
     }
 
@@ -362,7 +388,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \string $lng
      */
-    public function getLng() {
+    public function getLng()
+    {
         return $this->lng;
     }
 
@@ -372,46 +399,51 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \string $lng
      * @return void
      */
-    public function setLng($lng) {
+    public function setLng($lng)
+    {
         $this->lng = $lng;
     }
 
     /**
      * Adds a category
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\Category $category
+     * @param \Pixelant\PxaDealers\Domain\Model\Category $category
      * @return void
      */
-    public function addCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $category) {
+    public function addCategory(\Pixelant\PxaDealers\Domain\Model\Category $category)
+    {
         $this->dealersCategories->attach($category);
     }
 
     /**
      * Removes a category
      *
-     * @param \TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove The category to be removed
+     * @param \Pixelant\PxaDealers\Domain\Model\Category $categoryToRemove The category to be removed
      * @return void
      */
-    public function removeCategory(\TYPO3\CMS\Extbase\Domain\Model\Category $categoryToRemove) {
+    public function removeCategory(\Pixelant\PxaDealers\Domain\Model\Category $categoryToRemove)
+    {
         $this->dealersCategories->detach($categoryToRemove);
     }
 
     /**
      * Returns the categories
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
      */
-    public function getDealersCategories() {
+    public function getDealersCategories()
+    {
         return $this->dealersCategories;
     }
 
     /**
      * Sets the Categories
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\Category> $categories
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
      * @return void
      */
-    public function setDealersCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dealersCategories) {
+    public function setDealersCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dealersCategories)
+    {
         $this->dealersCategories = $dealersCategories;
     }
 
@@ -420,7 +452,18 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return string $categories_string
      */
-    public function getCategoriesString() {
+    public function getCategoriesString()
+    {
+        return implode(',', $this->getCategoriesAsUidsArray());
+    }
+
+    /**
+     * Return categories as array of uids
+     *
+     * @return array
+     */
+    public function getCategoriesAsUidsArray()
+    {
 
         $categoriesObjects = $this->getDealersCategories();
         $categories = [];
@@ -432,7 +475,7 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             }
         }
 
-        return implode(',', $categories);
+        return $categories;
     }
 
     /**
@@ -440,8 +483,9 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return integer
      */
-    public function getCountryUid() {
-        return $this->getCountry() !== NULL ? $this->getCountry()->getUid() : 0;
+    public function getCountryUid()
+    {
+        return $this->getCountry() !== null ? $this->getCountry()->getUid() : 0;
     }
 
     /**
@@ -449,7 +493,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return \boolean $showStreetView
      */
-    public function getShowStreetView() {
+    public function getShowStreetView()
+    {
         return $this->showStreetView;
     }
 
@@ -459,35 +504,40 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * @param \boolean $showStreetView
      * @return void
      */
-    public function setShowStreetView($showStreetView) {
+    public function setShowStreetView($showStreetView)
+    {
         $this->showStreetView = $showStreetView;
     }
 
     /**
      * @return string
      */
-    public function getLink() {
+    public function getLink()
+    {
         return $this->link;
     }
 
     /**
      * @param string $link
      */
-    public function setLink($link) {
+    public function setLink($link)
+    {
         $this->link = $link;
     }
 
     /**
      * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    public function getLogo() {
+    public function getLogo()
+    {
         return $this->logo;
     }
 
     /**
      * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $logo
      */
-    public function setLogo($logo) {
+    public function setLogo($logo)
+    {
         $this->logo = $logo;
     }
 
@@ -496,7 +546,8 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'name' => $this->getName(),
             'lat' => $this->getLat(),
@@ -513,7 +564,7 @@ class Dealer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
             'uid' => (string)$this->getUid(),
             'categories' => $this->getDealersCategories(),
             'country' => (string)$this->getCountryUid(),
-            'countryName' => $this->getCountry() !== NULL ? $this->getCountry()->getShortNameEn() : '',
+            'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameEn() : '',
             'showStreetView' => $this->getShowStreetView(),
             'logo' => $this->getLogo()
         ];

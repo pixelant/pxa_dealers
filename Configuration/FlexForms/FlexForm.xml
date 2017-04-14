@@ -23,17 +23,13 @@
                                     </numIndex>
                                     <numIndex index="2">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesFilter</numIndex>
-                                        <numIndex index="1">Dealers->categoriesFilter</numIndex>
+                                        <numIndex index="1">Categories->categoriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.countriesFilter</numIndex>
-                                        <numIndex index="1">Dealers->countriesFilter</numIndex>
+                                        <numIndex index="1">Countries->countriesFilter</numIndex>
                                     </numIndex>
                                     <numIndex index="4">
-                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesCollectionFilter</numIndex>
-                                        <numIndex index="1">Dealers->categoriesCollectionFilter</numIndex>
-                                    </numIndex>
-                                    <numIndex index="5">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
                                         <numIndex index="1">Dealers->search</numIndex>
                                     </numIndex>
@@ -62,35 +58,6 @@
                         </TCEforms>
                     </settings.search.searchResultPage>
 
-                    <settings.filter.mapContentElement>
-                        <TCEforms>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapContentElement</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <foreign_table>tt_content</foreign_table>
-                                <foreign_table_where>AND tt_content.pid=###CURRENT_PID### AND tt_content.uid!=###THIS_UID### AND tt_content.list_type='pxadealers_pxadealers'</foreign_table_where>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>1</minitems>
-                            </config>
-                        </TCEforms>
-                    </settings.filter.mapContentElement>
-
-                    <settings.filter.categoriesFilterOptions>
-                        <TCEforms>
-                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.filter.categoriesFilterOptions</label>
-                            <config>
-                                <type>select</type>
-                                <foreign_table>tx_pxadealers_domain_model_categoriesfilteroption</foreign_table>
-                                <foreign_table_where> AND tx_pxadealers_domain_model_categoriesfilteroption.sys_language_uid IN (-1, 0)</foreign_table_where>
-                                <size>5</size>
-                                <minitems>1</minitems>
-                                <maxitems>999</maxitems>
-                            </config>
-                        </TCEforms>
-                    </settings.filter.categoriesFilterOptions>
-
                     <settings.demand.orderBy>
                         <TCEforms>
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy</label>
@@ -108,7 +75,7 @@
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.crdate</numIndex>
                                         <numIndex index="1">crdate</numIndex>
                                     </numIndex>
-                                    <numIndex index="2">
+                                    <numIndex index="3">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.tstamp</numIndex>
                                         <numIndex index="1">tstamp</numIndex>
                                     </numIndex>
@@ -131,7 +98,7 @@
                                         <numIndex index="1">asc</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.asc Descending</numIndex>
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.desc</numIndex>
                                         <numIndex index="1">desc</numIndex>
                                     </numIndex>
                                 </items>
@@ -200,7 +167,7 @@
                                 <type>input</type>
                                 <default>555</default>
                                 <size>10</size>
-                                <eval>int</eval>
+                                <eval>int,required</eval>
                             </config>
                         </TCEforms>
                     </settings.map.mapHeight>

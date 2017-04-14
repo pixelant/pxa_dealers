@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixelant\PxaDealers\ViewHelpers;
 
 /***************************************************************
@@ -42,6 +43,6 @@ class PhoneFormatViewHelper extends AbstractViewHelper
     {
         $search_mass = ['-', ' '];
 
-	    return str_replace($search_mass, '', $phone);
+        return str_replace($search_mass, '', $phone);
     }
 }

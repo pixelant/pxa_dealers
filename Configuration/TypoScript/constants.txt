@@ -18,24 +18,13 @@ plugin.tx_pxadealers {
         googleJavascriptApiKey =
 
         map {
-            # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Custom Json styling
-            stylesJSON =
-
-            # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Map name
+            # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Map name
             name = Map
 
-            markerClusterer {
-                enable = 0
-                maxZoom = 12
-
-                # cat=plugin.tx_pxadealers/pxadealers/040; type=string; label=Marker cluster images path
-                imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
-            }
-
-            # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
+            # cat=plugin.tx_pxadealers/pxadealers/030; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
             scrollFix = 0
 
-            # cat=plugin.tx_pxadealers/pxadealers/060; type=int; label=Scroll fix for mobile view (width < 991)
+            # cat=plugin.tx_pxadealers/pxadealers/040; type=int; label=Scroll fix for mobile view (width < 991)
             scrollFixMobile = 0
         }
 	}

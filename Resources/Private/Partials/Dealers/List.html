@@ -2,14 +2,14 @@
      xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
      xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers">
 
-    <f:layout name="Default" />
+    <f:layout name="Default"/>
 
     <f:section name="main">
         <f:for each="{dealers}" as="dealer">
-            <div  id="dealer-{dealer.uid}"
-                  class="dealer-item isotope-item{f:format.raw(value: ' cat-{category.uid}') -> f:for(each: dealer.categories, as: 'category')} country-{dealer.country}"
-                  data-uid="{dealer.uid}"
-                  data-marker-type="default">
+            <div id="dealer-{dealer.uid}"
+                 class="dealer-item isotope-item{f:format.raw(value: ' cat-{category.uid}') -> f:for(each: dealer.categories, as: 'category')} country-{dealer.country}"
+                 data-uid="{dealer.uid}"
+                 data-marker-type="default">
 
                 <f:render partial="Dealers/DealerImage" section="main" arguments="{dealer: dealer}"/>
 
@@ -18,30 +18,47 @@
                 </div>
 
                 <div class="dealer-body">
-                    <p class="dealer-info">
-                        <span class="dealer-address">{dealer.address}</span><br>
-                        <f:if condition="{dealer.link}">
-                            <span class="dealer-zipcode">{dealer.zipcode}</span><br>
-                        </f:if>
-                        <span class="dealer-address">{dealer.city}</span><br>
-                        <f:if condition="{dealer.link}">
-                            <span class="link"><f:link.typolink parameter="{dealer.link}">{dealer.link}</f:link.typolink></span><br>
-                        </f:if>
-                        <f:if condition="{dealer.website}">
-                            <span class="dealer-website"><f:link.typolink parameter="{dealer.website}">{dealer.website}</f:link.typolink></span><br>
-                        </f:if>
-                        <f:if condition="{dealer.phone}">
-                            <span class="phone"><a href="tel:{pxa:phoneFormat(phone: dealer.telephone)}"><f:translate key="js.infoWindowPhone" />&nbsp;{dealer.phone}</a></span><br>
-                        </f:if>
-                        <f:if condition="{dealer.email}">
-                            <span class="dealer-email"><f:link.email email="{dealer.email}" /></span><br>
-                        </f:if>
+                    <div class="dealer-address">{dealer.address}</div>
 
-                        <span><a href="javascript: {}" data-dealer-uid="{dealer.uid}" class="show-on-map-link"><f:translate key="fe.showOnMap"/></a></span><br>
-                    </p>
+                    <f:if condition="{dealer.zipcode}">
+                        <div class="dealer-zipcode">{dealer.zipcode}</div>
+                    </f:if>
+
+                    <div class="dealer-address">{dealer.city}</div>
+
+                    <f:if condition="{dealer.country}">
+                        <div class="dealer-country">{dealer.countryName}</div>
+                    </f:if>
+                    <f:if condition="{dealer.link}">
+                        <div class="link">
+                            <f:link.typolink parameter="{dealer.link}">{dealer.link}</f:link.typolink>
+                        </div>
+                    </f:if>
+                    <f:if condition="{dealer.website}">
+                        <div class="dealer-website">
+                            <f:link.typolink parameter="{dealer.website}">{dealer.website}</f:link.typolink>
+                        </div>
+                    </f:if>
+                    <f:if condition="{dealer.phone}">
+                        <div class="phone">
+                            <a href="tel:{pxa:phoneFormat(phone: dealer.telephone)}">
+                                <f:translate key="js.infoWindowPhone"/>&nbsp;{dealer.phone}
+                            </a>
+                        </div>
+                    </f:if>
+                    <f:if condition="{dealer.email}">
+                        <div class="dealer-email">
+                            <f:link.email email="{dealer.email}"/>
+                        </div>
+                    </f:if>
+
+                    <div>
+                        <a href="javascript: {}" data-dealer-uid="{dealer.uid}" class="show-on-map-link">
+                            <f:translate key="fe.showOnMap"/>
+                        </a>
+                    </div>
                 </div>
             </div>
-
         </f:for>
     </f:section>
 </div>

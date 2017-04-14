@@ -14,15 +14,15 @@
             var self = this;
 
             self.input = $(input);
-            self.form = self.input.parents("form");
+            self.form = self.input.parents('form');
 
-            if (this.input.length > 0) {
-                this.awesomplete = new Awesomplete(input, {
+            if (self.input.length > 0) {
+                self.awesomplete = new Awesomplete(input, {
                     minChars: 1,
                     autoFirst: true
                 });
 
-                self.input.on("keyup", function (e) {
+                self.input.on('keyup', function (e) {
                     var c = e.keyCode;
                     if (c === 13 || c === 27 || c === 38 || c === 40) {
                         return;
@@ -42,12 +42,12 @@
 
             $.ajax({
                     url: /*self.form.attr("action")*/'https://restcountries.eu/rest/v1/name/' + input.val(),
-                    type: "GET",
-                    dataType: "json",
+                    type: 'GET',
+                    dataType: 'json',
                     data: {
                         termLowercase: input.val().toLowerCase(),
                         termOriginal: input.val(),
-                        L: input.data("language")
+                        L: input.data('language')
                     },
                     success: function (data) {
                         var list = [];
@@ -69,7 +69,7 @@
 
 
 $(document).ready(function () {
-    if (typeof PxaDealersMaps !== "undefined") {
-        PxaDealersMaps.Suggest.init("#pxa-dealers-search .dealer-search-field");
+    if (typeof PxaDealersMaps !== 'undefined') {
+        PxaDealersMaps.Suggest.init('#pxa-dealers-search .dealer-search-field');
     }
 });

@@ -2,7 +2,6 @@
 
 namespace Pixelant\PxaDealers\Domain\Model;
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -16,7 +15,7 @@ class Demand
     /**
      * fields from flexform conver to array
      */
-    CONST FIELDS_ARRAY = 'countries,categories';
+    const FIELDS_ARRAY = 'countries,categories';
 
     /**
      * filter by categories

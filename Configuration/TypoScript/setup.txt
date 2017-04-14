@@ -20,15 +20,13 @@ plugin.tx_pxadealers {
     settings {
         # Map settings
         map {
-            stylesJSON = {$plugin.tx_pxadealers.settings.map.stylesJSON}
+            stylesJSON =
             name = {$plugin.tx_pxadealers.settings.map.name}
 
-            zoomToShowMarker = 14
+            zoomOnShow = 14
 
             markerClusterer {
-                enable = {$plugin.tx_pxadealers.settings.map.markerClusterer.enable}
-                maxZoom = {$plugin.tx_pxadealers.settings.map.markerClusterer.maxZoom}
-                imagePath = {$plugin.tx_pxadealers.settings.map.markerClusterer.imagePath}
+                imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
             }
 
             markerTypes {
@@ -48,26 +46,22 @@ plugin.tx_pxadealers {
             imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
             imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
         }
+    }
+}
 
-        scripts {
-            map {
-                markerclusterer = EXT:pxa_dealers/Resources/Public/Js/markerclusterer.js
-                isotope = EXT:pxa_dealers/Resources/Public/Js/isotope.pkgd.min.js
-                pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers_plugin.js
-                pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
-            }
+page {
+    includeJSFooter {
+        markerclusterer = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
+        isotope = EXT:pxa_dealers/Resources/Public/JavaScript/isotope.pkgd.min.js
+        pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
+        pxa_dealers = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
 
-            suggest {
-                awesomplete = EXT:pxa_dealers/Resources/Public/Js/awesomplete.min.js
-                pxa_dealers_search = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers_search.js
-            }
-        }
+        awesomplete = EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js
+        pxa_dealers_search = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js
+    }
 
-        styling {
-            awesomplete = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
-            pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-        }
-
-        beMainJs = EXT:pxa_dealers/Resources/Public/Js/BE/PxaBeMaps.js
+    includeCSS {
+        awesomplete = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
+        pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
     }
 }

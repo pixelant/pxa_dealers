@@ -3,15 +3,6 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
 		<header/>
 		<body>
-            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption">
-                <source>Category collection</source>
-            </trans-unit>
-            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.name">
-                <source>Name</source>
-            </trans-unit>
-            <trans-unit id="tx_pxadealers_domain_model_categoriesfilteroption.categories">
-                <source>Categories</source>
-            </trans-unit>
 
             <trans-unit id="tx_pxadealers_domain_model_dealer">
                 <source>Dealer</source>
@@ -86,9 +77,6 @@
             <trans-unit id="flexform.markerClustererMaxZoom">
                 <source>Marker clusterer maximum zoom</source>
             </trans-unit>
-            <trans-unit id="flexform.mapContentElement">
-                <source>Connect filter to map content element</source>
-            </trans-unit>
 
             <trans-unit id="flexform.actions.chooseMode">
                 <source>Choose mode</source>
@@ -103,31 +91,22 @@
                 <source>Categories menu</source>
             </trans-unit>
             <trans-unit id="flexform.actions.countriesFilter">
-                <source>Countries filter</source>
-            </trans-unit>
-            <trans-unit id="flexform.actions.countriesFilter">
-                <source>Countries filter</source>
-            </trans-unit>
-            <trans-unit id="flexform.actions.categoriesCollectionFilter">
-                <source>Categories collection filter</source>
+                <source>Countries menu</source>
             </trans-unit>
             <trans-unit id="flexform.actions.search">
                 <source>Search by country, city and zipcode</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderBy">
-                <source>Order By field</source>
+                <source>Order by</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderDirection">
-                <source>Order Direction</source>
+                <source>Order direction</source>
             </trans-unit>
             <trans-unit id="flexform.demand.countries">
                 <source>Select countries. If nothing is selected = show all</source>
             </trans-unit>
             <trans-unit id="flexform.demand.categories">
                 <source>Select categories</source>
-            </trans-unit>
-            <trans-unit id="flexform.filter.categoriesFilterOptions">
-                <source>Select categories filter options</source>
             </trans-unit>
             <trans-unit id="flexform.search.searchResultPage">
                 <source>Search result page</source>
@@ -139,7 +118,7 @@
                 <source>Creation date</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderBy.tstamp">
-                <source>Edit date</source>
+                <source>Update date</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderDirection.desc">
                 <source>Descending</source>
@@ -147,6 +126,7 @@
             <trans-unit id="flexform.demand.orderDirection.asc">
                 <source>Ascending</source>
             </trans-unit>
+
 
             <trans-unit id="be.recordStorage">
                 <source>Record storage</source>

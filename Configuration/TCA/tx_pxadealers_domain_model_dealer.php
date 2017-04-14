@@ -1,16 +1,17 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
-}
+
+defined('TYPO3_MODE') || die('Access denied.');
+
+$ll = 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:';
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealer',
+        'title' => $ll . 'tx_pxadealers_domain_model_dealer',
         'label' => 'name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
-        'dividers2tabs' => TRUE,
+        'dividers2tabs' => true,
 
         'languageField' => 'sys_language_uid',
 
@@ -26,14 +27,15 @@ return [
             'default' => 'ext-pxadealers-wizard-icon'
         ]
     ],
+    // @codingStandardsIgnoreStart
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, lat, lng, show_street_view, gm_position',
     ],
     'types' => [
         '1' => [
             'showitem' => '--palette--;;paletteLangHidden, name, logo, 
-		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
-		        --div--;LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
+		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
+		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
 		        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'
         ]
     ],
@@ -59,6 +61,7 @@ return [
             'canNotCollapse' => false
         ]
     ],
+    // @codingStandardsIgnoreEnd
     'columns' => [
         'sys_language_uid' => [
             'exclude' => 1,
@@ -66,12 +69,15 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'special' => 'languages',
                 'items' => [
-                    ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
+                    [
+                        'LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages',
+                        -1,
+                        'flags-multiple'
+                    ],
                 ],
+                'default' => 0
             ],
         ],
         'l10n_parent' => [
@@ -85,21 +91,15 @@ return [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_pxadealers_domain_model_dealer',
+                // @codingStandardsIgnoreStart
                 'foreign_table_where' => 'AND tx_pxadealers_domain_model_dealer.pid=###CURRENT_PID### AND tx_pxadealers_domain_model_dealer.sys_language_uid IN (-1,0)',
+                // @codingStandardsIgnoreEnd
             ],
         ],
         'l10n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
             ],
-        ],
-        't3ver_label' => [
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'max' => 255
-            ]
         ],
         'hidden' => [
             'exclude' => 1,
@@ -114,14 +114,10 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'type' => 'input',
-                'size' => 13,
-                'max' => 20,
+                'size' => 16,
+                'max' => 30,
                 'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
+                'default' => 0
             ],
         ],
         'endtime' => [
@@ -130,19 +126,15 @@ return [
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
-                'size' => 13,
-                'max' => 20,
+                'size' => 16,
+                'max' => 30,
                 'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
+                'default' => 0
             ],
         ],
         'name' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.name',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -151,7 +143,7 @@ return [
         ],
         'country' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.country',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.country',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -169,10 +161,9 @@ return [
                 ],
             ],
         ],
-
         'address' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.address',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.address',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -181,27 +172,25 @@ return [
         ],
         'zipcode' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.zipcode',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.zipcode',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
             ],
         ],
-
         'zipcode_search' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.zipcode_search',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.zipcode_search',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
             ],
         ],
-
         'lat' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.lat',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.lat',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -210,17 +199,16 @@ return [
         ],
         'lng' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.lng',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.lng',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'required,trim'
             ],
         ],
-
         'logo' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.logo',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.logo',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'attachment',
                 [
@@ -239,42 +227,18 @@ return [
                     'foreign_types' => [
                         '0' => [
                             'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-                            'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-                            'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-                            'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                            'showitem' => '
-							--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-							--palette--;;filePalette'
+--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+--palette--;;filePalette'
                         ]
                     ],
                     'maxitems' => 1
-                ]
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
             )
         ],
         'show_street_view' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.show_street_view',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.show_street_view',
             'config' => [
                 'type' => 'check',
                 'default' => 1,
@@ -282,7 +246,7 @@ return [
         ],
         'gm_position' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.gm_position',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.gm_position',
             'config' => [
                 'type' => 'user',
                 'userFunc' => \Pixelant\PxaDealers\Utility\TcaUtility::class . '->renderGoogleMapPosition',
@@ -298,7 +262,7 @@ return [
         ],
         'city' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.city',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.city',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -307,7 +271,7 @@ return [
         ],
         'phone' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.phone',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.phone',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -316,7 +280,7 @@ return [
         ],
         'website' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.website',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.website',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -342,7 +306,7 @@ return [
         ],
         'link' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.link',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.link',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -368,7 +332,7 @@ return [
         ],
         'email' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.email',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.email',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -395,7 +359,7 @@ return [
         'description' => [
             'exclude' => 0,
             'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
-            'label' => 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers.description',
+            'label' => $ll . 'tx_pxadealers_domain_model_dealers.description',
             'config' => [
                 'type' => 'text',
                 'cols' => 30,

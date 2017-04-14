@@ -4,14 +4,19 @@
     <f:layout name="Default" />
 
     <f:section name="main">
-        <f:render partial="Javascript/JsFilterCheckboxSettings" section="main" arguments="{uid: uid}"/>
+        <div class="pxa-dealers-categories"
+             data-dealers-filter="1"
+             data-filter-type="checkbox"
+             data-filter-prefix=".cat-"
+             data-visible="visible-categories">
 
-        <div id="pxa-dealer-map-filter-{uid}" class="pxa-dealers-categories">
             <f:for each="{categories}" as="category">
                 <div class="checkbox">
                     <label><input type="checkbox" value="{category.uid}"> {category.title}</label>
                 </div>
             </f:for>
+
+            <f:render partial="Loader"/>
         </div>
     </f:section>
 </div>

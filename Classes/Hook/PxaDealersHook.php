@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixelant\PxaDealers\Hook;
 
 /***************************************************************
@@ -44,9 +45,10 @@ class PxaDealersHook
      * @param DataHandler $reference
      * @return void
      */
+    // @codingStandardsIgnoreStart
     public function processDatamap_preProcessFieldArray(array $incomingFieldArray, $table, $id, DataHandler $reference)
-    {
-        if ($table === 'tx_pxadealers_domain_model_dealers') {
+    {// @codingStandardsIgnoreEnd
+        if ($table === 'tx_pxadealers_domain_model_dealers' && $incomingFieldArray['zipcode']) {
             $incomingFieldArray['zipcode_search'] = preg_replace('/[^0-9]/', '', $incomingFieldArray['zipcode']);
         }
     }

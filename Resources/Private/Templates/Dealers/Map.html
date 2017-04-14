@@ -9,7 +9,10 @@
         <div class="pxa-dealers-wrapper">
             <f:if condition="{settings.map.googleJavascriptApiKey}">
                 <f:then>
-                    <div id="pxa-dealers-map-{uid}" class="pxa-dealers-map" style="height: {f:if(condition: settings.map.mapHeight, then: settings.map.mapHeight , else: '550')}px"></div>
+                    <div id="pxa-dealers-map"
+                         data-visible-categories="{allCategoriesUids}"
+                         data-visible-countries="{allCountriesUids}"
+                         class="pxa-dealers-map" style="height: {f:if(condition: settings.map.mapHeight, then: settings.map.mapHeight , else: '550')}px"></div>
                     <f:if condition="{dealers}">
                         <f:then>
                             <div class="pxa-dealers-list">

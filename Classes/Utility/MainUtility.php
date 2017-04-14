@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Pixelant\PxaDealers\Utility;
-
 
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -79,7 +77,7 @@ class MainUtility
      * @param array &$settings
      * @return void
      */
-    private function processFlexFormField($field, $value, &$settings)
+    private static function processFlexFormField($field, $value, &$settings)
     {
         $fieldNameParts = GeneralUtility::trimExplode('.', $field);
         if (count($fieldNameParts) > 1) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
@@ -30,10 +31,8 @@ use Pixelant\PxaDealers\Domain\Model\Demand;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-
 
 /**
  *
@@ -59,60 +58,14 @@ class DealersController extends ActionController
     protected $pageRenderer;
 
     /**
-     *  categoriesRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
-     * @inject
-     */
-    protected $categoriesRepository;
-
-    /**
-     *  categoriesFilterOptionRepository
-     *
-     * @var \Pixelant\PxaDealers\Domain\Repository\CategoriesFilterOptionRepository
-     * @inject
-     */
-    protected $categoriesFilterOptionRepository;
-
-    /**
-     * countryRepository
-     *
-     * @var \SJBR\StaticInfoTables\Domain\Repository\CountryRepository
-     * @inject
-     */
-    protected $countryRepository;
-
-    /**
      * Initialize map
      *
      * @return void
      */
     public function initializeMapAction()
     {
-        $this->includeFeCssAndJs('map');
         $this->getFrontendLabels();
-    }
-
-    /**
-     * Initialize Search
-     *
-     * @return void
-     */
-    public function initializeSearchAction()
-    {
-        $this->includeFeCssAndJs('suggest');
-    }
-
-    /**
-     * Search form
-     *
-     * @return void
-     */
-    public function searchAction()
-    {
-        $this->view->assignMultiple([
-            'language' => MainUtility::getTSFE()->sys_language_uid
-        ]);
+        $this->loadGoogleApi();
     }
 
     /**
@@ -125,142 +78,39 @@ class DealersController extends ActionController
         $dealers = [];
 
         $demand = Demand::getInstance($this->settings['demand']);
+        $demandDealers = $this->dealerRepository->findDemanded($demand);
+
+        $allCategoriesUids = [];
+        $allCountriesUids = [];
 
         /** @var Dealer $dealer */
-        foreach ($this->dealerRepository->findDemanded($demand) as $dealer) {
+        foreach ($demandDealers as $dealer) {
             $dealers[$dealer->getUid()] = $dealer->toArray();
+            $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
+
+            if (!in_array($dealer->getCountryUid(), $allCountriesUids, true)) {
+                $allCountriesUids[] = $dealer->getCountryUid();
+            }
         }
 
         $this->view->assignMultiple([
             'dealers' => $dealers,
-            'uid' => $this->configurationManager->getContentObject()->data['uid']
+            'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
+            'allCountriesUids' => implode(',', $allCountriesUids),
         ]);
     }
 
     /**
-     * Filter by categories collections
-     *
-     * @return void
+     * Incldue google api only on map page
      */
-    public function categoriesCollectionFilterAction()
+    protected function loadGoogleApi()
     {
-        $this->view->assignMultiple([
-            'categoriesCollections' => $this->categoriesFilterOptionRepository->findByUids(GeneralUtility::intExplode(',', $this->settings['filter']['categoriesFilterOptions'])),
-            'uid' => $this->configurationManager->getContentObject()->data['uid']
-        ]);
-    }
+        $pathGoogleMaps = sprintf(
+            'https://maps.googleapis.com/maps/api/js?key=%s',
+            $this->settings['map']['googleJavascriptApiKey']
+        );
 
-    /**
-     * Categories filter plugin
-     *
-     * @return void
-     */
-    public function categoriesFilterAction()
-    {
-        $this->view->assignMultiple([
-            'categories' => $this->getCategories(),
-            'uid' => $this->configurationManager->getContentObject()->data['uid']
-        ]);
-    }
-
-    /**
-     * Countries filter
-     *
-     * @return void
-     */
-    public function countriesFilterAction()
-    {
-        $this->view->assignMultiple([
-            'countries' => $this->getCountries(),
-            'uid' => $this->configurationManager->getContentObject()->data['uid']
-        ]);
-    }
-
-    /**
-     * Get list of cuntires
-     *
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     */
-    protected function getCountries()
-    {
-        if (!empty($this->settings['demand']['countries'])) {
-            $countriesUid = GeneralUtility::intExplode(',', $this->settings['demand']['countries']);
-
-            $query = $this->countryRepository->createQuery();
-
-            $query->matching(
-                $query->in('uid', $countriesUid)
-            );
-
-            return $query->execute();
-        } else {
-            return $this->countryRepository->findAll();
-        }
-    }
-
-    /**
-     * Get categories
-     *
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-     */
-    protected function getCategories()
-    {
-        if (!empty($this->settings['demand']['categories'])) {
-            $categoriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['categories']);
-
-            $query = $this->categoriesRepository->createQuery();
-
-            if (count($categoriesUids) > 1) {
-                $criterion = $query->in('uid', $categoriesUids);
-            } else {
-                $criterion = $query->equals('parent', $categoriesUids[0]);
-            }
-
-            $query->matching(
-                $criterion
-            );
-
-            return $query->execute();
-        } else {
-            return $this->categoriesRepository->findAll();
-        }
-    }
-
-    /**
-     * Include required JS and Css from TS setup
-     *
-     * @param string $scripts
-     * @return void
-     */
-    protected function includeFeCssAndJs($scripts)
-    {
-        if (!empty($this->settings['map']['googleJavascriptApiKey'])) {
-            if ($scripts === 'map') {
-                // google apis
-                $pathGoogleMaps = sprintf(
-                    'https://maps.googleapis.com/maps/api/js?key=%s',
-                    $this->settings['map']['googleJavascriptApiKey']
-                );
-
-                $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
-            }
-
-            // include JS
-            foreach ($this->settings['scripts'][$scripts] as $script) {
-                $scriptPath = GeneralUtility::getFileAbsFileName($script);
-                if (file_exists($scriptPath)) {
-                    $this->pageRenderer->addJsFooterFile(PathUtility::stripPathSitePrefix($scriptPath));
-                }
-            }
-
-            //include CSS
-            foreach ($this->settings['styling'] as $css) {
-                $cssPath = GeneralUtility::getFileAbsFileName($css);
-                if (file_exists($cssPath)) {
-                    $this->pageRenderer->addCssFile(PathUtility::stripPathSitePrefix($cssPath));
-                }
-            }
-        }
+        $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
     }
 
     /**
@@ -274,7 +124,10 @@ class DealersController extends ActionController
         $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
 
         $langKey = MainUtility::getTSFE()->config['config']['language'];
-        $labels = $languageFactory->getParsedData('EXT:pxa_dealers/Resources/Private/Language/locallang.xlf', $langKey ? $langKey : 'en');
+        $labels = $languageFactory->getParsedData(
+            'EXT:pxa_dealers/Resources/Private/Language/locallang.xlf',
+            $langKey ? $langKey : 'en'
+        );
 
         if (!empty($labels[$langKey])) {
             $labels = $labels[$langKey];
@@ -284,7 +137,7 @@ class DealersController extends ActionController
 
         $labelsJs = [];
         foreach (array_keys($labels) as $key) {
-            if (strpos($key, 'js.') === 0) {
+            if (GeneralUtility::isFirstPartOfStr($key, 'js.')) {
                 $labelsJs[$key] = LocalizationUtility::translate($key, $this->extensionName);
             }
         }

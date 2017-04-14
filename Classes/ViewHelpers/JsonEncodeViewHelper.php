@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Pixelant\PxaDealers\ViewHelpers;
 
 /***************************************************************
@@ -31,7 +30,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Class JsonEncode
  * @package Pixelant\PxaDealers\ViewHelpers
  */
-class JsonEncodeViewHelper extends AbstractViewHelper {
+class JsonEncodeViewHelper extends AbstractViewHelper
+{
 
     /**
      * Json encode only for array !
@@ -39,11 +39,12 @@ class JsonEncodeViewHelper extends AbstractViewHelper {
      * @param array $value
      * @return string
      */
-    public function render(array $value = []) {
-        if(empty($value)) {
+    public function render(array $value = [])
+    {
+        if (empty($value)) {
             $value = $this->renderChildren();
         }
-        if(is_array($value)) {
+        if (is_array($value)) {
             return json_encode($value);
         }
 

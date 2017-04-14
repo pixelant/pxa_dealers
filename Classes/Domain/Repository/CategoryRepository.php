@@ -1,7 +1,5 @@
 <?php
 
-namespace Pixelant\PxaDealers\Domain\Repository;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -26,40 +24,48 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace Pixelant\PxaDealers\Domain\Repository;
+
 use Pixelant\PxaDealers\Domain\Model\Demand;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
- *
- *
- * @package pxa_dealers
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
+ * Class CategoryRepository
+ * @package Pixelant\PxaDealers\Domain\Repository
  */
-class DealerRepository extends AbstractDemandRepository
+class CategoryRepository extends AbstractDemandRepository
 {
+    /**
+     * @param QueryInterface $query
+     * @param Demand $demand
+     */
+    protected function createConstraints(QueryInterface $query, Demand $demand)
+    {
+        $categories = $demand->getCategories();
+
+        if (!empty($categories)) {
+            if (count($categories) > 1) {
+                $criterion = $query->in('uid', $categories);
+            } else {
+                $criterion = $query->equals('parent', $categories[0]);
+            }
+
+            $query->matching(
+                $criterion
+            );
+        }
+    }
 
     /**
      * @param QueryInterface $query
      * @param Demand $demand
-     * @return void
      */
-    protected function createConstraints(QueryInterface $query, Demand $demand)
+    protected function setOrdering(QueryInterface $query, Demand $demand)
     {
-        $constraints = [];
-
-        // set country restriction
-        if (!empty($demand->getCountries())) {
-            $constraints[] = $query->in('country', $demand->getCountries());
+        if ($demand->getOrderBy() === 'name') {
+            $demand->setOrderBy('title');
         }
 
-        // set categories restriction
-        if (!empty($demand->getCategories())) {
-            $constraints[] = $query->contains('categories', $demand->getCategories());
-        }
-
-        if (!empty($constraints)) {
-            $query->matching($query->logicalAnd($constraints));
-        }
+        parent::setOrdering($query, $demand);
     }
 }

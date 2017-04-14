@@ -1,11 +1,11 @@
 <?php
-namespace Pixelant\PxaDealers\Domain\Repository;
+
+namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
- *
  *  Copyright notice
  *
- *  (c) 2016
+ *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
  *
  *  All rights reserved
  *
@@ -26,31 +26,33 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Pixelant\PxaDealers\Domain\Model\Demand;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
 /**
- * The repository for CategoriesFilterOptions
+ *
+ *
+ * @package pxa_dealers
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ *
  */
-class CategoriesFilterOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class CategoriesController extends ActionController
 {
     /**
-     * Find categories collection by uids
-     *
-     * @param array $uids
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @var \Pixelant\PxaDealers\Domain\Repository\CategoryRepository
+     * @inject
      */
-    public function findByUids(array $uids)
+    protected $categoriesRepository;
+
+    /**
+     * Categories filter plugin
+     *
+     * @return void
+     */
+    public function categoriesFilterAction()
     {
-        if(empty($uids) ) {
-            return [];
-        }
+        $demand = Demand::getInstance($this->settings['demand']);
 
-        $query = $this->createQuery();
-
-        $query->getQuerySettings()->setRespectStoragePage(false);
-
-        $query->matching(
-            $query->in('uid', $uids)
-        );
-
-        return $query->execute();
+        $this->view->assign('categories', $this->categoriesRepository->findDemanded($demand));
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Pixelant\PxaDealers\Hook;
 
-
 /***************************************************************
  *  Copyright notice
  *
@@ -42,26 +41,17 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInMapView = [
-        'sDEF' => 'search.searchResultPage,filter.mapContentElement,filter.categoriesFilterOptions',
+        'sDEF' => 'search.searchResultPage',
     ];
 
+    // @codingStandardsIgnoreStart
     /**
      * Fields to remove if category filter selected
      *
      * @var array
      */
     public $removedFieldsInCategoriesFilterView = [
-        'sDEF' => 'demand.orderDirection,demand.orderBy,search.searchResultPage,demand.countries,filter.categoriesFilterOptions',
-        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
-    ];
-
-    /**
-     * Fields to remove if category collection filter selected
-     *
-     * @var array
-     */
-    public $removedFieldsInCategoriesCollectionFilterView = [
-        'sDEF' => 'search.searchResultPage,demand.countries,demand.categories,demand.orderDirection,demand.orderBy',
+        'sDEF' => 'search.searchResultPage,demand.countries',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -71,7 +61,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInCountriesFilterView = [
-        'sDEF' => 'search.searchResultPage,demand.categories,demand.orderDirection,demand.orderBy,filter.categoriesFilterOptions',
+        'sDEF' => 'search.searchResultPage,demand.categories,demand.orderDirection,demand.orderBy',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -81,7 +71,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInSearchView = [
-        'sDEF' => 'filter.mapContentElement,demand.categories,demand.countries,demand.orderDirection,demand.orderBy,filter.categoriesFilterOptions',
+        'sDEF' => 'filter.mapContentElement,demand.categories,demand.countries,demand.orderDirection,demand.orderBy',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -100,6 +90,7 @@ class FlexFormHook
             $this->updateFlexforms($dataStructure, $row);
         }
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Update flexform configuration if a action is selected
@@ -136,16 +127,13 @@ class FlexFormHook
                 case 'Dealers->map':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
                     break;
-                case 'Dealers->categoriesFilter':
+                case 'Categories->categoriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
                     break;
-                case  'Dealers->countriesFilter':
+                case 'Countries->countriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                     break;
-                case  'Dealers->categoriesCollectionFilter':
-                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesCollectionFilterView);
-                    break;
-                case  'Dealers->search':
+                case 'Dealers->search':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
                     break;
                 default:

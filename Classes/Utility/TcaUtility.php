@@ -1,19 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anjey
- * Date: 01.11.16
- * Time: 10:29
- */
 
 namespace Pixelant\PxaDealers\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
-
 
 /***************************************************************
  *  Copyright notice
@@ -43,15 +36,17 @@ class TcaUtility
      * Custom map element
      *
      * @param array $PA
-     * @param $pObj
      * @return string
      */
-    public function renderGoogleMapPosition(array $PA, $pObj)
+    public function renderGoogleMapPosition(array $PA)
     {
         if ($PA['row']['pid'] < 0) {
             // then "Save and create new was clicked"
-            $pid = BackendUtility::getRecord('tx_pxadealers_domain_model_dealer', abs($PA['row']['pid']),
-                'pid')['pid'];
+            $pid = BackendUtility::getRecord(
+                'tx_pxadealers_domain_model_dealer',
+                abs($PA['row']['pid']),
+                'pid'
+            )['pid'];
         } else {
             $pid = $PA['row']['pid'];
         }
@@ -60,17 +55,13 @@ class TcaUtility
 
         $outPut = '';
 
-        if ($settings['map']['googleJavascriptApiKey'] && $settings['beMainJs']) {
+        if ($settings['map']['googleJavascriptApiKey']) {
             $outPut .= $this->getHtml($PA);
-            $outPut .= $this->getJsConfiguration($PA);
 
-            $pathGoogleMaps = 'https://maps.googleapis.com/maps/api/js?callback=initBEMap&key=' . $settings['map']['googleJavascriptApiKey'];
-            $pathMainBEJs = '/' . PathUtility::stripPathSitePrefix(GeneralUtility::getFileAbsFileName($settings['beMainJs']));
-
-            $outPut .= '<script src="' . $pathMainBEJs . '"></script>';
-            $outPut .= '<script src="' . $pathGoogleMaps . '"></script>';
-
-
+            $this->loadRequireJsWithConfiguration(
+                $PA,
+                $settings['map']['googleJavascriptApiKey']
+            );
         } else {
             $outPut .= '<b>' . MainUtility::translate('tca_be_map.noApiKey') . '</b>';
         }
@@ -82,46 +73,44 @@ class TcaUtility
      * Get main JS configuration
      *
      * @param $PA
-     * @return string
+     * @param string $key
      */
-    protected function getJsConfiguration($PA)
+    protected function loadRequireJsWithConfiguration($PA, $key)
     {
-
         $lat = (float)$PA['row'][$PA['parameters']['latitude']];
         $lng = (float)$PA['row'][$PA['parameters']['longitude']];
+
         if (!($lat && $lng)) {
             $lat = 0;
             $lng = 0;
         }
 
         $dataPrefix = 'data[' . $PA['table'] . '][' . $PA['row']['uid'] . ']';
+        $jsConfigurationObject = [
+            'lat' => $lat,
+            'lng' => $lng,
+            'baseId' => $PA['itemFormElID'],
+            'zoom' => ($lat + $lng) == 0 ? 1 : 8,
+            'fieldPrefixName' => $dataPrefix,
+            'tableName' => $PA['table'],
+            'recordUid' => $PA['row']['uid'],
+            'longitudeField' => $PA['parameters']['longitude'],
+            'latitudeField' => $PA['parameters']['latitude'],
+            'countryField' => $PA['parameters']['country'],
+            'zipcodeField' => $PA['parameters']['zipcode'],
+            'addressField' => $PA['parameters']['address'],
+            'cityField' => $PA['parameters']['city']
+        ];
 
-        $js = <<<EOT
-(function(w){
-var document = w.document,
-    PxaDealersMaps = w.PxaDealersMaps || {};
-   
-PxaDealersMaps.BEConfiguration = {
-    lat: {$lat},
-    lng: {$lng},
-    baseId: '{$PA['itemFormElID']}',
-    zoom: ({$lat} + $lng) == 0 ? 1 : 8,
-    fieldPrefixName: '{$dataPrefix}',
-    tableName: '{$PA['table']}',
-    recordUid: '{$PA['row']['uid']}',
-    longitudeField: '{$PA['parameters']['longitude']}',
-    latitudeField: '{$PA['parameters']['latitude']}',
-    countryField: '{$PA['parameters']['country']}',
-    zipcodeField: '{$PA['parameters']['zipcode']}',
-    addressField: '{$PA['parameters']['address']}',
-    cityField: '{$PA['parameters']['city']}'
-};
-
-w.PxaDealersMaps = PxaDealersMaps;
-})(window);
-EOT;
-
-        return '<script>' . $js . '</script>';
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/PxaDealers/Backend/DealersMapPoints', implode(LF, [
+            'function (DealersMapPoints) {',
+            '   window.TYPO3.DealersMapPoints_APP = DealersMapPoints.getInstance(',
+            '       \'' . $key . '\',',
+            '       ' . json_encode($jsConfigurationObject),
+            '   ).init();',
+            '}'
+        ]));
     }
 
     /**
@@ -137,22 +126,22 @@ EOT;
         $mapWrapper = $baseElementId . '_wrapper';
         $toolTip = MainUtility::translate('tca_be_map.tooltip');
         $buttonText = MainUtility::translate('tca_be_map.buttonText');
-
+// @codingStandardsIgnoreStart
         $htmlTemplate = <<<EOT
 <div id="element-wrapper-{$mapWrapper}">
     <p style="margin-bottom: 10px; padding: 15px;" class="bg-info">{$toolTip}</p>
-    <input type="button" class="btn btn-info" onclick="PxaDealersMaps.BE.getAddressLatLng();return false;" value="$buttonText">
+    <input type="button" class="btn btn-info" onclick="TYPO3.DealersMapPoints_APP.getAddressLatLng();return false;" value="$buttonText">
     <div id="$mapId" style="margin: 20px 0;width: 600px;height: 400px;"></div>
 </div>
 EOT;
-
+// @codingStandardsIgnoreEnd
         return $htmlTemplate;
     }
 
     /**
      * Get Typoscript configuration
      *
-     * @param $pageUid
+     * @param int $pageUid
      * @return array
      */
     protected function loadTS($pageUid)
