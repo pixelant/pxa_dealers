@@ -37,6 +37,13 @@ class Demand
     protected $orderDirection = QueryInterface::ORDER_DESCENDING;
 
     /**
+     * Search requirements
+     *
+     * @var Search
+     */
+    protected $seach;
+
+    /**
      * @var string
      */
     protected $orderBy = 'crdate';
@@ -103,6 +110,22 @@ class Demand
     public function setOrderBy($orderBy)
     {
         $this->orderBy = $orderBy;
+    }
+
+    /**
+     * @return Search
+     */
+    public function getSeach()
+    {
+        return $this->seach;
+    }
+
+    /**
+     * @param Search $seach
+     */
+    public function setSeach($seach)
+    {
+        $this->seach = $seach;
     }
 
     /**

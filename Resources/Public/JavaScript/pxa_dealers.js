@@ -29,8 +29,23 @@
             }
         },
 
-        inList: function(string, needle) {
+        /**
+         * Check if needle in list
+         * @param string
+         * @param needle
+         * @return {boolean}
+         */
+        inList: function (string, needle) {
             return (',' + string + ',').indexOf(',' + needle + ',') !== -1;
+        },
+
+        /**
+         * Check if list valid
+         * @param list
+         * @return {boolean}
+         */
+        isValidList: function (list) {
+            return (typeof list === 'string' && list !== '');
         },
 
         /**
@@ -69,8 +84,8 @@
                             _filterElementSelector = 'select';
                             _showVisibleItemsSelectBox();
                         }
-                        
-                        
+
+
                         return this;
                     }
 
@@ -83,14 +98,20 @@
                             overlay = _element.find('.dealers-loader-overlay'),
                             visibleList = $(_map).data(_element.data('visible'));
 
-                        $(checkBoxes).each(function () {
-                            var $this = $(this),
-                                checkbox = $this.find('input[type="checkbox"]');
+                        if (PxaDealersMaps.FE.isValidList(visibleList)) {
+                            $(checkBoxes).each(function () {
+                                var $this = $(this),
+                                    checkbox = $this.find('input[type="checkbox"]');
 
-                            if (PxaDealersMaps.FE.inList(visibleList, checkbox.val())) {
-                                $this.show();
-                            }
-                        });
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.val())) {
+                                    $this.show();
+                                }
+                            });
+                        } else {
+                            // show all
+                            checkBoxes.show();
+                        }
+
 
                         overlay.hide();
                     }
@@ -105,13 +126,15 @@
                             overlay = _element.find('.dealers-loader-overlay'),
                             visibleList = $(_map).data(_element.data('visible'));
 
-                        $(options).each(function () {
-                            var $this = $(this);
+                        if (PxaDealersMaps.FE.isValidList(visibleList)) {
+                            $(options).each(function () {
+                                var $this = $(this);
 
-                            if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
-                                $this.hide();
-                            }
-                        });
+                                if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
+                                    $this.hide();
+                                }
+                            });
+                        }
 
                         overlay.hide();
                         selectBox.show();

@@ -26,8 +26,12 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Model\Search;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  *
@@ -61,5 +65,68 @@ class DealerRepository extends AbstractDemandRepository
         if (!empty($constraints)) {
             $query->matching($query->logicalAnd($constraints));
         }
+    }
+
+    /**
+     * @param Search $search
+     * @return array
+     */
+    public function suggestResult(Search $search)
+    {
+        $query = $this->createQuery();
+        $sword = $search->getSearchTermLowercase();
+
+        if ($search->getPid()) {
+            $query->getQuerySettings()->setStoragePageIds(
+                GeneralUtility::intExplode(',', $search->getPid(), true)
+            );
+        }
+
+        $result = [];
+
+        foreach ($search->getSearchFields() as $searchField) {
+            $this->suggestByField($query, $sword, $result, $searchField);
+        }
+
+        return array_unique($result, SORT_STRING);
+    }
+
+    /**
+     * Append suggest result
+     *
+     * @param QueryInterface $query
+     * @param $sword
+     * @param $result
+     * @param $field
+     */
+    private function suggestByField(QueryInterface $query, $sword, &$result, $field)
+    {
+        $dealers = $query->matching(
+            $query->like($field, '%' . $sword . '%')
+        )->execute();
+
+        if ($dealers->count() > 0) {
+            /** @var Dealer $dealer */
+            foreach ($dealers as $dealer) {
+                $propertyParts = GeneralUtility::trimExplode('.', $field);
+                if (count($propertyParts) === 1) {
+                    $result[]= ObjectAccess::getProperty($dealer, $field);
+                } else {
+                    $childObject = ObjectAccess::getProperty($dealer, $propertyParts[0]);
+                    $result[] = ObjectAccess::getProperty($childObject, $propertyParts[1]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Check for storage
+     *
+     * @return array
+     */
+    public function getStoragePageIds()
+    {
+        $query = $this->createQuery();
+        return $query->getQuerySettings()->getStoragePageIds();
     }
 }

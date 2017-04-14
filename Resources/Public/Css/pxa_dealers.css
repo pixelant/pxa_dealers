@@ -5,6 +5,7 @@
 .tx-pxa-dealers .warning-message,
 .tx-pxa-dealers .error-message {
     padding: 15px;
+    margin: 20px 0;
 }
 
 .tx-pxa-dealers .warning-message {

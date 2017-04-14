@@ -179,15 +179,6 @@ return [
                 'eval' => 'trim'
             ],
         ],
-        'zipcode_search' => [
-            'exclude' => 1,
-            'label' => $ll . 'tx_pxadealers_domain_model_dealers.zipcode_search',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim'
-            ],
-        ],
         'lat' => [
             'exclude' => 0,
             'label' => $ll . 'tx_pxadealers_domain_model_dealers.lat',

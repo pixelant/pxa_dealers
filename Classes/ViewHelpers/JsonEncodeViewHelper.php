@@ -44,10 +44,11 @@ class JsonEncodeViewHelper extends AbstractViewHelper
         if (empty($value)) {
             $value = $this->renderChildren();
         }
+
         if (is_array($value)) {
             return json_encode($value);
         }
 
-        return '';
+        return json_encode([]);
     }
 }

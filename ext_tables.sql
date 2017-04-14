@@ -10,7 +10,6 @@ CREATE TABLE tx_pxadealers_domain_model_dealer (
 	address varchar(255) DEFAULT '' NOT NULL,
   city varchar(255) DEFAULT '' NOT NULL,
 	zipcode varchar(255) DEFAULT '' NOT NULL,
-	zipcode_search varchar(255) DEFAULT '' NOT NULL,
 	lat double(11,6) DEFAULT '0.000000' NOT NULL,
 	lng double(11,6) DEFAULT '0.000000' NOT NULL,
 	logo int(11) unsigned NOT NULL default '0',

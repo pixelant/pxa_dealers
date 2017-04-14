@@ -109,14 +109,6 @@ class Dealer extends AbstractEntity
     protected $zipcode;
 
     /**
-     * ZipcodeSearch
-     *
-     * @var \string
-     * @validate NotEmpty
-     */
-    protected $zipcodeSearch;
-
-    /**
      * lat
      *
      * @var \string
@@ -342,27 +334,6 @@ class Dealer extends AbstractEntity
     }
 
     /**
-     * Returns the zipcodeSearch
-     *
-     * @return \string $zipcodeSearch
-     */
-    public function getZipcodeSearch()
-    {
-        return $this->zipcodeSearch;
-    }
-
-    /**
-     * Sets the zipcodeSearch
-     *
-     * @param \string $zipcodeSearch
-     * @return void
-     */
-    public function setZipcodeSearch($zipcodeSearch)
-    {
-        $this->zipcodeSearch = $zipcodeSearch;
-    }
-
-    /**
      * Returns the lat
      *
      * @return \string $lat
@@ -554,7 +525,6 @@ class Dealer extends AbstractEntity
             'lng' => $this->getLng(),
             'address' => $this->getAddress(),
             'zipcode' => $this->getZipcode(),
-            'zipcodeSearch' => $this->getZipcodeSearch(),
             'city' => $this->getCity(),
             'phone' => $this->getPhone(),
             'phoneClear' => str_replace(array(' ', '-'), '', $this->getPhone()),

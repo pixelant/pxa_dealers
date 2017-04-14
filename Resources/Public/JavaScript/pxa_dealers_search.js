@@ -18,7 +18,7 @@
 
             if (self.input.length > 0) {
                 self.awesomplete = new Awesomplete(input, {
-                    minChars: 1,
+                    minChars: 2,
                     autoFirst: true
                 });
 
@@ -41,19 +41,22 @@
             var self = this;
 
             $.ajax({
-                    url: /*self.form.attr("action")*/'https://restcountries.eu/rest/v1/name/' + input.val(),
-                    type: 'GET',
+                    url: input.data('ajax-uri'),
+                    type: 'POST',
                     dataType: 'json',
                     data: {
-                        termLowercase: input.val().toLowerCase(),
-                        termOriginal: input.val(),
-                        L: input.data('language')
+                        tx_pxadealers_pxadealers: {
+                            search: {
+                                searchTermOriginal: input.val(),
+                                pid: input.data('pid')
+                            }
+                        }
                     },
                     success: function (data) {
                         var list = [];
 
                         $.each(data, function (key, value) {
-                            list.push(value.name);
+                            list.push(value);
                         });
 
                         self.awesomplete._list = list;

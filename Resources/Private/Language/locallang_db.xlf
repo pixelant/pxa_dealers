@@ -19,9 +19,6 @@
 			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
 				<source>Zipcode</source>
 			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode_search">
-				<source>Zipcode search value</source>
-			</trans-unit>
             <trans-unit id="tx_pxadealers_domain_model_dealers.gm_position">
                 <source>Google maps position</source>
             </trans-unit>

@@ -9,7 +9,7 @@
 			</trans-unit>
 
             <trans-unit id="fe.placeholder">
-                <source>Enter country, postcode or city</source>
+                <source>Start typing to search...</source>
             </trans-unit>
             <trans-unit id="fe.submitvalue">
                 <source>Search</source>

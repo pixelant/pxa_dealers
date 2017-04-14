@@ -8,7 +8,7 @@ call_user_func(
             'Pixelant.' . $_EXTKEY,
             'Pxadealers',
             [
-                'Dealers' => 'map',
+                'Dealers' => 'map, search, suggest',
                 'Categories' => 'categoriesFilter',
                 'Countries' => 'countriesFilter'
             ],
@@ -18,30 +18,10 @@ call_user_func(
             ]
         );
 
-        // Hook before dealer is saved
-        $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\PxaDealersHook::class;
-
+        // @codingStandardsIgnoreStart
         // Hook for flexform processing
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
-
-        // Real url
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
-            $GLOBALS ['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT']['postVarSets']['_DEFAULT']['dealers-search'] = [
-                [
-                    'GETvar' => 'tx_pxadealers_pxadealerssearchresults[controller]',
-                    'noMatch' => 'bypass',
-                ],
-                [
-                    'GETvar' => 'tx_pxadealers_pxadealerssearchresults[action]',
-                    'valueMap' => [
-                        'search' => 'searchResults'
-                    ]
-                ],
-                [
-                    'GETvar' => 'tx_pxadealers_pxadealerssearchresults[searchValue]',
-                ]
-            ];
-        }
+        // @codingStandardsIgnoreEnd
 
         // Add page TS
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
@@ -63,7 +43,9 @@ call_user_func(
         }
 
         // hook for extension BE view
+        // @codingStandardsIgnoreStart
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['pxadealers_pxadealers'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\PageLayoutView::class . '->getInfo';
+        // @codingStandardsIgnoreEnd
     },
-        'pxa_dealers'
+    'pxa_dealers'
 );

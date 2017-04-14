@@ -1,26 +1,17 @@
-<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
-     xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers" data-namespace-typo3-fluid="true">
+<script>
+    (function (w) {
+        var PxaDealersMaps = w.PxaDealersMaps || {};
 
-    <f:layout name="Default" />
+        PxaDealersMaps.MapSettings = PxaDealersMaps.MapSettings || {};
+        PxaDealersMaps.MapSettings = {
+            dealers: <f:format.htmlentitiesDecode><pxa:jsonEncode value="{dealers}" /></f:format.htmlentitiesDecode>,
+            dealerItems: '.dealer-item'
+        };
 
-    <f:section name="main">
-        <script>
-        (function (w) {
-            var PxaDealersMaps = w.PxaDealersMaps || {};
+        PxaDealersMaps.settings = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{settings.map}" /></f:format.htmlentitiesDecode>;
 
-            PxaDealersMaps.MapSettings = PxaDealersMaps.MapSettings || {};
-            PxaDealersMaps.MapSettings = {
-                dealers: <f:format.htmlentitiesDecode><pxa:jsonEncode value="{dealers}" /></f:format.htmlentitiesDecode>,
-                dealerItems: '.dealer-item'
-            };
-
-            PxaDealersMaps.settings = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{settings.map}" /></f:format.htmlentitiesDecode>;
-
-            w.PxaDealersMaps = PxaDealersMaps;
-        })(window);
-        </script>
-    </f:section>
-</div>
-
-
+        w.PxaDealersMaps = PxaDealersMaps;
+    })(window);
+</script>
+</html>

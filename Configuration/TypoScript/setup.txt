@@ -39,6 +39,10 @@ plugin.tx_pxadealers {
             scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
         }
 
+        search {
+            searchFields = name,zipcode,country.shortNameLocal,country.shortNameEn
+        }
+
         dealersList {
             noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
             showLogo = {$plugin.tx_pxadealers.settings.dealersList.showLogo}
@@ -65,3 +69,34 @@ page {
         pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
     }
 }
+
+[globalVar = GP:type = 2313089]
+    pxaDealersSuggest = PAGE
+    pxaDealersSuggest {
+        typeNum = 2313089
+
+        config {
+            disableAllHeaderCode = 1
+            no_cache = 1
+            admPanel = 0
+        }
+
+        5 = USER_INT
+        5 {
+            userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+            extensionName = PxaDealers
+            pluginName = Pxadealers
+            vendorName = Pixelant
+
+            settings =< plugin.tx_pxadealers.settings
+            persistence =< plugin.tx_pxadealers.persistence
+            view =< plugin.tx_pxadealers.view
+
+            SwitchableControllerActions {
+                Dealers {
+                    1 = suggest
+                }
+            }
+        }
+    }
+[end]

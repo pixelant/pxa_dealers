@@ -1,13 +1,17 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
      xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
 
-    <f:layout name="Default" />
+    <f:layout name="Default"/>
 
     <f:section name="main">
         <div id="pxa-dealers-search">
-            <f:form action="map">
+            <f:form action="map" object="{search}">
                 <div class="form-group">
-                    <input type="text" class="form-control dealer-search-field" placeholder="{f:translate(key: 'fe.placeholder')}">
+                    <f:form.textfield type="text"
+                                      property="searchTermOriginal"
+                                      data="{ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}"
+                                      class="form-control dealer-search-field"
+                                      placeholder="{f:translate(key: 'fe.placeholder')}"/>
                 </div>
             </f:form>
         </div>

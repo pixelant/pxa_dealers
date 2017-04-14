@@ -53,8 +53,8 @@ class PageLayoutView
 
             $additionalInfo .= $this->getRecordsStorageInfo(GeneralUtility::intExplode(',', $params['row']['pages']));
 
-            if ($settings['switchableControllerActions'] === 'Countries->countriesFilter'
-                || $settings['switchableControllerActions'] === 'Dealers->map'
+            if ($this->isActionName($settings['switchableControllerActions'], 'Countries->countriesFilter')
+                || $this->isActionName($settings['switchableControllerActions'], 'Dealers->map')
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'static_countries',
@@ -66,8 +66,8 @@ class PageLayoutView
             }
 
 
-            if ($settings['switchableControllerActions'] === 'Categories->categoriesFilter'
-                || $settings['switchableControllerActions'] === 'Dealers->map'
+            if ($this->isActionName($settings['switchableControllerActions'], 'Categories->categoriesFilter')
+                || $this->isActionName($settings['switchableControllerActions'], 'Dealers->map')
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'sys_category',
@@ -79,7 +79,7 @@ class PageLayoutView
                 $additionalInfo .= $this->getInfoOrderFields($settings);
             }
 
-            if ($settings['switchableControllerActions'] === 'Dealers->search') {
+            if ($this->isActionName($settings['switchableControllerActions'], 'Dealers->search')) {
                 $additionalInfo .= $this->getInfoFor(
                     'pages',
                     'be.no_result',
@@ -108,6 +108,18 @@ class PageLayoutView
             MainUtility::translate('flexform.actions.mode'),
             MainUtility::translate('flexform.actions.' . $actionName)
         );
+    }
+
+    /**
+     * Check action name
+     *
+     * @param string $switchableControllerActions
+     * @param string $actionName
+     * @return bool
+     */
+    protected function isActionName($switchableControllerActions, $actionName)
+    {
+        return GeneralUtility::isFirstPartOfStr($switchableControllerActions, $actionName);
     }
 
     /**
