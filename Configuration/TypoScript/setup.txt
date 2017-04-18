@@ -1,54 +1,104 @@
 plugin.tx_pxadealers {
-	view {
-		templateRootPath = {$plugin.tx_pxadealers.view.templateRootPath}
-		partialRootPath = {$plugin.tx_pxadealers.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_pxadealers.view.layoutRootPath}
-	}
-	persistence {
-		storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
-	}
-	features {
-		# uncomment the following line to enable the new Property Mapper.
-		# rewrittenPropertyMapper = 1
-	}
-	settings {
-		findClosestAjax {
-			additionalListWrapperClass = row-fluid
-			elementAdditionalClass = span3
-			newRow = 4
-			resultLimit = 12
-		}
-		geoLocationApiKey = {$plugin.tx_pxadealers.geoLocationApiKey}
-	}
+    mvc.callDefaultActionIfActionCantBeResolved = 1
+
+    view {
+        templateRootPaths {
+            5 = {$plugin.tx_pxadealers.view.templateRootPath}
+        }
+
+        partialRootPaths {
+            5 = {$plugin.tx_pxadealers.view.partialRootPath}
+        }
+
+        layoutRootPaths {
+            5 = {$plugin.tx_pxadealers.view.layoutRootPath}
+        }
+    }
+
+    persistence {
+        storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+    }
+
+    settings {
+        # Map settings
+        map {
+            stylesJSON =
+            name = {$plugin.tx_pxadealers.settings.map.name}
+
+            zoomOnShow = 14
+
+            markerClusterer {
+                imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
+            }
+
+            markerTypes {
+                default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+            }
+
+            googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+
+            scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
+            scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
+        }
+
+        search {
+            searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
+        }
+
+        dealersList {
+            noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
+            showLogo = {$plugin.tx_pxadealers.settings.dealersList.showLogo}
+            showDefaultImageIfNoLogo = {$plugin.tx_pxadealers.settings.dealersList.showDefaultImageIfNoLogo}
+            imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
+            imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
+        }
+    }
 }
 
-#[globalVar = GP:tx_pxadealers_pxadealerssearchresults|action = searchResults]
+page {
+    includeJSFooter {
+        markerclusterer = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
+        isotope = EXT:pxa_dealers/Resources/Public/JavaScript/isotope.pkgd.min.js
+        pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
+        pxa_dealers = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
 
-#page.includeJSlibs.googleapi.external = 1
-#page.includeJSlibs.googleapi = https://maps.googleapis.com/maps/api/js?sensor=false
+        awesomplete = EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js
+        pxa_dealers_search = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js
+    }
 
-#[global]
-
-page.includeJS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Js/pxa_dealers.js
-page.includeCSS.pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-
-findClosestAjax = PAGE
-findClosestAjax.typeNum = 7505726
-findClosestAjax.config.disableAllHeaderCode = 1
-findClosestAjax.config.no_cache = 1
-findClosestAjax.config.additionalHeaders = Content-type: application/json
-findClosestAjax.config.disablePreviewNotification = 1
-
-  
-findClosestAjax.10 = USER
-findClosestAjax.10 {
-	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-	extensionName = PxaDealers
-	pluginName = Pxadealerssearchresults
-	vendorName = PXA
-	switchableControllerActions {
-		Dealers {
-             1 = findClosestAjax
-		}
-	}
+    includeCSS {
+        awesomplete = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
+        pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
+    }
 }
+
+[globalVar = GP:type = 2313089]
+    pxaDealersSuggest = PAGE
+    pxaDealersSuggest {
+        typeNum = 2313089
+
+        config {
+            disableAllHeaderCode = 1
+            no_cache = 1
+            admPanel = 0
+        }
+
+        5 = USER_INT
+        5 {
+            userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+            extensionName = PxaDealers
+            pluginName = Pxadealers
+            vendorName = Pixelant
+
+            settings =< plugin.tx_pxadealers.settings
+            persistence =< plugin.tx_pxadealers.persistence
+            view =< plugin.tx_pxadealers.view
+
+            SwitchableControllerActions {
+                Dealers {
+                    1 = suggest
+                }
+            }
+        }
+    }
+[end]

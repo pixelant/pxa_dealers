@@ -1,106 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
-		<header/>
-		<body>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+        <header/>
+        <body>
 
-			<trans-unit id="tx_pxadealers_domain_model_dealers">
-				<source>Dealers</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.name">
-				<source>Name of dealer</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.title">
-				<source>Title of dealer</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.telephone">
-				<source>Telephone</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.website">
-				<source>Website url</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.adrress">
-				<source>Adrress for google maps</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.zipcode">
-				<source>Zipcode</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.description">
-				<source>Description </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lat">
-				<source> </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lng">
-				<source>Description </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.lat_lng_is_set">
-				<source> </source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_dealers.assortments">
-				<source>Assortments</source>
-			</trans-unit>
-			
-			<trans-unit id="tx_pxadealers_domain_model_assortment">
-				<source>Assortment</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.name">
-				<source>Name  of assortment</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.icon">
-				<source>Icon of assortment</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.searchBy">
-				<source>Search by:</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.searchByZip">
-				<source>Postcode</source>
-			</trans-unit>
-			<trans-unit id="tx_pxadealers_domain_model_assortment.searchByCity">
-				<source>City</source>
-			</trans-unit>
+            <trans-unit id="fe.showOnMap">
+                <source>Show on map</source>
+            </trans-unit>
 
-			<trans-unit id="error.NoResult">
-				<source>No pharmacies were found. Please enter another post code or city.</source>
-			</trans-unit>
-			<trans-unit id="error.NoResultAdditional">
-				<source>Falls Ihre Apotheke in diese Übersicht nicht aufgeführt ist, kann jede Apotheke in Deutschland selbstverständlich den attraktiven CB12 Doppelpack über den pharmazeutischen Großhandel innerhalb kurzer Zeit für Sie besorgen.</source>
-			</trans-unit>
-			<trans-unit id="error.NotNumeric">
-				<source>Zipcode should be numeric</source>
-			</trans-unit>
-			<trans-unit id="error.EmptyValue">
-				<source>You need to fill in zipcode or city</source>
-			</trans-unit>
-			<trans-unit id="error.ApiError">
-				<source>Google API Key is not valid or API Key reached daily query limit</source>
-			</trans-unit>
+            <trans-unit id="fe.placeholder">
+                <source>Start typing to search...</source>
+            </trans-unit>
+            <trans-unit id="fe.submitvalue">
+                <source>Search</source>
+            </trans-unit>
+            <trans-unit id="fe.all_countries">
+                <source>All countries</source>
+            </trans-unit>
 
-			<trans-unit id="placeholder">
-				<source>Enter postcode or city</source>
-			</trans-unit>
-			<trans-unit id="submitvalue">
-				<source>Search</source>
-			</trans-unit>
-			<trans-unit id="searchDidntStart">
-				<source>Please enter a post code or city to start searching.</source>
-			</trans-unit>			
+            <trans-unit id="js.infoWindowPhone">
+                <source>Phone:</source>
+            </trans-unit>
+            <trans-unit id="js.streetView">
+                <source>Street view</source>
+            </trans-unit>
 
-			
-			<trans-unit id="closest_dealer">
-				<source>%s pharmacies were found nearby</source>
-			</trans-unit>
-			<trans-unit id="ajax_loaded_dealer">
-				<source>Closest pharmacies according to your location</source>
-			</trans-unit>
-			<trans-unit id="ajax_preload">
-				<source>Looking for closest pharmacies</source>
-			</trans-unit>
 
-			<trans-unit id="notDealersFoundFilteringMessage">
-				<source>No retailers were found. Try searching with a different zip code or remove the filtering to the left.</source>
-			</trans-unit>		
-			
-		</body>
-	</file>
+            <trans-unit id="error.noApiKey">
+                <source>No api is set</source>
+            </trans-unit>
+            <trans-unit id="error.no_dealers">
+                <source>Nothing was found</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>

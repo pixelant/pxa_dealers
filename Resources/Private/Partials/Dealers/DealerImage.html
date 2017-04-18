@@ -1,0 +1,20 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:if condition="{settings.dealersList.showLogo}">
+    <div class="dealer-logo">
+        <f:if condition="{dealer.logo}">
+            <f:then>
+                <f:image image="{dealer.logo}"
+                         width="{settings.dealersList.imageWidth}"
+                         height="{settings.dealersList.imageHeight}"/>
+            </f:then>
+            <f:else>
+                <f:if condition="{settings.dealersList.showDefaultImageIfNoLogo}">
+                    <f:image src="{settings.dealersList.noImagePath}"
+                             width="{settings.dealersList.imageWidth}"
+                             height="{settings.dealersList.imageHeight}"/>
+                </f:if>
+            </f:else>
+        </f:if>
+    </div>
+</f:if>
+</html>

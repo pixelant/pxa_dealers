@@ -1,0 +1,35 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+
+    <f:layout name="Default" />
+
+    <f:section name="main">
+        <f:render partial="Javascript/JsMapSettings" arguments="{_all}"/>
+
+        <div class="pxa-dealers-wrapper">
+            <f:if condition="{settings.map.googleJavascriptApiKey}">
+                <f:then>
+                    <div id="pxa-dealers-map"
+                         data-visible-categories="{allCategoriesUids}"
+                         data-visible-countries="{allCountriesUids}"
+                         class="pxa-dealers-map" style="height: {f:if(condition: settings.map.mapHeight, then: settings.map.mapHeight , else: '550')}px"></div>
+                    <f:if condition="{dealers}">
+                        <f:then>
+                            <div class="pxa-dealers-list">
+                                <f:render partial="Dealers/List" arguments="{_all}"/>
+                            </div>
+                        </f:then>
+                        <f:else>
+                            <p class="warning-message"><f:translate key="error.no_dealers"/></p>
+                        </f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <p class="error-message"><f:translate key="error.noApiKey"/></p>
+                </f:else>
+            </f:if>
+        </div>
+    </f:section>
+</div>
+
+

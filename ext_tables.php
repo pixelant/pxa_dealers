@@ -1,59 +1,25 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
-}
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	$_EXTKEY,
-	'Pxadealerssearchform',
-	'Pxa Dealers Search Form'
+defined('TYPO3_MODE') or die();
+
+call_user_func(
+    function ($EXTKEY) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+            'tx_pxadealers_domain_model_dealer',
+            'EXT:pxa_dealers/Resources/Private/Language/locallang_csh_tx_pxadealers_domain_model_dealers.xlf'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+            'tx_pxadealers_domain_model_dealer'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
+            $EXTKEY,
+            'tx_pxadealers_domain_model_dealer',
+            // Do not use the default field name ("categories"), which is already used
+            // Also do not use a field name containing "categories" (see http://forum.typo3.org/index.php/t/199595/)
+            'dealers_categories'
+        );
+    },
+    'pxa_dealers'
 );
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	$_EXTKEY,
-	'Pxadealerssearchresults',
-	'Pxa Dealers Results'
-);
-
-/* Add FlexForm */
-
-$pluginSignature = strtolower(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToUpperCamelCase($_EXTKEY));
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerssearchform'] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerssearchform', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_search_form.xml');
-
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature . '_pxadealerssearchresults'] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignature . '_pxadealerssearchresults', 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_search_result.xml');
-/****************************************/
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Pxa Dealers');
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_pxadealers_domain_model_dealers', 'EXT:pxa_dealers/Resources/Private/Language/locallang_csh_tx_pxadealers_domain_model_dealers.xlf');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_pxadealers_domain_model_dealers');
-$TCA['tx_pxadealers_domain_model_dealers'] = array(
-	'ctrl' => array(
-		'title'	=> 'LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:tx_pxadealers_domain_model_dealers',
-		'label' => 'name',
-		'tstamp' => 'tstamp',
-		'crdate' => 'crdate',
-		'cruser_id' => 'cruser_id',
-		'dividers2tabs' => TRUE,
-
-		'versioningWS' => 2,
-		'versioning_followPages' => TRUE,
-		'origUid' => 't3_origuid',
-		'languageField' => 'sys_language_uid',
-		'transOrigPointerField' => 'l10n_parent',
-		'transOrigDiffSourceField' => 'l10n_diffsource',
-		'delete' => 'deleted',
-		'enablecolumns' => array(
-			'disabled' => 'hidden',
-			'starttime' => 'starttime',
-			'endtime' => 'endtime',
-		),
-		'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng,lat_lng_is_set',
-		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Dealers.php',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_pxadealers_domain_model_dealers.gif'
-	),
-);
-
-?>

@@ -1,7 +1,69 @@
-#pxa-dealers-map img {
-	max-width: none;
+.pxa-dealers-map img {
+    max-width: none;
 }
-#ajax-load-dealer,
-#ajax-load-dealer .after-load {
-	display: none;
+
+.tx-pxa-dealers .warning-message,
+.tx-pxa-dealers .error-message {
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.tx-pxa-dealers .warning-message {
+    background-color: #fcf8e3;
+}
+
+.tx-pxa-dealers .error-message {
+    background-color: #f2dede;
+}
+
+.pxa-dealers-list {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -20px;
+}
+
+.pxa-dealers-list .dealer-item {
+    box-sizing: border-box;
+    padding: 20px;
+    flex: 1;
+}
+
+.google-map-marker table tr > td {
+    padding: 0 5px;
+}
+
+.google-map-marker table tr > td:last-child {
+    padding-right: 0;
+}
+
+.google-map-marker .image-street-preview .street-view-link > span {
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.tx-pxa-dealers .dealers-loader-overlay {
+    text-align: center;
+}
+
+.pxa-dealers-countries,
+.pxa-dealers-categories {
+    position: relative;
+}
+
+.pxa-dealers-countries select,
+.pxa-dealers-categories .checkbox {
+    display: none;
+}
+
+@media screen and (max-width: 992px) {
+    .pxa-dealers-list .dealer-item {
+        flex-basis: 25%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .pxa-dealers-list .dealer-item {
+        flex-basis: 50%;
+    }
 }

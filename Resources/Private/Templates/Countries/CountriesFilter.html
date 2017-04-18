@@ -1,0 +1,25 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+
+    <f:layout name="Default"/>
+
+    <f:section name="main">
+        <div class="pxa-dealers-countries"
+             data-dealers-filter="1"
+             data-filter-type="selectbox"
+             data-filter-prefix=".country-"
+             data-visible="visible-countries">
+
+            <f:if condition="{countries}">
+                <select class="form-control">
+                    <option value="0"><f:translate key="fe.all_countries"/></option>
+                    <f:for each="{countries}" as="country">
+                        <option value="{country.uid}">{country.officialNameEn}</option>
+                    </f:for>
+                </select>
+            </f:if>
+
+            <f:render partial="Loader"/>
+        </div>
+    </f:section>
+</div>

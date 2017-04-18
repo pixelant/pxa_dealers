@@ -1,0 +1,215 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.chooseMode</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.map</numIndex>
+                                        <numIndex index="1">Dealers->map</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.filters</numIndex>
+                                        <numIndex index="1">--div--</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesFilter</numIndex>
+                                        <numIndex index="1">Categories->categoriesFilter</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.countriesFilter</numIndex>
+                                        <numIndex index="1">Countries->countriesFilter</numIndex>
+                                    </numIndex>
+                                    <numIndex index="5">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.searchSection</numIndex>
+                                        <numIndex index="1">--div--</numIndex>
+                                    </numIndex>
+                                    <numIndex index="6">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
+                                        <numIndex index="1">Search->search;Search->suggest</numIndex>
+                                    </numIndex>
+                                    <numIndex index="7">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.searchResults</numIndex>
+                                        <numIndex index="1">Search->searchResults</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
+
+                    <settings.search.searchResultPage>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.search.searchResultPage</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.search.searchResultPage>
+
+                    <settings.demand.orderBy>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.name</numIndex>
+                                        <numIndex index="1">name</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.crdate</numIndex>
+                                        <numIndex index="1">crdate</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy.tstamp</numIndex>
+                                        <numIndex index="1">tstamp</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.orderBy>
+
+                    <settings.demand.orderDirection>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <items>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.asc</numIndex>
+                                        <numIndex index="1">asc</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection.desc</numIndex>
+                                        <numIndex index="1">desc</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.orderDirection>
+
+                    <settings.demand.countries>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.countries</label>
+                            <config>
+                                <type>select</type>
+                                <size>10</size>
+                                <renderType>selectMultipleSideBySide</renderType>
+                                <foreign_table>static_countries</foreign_table>
+                                <foreign_table_where>ORDER BY static_countries.cn_short_en</foreign_table_where>
+                                <autoSizeMax>30</autoSizeMax>
+                                <maxitems>99</maxitems>
+                                <minitems>0</minitems>
+                                <multiple>0</multiple>
+                                <wizards>
+                                    <_POSITION>top</_POSITION>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.countries>
+
+                    <settings.demand.categories>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.categories</label>
+                            <config>
+                                <type>select</type>
+                                <autoSizeMax>50</autoSizeMax>
+                                <foreign_table>sys_category</foreign_table>
+                                <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
+                                <maxitems>9999</maxitems>
+                                <renderMode>tree</renderMode>
+                                <size>10</size>
+                                <treeConfig>
+                                    <appearance>
+                                        <expandAll>1</expandAll>
+                                        <showHeader>1</showHeader>
+                                    </appearance>
+                                    <parentField>parent</parentField>
+                                </treeConfig>
+                            </config>
+                        </TCEforms>
+                    </settings.demand.categories>
+                </el>
+            </ROOT>
+        </sDEF>
+        <map>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.sheet_title_map</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.map.mapHeight>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.mapHeight</label>
+                            <config>
+                                <type>input</type>
+                                <default>555</default>
+                                <size>10</size>
+                                <eval>int,required</eval>
+                            </config>
+                        </TCEforms>
+                    </settings.map.mapHeight>
+
+                    <settings.map.markerClusterer.enable>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.enableMarkerClusterer</label>
+                            <config>
+                                <type>check</type>
+                                <default>1</default>
+                            </config>
+                        </TCEforms>
+                    </settings.map.markerClusterer.enable>
+
+                    <settings.map.markerClusterer.maxZoom>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.markerClustererMaxZoom</label>
+                            <config>
+                                <type>input</type>
+                                <default>12</default>
+                                <size>10</size>
+                                <eval>int,required</eval>
+                            </config>
+                        </TCEforms>
+                    </settings.map.markerClusterer.maxZoom>
+                </el>
+            </ROOT>
+        </map>
+    </sheets>
+</T3DataStructure>

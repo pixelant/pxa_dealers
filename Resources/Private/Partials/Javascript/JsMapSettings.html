@@ -1,0 +1,17 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers" data-namespace-typo3-fluid="true">
+<script>
+    (function (w) {
+        var PxaDealersMaps = w.PxaDealersMaps || {};
+
+        PxaDealersMaps.MapSettings = PxaDealersMaps.MapSettings || {};
+        PxaDealersMaps.MapSettings = {
+            dealers: <f:format.htmlentitiesDecode><pxa:jsonEncode value="{dealers}" /></f:format.htmlentitiesDecode>,
+            dealerItems: '.dealer-item'
+        };
+
+        PxaDealersMaps.settings = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{settings.map}" /></f:format.htmlentitiesDecode>;
+
+        w.PxaDealersMaps = PxaDealersMaps;
+    })(window);
+</script>
+</html>
