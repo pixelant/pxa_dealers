@@ -59,17 +59,6 @@ class DealersController extends ActionController
     protected $pageRenderer;
 
     /**
-     * Initialize map
-     *
-     * @return void
-     */
-    public function initializeMapAction()
-    {
-        $this->getFrontendLabels();
-        $this->loadGoogleApi();
-    }
-
-    /**
      * action map
      *
      * @param \Pixelant\PxaDealers\Domain\Model\Search $search
@@ -77,6 +66,9 @@ class DealersController extends ActionController
      */
     public function mapAction(Search $search = null)
     {
+        $this->getFrontendLabels();
+        $this->loadGoogleApi();
+
         $dealers = [];
 
         $demand = Demand::getInstance($this->settings['demand']);

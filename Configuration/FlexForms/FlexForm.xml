@@ -20,19 +20,31 @@
                                 <items>
                                     <numIndex index="1">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.map</numIndex>
-                                        <numIndex index="1">Dealers->map;</numIndex>
+                                        <numIndex index="1">Dealers->map</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.filters</numIndex>
+                                        <numIndex index="1">--div--</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.categoriesFilter</numIndex>
                                         <numIndex index="1">Categories->categoriesFilter</numIndex>
                                     </numIndex>
-                                    <numIndex index="3">
+                                    <numIndex index="4">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.countriesFilter</numIndex>
                                         <numIndex index="1">Countries->countriesFilter</numIndex>
                                     </numIndex>
-                                    <numIndex index="4">
+                                    <numIndex index="5">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.searchSection</numIndex>
+                                        <numIndex index="1">--div--</numIndex>
+                                    </numIndex>
+                                    <numIndex index="6">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
                                         <numIndex index="1">Search->search;Search->suggest</numIndex>
+                                    </numIndex>
+                                    <numIndex index="7">
+                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.searchResults</numIndex>
+                                        <numIndex index="1">Search->searchResults</numIndex>
                                     </numIndex>
                                 </items>
                             </config>

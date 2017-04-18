@@ -92,6 +92,17 @@ class SearchController extends ActionController
     }
 
     /**
+     * action map
+     *
+     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
+     * @return void
+     */
+    public function searchResultsAction(Search $search = null)
+    {
+        $this->forward('map', 'Dealers', null, ['search' => $search]);
+    }
+
+    /**
      * Suggest search results
      *
      * @param \Pixelant\PxaDealers\Domain\Model\Search $search

@@ -71,7 +71,12 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInSearchView = [
-        'sDEF' => 'filter.mapContentElement,demand.categories,demand.countries,demand.orderDirection,demand.orderBy',
+        'sDEF' => 'demand.categories,demand.countries,demand.orderDirection,demand.orderBy',
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+    ];
+
+    public $removedFieldsInSearchResults = [
+        'sDEF' => 'search.searchResultPage,demand.categories,demand.countries',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -197,6 +202,9 @@ class FlexFormHook
                 break;
             case 'Search->search':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
+                break;
+            case 'Search->searchResults':
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchResults);
                 break;
             default:
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);

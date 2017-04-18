@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
-		<header/>
-		<body>
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+        <header/>
+        <body>
 
-			<trans-unit id="fe.showOnMap">
-				<source>Show on map</source>
-			</trans-unit>
+            <trans-unit id="fe.showOnMap">
+                <source>Show on map</source>
+            </trans-unit>
 
             <trans-unit id="fe.placeholder">
                 <source>Start typing to search...</source>
@@ -32,6 +32,6 @@
             <trans-unit id="error.no_dealers">
                 <source>Nothing was found</source>
             </trans-unit>
-		</body>
-	</file>
+        </body>
+    </file>
 </xliff>
