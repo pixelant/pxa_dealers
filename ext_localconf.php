@@ -8,13 +8,14 @@ call_user_func(
             'Pixelant.' . $_EXTKEY,
             'Pxadealers',
             [
-                'Dealers' => 'map, search, suggest',
+                'Dealers' => 'map',
                 'Categories' => 'categoriesFilter',
-                'Countries' => 'countriesFilter'
+                'Countries' => 'countriesFilter',
+                'Search' => 'search, suggest'
             ],
             // non-cacheable actions
             [
-
+                'Search' => 'suggest'
             ]
         );
 

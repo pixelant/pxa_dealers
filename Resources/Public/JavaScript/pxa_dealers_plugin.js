@@ -491,7 +491,6 @@
                 }
                 self.mapGoogle.setZoom(parseInt(self.pluginSettings.zoomOnShow));
                 self.mapGoogle.setCenter(self.markers[first].getPosition());
-                //self.mapGoogle.fitBounds(self.bounds);
             } else if (i > 1) {
                 self.mapGoogle.fitBounds(self.bounds);
                 self.mapGoogle.setCenter(self.bounds.getCenter());
@@ -540,10 +539,10 @@
     };
 
     $.fn.pxaDealers.settings = {
-        dealerItems: ".dealer-item",
-        showOnMapSelector: ".show-on-map-link",
+        dealerItems: '.dealer-item',
+        showOnMapSelector: '.show-on-map-link',
         showOnMapActiveClass: 'active',
-        mapParentWrapper: ".pxa-dealers-wrapper",
-        itemsListWrapper: ".pxa-dealers-list"
+        mapParentWrapper: '.pxa-dealers-wrapper',
+        itemsListWrapper: '.pxa-dealers-list'
     };
 })(window, jQuery, google);

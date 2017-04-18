@@ -96,7 +96,7 @@
                     function _showVisibleItemsCheckBox() {
                         var checkBoxes = _element.find('.checkbox'),
                             overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = $(_map).data(_element.data('visible'));
+                            visibleList = String($(_map).data(_element.data('visible')));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
                             $(checkBoxes).each(function () {
@@ -124,7 +124,7 @@
                         var selectBox = _element.find('select'),
                             options = selectBox.find('option'),
                             overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = $(_map).data(_element.data('visible'));
+                            visibleList = String($(_map).data(_element.data('visible')));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
                             $(options).each(function () {

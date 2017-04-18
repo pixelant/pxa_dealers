@@ -79,7 +79,7 @@ class PageLayoutView
                 $additionalInfo .= $this->getInfoOrderFields($settings);
             }
 
-            if ($this->isActionName($settings['switchableControllerActions'], 'Dealers->search')) {
+            if ($this->isActionName($settings['switchableControllerActions'], 'Search->search')) {
                 $additionalInfo .= $this->getInfoFor(
                     'pages',
                     'be.no_result',
@@ -101,7 +101,13 @@ class PageLayoutView
      */
     protected function getSwitchableControllerActionsLabel(array $settings)
     {
-        list(, $actionName) = GeneralUtility::trimExplode('->', $settings['switchableControllerActions']);
+        list(, $actionName) = GeneralUtility::trimExplode(
+            '->',
+            GeneralUtility::trimExplode(
+                ';',
+                $settings['switchableControllerActions']
+            )[0]
+        );
 
         return sprintf(
             '<strong>%s: <i>%s</i></strong>',

@@ -133,7 +133,7 @@ class FlexFormHook
                 case 'Countries->countriesFilter':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                     break;
-                case 'Dealers->search':
+                case 'Search->search':
                     $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
                     break;
                 default:

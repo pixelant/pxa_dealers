@@ -1,4 +1,6 @@
 plugin.tx_pxadealers {
+    mvc.callDefaultActionIfActionCantBeResolved = 1
+
     view {
         templateRootPaths {
             5 = {$plugin.tx_pxadealers.view.templateRootPath}
@@ -40,7 +42,7 @@ plugin.tx_pxadealers {
         }
 
         search {
-            searchFields = name,zipcode,country.shortNameLocal,country.shortNameEn
+            searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
         }
 
         dealersList {

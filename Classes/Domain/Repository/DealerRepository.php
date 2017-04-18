@@ -44,30 +44,6 @@ class DealerRepository extends AbstractDemandRepository
 {
 
     /**
-     * @param QueryInterface $query
-     * @param Demand $demand
-     * @return void
-     */
-    protected function createConstraints(QueryInterface $query, Demand $demand)
-    {
-        $constraints = [];
-
-        // set country restriction
-        if (!empty($demand->getCountries())) {
-            $constraints[] = $query->in('country', $demand->getCountries());
-        }
-
-        // set categories restriction
-        if (!empty($demand->getCategories())) {
-            $constraints[] = $query->contains('categories', $demand->getCategories());
-        }
-
-        if (!empty($constraints)) {
-            $query->matching($query->logicalAnd($constraints));
-        }
-    }
-
-    /**
      * @param Search $search
      * @return array
      */
@@ -89,6 +65,53 @@ class DealerRepository extends AbstractDemandRepository
         }
 
         return array_unique($result, SORT_STRING);
+    }
+
+    /**
+     * Check for storage
+     *
+     * @return array
+     */
+    public function getStoragePageIds()
+    {
+        $query = $this->createQuery();
+        return $query->getQuerySettings()->getStoragePageIds();
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param Demand $demand
+     * @return void
+     */
+    protected function createConstraints(QueryInterface $query, Demand $demand)
+    {
+        $constraintsAnd = [];
+        $constraintsOr = [];
+
+        // set country restriction
+        if (!empty($demand->getCountries())) {
+            $constraintsAnd[] = $query->in('country', $demand->getCountries());
+        }
+
+        // set categories restriction
+        if (!empty($demand->getCategories())) {
+            $constraintsAnd[] = $query->contains('categories', $demand->getCategories());
+        }
+
+        if ($demand->getSeach() !== null) {
+            foreach ($demand->getSeach()->getSearchFields() as $searchField) {
+                $constraintsOr[] = $query->like($searchField, $demand->getSeach()->getSearchTermLowercase());
+            }
+        }
+
+        if (!empty($constraintsAnd) || !empty($constraintsOr)) {
+            $query->matching(
+                $query->logicalAnd([
+                    $query->logicalAnd($constraintsAnd),
+                    $query->logicalOr($constraintsOr)
+                ])
+            );
+        }
     }
 
     /**
@@ -117,16 +140,5 @@ class DealerRepository extends AbstractDemandRepository
                 }
             }
         }
-    }
-
-    /**
-     * Check for storage
-     *
-     * @return array
-     */
-    public function getStoragePageIds()
-    {
-        $query = $this->createQuery();
-        return $query->getQuerySettings()->getStoragePageIds();
     }
 }

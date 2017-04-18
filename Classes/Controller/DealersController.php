@@ -33,8 +33,6 @@ use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
-use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -61,17 +59,6 @@ class DealersController extends ActionController
     protected $pageRenderer;
 
     /**
-     * Allowed search criterias
-     *
-     * @var array
-     */
-    protected $searchAllowedProperties = [
-        'searchTermLowercase',
-        'searchTermOriginal',
-        'pid'
-    ];
-
-    /**
      * Initialize map
      *
      * @return void
@@ -80,21 +67,6 @@ class DealersController extends ActionController
     {
         $this->getFrontendLabels();
         $this->loadGoogleApi();
-    }
-
-    /**
-     * @return void
-     */
-    protected function initializeSuggestAction()
-    {
-        /** @var PropertyMappingConfiguration $propertyMappingConfiguration */
-        $propertyMappingConfiguration = $this->arguments['search']->getPropertyMappingConfiguration();
-        $propertyMappingConfiguration->allowProperties(...$this->searchAllowedProperties);
-        $propertyMappingConfiguration->setTypeConverterOption(
-            PersistentObjectConverter::class,
-            PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
-            true
-        );
     }
 
     /**
@@ -108,7 +80,6 @@ class DealersController extends ActionController
         $dealers = [];
 
         $demand = Demand::getInstance($this->settings['demand']);
-        $demandDealers = $this->dealerRepository->findDemanded($demand);
 
         if ($search !== null) {
             $search->setSearchFields(GeneralUtility::trimExplode(
@@ -121,6 +92,8 @@ class DealersController extends ActionController
 
         $allCategoriesUids = [];
         $allCountriesUids = [];
+
+        $demandDealers = $this->dealerRepository->findDemanded($demand);
 
         /** @var Dealer $dealer */
         foreach ($demandDealers as $dealer) {
@@ -137,38 +110,6 @@ class DealersController extends ActionController
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', $allCountriesUids),
         ]);
-    }
-
-    /**
-     * Search form
-     */
-    public function searchAction()
-    {
-        $this->view->assign(
-            'storagePageIds',
-            implode(',', $this->dealerRepository->getStoragePageIds())
-        );
-    }
-
-    /**
-     * Suggest search results
-     *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
-     */
-    public function suggestAction(Search $search = null)
-    {
-        if ($search !== null && !empty($search->getSearchTermLowercase())) {
-            $search->setSearchFields(GeneralUtility::trimExplode(
-                ',',
-                $this->settings['search']['searchFields'],
-                true
-            ));
-
-            $response = $this->dealerRepository->suggestResult($search);
-        }
-
-        $this->response->setHeader('Content-Type', 'application/json');
-        $this->view->assign('data', isset($response) ? $response : []);
     }
 
     /**
