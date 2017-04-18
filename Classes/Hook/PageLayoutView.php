@@ -49,12 +49,20 @@ class PageLayoutView
                 GeneralUtility::xml2array($params['row']['pi_flexform'])
             );
 
-            $info .= $this->getSwitchableControllerActionsLabel($settings);
+            list(, $actionName) = GeneralUtility::trimExplode(
+                '->',
+                GeneralUtility::trimExplode(
+                    ';',
+                    $settings['switchableControllerActions']
+                )[0]
+            );
+
+            $info .= $this->getSwitchableControllerActionsLabel($actionName);
 
             $additionalInfo .= $this->getRecordsStorageInfo(GeneralUtility::intExplode(',', $params['row']['pages']));
 
-            if ($this->isActionName($settings['switchableControllerActions'], 'Countries->countriesFilter')
-                || $this->isActionName($settings['switchableControllerActions'], 'Dealers->map')
+            if ($actionName === 'countriesFilter'
+                || $actionName === 'map'
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'static_countries',
@@ -66,8 +74,8 @@ class PageLayoutView
             }
 
 
-            if ($this->isActionName($settings['switchableControllerActions'], 'Categories->categoriesFilter')
-                || $this->isActionName($settings['switchableControllerActions'], 'Dealers->map')
+            if ($actionName === 'categoriesFilter'
+                || $actionName === 'map'
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'sys_category',
@@ -79,7 +87,8 @@ class PageLayoutView
                 $additionalInfo .= $this->getInfoOrderFields($settings);
             }
 
-            if ($this->isActionName($settings['switchableControllerActions'], 'Search->search')) {
+
+            if ($actionName === 'search') {
                 $additionalInfo .= $this->getInfoFor(
                     'pages',
                     'be.no_result',
@@ -87,6 +96,10 @@ class PageLayoutView
                     'flexform.search.searchResultPage',
                     $settings['settings']['search']['searchResultPage']
                 );
+            }
+
+            if ($actionName === 'searchResults') {
+                $additionalInfo .= $this->getInfoOrderFields($settings);
             }
         }
 
@@ -96,36 +109,16 @@ class PageLayoutView
     /**
      * Generate label for switchable controller action
      *
-     * @param array $settings
+     * @param string $actionName
      * @return string
      */
-    protected function getSwitchableControllerActionsLabel(array $settings)
+    protected function getSwitchableControllerActionsLabel($actionName)
     {
-        list(, $actionName) = GeneralUtility::trimExplode(
-            '->',
-            GeneralUtility::trimExplode(
-                ';',
-                $settings['switchableControllerActions']
-            )[0]
-        );
-
         return sprintf(
             '<strong>%s: <i>%s</i></strong>',
             MainUtility::translate('flexform.actions.mode'),
             MainUtility::translate('flexform.actions.' . $actionName)
         );
-    }
-
-    /**
-     * Check action name
-     *
-     * @param string $switchableControllerActions
-     * @param string $actionName
-     * @return bool
-     */
-    protected function isActionName($switchableControllerActions, $actionName)
-    {
-        return GeneralUtility::isFirstPartOfStr($switchableControllerActions, $actionName);
     }
 
     /**
