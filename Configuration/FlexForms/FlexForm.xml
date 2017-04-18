@@ -16,6 +16,7 @@
                             <onChange>reload</onChange>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <items>
                                     <numIndex index="1">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.map</numIndex>
@@ -63,6 +64,7 @@
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy</label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <size>1</size>
                                 <maxitems>1</maxitems>
                                 <minitems>1</minitems>
@@ -89,6 +91,7 @@
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderDirection</label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectSingle</renderType>
                                 <size>1</size>
                                 <maxitems>1</maxitems>
                                 <minitems>1</minitems>

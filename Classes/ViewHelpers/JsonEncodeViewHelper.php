@@ -34,6 +34,16 @@ class JsonEncodeViewHelper extends AbstractViewHelper
 {
 
     /**
+     * @var boolean
+     */
+    protected $escapeOutput = false;
+
+    /**
+     * @var boolean
+     */
+    protected $escapeChildren = false;
+
+    /**
      * Json encode only for array !
      *
      * @param array $value

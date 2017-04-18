@@ -21,7 +21,11 @@ call_user_func(
 
         // @codingStandardsIgnoreStart
         // Hook for flexform processing
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
+        if (version_compare(TYPO3_version, '8.0', '<')) {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
+        }
         // @codingStandardsIgnoreEnd
 
         // Add page TS

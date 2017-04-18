@@ -76,7 +76,72 @@ class FlexFormHook
     ];
 
     /**
+     * The data structure depends on a current form selection (persistenceIdentifier)
+     * and if the field "overrideFinishers" is active. Add both to the identifier to
+     * hand these information over to parseDataStructureByIdentifierPostProcess() hook.
+     *
+     * @param array $fieldTca Incoming field TCA
+     * @param string $tableName Handled table
+     * @param string $fieldName Handled field
+     * @param array $row Current data row
+     * @param array $identifier Already calculated identifier
+     * @return array Modified identifier
+     */
+    public function getDataStructureIdentifierPostProcess(
+        array $fieldTca,
+        string $tableName,
+        string $fieldName,
+        array $row,
+        array $identifier
+    ): array {
+        if ($tableName === 'tt_content' && $fieldName === 'pi_flexform' && $row['list_type'] === 'pxadealers_pxadealers') {
+            $currentFlexData = [];
+            if (!is_array($row['pi_flexform']) && !empty($row['pi_flexform'])) {
+                $currentFlexData = GeneralUtility::xml2array($row['pi_flexform']);
+            }
+
+            if (isset($currentFlexData['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'])
+                && !empty($currentFlexData['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'])
+            ) {
+                $selectedView = $currentFlexData['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
+
+                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
+                $selectedView = $actionParts[0];
+                // new plugin element
+            } else {
+                // use Map
+                $selectedView = 'Dealers->map';
+            }
+            // save it for parseDataStructureByIdentifierPostProcess
+            $identifier['ext-pxa-dealers-switchableControllerActions'] = $selectedView;
+        }
+
+        return $identifier;
+    }
+
+    /**
      * Change visible flexform fields
+     * Used in TYPO3 > 8
+     *
+     * @param array $dataStructure
+     * @param array $identifier
+     * @return array
+     */
+    public function parseDataStructureByIdentifierPostProcess($dataStructure, $identifier)
+    {
+        if ($identifier['dataStructureKey'] === 'pxadealers_pxadealers,list'
+            && $identifier['fieldName'] === 'pi_flexform'
+            && isset($identifier['ext-pxa-dealers-switchableControllerActions'])
+        ) {
+            $this->updateFlexforms($dataStructure, $identifier['ext-pxa-dealers-switchableControllerActions']);
+        }
+
+        return $dataStructure;
+    }
+
+    /**
+     * Change visible flexform fields
+     * Used in TYPO3 < 8
      *
      * @param array &$dataStructure Flexform structure
      * @param array $conf some strange configuration
@@ -87,7 +152,25 @@ class FlexFormHook
     public function getFlexFormDS_postProcessDS(&$dataStructure, $conf, $row, $table)
     {
         if ($table === 'tt_content' && $row['list_type'] === 'pxadealers_pxadealers' && is_array($dataStructure)) {
-            $this->updateFlexforms($dataStructure, $row);
+            // get the first selected action
+            if (is_string($row['pi_flexform'])) {
+                $flexFormSelection = GeneralUtility::xml2array($row['pi_flexform']);
+            } else {
+                $flexFormSelection = $row['pi_flexform'];
+            }
+            if (is_array($flexFormSelection) && is_array($flexFormSelection['data'])) {
+                $selectedView = $flexFormSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
+
+                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
+                $selectedView = $actionParts[0];
+
+                // new plugin element
+            } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
+                // use Map
+                $selectedView = 'Dealers->map';
+            }
+
+            $this->updateFlexforms($dataStructure, $selectedView);
         }
     }
     // @codingStandardsIgnoreEnd
@@ -99,45 +182,25 @@ class FlexFormHook
      * @param array $row row of current record
      * @return void
      */
-    protected function updateFlexforms(array &$dataStructure, array $row)
+    protected function updateFlexforms(array &$dataStructure, string $selectedView)
     {
-        $selectedView = '';
-
-        // get the first selected action
-        if (is_string($row['pi_flexform'])) {
-            $flexformSelection = GeneralUtility::xml2array($row['pi_flexform']);
-        } else {
-            $flexformSelection = $row['pi_flexform'];
-        }
-        if (is_array($flexformSelection) && is_array($flexformSelection['data'])) {
-            $selectedView = $flexformSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-            if (!empty($selectedView)) {
-                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
-                $selectedView = $actionParts[0];
-            }
-            // new plugin element
-        } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
-            // use Map
-            $selectedView = 'Dealers->map';
-        }
-
-        if (!empty($selectedView)) {
-            // Modify the flexform structure depending on the first found action
-            switch ($selectedView) {
-                case 'Dealers->map':
-                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
-                    break;
-                case 'Categories->categoriesFilter':
-                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
-                    break;
-                case 'Countries->countriesFilter':
-                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
-                    break;
-                case 'Search->search':
-                    $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
-                    break;
-                default:
-            }
+        // Modify the flexform structure depending on the first found action
+        switch ($selectedView) {
+            case 'Dealers->map':
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
+                break;
+            case 'Categories->categoriesFilter':
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
+                break;
+            case 'Countries->countriesFilter':
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
+                break;
+            case 'Search->search':
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
+                break;
+            default:
+                $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
+                break;
         }
     }
 
