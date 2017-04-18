@@ -87,6 +87,7 @@ class DealerRepository extends AbstractDemandRepository
     {
         $constraintsAnd = [];
         $constraintsOr = [];
+        $constraints = [];
 
         // set country restriction
         if (!empty($demand->getCountries())) {
@@ -100,17 +101,27 @@ class DealerRepository extends AbstractDemandRepository
 
         if ($demand->getSeach() !== null) {
             foreach ($demand->getSeach()->getSearchFields() as $searchField) {
-                $constraintsOr[] = $query->like($searchField, $demand->getSeach()->getSearchTermLowercase());
+                $constraintsOr[] = $query->like(
+                    $searchField,
+                    '%' . $demand->getSeach()->getSearchTermLowercase() . '%'
+                );
             }
         }
 
-        if (!empty($constraintsAnd) || !empty($constraintsOr)) {
+        if (!empty($constraintsAnd)) {
+            $constraints[] = $query->logicalAnd($constraintsAnd);
+        }
+
+        if (!empty($constraintsOr)) {
+            $constraints[] = $query->logicalOr($constraintsOr);
+        }
+
+        if (count($constraints) > 1) {
             $query->matching(
-                $query->logicalAnd([
-                    $query->logicalAnd($constraintsAnd),
-                    $query->logicalOr($constraintsOr)
-                ])
+                $query->logicalAnd($constraints)
             );
+        } elseif (count($constraints) === 1) {
+            $query->matching($constraints[0]);
         }
     }
 
