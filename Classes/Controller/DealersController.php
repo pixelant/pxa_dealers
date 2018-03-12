@@ -67,7 +67,6 @@ class DealersController extends ActionController
     public function mapAction(Search $search = null)
     {
         $this->getFrontendLabels();
-        $this->loadGoogleApi();
 
         $dealers = [];
 
@@ -102,19 +101,6 @@ class DealersController extends ActionController
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', $allCountriesUids),
         ]);
-    }
-
-    /**
-     * Incldue google api only on map page
-     */
-    protected function loadGoogleApi()
-    {
-        $pathGoogleMaps = sprintf(
-            'https://maps.googleapis.com/maps/api/js?key=%s',
-            $this->settings['map']['googleJavascriptApiKey']
-        );
-
-        $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
     }
 
     /**

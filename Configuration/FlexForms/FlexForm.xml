@@ -149,7 +149,6 @@
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.categories</label>
                             <config>
                                 <type>select</type>
-                                <autoSizeMax>50</autoSizeMax>
                                 <foreign_table>sys_category</foreign_table>
                                 <foreign_table_where> AND sys_category.sys_language_uid IN (-1, 0) ORDER BY sys_category.sorting ASC</foreign_table_where>
                                 <maxitems>9999</maxitems>

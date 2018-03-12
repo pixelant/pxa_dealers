@@ -62,7 +62,7 @@ class CountriesController extends ActionController
     protected function getCountries()
     {
         if (!empty($this->settings['demand']['countries'])) {
-            $countriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['countries']);
+            $countriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['countries'], true);
 
             $query = $this->countriesRepository->createQuery();
 

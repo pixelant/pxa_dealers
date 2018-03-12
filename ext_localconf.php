@@ -15,7 +15,7 @@ call_user_func(
             ],
             // non-cacheable actions
             [
-                'Search' => 'search, searchResults, suggest'
+                'Search' => 'searchResults, suggest'
             ]
         );
 

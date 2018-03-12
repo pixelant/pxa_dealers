@@ -5,7 +5,7 @@
 
     <f:section name="main">
         <div id="pxa-dealers-search">
-            <f:form object="{search}" name="search">
+            <f:form object="{search}" name="search" action="searchResults" pageUid="{settings.search.searchResultPage}">
                 <div class="form-group">
                     <f:form.textfield type="text"
                                       property="searchTermOriginal"
