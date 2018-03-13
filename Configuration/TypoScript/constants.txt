@@ -17,14 +17,17 @@ plugin.tx_pxadealers {
         # cat=plugin.tx_pxadealers/pxadealers/010; type=string; label=Google Javascript Api Key
         googleJavascriptApiKey =
 
+        # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Google server side Api Key
+        googleServerApiKey =
+
         map {
-            # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Map name
+            # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Map name
             name = Map
 
-            # cat=plugin.tx_pxadealers/pxadealers/030; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
+            # cat=plugin.tx_pxadealers/pxadealers/040; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
             scrollFix = 0
 
-            # cat=plugin.tx_pxadealers/pxadealers/040; type=int; label=Scroll fix for mobile view (width < 991)
+            # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix for mobile view (width < 991)
             scrollFixMobile = 0
         }
 	}

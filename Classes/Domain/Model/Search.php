@@ -39,6 +39,32 @@ class Search extends AbstractEntity
     protected $pid = 0;
 
     /**
+     * Search in radius
+     *
+     * @var bool
+     */
+    protected $searchInRadius = false;
+
+    /**
+     * lat
+     *
+     * @var float
+     */
+    protected $lat;
+
+    /**
+     * @var int
+     */
+    protected $radius = 0;
+
+    /**
+     * lng
+     *
+     * @var float
+     */
+    protected $lng;
+
+    /**
      * @return string
      */
     public function getSearchTermLowercase()
@@ -101,5 +127,69 @@ class Search extends AbstractEntity
     public function setPid($pid)
     {
         $this->pid = $pid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSearchInRadius()
+    {
+        return $this->searchInRadius;
+    }
+
+    /**
+     * @param bool $searchInRadius
+     */
+    public function setSearchInRadius($searchInRadius)
+    {
+        $this->searchInRadius = $searchInRadius;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @param float $lat
+     */
+    public function setLat($lat)
+    {
+        $this->lat = (float)$lat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * @param float $lng
+     */
+    public function setLng($lng)
+    {
+        $this->lng = (float)$lng;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRadius()
+    {
+        return $this->radius;
+    }
+
+    /**
+     * @param int $radius
+     */
+    public function setRadius($radius)
+    {
+        $this->radius = (int)$radius;
     }
 }

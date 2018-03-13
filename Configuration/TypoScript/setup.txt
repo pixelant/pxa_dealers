@@ -36,6 +36,7 @@ plugin.tx_pxadealers {
             }
 
             googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+            googleServerApiKey = {$plugin.tx_pxadealers.settings.googleServerApiKey}
 
             scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
             scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
@@ -43,6 +44,8 @@ plugin.tx_pxadealers {
 
         search {
             searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
+            # Search in radius by kilometers
+            radius = 100
         }
 
         dealersList {

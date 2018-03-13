@@ -11,14 +11,23 @@
         form: null,
 
         init: function (input) {
-            var self = this;
+            var self = this,
+                map = $(PxaDealersMaps.FE.getMapSelector());
 
-            self.input = $(input);
-            self.form = self.input.parents('form');
+
+	        self.input = $(input);
+	        self.form = self.input.parents('form');
+
+            if (map.length === 1) {
+                var search = map.data('search-term');
+                if (typeof search === 'string' && search !== '') {
+                    self.input.val(search);
+                }
+            }
 
             if (self.input.length > 0) {
                 self.awesomplete = new Awesomplete(input, {
-                    minChars: 2,
+                    minChars: 3,
                     autoFirst: true
                 });
 
@@ -38,7 +47,8 @@
         },
 
         _loadSuggest: function (input) {
-            var self = this;
+            var self = this,
+                searchInRadius = parseInt(input.data('search-in-radius'));
 
             $.ajax({
                     url: input.data('ajax-uri'),
@@ -48,6 +58,7 @@
                         tx_pxadealers_pxadealers: {
                             search: {
                                 searchTermOriginal: input.val(),
+	                            searchInRadius: searchInRadius,
                                 pid: input.data('pid')
                             }
                         }

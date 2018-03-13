@@ -132,6 +132,9 @@
             <trans-unit id="flexform.demand.orderDirection.asc">
                 <source>Ascending</source>
             </trans-unit>
+            <trans-unit id="flexform.search.searchInRadius">
+                <source>Search dealers by location in radius (Require "Places API Web Service" and "googleServerApiKey")</source>
+            </trans-unit>
 
 
             <trans-unit id="be.recordStorage">
@@ -160,6 +163,15 @@
             </trans-unit>
             <trans-unit id="be.mapContentElement">
                 <source>Map content Element</source>
+            </trans-unit>
+            <trans-unit id="be.no">
+                <source>No</source>
+            </trans-unit>
+            <trans-unit id="be.yes">
+                <source>Yes</source>
+            </trans-unit>
+            <trans-unit id="be.searchInRadius">
+                <source>Search in radius</source>
             </trans-unit>
 
 

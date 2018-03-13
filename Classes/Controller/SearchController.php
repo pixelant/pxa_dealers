@@ -28,7 +28,6 @@ namespace Pixelant\PxaDealers\Controller;
 
 use Pixelant\PxaDealers\Domain\Model\Search;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 
@@ -39,15 +38,12 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class SearchController extends ActionController
+class SearchController extends AbstractConroller
 {
     /**
-     *  dealer repository
-     *
-     * @var \Pixelant\PxaDealers\Domain\Repository\DealerRepository
-     * @inject
+     * Google api to suggest places
      */
-    protected $dealerRepository;
+    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s';
 
     /**
      * Allowed search criterias
@@ -57,7 +53,8 @@ class SearchController extends ActionController
     protected $searchAllowedProperties = [
         'searchTermLowercase',
         'searchTermOriginal',
-        'pid'
+        'searchInRadius',
+        'pid',
     ];
 
     /**
@@ -84,22 +81,21 @@ class SearchController extends ActionController
             'storagePageIds',
             implode(',', $this->dealerRepository->getStoragePageIds())
         );
-
-        if ($this->request->hasArgument('search')) {
-            $search = $this->request->getArgument('search');
-            $this->view->assign('searchTermOriginal', $search['searchTermOriginal']);
-        }
     }
 
     /**
-     * action map
+     * This is same as map just no-cache for search results
      *
      * @param \Pixelant\PxaDealers\Domain\Model\Search $search
      * @return void
      */
     public function searchResultsAction(Search $search = null)
     {
-        $this->forward('map', 'Dealers', null, ['search' => $search]);
+        $this->renderMap($search);
+
+        if ($search !== null) {
+            $this->view->assign('searchTermOriginal', $search->getSearchTermOriginal());
+        }
     }
 
     /**
@@ -116,7 +112,27 @@ class SearchController extends ActionController
                 true
             ));
 
-            $response = $this->dealerRepository->suggestResult($search);
+            if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
+                $apiUrl = sprintf(
+                    self::PLACE_SUGGEST_URL,
+                    $search->getSearchTermOriginal(),
+                    $GLOBALS['TSFE']->config['language'] ?: 'en',
+                    $this->settings['map']['googleServerApiKey']
+                );
+                $googleResponse = json_decode(GeneralUtility::getUrl($apiUrl), true);
+
+                if (is_array($googleResponse)
+                    && $googleResponse['status'] === 'OK'
+                    && count($googleResponse['predictions']) > 0
+                ) {
+                    $response = [];
+                    foreach ($googleResponse['predictions'] as $prediction) {
+                        $response[] = $prediction['description'];
+                    }
+                }
+            } else {
+                $response = $this->dealerRepository->suggestResult($search);
+            }
         }
 
         $this->view->assign('data', isset($response) ? $response : []);

@@ -51,6 +51,17 @@ call_user_func(
         // @codingStandardsIgnoreStart
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['pxadealers_pxadealers'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\PageLayoutView::class . '->getInfo';
         // @codingStandardsIgnoreEnd
+
+        // Caching for results from google api
+        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$_EXTKEY])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$_EXTKEY] = [
+                'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
+                'backend' => \TYPO3\CMS\Core\Cache\Backend\FileBackend::class,
+                'options' => [
+                    'defaultLifetime' => 3600*24*7
+                ]
+            ];
+        }
     },
     'pxa_dealers'
 );
