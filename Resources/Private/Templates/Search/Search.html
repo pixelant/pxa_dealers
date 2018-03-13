@@ -5,15 +5,21 @@
 
     <f:section name="main">
         <div id="pxa-dealers-search">
-            <f:form object="{search}" name="search">
+            <f:form object="{search}" name="search" action="searchResults" pageUid="{settings.search.searchResultPage}">
                 <div class="form-group">
+                    <f:form.hidden property="searchInRadius" value="{f:if(condition: settings.search.searchInRadius, then: '1', else: '0')}"/>
+                    <f:form.hidden property="lat" value=""/>
+                    <f:form.hidden property="lng" value=""/>
                     <f:form.textfield type="text"
                                       property="searchTermOriginal"
                                       value="{searchTermOriginal}"
-                                      data="{ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}"
+                                      data="{search-in-radius: '{f:if(condition: settings.search.searchInRadius, then: 1, else: 0)}', ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}"
                                       class="form-control dealer-search-field"
                                       placeholder="{f:translate(key: 'fe.placeholder')}"/>
                 </div>
+                <f:if condition="{settings.search.searchClosest}">
+                    <button type="submit" data-find-closest="1" class="btn btn-primary"><f:translate key="fe.searchClosest" /></button>
+                </f:if>
             </f:form>
         </div>
     </f:section>

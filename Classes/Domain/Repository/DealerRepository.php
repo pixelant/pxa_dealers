@@ -29,6 +29,7 @@ namespace Pixelant\PxaDealers\Domain\Repository;
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\Demand;
 use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -85,43 +86,74 @@ class DealerRepository extends AbstractDemandRepository
      */
     protected function createConstraints(QueryInterface $query, Demand $demand)
     {
-        $constraintsAnd = [];
-        $constraintsOr = [];
-        $constraints = [];
+        // If search by radius just create a query
+        if ($demand->getSeach() !== null && $demand->getSeach()->isSearchInRadius()) {
+            $storage = $query->getQuerySettings()->getStoragePageIds();
 
-        // set country restriction
-        if (!empty($demand->getCountries())) {
-            $constraintsAnd[] = $query->in('country', $demand->getCountries());
-        }
+            $statement = sprintf(
+                'SELECT *, ( 6371 * acos( cos( radians(\'%s\') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(\'%s\') ) + sin( radians(\'%s\') ) * sin( radians( lat ) ) ) ) AS distance FROM tx_pxadealers_domain_model_dealer %s %s HAVING distance < \'%s\' ORDER BY distance',
+                (float)$demand->getSeach()->getLat(),
+                (float)$demand->getSeach()->getLng(),
+                (float)$demand->getSeach()->getLat(),
+                'WHERE ' . (empty($storage) ? '1=1' : ('pid IN(' . implode(',', $storage) . ')')),
+                MainUtility::getTSFE()->cObj->enableFields('tx_pxadealers_domain_model_dealer'),
+                (int)$demand->getSeach()->getRadius()
+            );
 
-        // set categories restriction
-        if (!empty($demand->getCategories())) {
-            $constraintsAnd[] = $query->contains('categories', $demand->getCategories());
-        }
+            $query->statement($statement);
+        } else {
+            $constraintsAnd = [];
+            $constraintsOr = [];
+            $constraints = [];
 
-        if ($demand->getSeach() !== null) {
-            foreach ($demand->getSeach()->getSearchFields() as $searchField) {
-                $constraintsOr[] = $query->like(
-                    $searchField,
-                    '%' . $demand->getSeach()->getSearchTermLowercase() . '%'
+            // set country restriction
+            if (!empty($demand->getCountries())) {
+                $constraintsAnd[] = $query->in('country', $demand->getCountries());
+            }
+
+            // set categories restriction
+            if (!empty($demand->getCategories())) {
+                $constraintsAnd[] = $query->contains('categories', $demand->getCategories());
+            }
+
+            if ($demand->getSeach() !== null) {
+                foreach ($demand->getSeach()->getSearchFields() as $searchField) {
+                    $constraintsOr[] = $query->like(
+                        $searchField,
+                        '%' . $demand->getSeach()->getSearchTermLowercase() . '%'
+                    );
+                }
+            }
+
+            if (!empty($constraintsAnd)) {
+                $constraints[] = $query->logicalAnd($constraintsAnd);
+            }
+
+            if (!empty($constraintsOr)) {
+                $constraints[] = $query->logicalOr($constraintsOr);
+            }
+
+            if (count($constraints) > 1) {
+                $query->matching(
+                    $query->logicalAnd($constraints)
                 );
+            } elseif (count($constraints) === 1) {
+                $query->matching($constraints[0]);
             }
         }
+    }
 
-        if (!empty($constraintsAnd)) {
-            $constraints[] = $query->logicalAnd($constraintsAnd);
-        }
-
-        if (!empty($constraintsOr)) {
-            $constraints[] = $query->logicalOr($constraintsOr);
-        }
-
-        if (count($constraints) > 1) {
-            $query->matching(
-                $query->logicalAnd($constraints)
-            );
-        } elseif (count($constraints) === 1) {
-            $query->matching($constraints[0]);
+    /**
+     * Set orderings
+     *
+     * @param QueryInterface $query
+     * @param Demand $demand
+     */
+    protected function setOrdering(QueryInterface $query, Demand $demand)
+    {
+        // Set orderings only in case of default search
+        if ($demand->getSeach() === null || !$demand->getSeach()->isSearchInRadius()) {
+            parent::setOrdering($query, $demand);
         }
     }
 
@@ -135,9 +167,11 @@ class DealerRepository extends AbstractDemandRepository
      */
     private function suggestByField(QueryInterface $query, $sword, &$result, $field)
     {
-        $dealers = $query->matching(
-            $query->like($field, '%' . $sword . '%')
-        )->execute();
+        $dealers = $query
+            ->matching(
+                $query->like($field, '%' . $sword . '%')
+            )
+            ->execute();
 
         if ($dealers->count() > 0) {
             /** @var Dealer $dealer */

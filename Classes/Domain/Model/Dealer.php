@@ -111,14 +111,14 @@ class Dealer extends AbstractEntity
     /**
      * lat
      *
-     * @var \string
+     * @var float
      */
     protected $lat;
 
     /**
-     * Description
+     * lng
      *
-     * @var \string
+     * @var float
      */
     protected $lng;
 
@@ -336,7 +336,7 @@ class Dealer extends AbstractEntity
     /**
      * Returns the lat
      *
-     * @return \string $lat
+     * @return float $lat
      */
     public function getLat()
     {
@@ -346,7 +346,7 @@ class Dealer extends AbstractEntity
     /**
      * Sets the lat
      *
-     * @param \string $lat
+     * @param float $lat
      * @return void
      */
     public function setLat($lat)
@@ -357,7 +357,7 @@ class Dealer extends AbstractEntity
     /**
      * Returns the lng
      *
-     * @return \string $lng
+     * @return float $lng
      */
     public function getLng()
     {
@@ -367,7 +367,7 @@ class Dealer extends AbstractEntity
     /**
      * Sets the lng
      *
-     * @param \string $lng
+     * @param float $lng
      * @return void
      */
     public function setLng($lng)

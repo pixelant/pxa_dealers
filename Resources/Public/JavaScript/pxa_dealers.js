@@ -55,7 +55,16 @@
          * @return {*}
          */
         translate: function (key) {
-            return TYPO3.lang['js.' + key] || '';
+            return PxaDealersMaps.labels['js.' + key] || '';
+        },
+
+	    /**
+         * Selector for map
+         *
+	     * @returns {string}
+	     */
+	    getMapSelector: function () {
+            return '#pxa-dealers-map';
         },
 
         /**
@@ -189,13 +198,13 @@
         /**
          * Init all filtering elements
          */
-        initFilters: function (map, selector) {
+        initFilters: function (selector) {
             var that = this;
 
             $(selector).each(function (i) {
                 var $this = $(this);
 
-                PxaDealersMaps.Filters[i] = that.addFilter(map, $this);
+                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), $this);
             });
         }
     };
@@ -208,11 +217,10 @@ $(document).ready(function () {
     if (typeof PxaDealersMaps.settings !== 'undefined') {
         PxaDealersMaps.FE.initHelperFunctions();
         PxaDealersMaps.FE.initFilters(
-            '#pxa-dealers-map',
             '[data-dealers-filter="1"]'
         );
 
-        $('#pxa-dealers-map').pxaDealers(
+        $(PxaDealersMaps.FE.getMapSelector()).pxaDealers(
             PxaDealersMaps.MapSettings,
             PxaDealersMaps.settings
         );

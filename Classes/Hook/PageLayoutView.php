@@ -63,6 +63,7 @@ class PageLayoutView
 
             if ($actionName === 'countriesFilter'
                 || $actionName === 'map'
+                || $actionName === 'searchResults'
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'static_countries',
@@ -96,10 +97,14 @@ class PageLayoutView
                     'flexform.search.searchResultPage',
                     $settings['settings']['search']['searchResultPage']
                 );
-            }
-
-            if ($actionName === 'searchResults') {
-                $additionalInfo .= $this->getInfoOrderFields($settings);
+                $additionalInfo .= $this->getCheckBoxInfo(
+                    $settings['settings']['search']['searchInRadius'],
+                    'be.searchInRadius'
+                );
+                $additionalInfo .= $this->getCheckBoxInfo(
+                    $settings['settings']['search']['searchClosest'],
+                    'be.searchClosest'
+                );
             }
         }
 
@@ -205,5 +210,21 @@ class PageLayoutView
         );
 
         return $output;
+    }
+
+    /**
+     * Get description for checkbox
+
+     * @param $value
+     * @param $label
+     * @return string
+     */
+    protected function getCheckBoxInfo($value, $label)
+    {
+        return sprintf(
+            '<b>%s</b>: %s<br>',
+            MainUtility::translate($label),
+            MainUtility::translate($value ? 'be.yes' : 'be.no')
+        );
     }
 }

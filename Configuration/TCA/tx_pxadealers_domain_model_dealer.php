@@ -150,15 +150,8 @@ return [
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
                 'size' => 1,
-                'autoSizeMax' => 30,
                 'maxitems' => 1,
-                'multiple' => 0,
-                'wizards' => [
-                    '_POSITION' => 'top',
-                    'suggest' => [
-                        'type' => 'suggest'
-                    ],
-                ],
+                'multiple' => 0
             ],
         ],
         'address' => [
@@ -221,6 +214,15 @@ return [
 --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
 --palette--;;filePalette'
                         ]
+                    ],
+                    'overrideChildTca' => [
+                        'types' => [
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                                'showitem' => '
+--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+--palette--;;filePalette'
+                            ],
+                        ],
                     ],
                     'maxitems' => 1
                 ],
@@ -286,7 +288,7 @@ return [
                             'name' => 'wizard_link',
                         ],
                         'params' => [
-                            'blindLinkOptions' => 'email'
+                            'blindLinkOptions' => 'mail'
                         ],
 
                         'JSopenParams' => 'height=600,width=800,status=0,menubar=0,scrollbars=1'
@@ -312,7 +314,7 @@ return [
                             'name' => 'wizard_link',
                         ],
                         'params' => [
-                            'blindLinkOptions' => 'email'
+                            'blindLinkOptions' => 'mail'
                         ],
 
                         'JSopenParams' => 'height=600,width=800,status=0,menubar=0,scrollbars=1'

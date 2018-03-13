@@ -17,12 +17,18 @@
             <trans-unit id="fe.all_countries">
                 <source>All countries</source>
             </trans-unit>
+            <trans-unit id="fe.searchClosest">
+                <source>Find closest to my location</source>
+            </trans-unit>
 
             <trans-unit id="js.infoWindowPhone">
                 <source>Phone:</source>
             </trans-unit>
             <trans-unit id="js.streetView">
                 <source>Street view</source>
+            </trans-unit>
+            <trans-unit id="js.geolocationError">
+                <source>Geolocation is not supported by this browser.</source>
             </trans-unit>
 
 

@@ -26,14 +26,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Pixelant\PxaDealers\Domain\Model\Dealer;
-use Pixelant\PxaDealers\Domain\Model\Demand;
 use Pixelant\PxaDealers\Domain\Model\Search;
-use Pixelant\PxaDealers\Utility\MainUtility;
-use TYPO3\CMS\Core\Localization\LocalizationFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  *
@@ -42,21 +35,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class DealersController extends ActionController
+class DealersController extends AbstractConroller
 {
-    /**
-     *  dealer repository
-     *
-     * @var \Pixelant\PxaDealers\Domain\Repository\DealerRepository
-     * @inject
-     */
-    protected $dealerRepository;
-
-    /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
-     */
-    protected $pageRenderer;
 
     /**
      * action map
@@ -66,86 +46,6 @@ class DealersController extends ActionController
      */
     public function mapAction(Search $search = null)
     {
-        $this->getFrontendLabels();
-        $this->loadGoogleApi();
-
-        $dealers = [];
-
-        $demand = Demand::getInstance($this->settings['demand']);
-
-        if ($search !== null) {
-            $search->setSearchFields(GeneralUtility::trimExplode(
-                ',',
-                $this->settings['search']['searchFields'],
-                true
-            ));
-            $demand->setSeach($search);
-        }
-
-        $allCategoriesUids = [];
-        $allCountriesUids = [];
-
-        $demandDealers = $this->dealerRepository->findDemanded($demand);
-
-        /** @var Dealer $dealer */
-        foreach ($demandDealers as $dealer) {
-            $dealers[$dealer->getUid()] = $dealer->toArray();
-            $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
-
-            if (!in_array($dealer->getCountryUid(), $allCountriesUids, true)) {
-                $allCountriesUids[] = $dealer->getCountryUid();
-            }
-        }
-
-        $this->view->assignMultiple([
-            'dealers' => $dealers,
-            'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
-            'allCountriesUids' => implode(',', $allCountriesUids),
-        ]);
-    }
-
-    /**
-     * Incldue google api only on map page
-     */
-    protected function loadGoogleApi()
-    {
-        $pathGoogleMaps = sprintf(
-            'https://maps.googleapis.com/maps/api/js?key=%s',
-            $this->settings['map']['googleJavascriptApiKey']
-        );
-
-        $this->pageRenderer->addJsFooterLibrary('googleapis', $pathGoogleMaps);
-    }
-
-    /**
-     * Add labels for JS
-     *
-     * @return void
-     */
-    protected function getFrontendLabels()
-    {
-        /** @var LocalizationFactory $languageFactory */
-        $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
-
-        $langKey = MainUtility::getTSFE()->config['config']['language'];
-        $labels = $languageFactory->getParsedData(
-            'EXT:pxa_dealers/Resources/Private/Language/locallang.xlf',
-            $langKey ? $langKey : 'en'
-        );
-
-        if (!empty($labels[$langKey])) {
-            $labels = $labels[$langKey];
-        } else {
-            $labels = $labels['default'];
-        }
-
-        $labelsJs = [];
-        foreach (array_keys($labels) as $key) {
-            if (GeneralUtility::isFirstPartOfStr($key, 'js.')) {
-                $labelsJs[$key] = LocalizationUtility::translate($key, $this->extensionName);
-            }
-        }
-
-        $this->pageRenderer->addInlineLanguageLabelArray($labelsJs);
+        $this->renderMap($search);
     }
 }
