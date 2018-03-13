@@ -494,6 +494,12 @@
             } else if (i > 1) {
                 self.mapGoogle.fitBounds(self.bounds);
                 self.mapGoogle.setCenter(self.bounds.getCenter());
+            } else if (self.mapSettings.searchCenter['lat'] && self.mapSettings.searchCenter['lng']) {
+	            self.mapGoogle.setZoom(parseInt(self.pluginSettings.zoomOnShow));
+	            self.mapGoogle.setCenter(new google.maps.LatLng(
+		            self.mapSettings.searchCenter['lat'],
+		            self.mapSettings.searchCenter['lng']
+                ));
             } else {
                 self.mapGoogle.setZoom(1);
                 self.mapGoogle.setCenter(new google.maps.LatLng(0, 0));

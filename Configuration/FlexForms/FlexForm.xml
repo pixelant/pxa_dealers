@@ -80,6 +80,15 @@
                         </TCEforms>
                     </settings.search.searchInRadius>
 
+                    <settings.search.searchClosest>
+                        <TCEforms>
+                            <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.search.searchClosest</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </settings.search.searchClosest>
+
                     <settings.demand.orderBy>
                         <TCEforms>
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.orderBy</label>

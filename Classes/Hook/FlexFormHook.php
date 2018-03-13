@@ -41,7 +41,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInMapView = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius'
+        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest'
     ];
 
     // @codingStandardsIgnoreStart
@@ -51,7 +51,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInCategoriesFilterView = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius,demand.countries',
+        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest,demand.countries',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -61,7 +61,7 @@ class FlexFormHook
      * @var array
      */
     public $removedFieldsInCountriesFilterView = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius,demand.categories,demand.orderDirection,demand.orderBy',
+        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest,demand.categories,demand.orderDirection,demand.orderBy',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
@@ -76,7 +76,7 @@ class FlexFormHook
     ];
 
     public $removedFieldsInSearchResults = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius'
+        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest'
     ];
 
     /**

@@ -101,6 +101,10 @@ class PageLayoutView
                     $settings['settings']['search']['searchInRadius'],
                     'be.searchInRadius'
                 );
+                $additionalInfo .= $this->getCheckBoxInfo(
+                    $settings['settings']['search']['searchClosest'],
+                    'be.searchClosest'
+                );
             }
         }
 

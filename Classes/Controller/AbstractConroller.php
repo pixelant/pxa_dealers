@@ -46,12 +46,27 @@ abstract class AbstractConroller extends ActionController
             $demand->setSeach($search);
 
             if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
-                list($lat, $lng) = $this->getAddressInfo($search->getSearchTermOriginal());
+                if (empty($search->getLat()) || empty($search->getLng())) {
+                    // Get from address
+                    list($lat, $lng) = $this->getAddressInfo($search->getSearchTermOriginal());
+                } else {
+                    // Use user position
+                    $lat = $search->getLat();
+                    $lng = $search->getLng();
+                }
 
                 if ($lat && $lng) {
                     $search->setLat($lat);
                     $search->setLng($lng);
                     $search->setRadius(intval($this->settings['search']['radius']) ?: 100);
+
+                    $this->view->assign(
+                        'searchCenter',
+                        [
+                            'lat' => $lat,
+                            'lng' => $lng
+                        ]
+                    );
                 } else {
                     $search->setSearchInRadius(false);
                 }

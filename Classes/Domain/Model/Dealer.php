@@ -351,7 +351,7 @@ class Dealer extends AbstractEntity
      */
     public function setLat($lat)
     {
-        $this->lat = (float)$lat;
+        $this->lat = $lat;
     }
 
     /**
@@ -372,7 +372,7 @@ class Dealer extends AbstractEntity
      */
     public function setLng($lng)
     {
-        $this->lng = (float)$lng;
+        $this->lng = $lng;
     }
 
     /**

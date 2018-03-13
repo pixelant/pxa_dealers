@@ -53,16 +53,16 @@ class Search extends AbstractEntity
     protected $lat;
 
     /**
-     * @var int
-     */
-    protected $radius = 0;
-
-    /**
      * lng
      *
      * @var float
      */
     protected $lng;
+
+    /**
+     * @var int
+     */
+    protected $radius = 0;
 
     /**
      * @return string

@@ -54,7 +54,7 @@ class SearchController extends AbstractConroller
         'searchTermLowercase',
         'searchTermOriginal',
         'searchInRadius',
-        'pid',
+        'pid'
     ];
 
     /**
