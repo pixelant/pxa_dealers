@@ -92,7 +92,11 @@ abstract class AbstractConroller extends ActionController
             'dealers' => $dealers,
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', $allCountriesUids),
-            'labelsJs' => $this->getFrontendLabels()
+            'labelsJs' => $this->getFrontendLabels(),
+            'searchCenter' => [
+                'lat' => $lat,
+                'lng' => $lng
+            ]
         ]);
     }
 
