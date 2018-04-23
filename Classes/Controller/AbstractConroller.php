@@ -60,13 +60,10 @@ abstract class AbstractConroller extends ActionController
                     $search->setLng($lng);
                     $search->setRadius(intval($this->settings['search']['radius']) ?: 100);
 
-                    $this->view->assign(
-                        'searchCenter',
-                        [
-                            'lat' => $lat,
-                            'lng' => $lng
-                        ]
-                    );
+                    $searchCenter = [
+                        'lat' => $lat,
+                        'lng' => $lng
+                    ];
                 } else {
                     $search->setSearchInRadius(false);
                 }
@@ -93,10 +90,7 @@ abstract class AbstractConroller extends ActionController
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', $allCountriesUids),
             'labelsJs' => $this->getFrontendLabels(),
-            'searchCenter' => [
-                'lat' => $lat,
-                'lng' => $lng
-            ]
+            'searchCenter' => isset($searchCenter) ? $searchCenter : ['lat' => 0, 'lng' => 0]
         ]);
     }
 
