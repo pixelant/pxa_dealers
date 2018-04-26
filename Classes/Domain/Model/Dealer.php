@@ -534,7 +534,7 @@ class Dealer extends AbstractEntity
             'uid' => (string)$this->getUid(),
             'categories' => $this->getDealersCategories(),
             'country' => (string)$this->getCountryUid(),
-            'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameLocal() : '',
+            'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameEn() : '',
             'showStreetView' => $this->getShowStreetView(),
             'logo' => $this->getLogo()
         ];
