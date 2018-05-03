@@ -113,7 +113,12 @@ class DealerRepository extends AbstractDemandRepository
 
             // set categories restriction
             if (!empty($demand->getCategories())) {
-                $constraintsAnd[] = $query->contains('categories', $demand->getCategories());
+                $categoriesOr = [];
+                foreach ($demand->getCategories() as $category) {
+                    $categoriesOr[] = $query->contains('categories', $category);
+                }
+
+                $constraintsAnd[] = $query->logicalOr($categoriesOr);
             }
 
             if ($demand->getSeach() !== null) {
