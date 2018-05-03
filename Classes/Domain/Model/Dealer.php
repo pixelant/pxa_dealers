@@ -134,7 +134,7 @@ class Dealer extends AbstractEntity
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category>
      */
-    protected $dealersCategories = null;
+    protected $categories = null;
 
     /**
      * showStreetView
@@ -162,7 +162,7 @@ class Dealer extends AbstractEntity
      */
     protected function initStorageObjects()
     {
-        $this->dealersCategories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
@@ -383,7 +383,7 @@ class Dealer extends AbstractEntity
      */
     public function addCategory(\Pixelant\PxaDealers\Domain\Model\Category $category)
     {
-        $this->dealersCategories->attach($category);
+        $this->categories->attach($category);
     }
 
     /**
@@ -394,7 +394,7 @@ class Dealer extends AbstractEntity
      */
     public function removeCategory(\Pixelant\PxaDealers\Domain\Model\Category $categoryToRemove)
     {
-        $this->dealersCategories->detach($categoryToRemove);
+        $this->categories->detach($categoryToRemove);
     }
 
     /**
@@ -402,9 +402,9 @@ class Dealer extends AbstractEntity
      *
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
      */
-    public function getDealersCategories()
+    public function getCategories()
     {
-        return $this->dealersCategories;
+        return $this->categories;
     }
 
     /**
@@ -413,9 +413,9 @@ class Dealer extends AbstractEntity
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
      * @return void
      */
-    public function setDealersCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $dealersCategories)
+    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
     {
-        $this->dealersCategories = $dealersCategories;
+        $this->categories = $categories;
     }
 
     /**
@@ -436,7 +436,7 @@ class Dealer extends AbstractEntity
     public function getCategoriesAsUidsArray()
     {
 
-        $categoriesObjects = $this->getDealersCategories();
+        $categoriesObjects = $this->getCategories();
         $categories = [];
 
         /** @var Category $categoryObject */
@@ -532,7 +532,7 @@ class Dealer extends AbstractEntity
             'link' => MainUtility::typoLink($this->getLink()),
             'email' => MainUtility::typoLink($this->getEmail()),
             'uid' => (string)$this->getUid(),
-            'categories' => $this->getDealersCategories(),
+            'categories' => $this->getCategories(),
             'country' => (string)$this->getCountryUid(),
             'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameEn() : '',
             'showStreetView' => $this->getShowStreetView(),
