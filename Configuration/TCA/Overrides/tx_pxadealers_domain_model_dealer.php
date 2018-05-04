@@ -1,6 +1,11 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
+    'pxa_dealers',
+    'tx_pxadealers_domain_model_dealer'
+);
+
 if (version_compare(TYPO3_version, '8.6', '>=')) {
     $columns = &$GLOBALS['TCA']['tx_pxadealers_domain_model_dealer']['columns'];
 

@@ -12,14 +12,6 @@ call_user_func(
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
             'tx_pxadealers_domain_model_dealer'
         );
-
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
-            $EXTKEY,
-            'tx_pxadealers_domain_model_dealer',
-            // Do not use the default field name ("categories"), which is already used
-            // Also do not use a field name containing "categories" (see http://forum.typo3.org/index.php/t/199595/)
-            'dealers_categories'
-        );
     },
     'pxa_dealers'
 );
