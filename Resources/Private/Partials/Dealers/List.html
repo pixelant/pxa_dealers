@@ -25,24 +25,24 @@
             </f:if>
             <f:if condition="{dealer.link}">
                 <div class="link">
-                    <f:link.typolink parameter="{dealer.link}">{dealer.link}</f:link.typolink>
+                    <f:format.raw>{dealer.link}</f:format.raw>
                 </div>
             </f:if>
             <f:if condition="{dealer.website}">
                 <div class="dealer-website">
-                    <f:link.typolink parameter="{dealer.website}">{dealer.website}</f:link.typolink>
+                    <f:format.raw>{dealer.website}</f:format.raw>
                 </div>
             </f:if>
             <f:if condition="{dealer.phone}">
                 <div class="phone">
-                    <a href="tel:{pxa:phoneFormat(phone: dealer.telephone)}">
+                    <a href="tel:{pxa:phoneFormat(phone: dealer.phone)}">
                         <f:translate key="js.infoWindowPhone"/>&nbsp;{dealer.phone}
                     </a>
                 </div>
             </f:if>
             <f:if condition="{dealer.email}">
                 <div class="dealer-email">
-                    <f:link.email email="{dealer.email}"/>
+                    <f:format.raw>{dealer.email}</f:format.raw>
                 </div>
             </f:if>
 
