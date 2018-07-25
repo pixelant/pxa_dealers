@@ -27,6 +27,7 @@ namespace Pixelant\PxaDealers\Domain\Model;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Utility\MainUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -39,6 +40,10 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class Dealer extends AbstractEntity
 {
+    /**
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     */
+    protected $signalSlotDispatcher = null;
 
     /**
      * Name of dealer
@@ -150,6 +155,14 @@ class Dealer extends AbstractEntity
     {
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $dispatcher
+     */
+    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $dispatcher)
+    {
+        $this->signalSlotDispatcher = $dispatcher;
     }
 
     /**
@@ -519,7 +532,7 @@ class Dealer extends AbstractEntity
      */
     public function toArray()
     {
-        return [
+        $dealerData = [
             'name' => $this->getName(),
             'lat' => $this->getLat(),
             'lng' => $this->getLng(),
@@ -538,5 +551,9 @@ class Dealer extends AbstractEntity
             'showStreetView' => $this->getShowStreetView(),
             'logo' => $this->getLogo()
         ];
+
+        $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'AfterGeneration', [&$dealerData, $this]);
+
+        return $dealerData;
     }
 }
