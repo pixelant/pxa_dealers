@@ -76,7 +76,7 @@ define([
              */
             function _updateValue(fieldName, value) {
                 document[TBE_EDITOR.formname][fieldName].value = value;
-                TYPO3.jQuery('[data-formengine-input-name="' + fieldName + '"]').val(value);
+                $('[data-formengine-input-name="' + fieldName + '"]').val(value);
             }
 
             /**
