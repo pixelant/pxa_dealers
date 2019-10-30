@@ -5,6 +5,7 @@ namespace Pixelant\PxaDealers\Controller;
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\Demand;
 use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Repository\DealerRepository;
 use Pixelant\PxaDealers\Utility\GoogleApiUtility;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
@@ -21,10 +22,17 @@ abstract class AbstractConroller extends ActionController
     /**
      *  dealer repository
      *
-     * @var \Pixelant\PxaDealers\Domain\Repository\DealerRepository
-     * @inject
+     * @var DealerRepository
      */
     protected $dealerRepository = null;
+
+    /**
+     * @param DealerRepository $dealerRepository
+     */
+    public function injectDealerRepository(DealerRepository $dealerRepository)
+    {
+        $this->dealerRepository = $dealerRepository;
+    }
 
     /**
      * Render map data

@@ -27,6 +27,7 @@ namespace Pixelant\PxaDealers\Controller;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -40,9 +41,16 @@ class CategoriesController extends ActionController
 {
     /**
      * @var \Pixelant\PxaDealers\Domain\Repository\CategoryRepository
-     * @inject
      */
     protected $categoriesRepository;
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     */
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    {
+        $this->categoriesRepository = $categoryRepository;
+    }
 
     /**
      * Categories filter plugin
