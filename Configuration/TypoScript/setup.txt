@@ -17,6 +17,14 @@ plugin.tx_pxadealers {
 
     persistence {
         storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+
+        classes {
+            Pixelant\PxaDealers\Domain\Model\Category {
+                mapping {
+                    tableName = sys_category
+                }
+            }
+        }
     }
 
     settings {
