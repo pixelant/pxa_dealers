@@ -5,6 +5,8 @@ namespace Pixelant\PxaDealers\Hook;
 
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -165,20 +167,26 @@ class PageLayoutView
     protected function getInfoFor($table, $noResult, $field, $for, $settingsField)
     {
         if (!empty($settingsField)) {
-            $rows = MainUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                'uid,' . $field,
-                $table,
-                'uid IN (' . $settingsField . ')'
-            );
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable($table);
+
+            $statement = $queryBuilder
+                ->select('uid', $field)
+                ->from($table)
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'uid',
+                        GeneralUtility::intExplode(',', $settingsField, Connection::PARAM_INT_ARRAY)
+                    )
+                )
+                ->execute();
 
             $lines = [];
-
-            if (!empty($rows)) {
-                foreach ($rows as $row) {
-                    $line = empty($row[$field]) ? MainUtility::translate('be.empty') : $row[$field];
-                    $lines[] = $line . ' [' . $row['uid'] . ']';
-                }
-
+            while ($row = $statement->fetch()) {
+                $line = empty($row[$field]) ? MainUtility::translate('be.empty') : $row[$field];
+                $lines[] = $line . ' [' . $row['uid'] . ']';
+            }
+            if (!empty($lines)) {
                 return sprintf('<b>%s</b>: %s<br>', MainUtility::translate($for), implode(', ', $lines));
             }
         }
@@ -214,7 +222,6 @@ class PageLayoutView
 
     /**
      * Get description for checkbox
-
      * @param $value
      * @param $label
      * @return string

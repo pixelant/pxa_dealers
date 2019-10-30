@@ -2,10 +2,13 @@
 
 namespace Pixelant\PxaDealers\Utility;
 
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
+/**
+ * Class MainUtility
+ * @package Pixelant\PxaDealers\Utility
+ */
 class MainUtility
 {
 
@@ -38,14 +41,6 @@ class MainUtility
     public static function getTSFE()
     {
         return $GLOBALS['TSFE'];
-    }
-
-    /**
-     * @return DatabaseConnection
-     */
-    public static function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**
