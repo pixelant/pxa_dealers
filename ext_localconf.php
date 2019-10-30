@@ -21,11 +21,7 @@ call_user_func(
 
         // @codingStandardsIgnoreStart
         // Hook for flexform processing
-        if (version_compare(TYPO3_version, '8.0', '<')) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
         // @codingStandardsIgnoreEnd
 
         // Add page TS
@@ -58,7 +54,7 @@ call_user_func(
                 'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
                 'backend' => \TYPO3\CMS\Core\Cache\Backend\FileBackend::class,
                 'options' => [
-                    'defaultLifetime' => 3600*24*7
+                    'defaultLifetime' => 3600 * 24 * 7
                 ]
             ];
         }
