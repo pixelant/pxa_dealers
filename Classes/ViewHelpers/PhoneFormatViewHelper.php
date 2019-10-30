@@ -2,6 +2,9 @@
 
 namespace Pixelant\PxaDealers\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,25 +27,30 @@ namespace Pixelant\PxaDealers\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper to check if a value is numeric.
  */
 class PhoneFormatViewHelper extends AbstractViewHelper
 {
+    /**
+     * Arguments
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('phone', 'string', 'Phone', true);
+    }
 
     /**
-     * Render the supplied value as a string
-     *
-     * @param string $phone The separated string
-     * @return string All data with kaltura
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return mixed
      */
-
-    public function render($phone)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $search_mass = ['-', ' '];
 
-        return str_replace($search_mass, '', $phone);
+        return str_replace($search_mass, '', $arguments['phone']);
     }
 }
