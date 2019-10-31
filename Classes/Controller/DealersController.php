@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
@@ -51,6 +52,18 @@ class DealersController extends AbstractController
             'EXT:pxa_dealers/Resources/Private/Language/locallang.xlf',
             'js.'
         );
+
+        if (!($this->settings['map']['disableGoogleapisJs'] ?? false)) {
+            $pageRenderer->addJsFooterLibrary(
+                'pxa_google_api',
+                'https://maps.googleapis.com/maps/api/js?key=' . $this->settings['map']['googleJavascriptApiKey'],
+                null,
+                false,
+                false,
+                '',
+                true
+            );
+        }
     }
 
     /**
