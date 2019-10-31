@@ -53,7 +53,7 @@ plugin.tx_pxadealers {
         search {
             searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
             # Search in radius by kilometers
-            radius = 100
+            radius = 50
         }
 
         dealersList {
