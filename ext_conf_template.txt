@@ -1,0 +1,2 @@
+# cat=basic/enable/020; type=options[None=none,Pages TSconfig ID list(PAGE_TSCONFIG_IDLIST)=page_tsconfig_idlist,Current pid=current_pid,Siteroot=siteroot]; label=Categories PID restriction
+categoriesRestriction = current_pid

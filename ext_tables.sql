@@ -1,5 +1,5 @@
 #
-# Table structure for table 'tx_PxaDealers_domain_model_dealers'
+# Table structure for table 'tx_pxadealers_domain_model_dealers'
 #
 CREATE TABLE tx_pxadealers_domain_model_dealer (
 	uid int(11) NOT NULL auto_increment,
@@ -8,18 +8,18 @@ CREATE TABLE tx_pxadealers_domain_model_dealer (
 	name varchar(255) DEFAULT '' NOT NULL,
 	country int(11) unsigned DEFAULT '0' NOT NULL,
 	address varchar(255) DEFAULT '' NOT NULL,
-  city varchar(255) DEFAULT '' NOT NULL,
+    city varchar(255) DEFAULT '' NOT NULL,
 	zipcode varchar(255) DEFAULT '' NOT NULL,
 	lat double(11,6) DEFAULT '0.000000' NOT NULL,
 	lng double(11,6) DEFAULT '0.000000' NOT NULL,
 	logo int(11) unsigned NOT NULL default '0',
 	show_street_view tinyint(1) DEFAULT '1' NOT NULL,
 
-  email varchar(255) DEFAULT '' NOT NULL,
-  link varchar(255) DEFAULT '' NOT NULL,
-  phone varchar(255) DEFAULT '' NOT NULL,
-  website varchar(255) DEFAULT '' NOT NULL,
-  description text,
+    email varchar(255) DEFAULT '' NOT NULL,
+    link varchar(255) DEFAULT '' NOT NULL,
+    phone varchar(255) DEFAULT '' NOT NULL,
+    website varchar(255) DEFAULT '' NOT NULL,
+    description text,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
