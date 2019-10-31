@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
@@ -40,7 +41,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class CountriesController extends ActionController
 {
     /**
-     * @var \SJBR\StaticInfoTables\Domain\Repository\CountryRepository
+     * @var CountryRepository
      */
     protected $countriesRepository;
 

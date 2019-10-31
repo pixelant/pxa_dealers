@@ -5,7 +5,7 @@
 
     <f:section name="main">
         <div id="pxa-dealers-search">
-            <f:form object="{search}" name="search" action="searchResults" pageUid="{settings.search.searchResultPage}">
+            <f:form object="{search}" name="search" action="search" controller="Dealers" pageUid="{settings.search.searchResultPage}">
                 <div class="form-group">
                     <f:form.hidden property="searchInRadius" value="{f:if(condition: settings.search.searchInRadius, then: '1', else: '0')}"/>
                     <f:form.hidden property="lat" value=""/>

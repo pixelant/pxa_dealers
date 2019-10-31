@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
@@ -40,7 +41,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class CategoriesController extends ActionController
 {
     /**
-     * @var \Pixelant\PxaDealers\Domain\Repository\CategoryRepository
+     * @var CategoryRepository
      */
     protected $categoriesRepository;
 

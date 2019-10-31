@@ -38,7 +38,7 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class SearchController extends AbstractConroller
+class SearchController extends AbstractController
 {
     /**
      * Google api to suggest places
@@ -74,24 +74,14 @@ class SearchController extends AbstractConroller
 
     /**
      * Search form
+     * @param Search|null $search
      */
-    public function searchAction()
+    public function formAction(Search $search = null)
     {
         $this->view->assign(
             'storagePageIds',
             implode(',', $this->dealerRepository->getStoragePageIds())
         );
-    }
-
-    /**
-     * This is same as map just no-cache for search results
-     *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
-     * @return void
-     */
-    public function searchResultsAction(Search $search = null)
-    {
-        $this->renderMap($search);
 
         if ($search !== null) {
             $this->view->assign('searchTermOriginal', $search->getSearchTermOriginal());
@@ -102,6 +92,7 @@ class SearchController extends AbstractConroller
      * Suggest search results
      *
      * @param \Pixelant\PxaDealers\Domain\Model\Search $search
+     * @return false|string
      */
     public function suggestAction(Search $search = null)
     {
@@ -135,6 +126,6 @@ class SearchController extends AbstractConroller
             }
         }
 
-        $this->view->assign('data', isset($response) ? $response : []);
+        return json_encode($response ?? []);
     }
 }
