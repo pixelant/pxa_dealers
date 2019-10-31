@@ -26,7 +26,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
@@ -91,7 +91,7 @@ class SearchController extends AbstractController
     /**
      * Suggest search results
      *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
+     * @param Search $search
      * @return false|string
      */
     public function suggestAction(Search $search = null)

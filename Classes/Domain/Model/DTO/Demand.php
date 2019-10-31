@@ -1,6 +1,6 @@
 <?php
 
-namespace Pixelant\PxaDealers\Domain\Model;
+namespace Pixelant\PxaDealers\Domain\Model\DTO;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;

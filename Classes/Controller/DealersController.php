@@ -27,8 +27,8 @@ namespace Pixelant\PxaDealers\Controller;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Domain\Model\Dealer;
-use Pixelant\PxaDealers\Domain\Model\Demand;
-use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -56,7 +56,7 @@ class DealersController extends AbstractController
     /**
      * action map
      *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
+     * @param Search $search
      * @return void
      */
     public function mapAction(Search $search = null)

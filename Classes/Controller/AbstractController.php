@@ -3,16 +3,9 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
-use Pixelant\PxaDealers\Domain\Model\Dealer;
-use Pixelant\PxaDealers\Domain\Model\Demand;
-use Pixelant\PxaDealers\Domain\Model\Search;
 use Pixelant\PxaDealers\Domain\Repository\DealerRepository;
 use Pixelant\PxaDealers\Utility\GoogleApiUtility;
-use Pixelant\PxaDealers\Utility\MainUtility;
-use TYPO3\CMS\Core\Localization\LocalizationFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class AbstractController

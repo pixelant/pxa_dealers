@@ -27,8 +27,8 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Domain\Model\Dealer;
-use Pixelant\PxaDealers\Domain\Model\Demand;
-use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
