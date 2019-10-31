@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
@@ -40,11 +41,6 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
  */
 class SearchController extends AbstractController
 {
-    /**
-     * Google api to suggest places
-     */
-    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s';
-
     /**
      * Allowed search criterias
      *
@@ -103,26 +99,19 @@ class SearchController extends AbstractController
                 true
             ));
 
-            if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
-                $apiUrl = sprintf(
-                    self::PLACE_SUGGEST_URL,
-                    $search->getSearchTermOriginal(),
-                    $GLOBALS['TSFE']->config['language'] ?: 'en',
-                    $this->settings['map']['googleServerApiKey']
-                );
-                $googleResponse = json_decode(GeneralUtility::getUrl($apiUrl), true);
+            $response = $this->dealerRepository->suggestResult($search);
+
+            if (!empty($this->settings['map']['googleServerApiKey'])) {
+                $googleResponse = $this->getGoogleApi()->getPlaceSuggest($search->getSearchTermOriginal());
 
                 if (is_array($googleResponse)
                     && $googleResponse['status'] === 'OK'
                     && count($googleResponse['predictions']) > 0
                 ) {
-                    $response = [];
                     foreach ($googleResponse['predictions'] as $prediction) {
                         $response[] = $prediction['description'];
                     }
                 }
-            } else {
-                $response = $this->dealerRepository->suggestResult($search);
             }
         }
 

@@ -44,77 +44,83 @@ class GoogleApiUtility
      *
      * @var string $apiUrl
      */
-    const API_GEOCODING_URL = 'https://maps.google.com/maps/api/geocode/json';
+    const API_GEOCODING_URL = 'https://maps.google.com/maps/api/geocode/json?key=%s&address=%s&language=%s';
+
+    /**
+     * Google api to suggest places
+     */
+    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s';
+
+    /**
+     * Google Api Key
+     *
+     * @var string
+     */
+    protected $apiKey = '';
+
+    /**
+     * @param string $apiKey
+     */
+    public function __construct(string $apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Get suggest of search city
+     *
+     * @param string $searchTerm
+     * @return array
+     */
+    public function getPlaceSuggest(string $searchTerm): array
+    {
+        $apiUrl = sprintf(
+            static::PLACE_SUGGEST_URL,
+            $searchTerm,
+            $GLOBALS['TSFE']->config['language'] ?: 'en',
+            $this->apiKey
+        );
+
+        return json_decode(GeneralUtility::getUrl($apiUrl), true);
+    }
 
     /**
      * Get geocoding by address
      *
      * @param string $address
-     * @param string $key
      * @param string $language
      * @return array
      */
-    public static function getGeocoding(string $address, string $key, string $language = null): array
+    public function getGeocoding(string $address, string $language = null): array
     {
-        if ($language === null) {
-            $language = $GLOBALS['TSFE']->config['config']['language'];
-        }
+        $url = sprintf(
+            static::API_GEOCODING_URL,
+            $this->apiKey,
+            urlencode($address),
+            $language ?? $GLOBALS['TSFE']->config['config']['language']
+        );
 
-        $url = self::API_GEOCODING_URL . '?key=' . $key . '&address=' . urlencode($address) . '&language=' . $language;
+        $cacheManager = static::getCacheManager();
+        $cacheHash = hash('sha1', $url);
 
-        //check cache
-        $cacheKey = hash('sha1', $url);
-        $cacheValue = self::getCache($cacheKey);
-        if (!empty($cacheValue)) {
-            $responseJson = $cacheValue;
+        if ($cacheManager->has($cacheHash)) {
+            $response = $cacheManager->get($cacheHash);
         } else {
             $responseJson = GeneralUtility::getURL($url, false);
-            self::saveInCache($cacheKey, $responseJson);
+            $response = json_decode($responseJson, true);
+
+            $cacheManager->set($cacheHash, $response, []);
         }
 
-        return json_decode($responseJson, true);
-    }
-
-    /**
-     * cache api results
-     *
-     * @param string $cacheKey
-     * @return mixed
-     */
-    private static function getCache(string $cacheKey)
-    {
-        if (self::getCacheManager()->has($cacheKey)) {
-            return self::getCacheManager()->get($cacheKey);
-        }
-
-        return null;
-    }
-
-    /**
-     * cache api results
-     *
-     * @param string $cacheKey
-     * @param array $response google api answer
-     * @return void
-     */
-    private static function saveInCache(string $cacheKey, array $response): void
-    {
-        self::getCacheManager()->set($cacheKey, $response, []);
+        return $response;
     }
 
     /**
      * Wrapper for cache manager
      * @return FrontendInterface
      */
-    private static function getCacheManager(): FrontendInterface
+    protected function getCacheManager(): FrontendInterface
     {
-        /** @var FrontendInterface $cache */
-        static $cache = null;
-
-        if ($cache === null) {
-            $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('pxa_dealers');
-        }
-
-        return $cache;
+        return GeneralUtility::makeInstance(CacheManager::class)->getCache('pxa_dealers');
     }
 }

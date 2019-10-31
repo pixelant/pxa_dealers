@@ -5,6 +5,7 @@ namespace Pixelant\PxaDealers\Controller;
 
 use Pixelant\PxaDealers\Domain\Repository\DealerRepository;
 use Pixelant\PxaDealers\Utility\GoogleApiUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -19,6 +20,11 @@ abstract class AbstractController extends ActionController
      * @var DealerRepository
      */
     protected $dealerRepository = null;
+
+    /**
+     * @var GoogleApiUtility
+     */
+    protected $googleApi = null;
 
     /**
      * @param DealerRepository $dealerRepository
@@ -36,9 +42,8 @@ abstract class AbstractController extends ActionController
      */
     protected function getAddressInfo($address)
     {
-        $response = GoogleApiUtility::getGeocoding(
-            $address,
-            $this->settings['map']['googleServerApiKey']
+        $response = $this->getGoogleApi()->getGeocoding(
+            $address
         );
 
         if ($response['status'] === 'OK') {
@@ -49,5 +54,23 @@ abstract class AbstractController extends ActionController
         }
 
         return [null, null];
+    }
+
+    /**
+     * Get instance of google api. It's not required always.
+     * Initialize on demand
+     *
+     * @return GoogleApiUtility
+     */
+    protected function getGoogleApi(): GoogleApiUtility
+    {
+        if ($this->googleApi === null) {
+            $this->googleApi = GeneralUtility::makeInstance(
+                GoogleApiUtility::class,
+                $this->settings['map']['googleServerApiKey'] ?? ''
+            );
+        }
+
+        return $this->googleApi;
     }
 }
