@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -21,14 +22,14 @@ class MainUtility
      *
      * @return string
      */
-    public static function typoLink($parameter, $uriOnly = false)
+    public static function typoLink(string $parameter, bool $uriOnly = false)
     {
-        $confLink = array(
+        $confLink = [
             'parameter' => $parameter,
             'useCacheHash' => 1,
-        );
+        ];
 
-        if (true === $uriOnly) {
+        if ($uriOnly) {
             return self::getTSFE()->cObj->typoLink_URL($confLink);
         } else {
             return self::getTSFE()->cObj->typoLink('', $confLink);
@@ -38,75 +39,26 @@ class MainUtility
     /**
      * @return TypoScriptFrontendController
      */
-    public static function getTSFE()
+    public static function getTSFE(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }
 
     /**
-     * Conver flexform array to normal array
+     * Translate BE
      *
-     * @param array $flexFormData
-     * @return array
-     */
-    public static function flexForm2Array(array $flexFormData)
-    {
-        $settings = [];
-
-        foreach ($rawSettings = $flexFormData['data'] as $key => $data) {
-            $rawSettings = $flexFormData['data'][$key]['lDEF'];
-
-            foreach ($rawSettings as $field => $rawSetting) {
-                self::processFlexFormField($field, $rawSetting['vDEF'], $settings);
-            }
-        }
-
-        return $settings;
-    }
-
-    /**
-     * Process field
-     *
-     * @param string $field
-     * @param array $value
-     * @param array &$settings
-     * @return void
-     */
-    private static function processFlexFormField($field, $value, &$settings)
-    {
-        $fieldNameParts = GeneralUtility::trimExplode('.', $field);
-        if (count($fieldNameParts) > 1) {
-            $name = $fieldNameParts[0];
-
-            unset($fieldNameParts[0]);
-
-            if (!isset($settings[$name])) {
-                $settings[$name] = [];
-            }
-
-            self::processFlexFormField(implode('.', $fieldNameParts), $value, $settings[$name]);
-        } else {
-            $settings[$fieldNameParts[0]] = $value;
-        }
-    }
-
-    /**
      * @param string $label
-     * @return string
+     * @return string|null
      */
-    public static function translate($label)
+    public static function translate(string $label): ?string
     {
-        if ($label) {
-            return self::getLang()->sL('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:' . $label);
-        }
-
-        return '';
+        return self::getLang()->sL('LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:' . $label);
     }
 
     /**
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return LanguageService
      */
-    public static function getLang()
+    public static function getLang(): LanguageService
     {
         return $GLOBALS['LANG'];
     }

@@ -7,6 +7,7 @@ use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -47,8 +48,8 @@ class PageLayoutView
         $additionalInfo = '';
 
         if ($params['row']['list_type'] === 'pxadealers_pxadealers') {
-            $settings = MainUtility::flexForm2Array(
-                GeneralUtility::xml2array($params['row']['pi_flexform'])
+            $settings = GeneralUtility::makeInstance(FlexFormService::class)->convertFlexFormContentToArray(
+                $params['row']['pi_flexform']
             );
 
             list(, $actionName) = GeneralUtility::trimExplode(

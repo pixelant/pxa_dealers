@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
@@ -26,6 +27,7 @@ namespace Pixelant\PxaDealers\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,21 +40,21 @@ class GoogleApiUtility
 {
 
     /**
-     * google geocodin api url
+     * Google geocoding api url
      *
      * @var string $apiUrl
      */
     const API_GEOCODING_URL = 'https://maps.google.com/maps/api/geocode/json';
 
     /**
-     * get geocoding by address
+     * Get geocoding by address
      *
      * @param string $address
      * @param string $key
      * @param string $language
      * @return array
      */
-    public static function getGeocoding($address, $key, $language = null)
+    public static function getGeocoding(string $address, string $key, string $language = null): array
     {
         if ($language === null) {
             $language = $GLOBALS['TSFE']->config['config']['language'];
@@ -63,7 +65,7 @@ class GoogleApiUtility
         //check cache
         $cacheKey = hash('sha1', $url);
         $cacheValue = self::getCache($cacheKey);
-        if ($cacheValue !== false && !empty($cacheValue)) {
+        if (!empty($cacheValue)) {
             $responseJson = $cacheValue;
         } else {
             $responseJson = GeneralUtility::getURL($url, false);
@@ -79,13 +81,13 @@ class GoogleApiUtility
      * @param string $cacheKey
      * @return mixed
      */
-    private static function getCache($cacheKey)
+    private static function getCache(string $cacheKey)
     {
         if (self::getCacheManager()->has($cacheKey)) {
             return self::getCacheManager()->get($cacheKey);
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -95,16 +97,16 @@ class GoogleApiUtility
      * @param array $response google api answer
      * @return void
      */
-    private static function saveInCache($cacheKey, $response)
+    private static function saveInCache(string $cacheKey, array $response): void
     {
-        self::getCacheManager()->set($cacheKey, $response, array());
+        self::getCacheManager()->set($cacheKey, $response, []);
     }
 
     /**
      * Wrapper for cache manager
      * @return FrontendInterface
      */
-    private static function getCacheManager()
+    private static function getCacheManager(): FrontendInterface
     {
         /** @var FrontendInterface $cache */
         static $cache = null;

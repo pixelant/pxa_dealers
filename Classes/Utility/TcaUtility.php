@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
@@ -82,10 +83,10 @@ class TcaUtility
     /**
      * Get main JS configuration
      *
-     * @param $PA
+     * @param array $PA
      * @param string $key
      */
-    protected function loadRequireJsWithConfiguration($PA, $key)
+    protected function loadRequireJsWithConfiguration(array $PA, string $key)
     {
         $lat = (float)$PA['row'][$PA['parameters']['latitude']];
         $lng = (float)$PA['row'][$PA['parameters']['longitude']];
@@ -126,10 +127,10 @@ class TcaUtility
     /**
      * Generate main html
      *
-     * @param $PA
+     * @param array $PA
      * @return string
      */
-    protected function getHtml($PA)
+    protected function getHtml(array $PA)
     {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
