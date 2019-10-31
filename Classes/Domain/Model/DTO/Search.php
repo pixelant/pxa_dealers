@@ -153,7 +153,7 @@ class Search
     }
 
     /**
-     * @param float|null $lat
+     * @param float $lat
      */
     public function setLat(?float $lat): void
     {
@@ -169,7 +169,7 @@ class Search
     }
 
     /**
-     * @param float|null $lng
+     * @param float $lng
      */
     public function setLng(?float $lng): void
     {
