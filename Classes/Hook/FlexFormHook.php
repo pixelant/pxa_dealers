@@ -25,6 +25,7 @@ namespace Pixelant\PxaDealers\Hook;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -73,10 +74,6 @@ class FlexFormHook
     public $removedFieldsInSearchView = [
         'sDEF' => 'demand.categories,demand.countries,demand.orderDirection,demand.orderBy',
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
-    ];
-
-    public $removedFieldsInSearchResults = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest'
     ];
 
     /**
@@ -171,7 +168,7 @@ class FlexFormHook
                 // new plugin element
             } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
                 // use Map
-                $selectedView = 'Dealers->map';
+                $selectedView = 'Dealers->map;Dealers->search';
             }
 
             $this->updateFlexforms($dataStructure, $selectedView);
@@ -190,20 +187,14 @@ class FlexFormHook
     {
         // Modify the flexform structure depending on the first found action
         switch ($selectedView) {
-            case 'Dealers->map':
-                $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
-                break;
             case 'Categories->categoriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
                 break;
             case 'Countries->countriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                 break;
-            case 'Search->search':
+            case 'Search->form':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
-                break;
-            case 'Search->searchResults':
-                $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchResults);
                 break;
             default:
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);

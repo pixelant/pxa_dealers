@@ -65,7 +65,6 @@ class PageLayoutView
 
             if ($actionName === 'countriesFilter'
                 || $actionName === 'map'
-                || $actionName === 'searchResults'
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'static_countries',
@@ -91,7 +90,7 @@ class PageLayoutView
             }
 
 
-            if ($actionName === 'search') {
+            if ($actionName === 'form') {
                 $additionalInfo .= $this->getInfoFor(
                     'pages',
                     'be.no_result',
