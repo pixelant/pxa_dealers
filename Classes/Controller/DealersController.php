@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace Pixelant\PxaDealers\Controller;
 
 /***************************************************************
@@ -69,7 +69,7 @@ class DealersController extends AbstractController
                 $this->settings['search']['searchFields'],
                 true
             ));
-            $demand->setSeach($search);
+            $demand->setSearch($search);
 
             if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
                 if (empty($search->getLat()) || empty($search->getLng())) {
