@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Domain\Model;
 
@@ -27,9 +28,9 @@ namespace Pixelant\PxaDealers\Domain\Model;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Utility\MainUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 /**
  *
@@ -38,65 +39,65 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Dealer extends AbstractEntity
+class Dealer extends AbstractEntity implements \JsonSerializable
 {
     /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     * @var Dispatcher
      */
     protected $signalSlotDispatcher = null;
 
     /**
      * Name of dealer
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
-    protected $name;
+    protected $name = '';
 
     /**
      * City of dealer
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
-    protected $city;
+    protected $city = '';
 
     /**
      * E-mail of dealer
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
-    protected $email;
+    protected $email = '';
 
     /**
      * Telephone
      *
-     * @var \string
+     * @var string
      */
-    protected $phone;
+    protected $phone = '';
 
     /**
      * Website url
      *
-     * @var \string
+     * @var string
      */
-    protected $website;
+    protected $website = '';
 
     /**
      * Buy it now url
      *
-     * @var \string
+     * @var string
      */
-    protected $link;
+    protected $link = '';
 
     /**
-     * Adrress for google maps
+     * Address for google maps
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
-    protected $address;
+    protected $address = '';
 
     /**
      * Country
@@ -108,31 +109,31 @@ class Dealer extends AbstractEntity
     /**
      * Zipcode
      *
-     * @var \string
+     * @var string
      * @validate NotEmpty
      */
-    protected $zipcode;
+    protected $zipcode = '';
 
     /**
      * lat
      *
      * @var float
      */
-    protected $lat;
+    protected $lat = 0.0;
 
     /**
      * lng
      *
      * @var float
      */
-    protected $lng;
+    protected $lng = 0.0;
 
     /**
      * Logo
      *
      * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
-    protected $logo;
+    protected $logo = null;
 
     /**
      * categories
@@ -144,9 +145,9 @@ class Dealer extends AbstractEntity
     /**
      * showStreetView
      *
-     * @var \boolean $showStreetView
+     * @var boolean $showStreetView
      */
-    protected $showStreetView = 1;
+    protected $showStreetView = true;
 
     /**
      * __construct
@@ -158,9 +159,9 @@ class Dealer extends AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $dispatcher
+     * @param Dispatcher $dispatcher
      */
-    public function injectSignalSlotDispatcher(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher $dispatcher)
+    public function injectSignalSlotDispatcher(Dispatcher $dispatcher)
     {
         $this->signalSlotDispatcher = $dispatcher;
     }
@@ -179,256 +180,227 @@ class Dealer extends AbstractEntity
     }
 
     /**
-     * Returns the name
-     *
-     * @return \string $name
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * Sets the name
-     *
-     * @param \string $name
-     * @return void
+     * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * Returns the city
-     *
-     * @return \string $city
+     * @return string
      */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
     /**
-     * Sets the city
-     *
-     * @param \string $city
-     * @return void
+     * @param string $city
      */
-    public function setCity($city)
+    public function setCity(string $city): void
     {
         $this->city = $city;
     }
 
     /**
-     * Returns the email
-     *
-     * @return \string $email
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * Sets the email
-     *
-     * @param \string $email
-     * @return void
+     * @param string $email
      */
-    public function setEmail($email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
     /**
-     * Returns the telephone
-     *
-     * @return \string $telephone
+     * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
     /**
-     * Sets the telephone
-     *
-     * @param \string $phone
-     * @return void
+     * @param string $phone
      */
-    public function setPhone($phone)
+    public function setPhone(string $phone): void
     {
         $this->phone = $phone;
     }
 
     /**
-     * Returns the website
-     *
-     * @return \string $website
+     * @return string
      */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
 
     /**
-     * Sets the website
-     *
-     * @param \string $website
-     * @return void
+     * @param string $website
      */
-    public function setWebsite($website)
+    public function setWebsite(string $website): void
     {
         $this->website = $website;
     }
 
     /**
-     * Returns the adrress
-     *
-     * @return \string $adrress
+     * @return string
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
 
     /**
-     * Sets the adrress
-     *
-     * @param \string $address
-     * @return void
+     * @param string $address
      */
-    public function setAddress($address)
+    public function setAddress(string $address): void
     {
         $this->address = $address;
     }
 
     /**
-     * Returns the country
-     *
-     * @return \SJBR\StaticInfoTables\Domain\Model\Country $country
+     * @return \SJBR\StaticInfoTables\Domain\Model\Country|null
      */
-    public function getCountry()
+    public function getCountry(): ?\SJBR\StaticInfoTables\Domain\Model\Country
     {
         return $this->country;
     }
 
     /**
-     * Sets the country
-     *
      * @param \SJBR\StaticInfoTables\Domain\Model\Country $country
-     * @return void
      */
-    public function setCountry(\SJBR\StaticInfoTables\Domain\Model\Country $country)
+    public function setCountry(\SJBR\StaticInfoTables\Domain\Model\Country $country): void
     {
         $this->country = $country;
     }
 
     /**
-     * Returns the zipcode
-     *
-     * @return \string $zipcode
+     * @return string
      */
-    public function getZipcode()
+    public function getZipcode(): string
     {
         return $this->zipcode;
     }
 
     /**
-     * Sets the zipcode
-     *
-     * @param \string $zipcode
-     * @return void
+     * @param string $zipcode
      */
-    public function setZipcode($zipcode)
+    public function setZipcode(string $zipcode): void
     {
         $this->zipcode = $zipcode;
     }
 
     /**
-     * Returns the lat
-     *
-     * @return float $lat
+     * @return float
      */
-    public function getLat()
+    public function getLat(): float
     {
         return $this->lat;
     }
 
     /**
-     * Sets the lat
-     *
      * @param float $lat
-     * @return void
      */
-    public function setLat($lat)
+    public function setLat(float $lat): void
     {
         $this->lat = $lat;
     }
 
     /**
-     * Returns the lng
-     *
-     * @return float $lng
+     * @return float
      */
-    public function getLng()
+    public function getLng(): float
     {
         return $this->lng;
     }
 
     /**
-     * Sets the lng
-     *
      * @param float $lng
-     * @return void
      */
-    public function setLng($lng)
+    public function setLng(float $lng): void
     {
         $this->lng = $lng;
     }
 
     /**
-     * Adds a category
-     *
-     * @param \Pixelant\PxaDealers\Domain\Model\Category $category
-     * @return void
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
      */
-    public function addCategory(\Pixelant\PxaDealers\Domain\Model\Category $category)
-    {
-        $this->categories->attach($category);
-    }
-
-    /**
-     * Removes a category
-     *
-     * @param \Pixelant\PxaDealers\Domain\Model\Category $categoryToRemove The category to be removed
-     * @return void
-     */
-    public function removeCategory(\Pixelant\PxaDealers\Domain\Model\Category $categoryToRemove)
-    {
-        $this->categories->detach($categoryToRemove);
-    }
-
-    /**
-     * Returns the categories
-     *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
-     */
-    public function getCategories()
+    public function getCategories(): \TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->categories;
     }
 
     /**
-     * Sets the Categories
-     *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category> $categories
-     * @return void
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories
      */
-    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories)
+    public function setCategories(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $categories): void
     {
         $this->categories = $categories;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink(): string
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param string $link
+     */
+    public function setLink(string $link): void
+    {
+        $this->link = $link;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference|null
+     */
+    public function getLogo(): ?\TYPO3\CMS\Extbase\Domain\Model\FileReference
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $logo
+     */
+    public function setLogo(\TYPO3\CMS\Extbase\Domain\Model\FileReference $logo): void
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowStreetView(): bool
+    {
+        return $this->showStreetView;
+    }
+
+    /**
+     * @param bool $showStreetView
+     */
+    public function setShowStreetView(bool $showStreetView): void
+    {
+        $this->showStreetView = $showStreetView;
     }
 
     /**
@@ -436,7 +408,7 @@ class Dealer extends AbstractEntity
      *
      * @return string $categories_string
      */
-    public function getCategoriesString()
+    public function getCategoriesUidList(): string
     {
         return implode(',', $this->getCategoriesAsUidsArray());
     }
@@ -446,20 +418,15 @@ class Dealer extends AbstractEntity
      *
      * @return array
      */
-    public function getCategoriesAsUidsArray()
+    public function getCategoriesAsUidsArray(): array
     {
 
-        $categoriesObjects = $this->getCategories();
-        $categories = [];
-
-        /** @var Category $categoryObject */
-        foreach ($categoriesObjects as $categoryObject) {
-            if (is_object($categoryObject)) {
-                $categories[] = $categoryObject->getUid();
-            }
-        }
-
-        return $categories;
+        return array_map(
+            function ($category) {
+                return $category->getUid();
+            },
+            $this->getCategories()->toArray()
+        );
     }
 
     /**
@@ -467,70 +434,16 @@ class Dealer extends AbstractEntity
      *
      * @return integer
      */
-    public function getCountryUid()
+    public function getCountryUid(): int
     {
         return $this->getCountry() !== null ? $this->getCountry()->getUid() : 0;
     }
 
     /**
-     * Returns the showStreetView
-     *
-     * @return \boolean $showStreetView
-     */
-    public function getShowStreetView()
-    {
-        return $this->showStreetView;
-    }
-
-    /**
-     * Sets the showStreetView
-     *
-     * @param \boolean $showStreetView
-     * @return void
-     */
-    public function setShowStreetView($showStreetView)
-    {
-        $this->showStreetView = $showStreetView;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->link;
-    }
-
-    /**
-     * @param string $link
-     */
-    public function setLink($link)
-    {
-        $this->link = $link;
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Domain\Model\FileReference
-     */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $logo
-     */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
-    }
-
-    /**
-     * Get array for map view
-     *
+     * Json encode object
      * @return array
      */
-    public function toArray()
+    public function jsonSerialize()
     {
         $dealerData = [
             'name' => $this->getName(),
@@ -540,7 +453,7 @@ class Dealer extends AbstractEntity
             'zipcode' => $this->getZipcode(),
             'city' => $this->getCity(),
             'phone' => $this->getPhone(),
-            'phoneClear' => str_replace(array(' ', '-'), '', $this->getPhone()),
+            'phoneClear' => str_replace([' ', '-'], '', $this->getPhone()),
             'website' => MainUtility::typoLink($this->getWebsite()),
             'link' => MainUtility::typoLink($this->getLink()),
             'email' => MainUtility::typoLink($this->getEmail()),
@@ -548,7 +461,7 @@ class Dealer extends AbstractEntity
             'categories' => $this->getCategories(),
             'country' => (string)$this->getCountryUid(),
             'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameEn() : '',
-            'showStreetView' => $this->getShowStreetView(),
+            'showStreetView' => $this->isShowStreetView(),
             'logo' => $this->getLogo()
         ];
 
