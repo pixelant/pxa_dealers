@@ -48,7 +48,7 @@ class DealerRepository extends AbstractDemandRepository
      * @param Search $search
      * @return array
      */
-    public function suggestResult(Search $search)
+    public function suggestResult(Search $search): array
     {
         $query = $this->createQuery();
         $sword = $search->getSearchTermLowercase();
@@ -73,7 +73,7 @@ class DealerRepository extends AbstractDemandRepository
      *
      * @return array
      */
-    public function getStoragePageIds()
+    public function getStoragePageIds(): array
     {
         $query = $this->createQuery();
         return $query->getQuerySettings()->getStoragePageIds();
@@ -84,7 +84,7 @@ class DealerRepository extends AbstractDemandRepository
      * @param Demand $demand
      * @return void
      */
-    protected function createConstraints(QueryInterface $query, Demand $demand)
+    protected function createConstraints(QueryInterface $query, Demand $demand): void
     {
         // If search by radius just create a query
         if ($demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
@@ -149,7 +149,7 @@ class DealerRepository extends AbstractDemandRepository
      * @param QueryInterface $query
      * @param Demand $demand
      */
-    protected function setOrdering(QueryInterface $query, Demand $demand)
+    protected function setOrdering(QueryInterface $query, Demand $demand): void
     {
         // Set orderings only in case of default search
         if ($demand->getSearch() === null || !$demand->getSearch()->isSearchInRadius()) {

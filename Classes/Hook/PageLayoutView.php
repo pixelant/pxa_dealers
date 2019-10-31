@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
 
@@ -40,7 +40,7 @@ class PageLayoutView
      * @param array $params
      * @return string
      */
-    public function getInfo($params)
+    public function getInfo(array $params): string
     {
         $info = '<strong>Pxa Dealers</strong><br>';
 
@@ -118,7 +118,7 @@ class PageLayoutView
      * @param string $actionName
      * @return string
      */
-    protected function getSwitchableControllerActionsLabel($actionName)
+    protected function getSwitchableControllerActionsLabel(string $actionName): string
     {
         return sprintf(
             '<strong>%s: <i>%s</i></strong>',
@@ -133,7 +133,7 @@ class PageLayoutView
      * @param array $pages
      * @return string
      */
-    protected function getRecordsStorageInfo(array $pages)
+    protected function getRecordsStorageInfo(array $pages): string
     {
         $storages = [];
 
@@ -163,7 +163,7 @@ class PageLayoutView
      * @param string $settingsField
      * @return string
      */
-    protected function getInfoFor($table, $noResult, $field, $for, $settingsField)
+    protected function getInfoFor(string $table, string $noResult, string $field, string $for, string $settingsField): string
     {
         if (!empty($settingsField)) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -200,7 +200,7 @@ class PageLayoutView
      * @param array $settings
      * @return string
      */
-    protected function getInfoOrderFields(array $settings)
+    protected function getInfoOrderFields(array $settings): string
     {
         $output = sprintf(
             '<b>%s</b>: %s<br>',
@@ -221,11 +221,12 @@ class PageLayoutView
 
     /**
      * Get description for checkbox
+     *
      * @param $value
      * @param $label
      * @return string
      */
-    protected function getCheckBoxInfo($value, $label)
+    protected function getCheckBoxInfo($value, $label): string
     {
         return sprintf(
             '<b>%s</b>: %s<br>',

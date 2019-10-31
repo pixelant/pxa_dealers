@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
 
@@ -122,13 +123,12 @@ class FlexFormHook
 
     /**
      * Change visible flexform fields
-     * Used in TYPO3 > 8
      *
      * @param array $dataStructure
      * @param array $identifier
      * @return array
      */
-    public function parseDataStructureByIdentifierPostProcess($dataStructure, $identifier)
+    public function parseDataStructureByIdentifierPostProcess(array $dataStructure, array $identifier): array
     {
         if ($identifier['dataStructureKey'] === 'pxadealers_pxadealers,list'
             && $identifier['fieldName'] === 'pi_flexform'
@@ -141,49 +141,13 @@ class FlexFormHook
     }
 
     /**
-     * Change visible flexform fields
-     * Used in TYPO3 < 8
-     *
-     * @param array &$dataStructure Flexform structure
-     * @param array $conf some strange configuration
-     * @param array $row row of current record
-     * @param string $table table name
-     * @return void
-     */
-    public function getFlexFormDS_postProcessDS(&$dataStructure, $conf, $row, $table)
-    {
-        if ($table === 'tt_content' && $row['list_type'] === 'pxadealers_pxadealers' && is_array($dataStructure)) {
-            // get the first selected action
-            if (is_string($row['pi_flexform'])) {
-                $flexFormSelection = GeneralUtility::xml2array($row['pi_flexform']);
-            } else {
-                $flexFormSelection = $row['pi_flexform'];
-            }
-            if (is_array($flexFormSelection) && is_array($flexFormSelection['data'])) {
-                $selectedView = $flexFormSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-
-                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
-                $selectedView = $actionParts[0];
-
-                // new plugin element
-            } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
-                // use Map
-                $selectedView = 'Dealers->map;Dealers->search';
-            }
-
-            $this->updateFlexforms($dataStructure, $selectedView);
-        }
-    }
-    // @codingStandardsIgnoreEnd
-
-    /**
      * Update flexform configuration if a action is selected
      *
-     * @param array|string &$dataStructure flexform structure
-     * @param array $row row of current record
+     * @param array &$dataStructure flexform structure
+     * @param string $selectedView
      * @return void
      */
-    protected function updateFlexforms(array &$dataStructure, string $selectedView)
+    protected function updateFlexforms(array &$dataStructure, string $selectedView): void
     {
         // Modify the flexform structure depending on the first found action
         switch ($selectedView) {
@@ -209,7 +173,7 @@ class FlexFormHook
      * @param array $fieldsToBeRemoved fields which need to be removed
      * @return void
      */
-    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved)
+    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved): void
     {
         foreach ($fieldsToBeRemoved as $sheetName => $sheetFields) {
             $fieldsInSheet = GeneralUtility::trimExplode(',', $sheetFields, true);
