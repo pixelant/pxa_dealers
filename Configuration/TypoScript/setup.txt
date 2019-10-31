@@ -66,28 +66,6 @@ plugin.tx_pxadealers {
     }
 }
 
-page {
-    includeCSS {
-        awesomplete = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
-        pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-    }
-
-    includeJSFooterlibs {
-        google_map = https://maps.googleapis.com/maps/api/js?key={$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
-        google_map.external = 1
-        markerclusterer = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
-        isotope = EXT:pxa_dealers/Resources/Public/JavaScript/isotope.pkgd.min.js
-        awesomplete = EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js
-
-        pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
-    }
-
-    includeJSFooter {
-        pxa_dealers = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
-        pxa_dealers_search = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js
-    }
-}
-
 [globalVar = GP:type = 2313089]
     pxaDealersSuggest = PAGE
     pxaDealersSuggest {

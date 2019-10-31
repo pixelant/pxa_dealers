@@ -1,9 +1,15 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers">
+     xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+     xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers">
 
     <f:layout name="Default"/>
 
     <f:section name="main">
+        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
+        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js" library="1" />
+
+        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js" />
+
         <div id="pxa-dealers-search">
             <f:form object="{search}" name="search" action="search" controller="Dealers" pageUid="{settings.search.searchResultPage}">
                 <div class="form-group">
