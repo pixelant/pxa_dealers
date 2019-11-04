@@ -45,7 +45,7 @@ class DealersController extends AbstractController
     /**
      * Map action initialize
      */
-    public function initializeMapAction()
+    public function initializeAction()
     {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->addInlineLanguageLabelFile(
@@ -69,10 +69,25 @@ class DealersController extends AbstractController
     /**
      * action map
      *
-     * @param Search $search
      * @return void
      */
-    public function mapAction(Search $search = null)
+    public function mapAction()
+    {
+        $this->renderMap();
+    }
+
+    /**
+     * @param Search $search
+     */
+    public function searchAction(Search $search)
+    {
+        $this->renderMap($search);
+    }
+
+    /**
+     * @param Search|null $search
+     */
+    protected function renderMap(Search $search = null)
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
