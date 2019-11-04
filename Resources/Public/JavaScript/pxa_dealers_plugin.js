@@ -250,7 +250,7 @@
             if (typeof dealer['showStreetView'] !== 'undefined' && dealer['showStreetView'] === true) {
                 rightPart += '<div class="image-street-preview">';
                 rightPart += '<a href="javascript: {}" class="street-view-link" data-marker-id="{0}" class="street-switch-trigger website-link">'.format(dealer['uid']);
-                rightPart += '<img src="http://maps.googleapis.com/maps/api/streetview?size=90x70&location={0},{1}&key={2}"/><br>'.format(
+                rightPart += '<img src="https://maps.googleapis.com/maps/api/streetview?size=90x70&location={0},{1}&key={2}"/><br>'.format(
                     dealer['lat'],
                     dealer['lng'],
                     self.pluginSettings.googleJavascriptApiKey
