@@ -92,6 +92,8 @@ class SearchController extends AbstractController
      */
     public function suggestAction(Search $search = null)
     {
+        $response = ['db' => [], 'google' => []];
+
         if ($search !== null && !empty($search->getSearchTermLowercase())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
@@ -99,9 +101,9 @@ class SearchController extends AbstractController
                 true
             ));
 
-            $response = $this->dealerRepository->suggestResult($search);
+            $response['db'] = $this->dealerRepository->suggestResult($search);
 
-            if (!empty($this->settings['map']['googleServerApiKey'])) {
+            if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
                 $googleResponse = $this->getGoogleApi()->getPlaceSuggest($search->getSearchTermOriginal());
 
                 if (is_array($googleResponse)
@@ -109,12 +111,12 @@ class SearchController extends AbstractController
                     && count($googleResponse['predictions']) > 0
                 ) {
                     foreach ($googleResponse['predictions'] as $prediction) {
-                        $response[] = $prediction['description'];
+                        $response['google'][] = $prediction['description'];
                     }
                 }
             }
         }
 
-        return json_encode($response ?? []);
+        return json_encode($response);
     }
 }
