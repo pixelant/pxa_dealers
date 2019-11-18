@@ -91,7 +91,7 @@ class DealersController extends AbstractController
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
-        if ($search !== null) {
+        if ($search !== null && !empty($search->getSearchTermOriginal())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
                 $this->settings['search']['searchFields'],
