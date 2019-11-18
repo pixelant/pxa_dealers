@@ -65,7 +65,10 @@ class DealerRepository extends AbstractDemandRepository
             $this->suggestByField($query, $sword, $result, $searchField);
         }
 
-        return array_unique($result, SORT_STRING);
+        return array_intersect_key(
+            $result,
+            array_unique(array_map('strtolower', $result), SORT_STRING)
+        );
     }
 
     /**
@@ -178,7 +181,7 @@ class DealerRepository extends AbstractDemandRepository
             foreach ($dealers as $dealer) {
                 $propertyParts = GeneralUtility::trimExplode('.', $field);
                 if (count($propertyParts) === 1) {
-                    $result[]= ObjectAccess::getProperty($dealer, $field);
+                    $result[] = ObjectAccess::getProperty($dealer, $field);
                 } else {
                     $childObject = ObjectAccess::getProperty($dealer, $propertyParts[0]);
                     $result[] = ObjectAccess::getProperty($childObject, $propertyParts[1]);
