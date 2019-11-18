@@ -31,18 +31,16 @@ call_user_func(
         );
 
         # register icons
-        if (TYPO3_MODE === 'BE') {
-            /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-            $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\Imaging\IconRegistry::class
-            );
+        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        );
 
-            $iconRegistry->registerIcon(
-                'ext-pxadealers-wizard-icon',
-                \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-                ['source' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/wizard_icon.svg']
-            );
-        }
+        $iconRegistry->registerIcon(
+            'ext-pxadealers-wizard-icon',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            ['source' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/wizard_icon.svg']
+        );
 
         // hook for extension BE view
         // @codingStandardsIgnoreStart
