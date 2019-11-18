@@ -429,30 +429,20 @@
          */
         self.repaintMarkerClusterer = function () {
             if (self.isMarkerClustererEnable()) {
-                var visibleMarkers = [],
-                    hiddenMarkers = [];
+                var visibleMarkers = [];
 
                 for (var key in  self.markers) {
                     if (!self.markers.hasOwnProperty(key)) continue;
 
                     if (self.markers[key].getVisible()) {
                         visibleMarkers.push(self.markers[key]);
-                    } else {
-                        hiddenMarkers.push(self.markers[key]);
                     }
                 }
 
-                if (hiddenMarkers.length > 0 && visibleMarkers.length !== 0) {
-                    self.markerClusterer.removeMarkers(hiddenMarkers);
-                }
-
+                self.markerClusterer.clearMarkers();
                 if (visibleMarkers.length !== 0) {
                     self.markerClusterer.addMarkers(visibleMarkers, true);
-                } else {
-                    self.markerClusterer.clearMarkers();
                 }
-
-                self.markerClusterer.redraw();
             }
         };
 
