@@ -55,7 +55,7 @@
          * @return {*}
          */
         translate: function (key) {
-            return PxaDealersMaps.labels['js.' + key] || '';
+            return TYPO3.lang['js.' + key] || '';
         },
 
 	    /**

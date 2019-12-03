@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
-namespace Pixelant\PxaDealers\Domain\Model;
-
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+namespace Pixelant\PxaDealers\Domain\Model\DTO;
 
 /**
  * Class Search
  * @package Pixelant\PxaDealers\Domain\Model
  */
-class Search extends AbstractEntity
+class Search
 {
     /**
      * Search query string lower case
@@ -50,14 +49,14 @@ class Search extends AbstractEntity
      *
      * @var float
      */
-    protected $lat;
+    protected $lat = null;
 
     /**
      * lng
      *
      * @var float
      */
-    protected $lng;
+    protected $lng = null;
 
     /**
      * @var int
@@ -67,7 +66,7 @@ class Search extends AbstractEntity
     /**
      * @return string
      */
-    public function getSearchTermLowercase()
+    public function getSearchTermLowercase(): string
     {
         return $this->searchTermLowercase;
     }
@@ -75,15 +74,15 @@ class Search extends AbstractEntity
     /**
      * @param string $searchTermLowercase
      */
-    public function setSearchTermLowercase($searchTermLowercase)
+    public function setSearchTermLowercase(string $searchTermLowercase): void
     {
-        $this->searchTermLowercase = trim($searchTermLowercase);
+        $this->searchTermLowercase = $searchTermLowercase;
     }
 
     /**
      * @return string
      */
-    public function getSearchTermOriginal()
+    public function getSearchTermOriginal(): string
     {
         return $this->searchTermOriginal;
     }
@@ -91,7 +90,7 @@ class Search extends AbstractEntity
     /**
      * @param string $searchTermOriginal
      */
-    public function setSearchTermOriginal($searchTermOriginal)
+    public function setSearchTermOriginal(string $searchTermOriginal): void
     {
         $this->searchTermOriginal = $searchTermOriginal;
         $this->setSearchTermLowercase(strtolower($searchTermOriginal));
@@ -100,7 +99,7 @@ class Search extends AbstractEntity
     /**
      * @return array
      */
-    public function getSearchFields()
+    public function getSearchFields(): array
     {
         return $this->searchFields;
     }
@@ -108,7 +107,7 @@ class Search extends AbstractEntity
     /**
      * @param array $searchFields
      */
-    public function setSearchFields($searchFields)
+    public function setSearchFields(array $searchFields): void
     {
         $this->searchFields = $searchFields;
     }
@@ -116,7 +115,7 @@ class Search extends AbstractEntity
     /**
      * @return string
      */
-    public function getPid()
+    public function getPid(): string
     {
         return $this->pid;
     }
@@ -124,7 +123,7 @@ class Search extends AbstractEntity
     /**
      * @param string $pid
      */
-    public function setPid($pid)
+    public function setPid(string $pid): void
     {
         $this->pid = $pid;
     }
@@ -132,7 +131,7 @@ class Search extends AbstractEntity
     /**
      * @return bool
      */
-    public function isSearchInRadius()
+    public function isSearchInRadius(): bool
     {
         return $this->searchInRadius;
     }
@@ -140,15 +139,15 @@ class Search extends AbstractEntity
     /**
      * @param bool $searchInRadius
      */
-    public function setSearchInRadius($searchInRadius)
+    public function setSearchInRadius(bool $searchInRadius): void
     {
         $this->searchInRadius = $searchInRadius;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLat()
+    public function getLat(): ?float
     {
         return $this->lat;
     }
@@ -156,15 +155,15 @@ class Search extends AbstractEntity
     /**
      * @param float $lat
      */
-    public function setLat($lat)
+    public function setLat(?float $lat): void
     {
-        $this->lat = (float)$lat;
+        $this->lat = $lat;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLng()
+    public function getLng(): ?float
     {
         return $this->lng;
     }
@@ -172,15 +171,15 @@ class Search extends AbstractEntity
     /**
      * @param float $lng
      */
-    public function setLng($lng)
+    public function setLng(?float $lng): void
     {
-        $this->lng = (float)$lng;
+        $this->lng = $lng;
     }
 
     /**
      * @return int
      */
-    public function getRadius()
+    public function getRadius(): int
     {
         return $this->radius;
     }
@@ -188,8 +187,8 @@ class Search extends AbstractEntity
     /**
      * @param int $radius
      */
-    public function setRadius($radius)
+    public function setRadius(int $radius): void
     {
-        $this->radius = (int)$radius;
+        $this->radius = $radius;
     }
 }

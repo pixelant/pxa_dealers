@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
@@ -26,7 +27,8 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
+use Pixelant\PxaDealers\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -39,10 +41,17 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class CategoriesController extends ActionController
 {
     /**
-     * @var \Pixelant\PxaDealers\Domain\Repository\CategoryRepository
-     * @inject
+     * @var CategoryRepository
      */
     protected $categoriesRepository;
+
+    /**
+     * @param CategoryRepository $categoryRepository
+     */
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    {
+        $this->categoriesRepository = $categoryRepository;
+    }
 
     /**
      * Categories filter plugin

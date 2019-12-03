@@ -2,7 +2,8 @@
 
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * Interface DemandRepositoryInterface
@@ -10,5 +11,5 @@ use Pixelant\PxaDealers\Domain\Model\Demand;
  */
 interface DemandRepositoryInterface
 {
-    public function findDemanded(Demand $demand);
+    public function findDemanded(Demand $demand): QueryResultInterface;
 }

@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Pixelant\PxaDealers\Domain\Model;
+namespace Pixelant\PxaDealers\Domain\Model\DTO;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -41,7 +42,7 @@ class Demand
      *
      * @var Search
      */
-    protected $seach;
+    protected $search = null;
 
     /**
      * @var string
@@ -51,7 +52,7 @@ class Demand
     /**
      * @return array
      */
-    public function getCategories()
+    public function getCategories(): array
     {
         return $this->categories;
     }
@@ -59,7 +60,7 @@ class Demand
     /**
      * @param array $categories
      */
-    public function setCategories($categories)
+    public function setCategories(array $categories): void
     {
         $this->categories = $categories;
     }
@@ -67,7 +68,7 @@ class Demand
     /**
      * @return array
      */
-    public function getCountries()
+    public function getCountries(): array
     {
         return $this->countries;
     }
@@ -75,7 +76,7 @@ class Demand
     /**
      * @param array $countries
      */
-    public function setCountries($countries)
+    public function setCountries(array $countries): void
     {
         $this->countries = $countries;
     }
@@ -83,7 +84,7 @@ class Demand
     /**
      * @return string
      */
-    public function getOrderDirection()
+    public function getOrderDirection(): string
     {
         return $this->orderDirection;
     }
@@ -91,7 +92,7 @@ class Demand
     /**
      * @param string $orderDirection
      */
-    public function setOrderDirection($orderDirection)
+    public function setOrderDirection(string $orderDirection): void
     {
         $this->orderDirection = $orderDirection;
     }
@@ -113,19 +114,19 @@ class Demand
     }
 
     /**
-     * @return Search
+     * @return Search|null
      */
-    public function getSeach()
+    public function getSearch(): ?Search
     {
-        return $this->seach;
+        return $this->search;
     }
 
     /**
-     * @param Search $seach
+     * @param Search $search
      */
-    public function setSeach($seach)
+    public function setSearch(Search $search): void
     {
-        $this->seach = $seach;
+        $this->search = $search;
     }
 
     /**
@@ -134,7 +135,7 @@ class Demand
      * @param array $demand
      * @return Demand
      */
-    public static function getInstance($demand = [])
+    public static function getInstance($demand = []): self
     {
         /** @var Demand $demandObject */
         $demandObject = GeneralUtility::makeInstance(__CLASS__);
@@ -151,7 +152,7 @@ class Demand
      * @param $settings
      * @return array
      */
-    protected static function processDemandSettings($settings)
+    protected static function processDemandSettings($settings): array
     {
         foreach ($settings as $field => $value) {
             if (GeneralUtility::inList(self::FIELDS_ARRAY, $field)) {

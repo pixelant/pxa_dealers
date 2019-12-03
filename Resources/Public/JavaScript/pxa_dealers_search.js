@@ -46,8 +46,18 @@
                     self._loadSuggest($(this));
                 });
 
-                self.input.on('awesomplete-selectcomplete', function() {
-                    self.form.submit();
+                self.input.on('awesomplete-select', function(e) {
+                	e.preventDefault();
+                	var valueParts = e.originalEvent.text.value.split('::'),
+						method = valueParts[0],
+						value = valueParts[1];
+
+                	var $inputSearchRadius=$('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
+                	$inputSearchRadius.val(method === 'google' ? '1' : '0');
+
+					$(e.target).val(value);
+					self.awesomplete.close();
+					self.form.submit();
                 });
             }
 
@@ -84,9 +94,13 @@
                     success: function (data) {
                         var list = [];
 
-                        $.each(data, function (key, value) {
-                            list.push(value);
+                        $.each(data['db'], function (key, value) {
+                            list.push({label: value, value: 'db::' + value});
                         });
+
+						$.each(data['google'], function (key, value) {
+							list.push({label: value, value: 'google::' + value});
+						});
 
                         self.awesomplete._list = list;
                         self.awesomplete.evaluate()

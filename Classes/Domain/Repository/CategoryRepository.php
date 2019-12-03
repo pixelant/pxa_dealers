@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
  *
@@ -26,7 +26,7 @@
 
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
@@ -39,7 +39,7 @@ class CategoryRepository extends AbstractDemandRepository
      * @param QueryInterface $query
      * @param Demand $demand
      */
-    protected function createConstraints(QueryInterface $query, Demand $demand)
+    protected function createConstraints(QueryInterface $query, Demand $demand): void
     {
         $categories = $demand->getCategories();
 
@@ -60,7 +60,7 @@ class CategoryRepository extends AbstractDemandRepository
      * @param QueryInterface $query
      * @param Demand $demand
      */
-    protected function setOrdering(QueryInterface $query, Demand $demand)
+    protected function setOrdering(QueryInterface $query, Demand $demand): void
     {
         if ($demand->getOrderBy() === 'name') {
             $demand->setOrderBy('title');

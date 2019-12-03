@@ -17,6 +17,14 @@ plugin.tx_pxadealers {
 
     persistence {
         storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+
+        classes {
+            Pixelant\PxaDealers\Domain\Model\Category {
+                mapping {
+                    tableName = sys_category
+                }
+            }
+        }
     }
 
     settings {
@@ -45,7 +53,7 @@ plugin.tx_pxadealers {
         search {
             searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
             # Search in radius by kilometers
-            radius = 100
+            radius = 50
         }
 
         dealersList {
@@ -55,28 +63,6 @@ plugin.tx_pxadealers {
             imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
             imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
         }
-    }
-}
-
-page {
-    includeCSS {
-        awesomplete = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
-        pxa_dealers = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-    }
-
-    includeJSFooterlibs {
-        google_map = https://maps.googleapis.com/maps/api/js?key={$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
-        google_map.external = 1
-        markerclusterer = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
-        isotope = EXT:pxa_dealers/Resources/Public/JavaScript/isotope.pkgd.min.js
-        awesomplete = EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js
-
-        pxa_dealers_plugin = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
-    }
-
-    includeJSFooter {
-        pxa_dealers = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
-        pxa_dealers_search = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js
     }
 }
 

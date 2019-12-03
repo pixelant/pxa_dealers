@@ -1,9 +1,10 @@
 <?php
-
+declare(strict_types=1);
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-use Pixelant\PxaDealers\Domain\Model\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
@@ -17,7 +18,7 @@ abstract class AbstractDemandRepository extends Repository implements DemandRepo
      * @param Demand $demand
      * @return void
      */
-    protected function setOrdering(QueryInterface $query, Demand $demand)
+    protected function setOrdering(QueryInterface $query, Demand $demand): void
     {
         switch ($demand->getOrderDirection()) {
             case 'asc':
@@ -35,9 +36,9 @@ abstract class AbstractDemandRepository extends Repository implements DemandRepo
 
     /**
      * @param Demand $demand
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return QueryResultInterface
      */
-    public function findDemanded(Demand $demand)
+    public function findDemanded(Demand $demand): QueryResultInterface
     {
         $query = $this->createQuery();
 
@@ -54,5 +55,5 @@ abstract class AbstractDemandRepository extends Repository implements DemandRepo
      * @param Demand $demand
      * @return void
      */
-    abstract protected function createConstraints(QueryInterface $query, Demand $demand);
+    abstract protected function createConstraints(QueryInterface $query, Demand $demand): void;
 }

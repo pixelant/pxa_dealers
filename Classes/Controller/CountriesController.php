@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
@@ -26,6 +27,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SJBR\StaticInfoTables\Domain\Repository\CountryRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -39,10 +41,17 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class CountriesController extends ActionController
 {
     /**
-     * @var \SJBR\StaticInfoTables\Domain\Repository\CountryRepository
-     * @inject
+     * @var CountryRepository
      */
     protected $countriesRepository;
+
+    /**
+     * @param CountryRepository $countryRepository
+     */
+    public function injectCountryRepository(CountryRepository $countryRepository)
+    {
+        $this->countriesRepository = $countryRepository;
+    }
 
     /**
      * Countries filter

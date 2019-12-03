@@ -250,7 +250,7 @@
             if (typeof dealer['showStreetView'] !== 'undefined' && dealer['showStreetView'] === true) {
                 rightPart += '<div class="image-street-preview">';
                 rightPart += '<a href="javascript: {}" class="street-view-link" data-marker-id="{0}" class="street-switch-trigger website-link">'.format(dealer['uid']);
-                rightPart += '<img src="http://maps.googleapis.com/maps/api/streetview?size=90x70&location={0},{1}&key={2}"/><br>'.format(
+                rightPart += '<img src="https://maps.googleapis.com/maps/api/streetview?size=90x70&location={0},{1}&key={2}"/><br>'.format(
                     dealer['lat'],
                     dealer['lng'],
                     self.pluginSettings.googleJavascriptApiKey
@@ -429,30 +429,20 @@
          */
         self.repaintMarkerClusterer = function () {
             if (self.isMarkerClustererEnable()) {
-                var visibleMarkers = [],
-                    hiddenMarkers = [];
+                var visibleMarkers = [];
 
                 for (var key in  self.markers) {
                     if (!self.markers.hasOwnProperty(key)) continue;
 
                     if (self.markers[key].getVisible()) {
                         visibleMarkers.push(self.markers[key]);
-                    } else {
-                        hiddenMarkers.push(self.markers[key]);
                     }
                 }
 
-                if (hiddenMarkers.length > 0 && visibleMarkers.length !== 0) {
-                    self.markerClusterer.removeMarkers(hiddenMarkers);
-                }
-
+                self.markerClusterer.clearMarkers();
                 if (visibleMarkers.length !== 0) {
                     self.markerClusterer.addMarkers(visibleMarkers, true);
-                } else {
-                    self.markerClusterer.clearMarkers();
                 }
-
-                self.markerClusterer.redraw();
             }
         };
 

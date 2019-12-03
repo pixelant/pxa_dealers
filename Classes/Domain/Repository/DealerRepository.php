@@ -27,8 +27,8 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  ***************************************************************/
 
 use Pixelant\PxaDealers\Domain\Model\Dealer;
-use Pixelant\PxaDealers\Domain\Model\Demand;
-use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
+use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -48,7 +48,7 @@ class DealerRepository extends AbstractDemandRepository
      * @param Search $search
      * @return array
      */
-    public function suggestResult(Search $search)
+    public function suggestResult(Search $search): array
     {
         $query = $this->createQuery();
         $sword = $search->getSearchTermLowercase();
@@ -65,7 +65,10 @@ class DealerRepository extends AbstractDemandRepository
             $this->suggestByField($query, $sword, $result, $searchField);
         }
 
-        return array_unique($result, SORT_STRING);
+        return array_intersect_key(
+            $result,
+            array_unique(array_map('strtolower', $result), SORT_STRING)
+        );
     }
 
     /**
@@ -73,7 +76,7 @@ class DealerRepository extends AbstractDemandRepository
      *
      * @return array
      */
-    public function getStoragePageIds()
+    public function getStoragePageIds(): array
     {
         $query = $this->createQuery();
         return $query->getQuerySettings()->getStoragePageIds();
@@ -84,20 +87,20 @@ class DealerRepository extends AbstractDemandRepository
      * @param Demand $demand
      * @return void
      */
-    protected function createConstraints(QueryInterface $query, Demand $demand)
+    protected function createConstraints(QueryInterface $query, Demand $demand): void
     {
         // If search by radius just create a query
-        if ($demand->getSeach() !== null && $demand->getSeach()->isSearchInRadius()) {
+        if ($demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
             $storage = $query->getQuerySettings()->getStoragePageIds();
 
             $statement = sprintf(
                 'SELECT *, ( 6371 * acos( cos( radians(\'%s\') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(\'%s\') ) + sin( radians(\'%s\') ) * sin( radians( lat ) ) ) ) AS distance FROM tx_pxadealers_domain_model_dealer %s %s HAVING distance < \'%s\' ORDER BY distance',
-                (float)$demand->getSeach()->getLat(),
-                (float)$demand->getSeach()->getLng(),
-                (float)$demand->getSeach()->getLat(),
+                (float)$demand->getSearch()->getLat(),
+                (float)$demand->getSearch()->getLng(),
+                (float)$demand->getSearch()->getLat(),
                 'WHERE ' . (empty($storage) ? '1=1' : ('pid IN(' . implode(',', $storage) . ')')),
                 MainUtility::getTSFE()->cObj->enableFields('tx_pxadealers_domain_model_dealer'),
-                (int)$demand->getSeach()->getRadius()
+                (int)$demand->getSearch()->getRadius()
             );
 
             $query->statement($statement);
@@ -116,11 +119,11 @@ class DealerRepository extends AbstractDemandRepository
                 $constraintsAnd[] = $query->contains('categories', $demand->getCategories());
             }
 
-            if ($demand->getSeach() !== null) {
-                foreach ($demand->getSeach()->getSearchFields() as $searchField) {
+            if ($demand->getSearch() !== null) {
+                foreach ($demand->getSearch()->getSearchFields() as $searchField) {
                     $constraintsOr[] = $query->like(
                         $searchField,
-                        '%' . $demand->getSeach()->getSearchTermLowercase() . '%'
+                        '%' . $demand->getSearch()->getSearchTermLowercase() . '%'
                     );
                 }
             }
@@ -149,10 +152,10 @@ class DealerRepository extends AbstractDemandRepository
      * @param QueryInterface $query
      * @param Demand $demand
      */
-    protected function setOrdering(QueryInterface $query, Demand $demand)
+    protected function setOrdering(QueryInterface $query, Demand $demand): void
     {
         // Set orderings only in case of default search
-        if ($demand->getSeach() === null || !$demand->getSeach()->isSearchInRadius()) {
+        if ($demand->getSearch() === null || !$demand->getSearch()->isSearchInRadius()) {
             parent::setOrdering($query, $demand);
         }
     }
@@ -178,7 +181,7 @@ class DealerRepository extends AbstractDemandRepository
             foreach ($dealers as $dealer) {
                 $propertyParts = GeneralUtility::trimExplode('.', $field);
                 if (count($propertyParts) === 1) {
-                    $result[]= ObjectAccess::getProperty($dealer, $field);
+                    $result[] = ObjectAccess::getProperty($dealer, $field);
                 } else {
                     $childObject = ObjectAccess::getProperty($dealer, $propertyParts[0]);
                     $result[] = ObjectAccess::getProperty($childObject, $propertyParts[1]);

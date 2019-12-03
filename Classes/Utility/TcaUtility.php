@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -31,6 +33,15 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
  ***************************************************************/
 class TcaUtility
 {
+    /**
+     * Get where clause for categories
+     *
+     * @return string
+     */
+    public function getCategoriesPidRestriction(): string
+    {
+        return $this->getForeignTableWhereRestriction('categoriesRestriction', 'sys_category');
+    }
 
     /**
      * Custom map element
@@ -72,10 +83,10 @@ class TcaUtility
     /**
      * Get main JS configuration
      *
-     * @param $PA
+     * @param array $PA
      * @param string $key
      */
-    protected function loadRequireJsWithConfiguration($PA, $key)
+    protected function loadRequireJsWithConfiguration(array $PA, string $key)
     {
         $lat = (float)$PA['row'][$PA['parameters']['latitude']];
         $lng = (float)$PA['row'][$PA['parameters']['longitude']];
@@ -116,10 +127,10 @@ class TcaUtility
     /**
      * Generate main html
      *
-     * @param $PA
+     * @param array $PA
      * @return string
      */
-    protected function getHtml($PA)
+    protected function getHtml(array $PA)
     {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
@@ -165,5 +176,36 @@ EOT;
         }
 
         return $settings;
+    }
+
+    /**
+     * Generate dynamic foreign table where
+     *
+     * @param $restrictionField
+     * @param $table
+     * @return string
+     */
+    protected function getForeignTableWhereRestriction(string $restrictionField, string $table): string
+    {
+        $restrictionValue = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+            'pxa_dealers',
+            $restrictionField
+        );
+
+        switch ($restrictionValue) {
+            case 'current_pid':
+                $foreignTableWhere = ' AND ' . $table . '.pid=###CURRENT_PID### ';
+                break;
+            case 'siteroot':
+                $foreignTableWhere = ' AND ' . $table . '.pid=###SITEROOT### ';
+                break;
+            case 'page_tsconfig_idlist':
+                $foreignTableWhere = ' AND ' . $table . '.pid IN (###PAGE_TSCONFIG_IDLIST###) ';
+                break;
+            default:
+                $foreignTableWhere = '';
+        }
+
+        return $foreignTableWhere;
     }
 }

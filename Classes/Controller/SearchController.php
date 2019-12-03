@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
@@ -26,7 +27,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Pixelant\PxaDealers\Domain\Model\Search;
+use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
@@ -38,13 +39,8 @@ use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class SearchController extends AbstractConroller
+class SearchController extends AbstractController
 {
-    /**
-     * Google api to suggest places
-     */
-    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s';
-
     /**
      * Allowed search criterias
      *
@@ -74,24 +70,14 @@ class SearchController extends AbstractConroller
 
     /**
      * Search form
+     * @param Search|null $search
      */
-    public function searchAction()
+    public function formAction(Search $search = null)
     {
         $this->view->assign(
             'storagePageIds',
             implode(',', $this->dealerRepository->getStoragePageIds())
         );
-    }
-
-    /**
-     * This is same as map just no-cache for search results
-     *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
-     * @return void
-     */
-    public function searchResultsAction(Search $search = null)
-    {
-        $this->renderMap($search);
 
         if ($search !== null) {
             $this->view->assign('searchTermOriginal', $search->getSearchTermOriginal());
@@ -101,10 +87,13 @@ class SearchController extends AbstractConroller
     /**
      * Suggest search results
      *
-     * @param \Pixelant\PxaDealers\Domain\Model\Search $search
+     * @param Search $search
+     * @return false|string
      */
     public function suggestAction(Search $search = null)
     {
+        $response = ['db' => [], 'google' => []];
+
         if ($search !== null && !empty($search->getSearchTermLowercase())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
@@ -112,29 +101,22 @@ class SearchController extends AbstractConroller
                 true
             ));
 
+            $response['db'] = $this->dealerRepository->suggestResult($search);
+
             if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
-                $apiUrl = sprintf(
-                    self::PLACE_SUGGEST_URL,
-                    $search->getSearchTermOriginal(),
-                    $GLOBALS['TSFE']->config['language'] ?: 'en',
-                    $this->settings['map']['googleServerApiKey']
-                );
-                $googleResponse = json_decode(GeneralUtility::getUrl($apiUrl), true);
+                $googleResponse = $this->getGoogleApi()->getPlaceSuggest($search->getSearchTermOriginal());
 
                 if (is_array($googleResponse)
                     && $googleResponse['status'] === 'OK'
                     && count($googleResponse['predictions']) > 0
                 ) {
-                    $response = [];
                     foreach ($googleResponse['predictions'] as $prediction) {
-                        $response[] = $prediction['description'];
+                        $response['google'][] = $prediction['description'];
                     }
                 }
-            } else {
-                $response = $this->dealerRepository->suggestResult($search);
             }
         }
 
-        $this->view->assign('data', isset($response) ? $response : []);
+        return json_encode($response);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
 
@@ -25,6 +26,7 @@ namespace Pixelant\PxaDealers\Hook;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -75,10 +77,6 @@ class FlexFormHook
         'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
     ];
 
-    public $removedFieldsInSearchResults = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest'
-    ];
-
     /**
      * The data structure depends on a current form selection (persistenceIdentifier)
      * and if the field "overrideFinishers" is active. Add both to the identifier to
@@ -125,13 +123,12 @@ class FlexFormHook
 
     /**
      * Change visible flexform fields
-     * Used in TYPO3 > 8
      *
      * @param array $dataStructure
      * @param array $identifier
      * @return array
      */
-    public function parseDataStructureByIdentifierPostProcess($dataStructure, $identifier)
+    public function parseDataStructureByIdentifierPostProcess(array $dataStructure, array $identifier): array
     {
         if ($identifier['dataStructureKey'] === 'pxadealers_pxadealers,list'
             && $identifier['fieldName'] === 'pi_flexform'
@@ -144,66 +141,24 @@ class FlexFormHook
     }
 
     /**
-     * Change visible flexform fields
-     * Used in TYPO3 < 8
-     *
-     * @param array &$dataStructure Flexform structure
-     * @param array $conf some strange configuration
-     * @param array $row row of current record
-     * @param string $table table name
-     * @return void
-     */
-    public function getFlexFormDS_postProcessDS(&$dataStructure, $conf, $row, $table)
-    {
-        if ($table === 'tt_content' && $row['list_type'] === 'pxadealers_pxadealers' && is_array($dataStructure)) {
-            // get the first selected action
-            if (is_string($row['pi_flexform'])) {
-                $flexFormSelection = GeneralUtility::xml2array($row['pi_flexform']);
-            } else {
-                $flexFormSelection = $row['pi_flexform'];
-            }
-            if (is_array($flexFormSelection) && is_array($flexFormSelection['data'])) {
-                $selectedView = $flexFormSelection['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'];
-
-                $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
-                $selectedView = $actionParts[0];
-
-                // new plugin element
-            } elseif (GeneralUtility::isFirstPartOfStr($row['uid'], 'NEW')) {
-                // use Map
-                $selectedView = 'Dealers->map';
-            }
-
-            $this->updateFlexforms($dataStructure, $selectedView);
-        }
-    }
-    // @codingStandardsIgnoreEnd
-
-    /**
      * Update flexform configuration if a action is selected
      *
-     * @param array|string &$dataStructure flexform structure
-     * @param array $row row of current record
+     * @param array &$dataStructure flexform structure
+     * @param string $selectedView
      * @return void
      */
-    protected function updateFlexforms(array &$dataStructure, string $selectedView)
+    protected function updateFlexforms(array &$dataStructure, string $selectedView): void
     {
         // Modify the flexform structure depending on the first found action
         switch ($selectedView) {
-            case 'Dealers->map':
-                $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
-                break;
             case 'Categories->categoriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
                 break;
             case 'Countries->countriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
                 break;
-            case 'Search->search':
+            case 'Search->form':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
-                break;
-            case 'Search->searchResults':
-                $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchResults);
                 break;
             default:
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
@@ -218,7 +173,7 @@ class FlexFormHook
      * @param array $fieldsToBeRemoved fields which need to be removed
      * @return void
      */
-    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved)
+    protected function deleteFromStructure(array &$dataStructure, array $fieldsToBeRemoved): void
     {
         foreach ($fieldsToBeRemoved as $sheetName => $sheetFields) {
             $fieldsInSheet = GeneralUtility::trimExplode(',', $sheetFields, true);

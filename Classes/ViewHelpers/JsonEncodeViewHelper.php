@@ -2,6 +2,9 @@
 
 namespace Pixelant\PxaDealers\ViewHelpers;
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,7 +27,6 @@ namespace Pixelant\PxaDealers\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class JsonEncode
@@ -44,16 +46,22 @@ class JsonEncodeViewHelper extends AbstractViewHelper
     protected $escapeChildren = false;
 
     /**
-     * Json encode only for array !
-     *
-     * @param array $value
-     * @return string
+     * Arguments
      */
-    public function render(array $value = [])
+    public function initializeArguments()
     {
-        if (empty($value)) {
-            $value = $this->renderChildren();
-        }
+        $this->registerArgument('value', 'mixed', 'Value to json encode', false, null);
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return mixed
+     */
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    {
+        $value = $arguments['value'] ?? $renderChildrenClosure();
 
         if (is_array($value)) {
             return json_encode($value);

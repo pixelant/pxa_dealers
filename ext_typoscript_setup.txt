@@ -1,7 +1,0 @@
-config.tx_extbase.persistence.classes {
-	Pixelant\PxaDealers\Domain\Model\Category {
-		mapping {
-			tableName = sys_category
-		}
-	}
-}

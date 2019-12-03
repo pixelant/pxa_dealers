@@ -1,10 +1,13 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
 
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -38,15 +41,15 @@ class PageLayoutView
      * @param array $params
      * @return string
      */
-    public function getInfo($params)
+    public function getInfo(array $params): string
     {
         $info = '<strong>Pxa Dealers</strong><br>';
 
         $additionalInfo = '';
 
         if ($params['row']['list_type'] === 'pxadealers_pxadealers') {
-            $settings = MainUtility::flexForm2Array(
-                GeneralUtility::xml2array($params['row']['pi_flexform'])
+            $settings = GeneralUtility::makeInstance(FlexFormService::class)->convertFlexFormContentToArray(
+                $params['row']['pi_flexform']
             );
 
             list(, $actionName) = GeneralUtility::trimExplode(
@@ -63,7 +66,6 @@ class PageLayoutView
 
             if ($actionName === 'countriesFilter'
                 || $actionName === 'map'
-                || $actionName === 'searchResults'
             ) {
                 $additionalInfo .= $this->getInfoFor(
                     'static_countries',
@@ -89,7 +91,7 @@ class PageLayoutView
             }
 
 
-            if ($actionName === 'search') {
+            if ($actionName === 'form') {
                 $additionalInfo .= $this->getInfoFor(
                     'pages',
                     'be.no_result',
@@ -117,7 +119,7 @@ class PageLayoutView
      * @param string $actionName
      * @return string
      */
-    protected function getSwitchableControllerActionsLabel($actionName)
+    protected function getSwitchableControllerActionsLabel(string $actionName): string
     {
         return sprintf(
             '<strong>%s: <i>%s</i></strong>',
@@ -132,7 +134,7 @@ class PageLayoutView
      * @param array $pages
      * @return string
      */
-    protected function getRecordsStorageInfo(array $pages)
+    protected function getRecordsStorageInfo(array $pages): string
     {
         $storages = [];
 
@@ -162,23 +164,29 @@ class PageLayoutView
      * @param string $settingsField
      * @return string
      */
-    protected function getInfoFor($table, $noResult, $field, $for, $settingsField)
+    protected function getInfoFor(string $table, string $noResult, string $field, string $for, string $settingsField): string
     {
         if (!empty($settingsField)) {
-            $rows = MainUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                'uid,' . $field,
-                $table,
-                'uid IN (' . $settingsField . ')'
-            );
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable($table);
+
+            $statement = $queryBuilder
+                ->select('uid', $field)
+                ->from($table)
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'uid',
+                        GeneralUtility::intExplode(',', $settingsField, Connection::PARAM_INT_ARRAY)
+                    )
+                )
+                ->execute();
 
             $lines = [];
-
-            if (!empty($rows)) {
-                foreach ($rows as $row) {
-                    $line = empty($row[$field]) ? MainUtility::translate('be.empty') : $row[$field];
-                    $lines[] = $line . ' [' . $row['uid'] . ']';
-                }
-
+            while ($row = $statement->fetch()) {
+                $line = empty($row[$field]) ? MainUtility::translate('be.empty') : $row[$field];
+                $lines[] = $line . ' [' . $row['uid'] . ']';
+            }
+            if (!empty($lines)) {
                 return sprintf('<b>%s</b>: %s<br>', MainUtility::translate($for), implode(', ', $lines));
             }
         }
@@ -193,7 +201,7 @@ class PageLayoutView
      * @param array $settings
      * @return string
      */
-    protected function getInfoOrderFields(array $settings)
+    protected function getInfoOrderFields(array $settings): string
     {
         $output = sprintf(
             '<b>%s</b>: %s<br>',
@@ -214,12 +222,12 @@ class PageLayoutView
 
     /**
      * Get description for checkbox
-
+     *
      * @param $value
      * @param $label
      * @return string
      */
-    protected function getCheckBoxInfo($value, $label)
+    protected function getCheckBoxInfo($value, $label): string
     {
         return sprintf(
             '<b>%s</b>: %s<br>',

@@ -8,24 +8,21 @@ call_user_func(
             'Pixelant.' . $_EXTKEY,
             'Pxadealers',
             [
-                'Dealers' => 'map',
+                'Dealers' => 'map, search',
                 'Categories' => 'categoriesFilter',
                 'Countries' => 'countriesFilter',
-                'Search' => 'search, suggest'
+                'Search' => 'form, suggest'
             ],
             // non-cacheable actions
             [
-                'Search' => 'searchResults, suggest'
+                'Dealers' => 'search',
+                'Search' => 'form, suggest'
             ]
         );
 
         // @codingStandardsIgnoreStart
         // Hook for flexform processing
-        if (version_compare(TYPO3_version, '8.0', '<')) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['getFlexFormDSClass'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
         // @codingStandardsIgnoreEnd
 
         // Add page TS
@@ -34,18 +31,16 @@ call_user_func(
         );
 
         # register icons
-        if (TYPO3_MODE === 'BE') {
-            /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-            $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\Imaging\IconRegistry::class
-            );
+        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        );
 
-            $iconRegistry->registerIcon(
-                'ext-pxadealers-wizard-icon',
-                \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-                ['source' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/wizard_icon.svg']
-            );
-        }
+        $iconRegistry->registerIcon(
+            'ext-pxadealers-wizard-icon',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            ['source' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/wizard_icon.svg']
+        );
 
         // hook for extension BE view
         // @codingStandardsIgnoreStart
@@ -58,7 +53,7 @@ call_user_func(
                 'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
                 'backend' => \TYPO3\CMS\Core\Cache\Backend\FileBackend::class,
                 'options' => [
-                    'defaultLifetime' => 3600*24*7
+                    'defaultLifetime' => 3600 * 24 * 7
                 ]
             ];
         }

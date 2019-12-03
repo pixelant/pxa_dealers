@@ -20,7 +20,7 @@
                                 <items>
                                     <numIndex index="1">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.map</numIndex>
-                                        <numIndex index="1">Dealers->map</numIndex>
+                                        <numIndex index="1">Dealers->map;Dealers->search</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.filters</numIndex>
@@ -40,11 +40,7 @@
                                     </numIndex>
                                     <numIndex index="6">
                                         <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.search</numIndex>
-                                        <numIndex index="1">Search->search;Search->suggest</numIndex>
-                                    </numIndex>
-                                    <numIndex index="7">
-                                        <numIndex index="0">LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.actions.searchResults</numIndex>
-                                        <numIndex index="1">Search->searchResults</numIndex>
+                                        <numIndex index="1">Search->form</numIndex>
                                     </numIndex>
                                 </items>
                             </config>
