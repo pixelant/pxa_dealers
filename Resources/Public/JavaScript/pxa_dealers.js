@@ -140,7 +140,7 @@
                                 var $this = $(this);
 
                                 if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
-                                    $this.hide();
+                                    $this.remove();
                                 }
                             });
                         }
