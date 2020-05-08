@@ -25,12 +25,16 @@
             </f:if>
             <f:if condition="{dealer.link}">
                 <div class="link">
-                    <f:format.raw>{dealer.link}</f:format.raw>
+                    <f:link.typolink parameter="{dealer.link}">
+                        <f:uri.typolink parameter="{dealer.link}" />
+                    </f:link.typolink>
                 </div>
             </f:if>
             <f:if condition="{dealer.website}">
                 <div class="dealer-website">
-                    <f:format.raw>{dealer.website}</f:format.raw>
+                    <f:link.typolink parameter="{dealer.website}">
+                        <f:uri.typolink parameter="{dealer.website}" />
+                    </f:link.typolink>
                 </div>
             </f:if>
             <f:if condition="{dealer.phone}">
@@ -42,7 +46,9 @@
             </f:if>
             <f:if condition="{dealer.email}">
                 <div class="dealer-email">
-                    <f:format.raw>{dealer.email}</f:format.raw>
+                    <f:link.typolink parameter="{dealer.email}">
+                        <f:format.raw>{dealer.email}</f:format.raw>
+                    </f:link.typolink>
                 </div>
             </f:if>
 
