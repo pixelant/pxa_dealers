@@ -30,6 +30,7 @@ namespace Pixelant\PxaDealers\Controller;
 use SJBR\StaticInfoTables\Domain\Repository\CountryRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  *
@@ -79,14 +80,13 @@ class CountriesController extends ActionController
                 $query->in('uid', $countriesUids)
             );
 
+            $query->setOrderings(['shortNameEn' => QueryInterface::ORDER_ASCENDING]);
+
             $result = $query->execute();
         } else {
-            $result = $this->countriesRepository->findAll();
+            $result = $this->countriesRepository->findAllOrderedBy('shortNameEn');
         }
 
-        return $this->countriesRepository->localizedSort(
-            $result,
-            'asc'
-        );
+        return $result;
     }
 }
