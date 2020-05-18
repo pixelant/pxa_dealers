@@ -130,10 +130,12 @@ class DealersController extends AbstractController
         $dealers = [];
         /** @var Dealer $dealer */
         foreach ($this->dealerRepository->findDemanded($demand) as $dealer) {
-            $dealers[$dealer->getUid()] = $dealer;
+            if ($dealer->getLat() > 0 && $dealer->getLng() > 0) {
+                $dealers[$dealer->getUid()] = $dealer;
 
-            $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
-            $allCountriesUids[] = $dealer->getCountryUid();
+                $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
+                $allCountriesUids[] = $dealer->getCountryUid();
+            }
         }
 
         $this->view->assignMultiple([
