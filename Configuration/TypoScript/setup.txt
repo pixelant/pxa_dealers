@@ -66,33 +66,32 @@ plugin.tx_pxadealers {
     }
 }
 
-[globalVar = GP:type = 2313089]
-    pxaDealersSuggest = PAGE
-    pxaDealersSuggest {
-        typeNum = 2313089
 
-        config {
-            disableAllHeaderCode = 1
-            no_cache = 1
-            admPanel = 0
-        }
+pxaDealersSuggest = PAGE
+pxaDealersSuggest {
+    typeNum = 2313089
 
-        5 = USER_INT
-        5 {
-            userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-            extensionName = PxaDealers
-            pluginName = Pxadealers
-            vendorName = Pixelant
+    config {
+        disableAllHeaderCode = 1
+        no_cache = 1
+        admPanel = 0
+    }
 
-            settings =< plugin.tx_pxadealers.settings
-            persistence =< plugin.tx_pxadealers.persistence
-            view =< plugin.tx_pxadealers.view
+    5 = USER_INT
+    5 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = PxaDealers
+        pluginName = Pxadealers
+        vendorName = Pixelant
 
-            SwitchableControllerActions {
-                Dealers {
-                    1 = suggest
-                }
+        settings =< plugin.tx_pxadealers.settings
+        persistence =< plugin.tx_pxadealers.persistence
+        view =< plugin.tx_pxadealers.view
+
+        SwitchableControllerActions {
+            Dealers {
+                1 = suggest
             }
         }
     }
-[end]
+}
