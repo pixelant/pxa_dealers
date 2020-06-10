@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" target-language="sv" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
+        <header/>
+        <body>
+
+            <trans-unit id="fe.showOnMap">
+                <source>Show on map</source>
+                <target>Visa på karta</target>
+            </trans-unit>
+
+            <trans-unit id="fe.placeholder">
+                <source>Start typing to search...</source>
+                <target>Börja skriva för att söka...</target>
+            </trans-unit>
+            <trans-unit id="fe.submitvalue">
+                <source>Search</source>
+                <target>Sök</target>
+            </trans-unit>
+            <trans-unit id="fe.all_countries">
+                <source>All countries</source>
+                <target>Alla länder</target>
+            </trans-unit>
+            <trans-unit id="fe.searchClosest">
+                <source>Find closest to my location</source>
+                <target>Hitta närmaste mot min position</target>
+            </trans-unit>
+
+            <trans-unit id="js.infoWindowPhone">
+                <source>Phone:</source>
+                <target>Telefon:</target>
+            </trans-unit>
+            <trans-unit id="js.streetView">
+                <source>Street view</source>
+                <target>Gatuvy</target>
+            </trans-unit>
+            <trans-unit id="js.geolocationError">
+                <source>Geolocation is not supported by this browser.</source>
+                <target>Geolokalisering stöds inte av denna webbläsare.</target>
+            </trans-unit>
+
+            <trans-unit id="error.noApiKey">
+                <source>No api is set</source>
+                <target>Inget api är satt</target>
+            </trans-unit>
+            <trans-unit id="error.no_dealers">
+                <source>Nothing was found</source>
+                <target>Inget hittades</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
