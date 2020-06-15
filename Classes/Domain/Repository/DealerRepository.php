@@ -31,6 +31,9 @@ use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
@@ -43,6 +46,20 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  */
 class DealerRepository extends AbstractDemandRepository
 {
+    /**
+     * @var array
+     */
+    protected $settings = [];
+
+    public function __construct(ObjectManagerInterface $objectManager)
+    {
+        parent::__construct($objectManager);
+
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+        $this->settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
+    }
 
     /**
      * @param Search $search
