@@ -52,8 +52,16 @@ plugin.tx_pxadealers {
 
     search {
       searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
+
       # Search in radius by kilometers
       radius = 50
+
+      # Search for zip codes in database with X number of digits flexibility.
+      # E.g. searching for zipcode 12345 with `zipcodeOrdersOfMagnitude = 3`
+      # Will search within 12XXX, i.e. any zipcode between 12000 and 12999.
+      #
+      # TODO: Change default to "2" in next major version.
+      zipcodeInexactness = 0
     }
 
     dealersList {
