@@ -170,6 +170,57 @@ class DealerRepository extends AbstractDemandRepository
      */
     private function suggestByField(QueryInterface $query, $sword, &$result, $field)
     {
+        switch ($field) {
+            case 'zipcode':
+                $this->zipcodeSuggestByField($query, $sword, $result);
+                break;
+            default:
+                $this->defaultSuggestByField($query, $sword, $result, $field);
+                break;
+        }
+    }
+
+    /**
+     * Default suggest field search
+     *
+     * @param QueryInterface $query
+     * @param $sword
+     * @param $result
+     * @param $field
+     */
+    private function defaultSuggestByField(QueryInterface $query, $sword, &$result, $field)
+    {
+        $dealers = $query
+            ->matching(
+                $query->like($field, '%' . $sword . '%')
+            )
+            ->execute();
+
+        if ($dealers->count() > 0) {
+            /** @var Dealer $dealer */
+            foreach ($dealers as $dealer) {
+                $propertyParts = GeneralUtility::trimExplode('.', $field);
+                if (count($propertyParts) === 1) {
+                    $result[] = ObjectAccess::getProperty($dealer, $field);
+                } else {
+                    $childObject = ObjectAccess::getProperty($dealer, $propertyParts[0]);
+                    $result[] = ObjectAccess::getProperty($childObject, $propertyParts[1]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Suggest search based on zipcode
+     *
+     * @param QueryInterface $query
+     * @param $sword
+     * @param $result
+     */
+    private function zipcodeSuggestByField(QueryInterface $query, $sword, &$result)
+    {
+        $field = 'zipcode';
+
         $dealers = $query
             ->matching(
                 $query->like($field, '%' . $sword . '%')
