@@ -51,7 +51,11 @@ plugin.tx_pxadealers {
     }
 
     search {
-      searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
+      searchFields = name,zipcode,city
+
+      # Search fields used if there are no results from searchFields. Prevents lots of results if country name is part
+      # of search phrase. These fields are typically fields with potentially broad search matches.
+      secondarySearchFields = country.shortNameLocal,country.shortNameEn
 
       # Search in radius by kilometers
       radius = 50

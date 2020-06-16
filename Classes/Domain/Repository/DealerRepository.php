@@ -26,6 +26,7 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
@@ -209,12 +210,13 @@ class DealerRepository extends AbstractDemandRepository
     /**
      * @param QueryInterface $query
      * @param Demand $demand
+     * @param bool $secondaryFields If true, use secondary fields
      * @return void
      */
-    protected function createConstraints(QueryInterface $query, Demand $demand): void
+    protected function createConstraints(QueryInterface $query, Demand $demand, bool $secondaryFields = false): void
     {
         // If search by radius just create a query
-        if ($demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
+        if (!$secondaryFields && $demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
             $storage = $query->getQuerySettings()->getStoragePageIds();
 
             $statement = sprintf(
@@ -226,7 +228,6 @@ class DealerRepository extends AbstractDemandRepository
                 MainUtility::getTSFE()->cObj->enableFields('tx_pxadealers_domain_model_dealer'),
                 (int)$demand->getSearch()->getRadius()
             );
-
             $query->statement($statement);
         } else {
             $constraintsAnd = [];
@@ -244,16 +245,15 @@ class DealerRepository extends AbstractDemandRepository
             }
 
             if ($demand->getSearch() !== null) {
-                foreach ($demand->getSearch()->getSearchFields() as $searchField) {
-                    $constraintsOr[] = $query->like(
-                        $searchField,
-                        '%' . $demand->getSearch()->getSearchTermLowercase() . '%'
-                    );
-                }
+                $constraintsAnd[] = $this->getSearchConstraintsForFields(
+                    $demand->getSearch()->getSearchTermLowercase(),
+                    $demand->getSearch()->getSearchFields(),
+                    $query
+                );
             }
 
             if (!empty($constraintsAnd)) {
-                $constraints[] = $query->logicalAnd($constraintsAnd);
+                $constraints = array_merge($constraints, $constraintsAnd);
             }
 
             if (!empty($constraintsOr)) {
