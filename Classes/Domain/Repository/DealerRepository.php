@@ -95,9 +95,16 @@ class DealerRepository extends AbstractDemandRepository
 
         /** @var Dealer $dealer */
         foreach ($dealers as $dealer) {
-            $suggestionList[] = $dealer->getZipcode()
+            $suggestion = $dealer->getZipcode()
                 . ' ' . $dealer->getCity()
                 . ', ' . $dealer->getCountry()->getShortNameEn();
+
+            // Return empty if we're suggesting based on an exact suggestion string
+            if (strcasecmp($suggestion, $sword) === 0) {
+                return [];
+            }
+
+            $suggestionList[] = $suggestion;
         }
 
         return array_intersect_key(
