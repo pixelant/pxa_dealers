@@ -62,6 +62,12 @@ plugin.tx_pxadealers {
       #
       # TODO: Change default to "2" in next major version.
       zipcodeInexactness = 0
+
+      # If true, the search string is split and each word march is OR-ed
+      splitSearchString = 1
+
+      # Regular expression to split by
+      splitSearchStringRegex = /[\s,-]+/
     }
 
     dealersList {
