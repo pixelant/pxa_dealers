@@ -31,6 +31,12 @@ use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ComparisonInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\OrInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
@@ -43,6 +49,20 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  */
 class DealerRepository extends AbstractDemandRepository
 {
+    /**
+     * @var array
+     */
+    protected $settings = [];
+
+    public function __construct(ObjectManagerInterface $objectManager)
+    {
+        parent::__construct($objectManager);
+
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+        $this->settings = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS
+        );
+    }
 
     /**
      * @param Search $search
@@ -59,15 +79,119 @@ class DealerRepository extends AbstractDemandRepository
             );
         }
 
-        $result = [];
+        $constraints = $this->getSearchConstraintsForFields($sword, $search->getSearchFields(), $query);
 
-        foreach ($search->getSearchFields() as $searchField) {
-            $this->suggestByField($query, $sword, $result, $searchField);
+        if ($constraints === null) {
+            return [];
+        }
+
+        $dealers = $query->matching($constraints)->execute();
+
+        if ($dealers->count() === 0) {
+            return [];
+        }
+
+        $suggestionList = [];
+
+        /** @var Dealer $dealer */
+        foreach ($dealers as $dealer) {
+            $suggestion = $dealer->getZipcode()
+                . ' ' . $dealer->getCity()
+                . ', ' . $dealer->getCountry()->getShortNameEn();
+
+            // Return empty if we're suggesting based on an exact suggestion string
+            if (strcasecmp($suggestion, $sword) === 0) {
+                return [];
+            }
+
+            $suggestionList[] = $suggestion;
         }
 
         return array_intersect_key(
-            $result,
-            array_unique(array_map('strtolower', $result), SORT_STRING)
+            $suggestionList,
+            array_unique(array_map('strtolower', $suggestionList), SORT_STRING)
+        );
+    }
+
+    /**
+     *
+     *
+     * @param string $sword
+     * @param array $fields
+     * @param QueryInterface $query
+     * @return ConstraintInterface|null
+     */
+    protected function getSearchConstraintsForFields(string $sword, array $fields, QueryInterface $query)
+    {
+        if (count($fields) === 0) {
+            return null;
+        }
+
+        if ($this->settings['search']['splitSearchString']) {
+            $searchWords = preg_split(
+                $this->settings['search']['splitSearchStringRegex'],
+                $sword,
+                0,
+                PREG_SPLIT_NO_EMPTY
+            );
+        } else {
+            $searchWords = [$sword];
+        }
+
+        $constraints = [];
+
+        foreach ($searchWords as $searchWord) {
+            foreach ($fields as $field) {
+                switch ($field) {
+                    case 'zipcode':
+                        $constraints[] = $this->getZipcodeSuggestConstraint($searchWord, $query);
+                        break;
+                    default:
+                        $constraints[] = $this->getDefaultSuggestConstraint($searchWord, $field, $query);
+                        break;
+                }
+            }
+        }
+
+        return $query->logicalOr($constraints);
+    }
+
+    /**
+     * Adds a search constraint on field and search word.
+     *
+     * @param string $sword
+     * @param string $field
+     * @param QueryInterface $query
+     * @return ComparisonInterface
+     */
+    protected function getDefaultSuggestConstraint(string $sword, string $field, QueryInterface $query)
+    {
+        return $query->like($field, '%' . $sword . '%');
+    }
+
+    /**
+     * Adds a search constraint for zip codes
+     *
+     * @param string $zipcode
+     * @param QueryInterface $query
+     * @return ComparisonInterface
+     */
+    protected function getZipcodeSuggestConstraint(string $zipcode, QueryInterface $query)
+    {
+        $field = 'zipcode';
+
+        if ((int)$this->settings['search']['zipcodeInexactness'] > 0) {
+            $zipcode = substr($zipcode, 0, $this->settings['search']['zipcodeInexactness'] * -1);
+        }
+
+        return $query->like(
+            $field,
+            str_pad(
+                $zipcode,
+                mb_strlen($zipcode) + (int)$this->settings['search']['zipcodeInexactness'],
+                '_',
+                STR_PAD_RIGHT
+            )
         );
     }
 
@@ -157,36 +281,6 @@ class DealerRepository extends AbstractDemandRepository
         // Set orderings only in case of default search
         if ($demand->getSearch() === null || !$demand->getSearch()->isSearchInRadius()) {
             parent::setOrdering($query, $demand);
-        }
-    }
-
-    /**
-     * Append suggest result
-     *
-     * @param QueryInterface $query
-     * @param $sword
-     * @param $result
-     * @param $field
-     */
-    private function suggestByField(QueryInterface $query, $sword, &$result, $field)
-    {
-        $dealers = $query
-            ->matching(
-                $query->like($field, '%' . $sword . '%')
-            )
-            ->execute();
-
-        if ($dealers->count() > 0) {
-            /** @var Dealer $dealer */
-            foreach ($dealers as $dealer) {
-                $propertyParts = GeneralUtility::trimExplode('.', $field);
-                if (count($propertyParts) === 1) {
-                    $result[] = ObjectAccess::getProperty($dealer, $field);
-                } else {
-                    $childObject = ObjectAccess::getProperty($dealer, $propertyParts[0]);
-                    $result[] = ObjectAccess::getProperty($childObject, $propertyParts[1]);
-                }
-            }
         }
     }
 }

@@ -1,97 +1,111 @@
 plugin.tx_pxadealers {
-    mvc.callDefaultActionIfActionCantBeResolved = 1
+  mvc.callDefaultActionIfActionCantBeResolved = 1
 
-    view {
-        templateRootPaths {
-            5 = {$plugin.tx_pxadealers.view.templateRootPath}
-        }
-
-        partialRootPaths {
-            5 = {$plugin.tx_pxadealers.view.partialRootPath}
-        }
-
-        layoutRootPaths {
-            5 = {$plugin.tx_pxadealers.view.layoutRootPath}
-        }
+  view {
+    templateRootPaths {
+      5 = {$plugin.tx_pxadealers.view.templateRootPath}
     }
 
-    persistence {
-        storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
-
-        classes {
-            Pixelant\PxaDealers\Domain\Model\Category {
-                mapping {
-                    tableName = sys_category
-                }
-            }
-        }
+    partialRootPaths {
+      5 = {$plugin.tx_pxadealers.view.partialRootPath}
     }
 
-    settings {
-        # Map settings
-        map {
-            stylesJSON =
-            name = {$plugin.tx_pxadealers.settings.map.name}
-
-            zoomOnShow = 14
-
-            markerClusterer {
-                imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
-            }
-
-            markerTypes {
-                default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
-            }
-
-            googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
-            googleServerApiKey = {$plugin.tx_pxadealers.settings.googleServerApiKey}
-
-            scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
-            scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
-        }
-
-        search {
-            searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
-            # Search in radius by kilometers
-            radius = 50
-        }
-
-        dealersList {
-            noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
-            showLogo = {$plugin.tx_pxadealers.settings.dealersList.showLogo}
-            showDefaultImageIfNoLogo = {$plugin.tx_pxadealers.settings.dealersList.showDefaultImageIfNoLogo}
-            imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
-            imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
-        }
+    layoutRootPaths {
+      5 = {$plugin.tx_pxadealers.view.layoutRootPath}
     }
+  }
+
+  persistence {
+    storagePid = {$plugin.tx_pxadealers.persistence.storagePid}
+
+    classes {
+      Pixelant\PxaDealers\Domain\Model\Category {
+        mapping {
+          tableName = sys_category
+        }
+      }
+    }
+  }
+
+  settings {
+    # Map settings
+    map {
+      stylesJSON =
+      name = {$plugin.tx_pxadealers.settings.map.name}
+
+      zoomOnShow = 14
+
+      markerClusterer {
+        imagePath = /typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m
+      }
+
+      markerTypes {
+        default = /typo3conf/ext/pxa_dealers/Resources/Public/Icons/map_marker_icon_blue.png
+      }
+
+      googleJavascriptApiKey = {$plugin.tx_pxadealers.settings.googleJavascriptApiKey}
+      googleServerApiKey = {$plugin.tx_pxadealers.settings.googleServerApiKey}
+
+      scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
+      scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
+    }
+
+    search {
+      searchFields = name,zipcode,city,country.shortNameLocal,country.shortNameEn
+
+      # Search in radius by kilometers
+      radius = 50
+
+      # Search for zip codes in database with X number of digits flexibility.
+      # E.g. searching for zipcode 12345 with `zipcodeOrdersOfMagnitude = 3`
+      # Will search within 12XXX, i.e. any zipcode between 12000 and 12999.
+      #
+      # TODO: Change default to "2" in next major version.
+      zipcodeInexactness = 0
+
+      # If true, the search string is split and each word march is OR-ed
+      splitSearchString = 1
+
+      # Regular expression to split by
+      splitSearchStringRegex = /[\s,-]+/
+    }
+
+    dealersList {
+      noImagePath = {$plugin.tx_pxadealers.settings.dealersList.noImagePath}
+      showLogo = {$plugin.tx_pxadealers.settings.dealersList.showLogo}
+      showDefaultImageIfNoLogo = {$plugin.tx_pxadealers.settings.dealersList.showDefaultImageIfNoLogo}
+      imageWidth = {$plugin.tx_pxadealers.settings.dealersList.imageWidth}
+      imageHeight = {$plugin.tx_pxadealers.settings.dealersList.imageHeight}
+    }
+  }
 }
 
 
 pxaDealersSuggest = PAGE
 pxaDealersSuggest {
-    typeNum = 2313089
+  typeNum = 2313089
 
-    config {
-        disableAllHeaderCode = 1
-        no_cache = 1
-        admPanel = 0
+  config {
+    disableAllHeaderCode = 1
+    no_cache = 1
+    admPanel = 0
+  }
+
+  5 = USER_INT
+  5 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = PxaDealers
+    pluginName = Pxadealers
+    vendorName = Pixelant
+
+    settings =< plugin.tx_pxadealers.settings
+    persistence =< plugin.tx_pxadealers.persistence
+    view =< plugin.tx_pxadealers.view
+
+    SwitchableControllerActions {
+      Dealers {
+        1 = suggest
+      }
     }
-
-    5 = USER_INT
-    5 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        extensionName = PxaDealers
-        pluginName = Pxadealers
-        vendorName = Pixelant
-
-        settings =< plugin.tx_pxadealers.settings
-        persistence =< plugin.tx_pxadealers.persistence
-        view =< plugin.tx_pxadealers.view
-
-        SwitchableControllerActions {
-            Dealers {
-                1 = suggest
-            }
-        }
-    }
+  }
 }

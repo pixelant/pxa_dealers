@@ -34,7 +34,8 @@
             if (self.input.length > 0) {
                 self.awesomplete = new Awesomplete(input, {
                     minChars: 3,
-                    autoFirst: true
+                    autoFirst: true,
+                    filter: function(text, input) { return true; }
                 });
 
                 self.input.on('keyup', function (e) {
