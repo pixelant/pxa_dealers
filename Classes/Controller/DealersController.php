@@ -86,15 +86,26 @@ class DealersController extends AbstractController
 
     /**
      * @param Search|null $search
+     * @param bool $secondarySearch Broadens the search fields
      */
-    protected function renderMap(Search $search = null)
+    protected function renderMap(Search $search = null, bool $secondarySearch = false)
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
         if ($search !== null && !empty($search->getSearchTermOriginal())) {
+            $searchFieldsPropertyName = 'searchFields';
+
+            if ($secondarySearch) {
+                if (!$demand->getSearch()->isSearchInRadius()) {
+                    $searchFieldsPropertyName = 'secondarySearchFields';
+                }
+
+                $demand->getSearch()->setSearchInRadius(false);
+            }
+
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
-                $this->settings['search']['searchFields'],
+                $this->settings['search'][$searchFieldsPropertyName],
                 true
             ));
             $demand->setSearch($search);
@@ -127,9 +138,18 @@ class DealersController extends AbstractController
         $allCategoriesUids = [];
         $allCountriesUids = [];
 
+        $demandedDealers = $this->dealerRepository->findDemanded($demand);
+
+        if (!$secondarySearch && $demandedDealers->count() === 0) {
+            $this->forward('renderMap', null, null, [$search, true]);
+
+            return;
+        }
+
         $dealers = [];
+
         /** @var Dealer $dealer */
-        foreach ($this->dealerRepository->findDemanded($demand) as $dealer) {
+        foreach ($demandedDealers as $dealer) {
             if ($dealer->getLat() > 0 && $dealer->getLng() > 0) {
                 $dealers[$dealer->getUid()] = $dealer;
 
