@@ -96,7 +96,7 @@ class DealersController extends AbstractController
             $searchFieldsPropertyName = 'searchFields';
 
             if ($secondarySearch) {
-                if (!$demand->getSearch()->isSearchInRadius()) {
+                if (!$search->isSearchInRadius()) {
                     $searchFieldsPropertyName = 'secondarySearchFields';
                 }
 
