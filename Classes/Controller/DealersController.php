@@ -141,7 +141,15 @@ class DealersController extends AbstractController
         $demandedDealers = $this->dealerRepository->findDemanded($demand);
 
         if (!$secondarySearch && $demandedDealers->count() === 0) {
-            $this->forward('renderMap', null, null, [$search, true]);
+            $this->forward(
+                'renderMap',
+                null,
+                null,
+                [
+                    'search' => $search,
+                    'secondarySearch' => true
+                ]
+            );
 
             return;
         }
