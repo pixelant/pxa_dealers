@@ -100,7 +100,7 @@ class DealersController extends AbstractController
                     $searchFieldsPropertyName = 'secondarySearchFields';
                 }
 
-                $demand->getSearch()->setSearchInRadius(false);
+                $search->setSearchInRadius(false);
             }
 
             $search->setSearchFields(GeneralUtility::trimExplode(
