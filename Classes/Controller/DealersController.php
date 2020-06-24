@@ -147,19 +147,22 @@ class DealersController extends AbstractController
         }
 
         $dealers = [];
+        $dealersOnMap = [];
 
         /** @var Dealer $dealer */
         foreach ($demandedDealers as $dealer) {
             if ($dealer->getLat() > 0 && $dealer->getLng() > 0) {
-                $dealers[$dealer->getUid()] = $dealer;
-
-                $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
-                $allCountriesUids[] = $dealer->getCountryUid();
+                $dealersOnMap[$dealer->getUid()] = $dealer;
             }
+            $dealers[$dealer->getUid()] = $dealer;
+
+            $allCategoriesUids = array_merge($allCategoriesUids, $dealer->getCategoriesAsUidsArray());
+            $allCountriesUids[] = $dealer->getCountryUid();
         }
 
         $this->view->assignMultiple([
             'dealers' => $dealers,
+            'dealersOnMap' => $dealersOnMap,
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', array_unique($allCountriesUids)),
             'searchCenter' => isset($searchCenter) ? $searchCenter : ['lat' => 0, 'lng' => 0]
