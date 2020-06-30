@@ -5,10 +5,12 @@
     <f:layout name="Default"/>
 
     <f:section name="main">
-        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
-        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js" library="1" />
-
-        <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js" />
+				<f:if condition="{settings.search.enableAutocomplete}">
+					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
+					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js" library="1" />
+					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js" />
+					<f:variable name="autocompleteFieldData" value="{search-in-radius: '{f:if(condition: settings.search.searchInRadius, then: 1, else: 0)}', ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}" />
+				</f:if>
 
         <div id="pxa-dealers-search">
             <f:form object="{search}" name="search" action="search" controller="Dealers" pageUid="{settings.search.searchResultPage}">
@@ -19,7 +21,7 @@
                     <f:form.textfield type="text"
                                       property="searchTermOriginal"
                                       value="{searchTermOriginal}"
-                                      data="{search-in-radius: '{f:if(condition: settings.search.searchInRadius, then: 1, else: 0)}', ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}"
+                                      data="{autocompleteFieldData}"
                                       class="form-control dealer-search-field"
                                       placeholder="{f:translate(key: 'fe.placeholder')}"/>
                 </div>
