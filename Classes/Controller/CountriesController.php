@@ -39,7 +39,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class CountriesController extends ActionController
+class CountriesController extends AbstractController
 {
     /**
      * @var CountryRepository
@@ -71,21 +71,21 @@ class CountriesController extends ActionController
      */
     protected function getCountries()
     {
-        if (!empty($this->settings['demand']['countries'])) {
-            $countriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['countries'], true);
+        $countriesUids = GeneralUtility::intExplode(',', $this->settings['demand']['countries'], true);
 
-            $query = $this->countriesRepository->createQuery();
-
-            $query->matching(
-                $query->in('uid', $countriesUids)
-            );
-
-            $query->setOrderings(['shortNameEn' => QueryInterface::ORDER_ASCENDING]);
-
-            $result = $query->execute();
-        } else {
-            $result = $this->countriesRepository->findAllOrderedBy('shortNameEn');
+        if (empty($countriesUids)) {
+            $countriesUids = $this->dealerRepository->getUniqueCountryFieldValues();
         }
+
+        $query = $this->countriesRepository->createQuery();
+
+        $query->matching(
+            $query->in('uid', $countriesUids)
+        );
+
+        $query->setOrderings(['shortNameEn' => QueryInterface::ORDER_ASCENDING]);
+
+        $result = $query->execute();
 
         return $result;
     }
