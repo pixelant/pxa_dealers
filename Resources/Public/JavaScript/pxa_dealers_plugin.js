@@ -406,18 +406,20 @@
             }
 
             $.each(hiddenItems, function () {
-                var $this = $(this),
-                    uid = $this.data('uid');
+                var uid = $(this).data('uid');
 
-                self.markers[uid].setVisible(false);
+                if(typeof self.markers[uid] !== 'undefined') {
+                    self.markers[uid].setVisible(false);
+                }
             });
 
 
             $.each(visibleItems, function () {
-                var $this = $(this),
-                    uid = $this.data('uid');
+                var uid = $(this).data('uid');
 
-                self.markers[uid].setVisible(true);
+                if(typeof self.markers[uid] !== 'undefined') {
+                    self.markers[uid].setVisible(true);
+                }
             });
 
             self.repaintMarkerClusterer();
