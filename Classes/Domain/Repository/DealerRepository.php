@@ -26,20 +26,22 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use Doctrine\DBAL\FetchMode;
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use Pixelant\PxaDealers\Utility\MainUtility;
+use SJBR\StaticInfoTables\Domain\Model\Country;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ComparisonInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
-use TYPO3\CMS\Extbase\Persistence\Generic\Qom\OrInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  *
@@ -204,7 +206,49 @@ class DealerRepository extends AbstractDemandRepository
     public function getStoragePageIds(): array
     {
         $query = $this->createQuery();
-        return $query->getQuerySettings()->getStoragePageIds();
+        $storagePageIds = $query->getQuerySettings()->getStoragePageIds();
+        return $storagePageIds;
+    }
+
+    /**
+     * Returns a unique values from a specific field from the countries of the dealers.
+     *
+     * By default, this function fetches the unique country uids for all the dealers.
+     *
+     * @param string $field
+     * @return false|mixed
+     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
+     */
+    public function getUniqueCountryFieldValues(string $field = 'uid')
+    {
+        $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
+
+        $dealerTable = $dataMapper->convertClassNameToTableName(Dealer::class);
+        $countryTable = $dataMapper->convertClassNameToTableName(Country::class);
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($dealerTable);
+
+        $fullFieldName = 'c.' . $field;
+
+        $fieldValues = $queryBuilder
+            ->select($fullFieldName)
+            ->from($dealerTable, 'd')
+            ->join(
+                'd',
+                $countryTable,
+                'c',
+                $queryBuilder->expr()->eq(
+                    'd.country',
+                    $queryBuilder->quoteIdentifier('c.uid')
+                )
+            )
+            ->where($queryBuilder->expr()->in('d.pid', $this->getStoragePageIds()))
+            ->groupBy($fullFieldName)
+            ->execute()
+            ->fetchAll(FetchMode::COLUMN, 0);
+
+        return $fieldValues;
     }
 
     /**

@@ -49,7 +49,7 @@ class GoogleApiUtility
     /**
      * Google api to suggest places
      */
-    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s';
+    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s&components=%s&location=%s';
 
     /**
      * Google Api Key
@@ -70,15 +70,28 @@ class GoogleApiUtility
      * Get suggest of search city
      *
      * @param string $searchTerm
+     * @param array $location An array containing coordinates [0: latitude, 1: longditude]
+     * @param array $countryAlpha2Codes An array of alpha 2 iso codes to limit the search to countries
      * @return array
      */
-    public function getPlaceSuggest(string $searchTerm): array
+    public function getPlaceSuggest(string $searchTerm, array $location = [], array $countryAlpha2Codes = []): array
     {
+        $components = [];
+
+        // Google sets a limit of five countries
+        if (count($countryAlpha2Codes) <= 5) {
+            foreach ($countryAlpha2Codes as $countryAlpha2Code) {
+                $components[] = 'country:' . $countryAlpha2Code;
+            }
+        }
+
         $apiUrl = sprintf(
             static::PLACE_SUGGEST_URL,
             $searchTerm,
             $GLOBALS['TSFE']->config['language'] ?: 'en',
-            $this->apiKey
+            $this->apiKey,
+            implode('|', $components),
+            count($location) === 2 ? implode(',', $location) : ''
         );
 
         return json_decode(GeneralUtility::getUrl($apiUrl), true);

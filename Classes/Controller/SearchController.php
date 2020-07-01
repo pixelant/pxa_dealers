@@ -104,7 +104,13 @@ class SearchController extends AbstractController
             $response['db'] = $this->dealerRepository->suggestResult($search);
 
             if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
-                $googleResponse = $this->getGoogleApi()->getPlaceSuggest($search->getSearchTermOriginal());
+                $countryAlpha2Codes = $this->dealerRepository->getUniqueCountryFieldValues('cn_iso_2');
+
+                $googleResponse = $this->getGoogleApi()->getPlaceSuggest(
+                    $search->getSearchTermOriginal(),
+                    $search->getLng() && $search->getLat() ? [$search->getLng(), $search->getLat()] : [],
+                    $countryAlpha2Codes
+                );
 
                 if (is_array($googleResponse)
                     && $googleResponse['status'] === 'OK'
