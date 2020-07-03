@@ -1,6 +1,7 @@
 /*global PxaDealersMaps */
 
 (function (w, $, Awesomplete) {
+
     var PxaDealersMaps = w.PxaDealersMaps || {};
 
     PxaDealersMaps.Suggest = {
@@ -14,8 +15,8 @@
 	    searchInRadius: false,
 
         init: function (input) {
-            var self = this,
-                map = $(PxaDealersMaps.FE.getMapSelector());
+            var self = this;
+            var  map = $(PxaDealersMaps.FE.getMapSelector());
 
 
 	        self.input = $(input);
