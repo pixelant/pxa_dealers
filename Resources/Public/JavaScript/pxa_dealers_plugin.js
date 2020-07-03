@@ -73,6 +73,12 @@
          *
          */
         self.initMap = function () {
+            if (self.mapSettings.dealers.length === 0 && self.pluginSettings.hideIfEmpty) {
+                $(self.mapDom).hide();
+
+                return;
+            }
+
             self.infoWindow = new google.maps.InfoWindow();
 
             // Options
@@ -401,8 +407,16 @@
 
             if (visibleItems.length > 0) {
                 hiddenItems = allItems.not(visibleItems);
+
+                if (self.pluginSettings.hideIfEmpty) {
+                    $(self.mapDom).show();
+                }
             } else {
                 hiddenItems = allItems;
+
+                if (self.pluginSettings.hideIfEmpty) {
+                    $(self.mapDom).hide();
+                }
             }
 
             $.each(hiddenItems, function () {

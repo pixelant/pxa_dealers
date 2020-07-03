@@ -48,6 +48,9 @@ plugin.tx_pxadealers {
 
       scrollFix = {$plugin.tx_pxadealers.settings.map.scrollFix}
       scrollFixMobile = {$plugin.tx_pxadealers.settings.map.scrollFixMobile}
+
+      # Hide the map if there are no visible markers
+      hideIfEmpty = 0
     }
 
     search {
