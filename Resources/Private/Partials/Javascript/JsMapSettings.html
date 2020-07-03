@@ -1,18 +1,25 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:pxa="http://typo3.org/ns/Pixelant/PxaDealers/ViewHelpers" data-namespace-typo3-fluid="true">
-<script>
-    (function (w) {
-        var PxaDealersMaps = w.PxaDealersMaps || {};
-
-        PxaDealersMaps.MapSettings = PxaDealersMaps.MapSettings || {};
-        PxaDealersMaps.MapSettings = {
-            dealers: <f:format.htmlentitiesDecode><pxa:jsonEncode value="{dealersOnMap}" /></f:format.htmlentitiesDecode>,
-            dealerItems: '.dealer-item',
-	        searchCenter: <f:format.htmlentitiesDecode><pxa:jsonEncode value="{searchCenter}" /></f:format.htmlentitiesDecode>,
-        };
-
-        PxaDealersMaps.settings = <f:format.htmlentitiesDecode><pxa:jsonEncode value="{settings.map}" /></f:format.htmlentitiesDecode>;
-
-        w.PxaDealersMaps = PxaDealersMaps;
-    })(window);
-</script>
+<f:format.raw>
+	<f:format.printf
+		arguments="{
+			0: '{dealersOnMap -> f:format.json()}',
+			1: '{searchCenter -> f:format.json()}',
+			3: '{settings.map -> f:format.json()}'
+		}"
+	>
+		<script>
+			//<f:format.cdata>
+			(function (w) {
+				var PxaDealersMaps = w.PxaDealersMaps || {};
+				PxaDealersMaps.MapSettings = PxaDealersMaps.MapSettings || {};
+				PxaDealersMaps.MapSettings.dealers = %1$s;
+				PxaDealersMaps.MapSettings.dealerItems = '.dealer-item';
+				PxaDealersMaps.MapSettings.searchCenter = %2$s;
+				PxaDealersMaps.settings = %3$s;
+				w.PxaDealersMaps = PxaDealersMaps;
+			})(window);
+			//</f:format.cdata>
+		</script>
+	</f:format.printf>
+</f:format.raw>
 </html>
