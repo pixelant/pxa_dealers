@@ -73,7 +73,7 @@
          *
          */
         self.initMap = function () {
-            if (self.mapSettings.dealers.length === 0 && self.pluginSettings.hideIfEmpty) {
+            if (self.mapSettings.dealers.length === 0 && parseInt(self.pluginSettings.hideIfEmpty)) {
                 $(self.mapDom).hide();
 
                 return;
@@ -408,13 +408,13 @@
             if (visibleItems.length > 0) {
                 hiddenItems = allItems.not(visibleItems);
 
-                if (self.pluginSettings.hideIfEmpty) {
+                if (parseInt(self.pluginSettings.hideIfEmpty)) {
                     $(self.mapDom).show();
                 }
             } else {
                 hiddenItems = allItems;
 
-                if (self.pluginSettings.hideIfEmpty) {
+                if (parseInt(self.pluginSettings.hideIfEmpty)) {
                     $(self.mapDom).hide();
                 }
             }
