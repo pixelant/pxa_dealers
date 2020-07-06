@@ -151,7 +151,7 @@ class DealersController extends AbstractController
 
         /** @var Dealer $dealer */
         foreach ($demandedDealers as $dealer) {
-            if ($dealer->getLat() !== 0 && $dealer->getLng() !== 0) {
+            if ((int)$dealer->getLat() !== 0 && (int)$dealer->getLng() !== 0) {
                 $dealersOnMap[$dealer->getUid()] = $dealer;
             }
             $dealers[$dealer->getUid()] = $dealer;
