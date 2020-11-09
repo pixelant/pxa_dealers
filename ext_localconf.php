@@ -25,6 +25,13 @@ call_user_func(
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\\CMS\\Core\\Configuration\\FlexForm\FlexFormTools']['flexParsing'][$_EXTKEY] = \Pixelant\PxaDealers\Hook\FlexFormHook::class;
         // @codingStandardsIgnoreEnd
 
+        // Register a node.
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1604915385] = [
+            'nodeName' => 'pxaDealersGoogleMaps',
+            'priority' => 40,
+            'class' => \Pixelant\PxaDealers\Form\Element\GoogleMapsElement::class,
+        ];
+
         // Add page TS
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
             '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:pxa_dealers/Configuration/PageTSconfig/ContentElementWizard.ts">'
