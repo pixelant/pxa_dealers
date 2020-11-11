@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -130,7 +131,7 @@ class TcaUtility
      * @param array $PA
      * @return string
      */
-    protected function getHtml(array $PA)
+    static function getHtml(array $PA)
     {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
@@ -155,19 +156,19 @@ EOT;
      * @param int $pageUid
      * @return array
      */
-    protected function loadTS($pageUid)
+    public function loadTS($pageUid)
     {
         $settings = [];
 
-        /** @var PageRepository $sysPageObj */
-        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
-        $rootLine = $sysPageObj->getRootLine($pageUid);
+        try {
+            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        } catch (RootLineException $e) {
+            $rootLine = [];
+        }
 
         /** @var ExtendedTemplateService $TSObj */
         $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
-
         $TSObj->tt_track = 0;
-        $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
 

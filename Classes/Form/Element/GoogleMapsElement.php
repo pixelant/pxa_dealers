@@ -2,41 +2,29 @@
 declare(strict_types = 1);
 namespace Pixelant\PxaDealers\Form\Element;
 
+use Pixelant\PxaDealers\Utility\TcaUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 
 class GoogleMapsElement extends AbstractFormElement
 {
     public function render()
     {
+        // Custom TCA properties and other data can be found in $this->data, for example the above
+        // parameters are available in $this->data['parameterArray']['fieldConf']['config']['parameters']
+        $data = $this->data;
 
-        $PA = $this->data;
+        //add the same array view like was in TcaUtility.php
+        $PA = $data['parameterArray'];
+        $PA['parameters'] = $data['parameterArray']['fieldConf']['config']['parameters'];
+        $PA['row'] = $data['databaseRow'];
+        $PA['field'] = $data['fieldName'];
+        $PA['table'] = $data['tableName'];
 
-        if ($PA['row']['pid'] < 0) {
-            // then "Save and create new was clicked"
-            $pid = BackendUtility::getRecord(
-                'tx_pxadealers_domain_model_dealer',
-                abs($PA['row']['pid']),
-                'pid'
-            )['pid'];
-        } else {
-            $pid = $PA['row']['pid'];
-        }
+        $TcaUtility = new TcaUtility();
+        $renderHtmlForGoogleMap = $TcaUtility->renderGoogleMapPosition($PA);
 
-        $settings = $this->loadTS($pid);
-
-        $outPut = '';
-
-        if ($settings['map']['googleJavascriptApiKey']) {
-            $outPut .= $this->getHtml($PA);
-
-            $this->loadRequireJsWithConfiguration(
-                $PA,
-                $settings['map']['googleJavascriptApiKey']
-            );
-        } else {
-            $outPut .= '<b>' . MainUtility::translate('tca_be_map.noApiKey') . '</b>';
-        }
-
-        return $outPut;
+        $result = $this->initializeResultArray();
+        $result['html'] = $renderHtmlForGoogleMap;
+        return $result;
     }
 }
