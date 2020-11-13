@@ -6,7 +6,8 @@
 
     <f:section name="main">
 				<f:if condition="{settings.search.enableAutocomplete}">
-					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
+                    <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
+                    <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/jquery.min.js" library="1" />
 					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js" library="1" />
 					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js" />
 					<f:variable name="autocompleteFieldData" value="{search-in-radius: '{f:if(condition: settings.search.searchInRadius, then: 1, else: 0)}', ajax-uri: '{f:uri.action(action: \'suggest\', pageType: \'2313089\')}', pid: '{storagePageIds}'}" />
