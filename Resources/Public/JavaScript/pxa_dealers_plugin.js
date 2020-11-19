@@ -22,8 +22,6 @@
         self.bounds = null;
         self.infoWindow = null;
 
-        self.isotope = null;
-
         /**
          * Init main options
          *
@@ -305,17 +303,6 @@
          */
         self.initFilters = function () {
             if (typeof PxaDealersMaps.Filters !== 'undefined') {
-                self.isotope = $(self.mapSettings.itemsListWrapper).isotope(
-                    {
-                        itemSelector: '.isotope-item',
-                        layoutMode: 'fitRows'
-                    }
-                );
-
-                // when filtering done
-                self.isotope.on('arrangeComplete', function (event, filteredItems) {
-                    self.processMarkersState(filteredItems);
-                });
 
                 var currentFilters = PxaDealersMaps.Filters;
 
@@ -344,7 +331,7 @@
         };
 
         /**
-         * Generate jquery selector according to filters value and run isotope
+         * Generate jquery selector according to filters value
          *
          * @param filters
          */
@@ -382,8 +369,21 @@
 
             var selectorString = self.buildSelector(selectors);
 
-            self.isotope.isotope({
-                filter: selectorString
+            //check all dealers
+            var allDealers = document.querySelector('.pxa-dealers-list').children;
+
+            //hide dealers when it doesn't have cat-{uid} class
+            Array.prototype.forEach.call(allDealers, dealer => {
+               if (selectorString.length > 0) {
+                  if (dealer.matches(selectorString)) {
+                    dealer.style.display = 'block';
+                  } else {
+                    dealer.style.display = 'none';
+                  }
+               } else {
+                 dealer.style.display = 'block';
+               }
+
             });
         };
 

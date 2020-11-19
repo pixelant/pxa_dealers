@@ -269,6 +269,7 @@ class DealerRepository extends AbstractDemandRepository
                 (float)$demand->getSearch()->getLng(),
                 (float)$demand->getSearch()->getLat(),
                 'WHERE ' . (empty($storage) ? '1=1' : ('pid IN(' . implode(',', $storage) . ')')),
+                MainUtility::getTSFE()->cObj->enableFields('tx_pxadealers_domain_model_dealer'),
                 (int)$demand->getSearch()->getRadius()
             );
             $query->statement($statement);
