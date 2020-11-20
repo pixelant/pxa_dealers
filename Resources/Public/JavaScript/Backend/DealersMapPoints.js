@@ -1,7 +1,6 @@
 define([
-    'jquery',
-    'TYPO3/CMS/Backend/Notification'
-], function ($, Notification) {
+  'TYPO3/CMS/Backend/Notification'
+], function (Notification) {
     'use strict';
 
     /**
@@ -76,7 +75,7 @@ define([
              */
             function _updateValue(fieldName, value) {
                 document[TBE_EDITOR.formname][fieldName].value = value;
-                $('[data-formengine-input-name="' + fieldName + '"]').val(value);
+                document.querySelector('[data-formengine-input-name="' + fieldName + '"]').value = value;
             }
 
             /**
