@@ -1,7 +1,7 @@
 /*global PxaDealersMaps */
 /*global PxaDealersMaps */
 
-(function (w) {
+(function (w, $) {
     var PxaDealersMaps = w.PxaDealersMaps || {};
 
     /**
@@ -211,7 +211,7 @@
 
     w.PxaDealersMaps = PxaDealersMaps;
 
-})(window);
+})(window, jQuery);
 
 $(document).ready(function () {
     if (typeof PxaDealersMaps.settings !== 'undefined') {
