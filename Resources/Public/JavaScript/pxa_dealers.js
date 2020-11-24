@@ -213,16 +213,19 @@
 
 })(window);
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function() {
     if (typeof PxaDealersMaps.settings !== 'undefined') {
         PxaDealersMaps.FE.initHelperFunctions();
         PxaDealersMaps.FE.initFilters(
             '[data-dealers-filter="1"]'
         );
 
-        $(PxaDealersMaps.FE.getMapSelector()).pxaDealers(
+        var mapSelector = document.querySelectorAll(PxaDealersMaps.FE.getMapSelector());
+
+        pxaDealers(
             PxaDealersMaps.MapSettings,
-            PxaDealersMaps.settings
+            PxaDealersMaps.settings,
+            mapSelector
         );
     }
 });

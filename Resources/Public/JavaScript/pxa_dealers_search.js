@@ -171,7 +171,7 @@
 })(window, jQuery, Awesomplete);
 
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function() {
     if (typeof PxaDealersMaps !== 'undefined') {
         PxaDealersMaps.Suggest.init('#pxa-dealers-search .dealer-search-field');
     }

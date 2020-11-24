@@ -1,7 +1,5 @@
 /*global PxaDealersMaps */
 
-(function (w, $, google) {
-
     function PxaDealersMapsRender() {
 
         var self = this;
@@ -31,7 +29,8 @@
          */
         self.init = function (mapSettings, pluginSettings, map) {
 
-            self.mapSettings = $.extend({}, $.fn.pxaDealers.settings, mapSettings);
+
+            self.mapSettings = Object.assign({}, PxaDealersSettings, mapSettings);
             self.pluginSettings = pluginSettings;
 
             if (map.length === 1) {
@@ -542,19 +541,45 @@
         }
     }
 
+    // $.fn.pxaDealers = function (mapSettings, pluginSettings) {
+    //     var pxaDealersMapsRenderer = new PxaDealersMapsRender();
+    //     pxaDealersMapsRenderer.init(mapSettings, pluginSettings, this);
 
-    $.fn.pxaDealers = function (mapSettings, pluginSettings) {
+
+    //     return this;
+    // };
+    var pxaDealers = function (mapSettings, pluginSettings, selector) {
         var pxaDealersMapsRenderer = new PxaDealersMapsRender();
-        pxaDealersMapsRenderer.init(mapSettings, pluginSettings, this);
-
-        return this;
+        pxaDealersMapsRenderer.init(mapSettings, pluginSettings, selector);
     };
 
-    $.fn.pxaDealers.settings = {
+    // pxaDealers.call(document.querySelectorAll(PxaDealersMaps.FE.getMapSelector()));
+
+    var PxaDealersSettings = {
         dealerItems: '.dealer-item',
         showOnMapSelector: '.show-on-map-link',
         showOnMapActiveClass: 'active',
         mapParentWrapper: '.pxa-dealers-wrapper',
         itemsListWrapper: '.pxa-dealers-list'
     };
-})(window, jQuery, google);
+
+
+    function getParents(el, parentSelector /* optional */) {
+
+    // If no parentSelector defined will bubble up all the way to *document*
+    if (parentSelector === undefined) {
+        parentSelector = document;
+    }
+
+    var parents = [];
+    var p = el.parentNode;
+
+    while (p !== parentSelector) {
+        var o = p;
+        parents.push(o);
+        p = o.parentNode;
+    }
+    parents.push(parentSelector); // Push that parentSelector you wanted to stop at
+
+    return parents;
+}
