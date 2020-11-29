@@ -104,20 +104,18 @@
                     function _showVisibleItemsCheckBox() {
                         var checkBoxes = convertJq.findAll(_element, '.checkbox'),
                             overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.dataset.visible));
+                            visibleList = String(document.querySelector(_map).getAttribute('data-'+_element.dataset.visible));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(checkBoxes).each(function () {
-                                var $this = $(this),
-                                    checkbox = $this.find('input[type="checkbox"]');
-
-                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.val())) {
-                                    $this.show();
+                            checkBoxes.forEach(function(el) {
+                                var checkbox = el.querySelector('input[type="checkbox"]');
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.value)) {
+                                    convertJq.show(el);
                                 }
                             });
                         } else {
                             // show all
-                            checkBoxes.show();
+                            checkBoxes.forEach(convertJq.show(el));
                         }
 
                         convertJq.hide(overlay[0]);
@@ -128,17 +126,15 @@
                      * @private
                      */
                     function _showVisibleItemsSelectBox() {
-                        var selectBox = _element.find('select'),
-                            options = selectBox.find('option'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var selectBox   = convertJq.findAll(_element, 'select'),
+                            options     = convertJq.findAll(selectBox, 'option'),
+                            overlay     = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute(_element.getAttribute('visible')));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(options).each(function () {
-                                var $this = $(this);
-
-                                if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
-                                    $this.remove();
+                            options.forEach(function (el) {
+                                if (el.value !== '0' && !PxaDealersMaps.FE.inList(visibleList, el.value)) {
+                                    convertJq.remove(el);
                                 }
                             });
                         }

@@ -1,5 +1,10 @@
 var convertJq = {
-    //get all parents
+    /**
+        * Get parents of given node element
+        * @param  {node} arg1       ?
+        * @param  {node} arg1       ?
+        * @return {object}          ?
+    */
     getParents: function (el, parentSelector) {
 
         // If no parentSelector defined will bubble up all the way to *document*
@@ -18,23 +23,51 @@ var convertJq = {
 
         return parents;
     },
-    //get parent element
+    /**
+        * Get parent node element
+        * @param  {node} arg1       DOM element node
+        * @return {object}          DOM parent element node
+    */
     getParent: function(el){
         return el.parentElement
     },
-    //hide el
+    /**
+        * Change visibility of el. Equal to display=none
+        * @param  {node} arg1       DOM element node
+        * @return {[type]}          Undefined
+    */
     hide: function(el){
         return el.style.display = 'none';
     },
-    //find all childs by selector
+    /**
+        * Change visibility of el. Equal to display=block
+        * @param  {node} arg1       DOM element node
+        * @return {[type]}          Undefined
+    */
+    show: function(el) {
+        return el.style.display = 'block';
+    },
+    /**
+        * Find all child by given selector
+        * @param  {node} arg1       DOM element node
+        * @param  {string} arg2     Selector of nodes that fn need to find
+        * @return {node collection} Collection of node elements
+    */
     findAll: function(el, selector) {
         return el.querySelectorAll(selector)
     },
-    //get el by id
+    /**
+        * Get element by ID
+        * @param  {string} arg1     Selector of element
+        * @return {object}          DOM node or undefined
+    */
     getById: function(selector) {
         return document.getElementById(selector);
     },
-    //Return doc width
+    /**
+        * Get width of document
+        * @return {number}           Number of document body width
+    */
     getDocWidth: function() {
         return document.body.clientWidth
     },
@@ -42,13 +75,18 @@ var convertJq = {
     aimate: function(el) {
 
     },
-    //Return {obj} with offset data
+    /**
+        * Get offset of DOM element
+        * @param  {element} arg1     DOM element
+        * @return {object}           Object with top and left offset
+    */
     offset: function(el) {
         return {
             top: el.offsetTop,
             left: el.offsetLeft
         }
     },
+    // what ?
     filter: function(selector, filterFn) {
       var elements = document.querySelectorAll(selector);
       var out = [];
@@ -58,6 +96,43 @@ var convertJq = {
           out.unshift(elements[i]);
       }
       return out;
+    },
+    /**
+        * Remove class form DOM node
+        * @param  {string} arg1     DOM element selector
+        * @param  {string} arg2     Class that fn need to remove
+        * @return {[type]}          Undefined
+    */
+    removeClass: function(selector, removeClass) {
+        var el = document.querySelector(selector);
+        return el && el.classList.remove(removeClass); 
+    },
+    /**
+        * Add class to DOM node
+        * @param  {string} arg1     DOM element selector
+        * @param  {string} arg2     Class that fn need to add
+        * @return {[type]}          Undefined
+    */
+    addClass: function(selector, addClass) {
+        var el = document.querySelector(selector);
+        return el && el.classList.add(addClass)
+    },
+    /**
+        * Call callback to each value of obj
+        * @param  {object} arg1     Object to bypass
+        * @param  {function} arg2   Function to call for each element
+        * @return {[type]}          Undefined
+    */
+    each: function(obj, callback) {
+        var arr = Object.values(obj)
+        arr.forEach(callback)
+    },
+    /**
+         * Remove node from DOM
+         * @param  {node} arg1 DOM el
+    */
+    remove: function(el) {
+        return el.parentNode.removeChild(el);
     }
 }
 
@@ -122,12 +197,16 @@ function PxaDealersMapsRender() {
             /**
              * switch to street view
              */
-            $(document).on('click', '.street-view-link', function (event) {
-                event.preventDefault();
-                var uid = $(this).data('marker-id');
 
-                if (uid) {
-                    self.switchToStreetView(uid);
+            self.mapDom[0].addEventListener('click', function (event) {
+                var target = event.target;
+                if(target.className.match('street-view-link')){
+                    event.preventDefault();
+                    var uid = target.getAttribute('data-marker-id');
+
+                    if (uid) {
+                        self.switchToStreetView(uid);
+                    }
                 }
             });
         }
@@ -189,9 +268,8 @@ function PxaDealersMapsRender() {
         }
 
         // Generate markers
-        $.each(self.mapSettings.dealers, function (index, dealer) {
+        convertJq.each(self.mapSettings.dealers, function (dealer, index) {
             if ((dealer['lat'] !== '') && (dealer['lng'] !== '')) {
-
                 self.generateMarker(dealer, function (marker) {
                     // save marker
                     self.markers[dealer['uid']] = marker;
@@ -201,7 +279,7 @@ function PxaDealersMapsRender() {
                     }
                 });
             }
-        });
+        })
 
         self.fitBounds();
     };
@@ -224,8 +302,8 @@ function PxaDealersMapsRender() {
         self.infoWindow.setContent(self.getInfoWindowHtml(self.mapSettings.dealers[uid]));
         self.infoWindow.open(self.map, self.markers[uid]);
 
-        $(self.mapSettings.dealerItems + '.' + self.mapSettings.showOnMapActiveClass).removeClass(self.mapSettings.showOnMapActiveClass);
-        $('#dealer-' + uid).addClass(self.mapSettings.showOnMapActiveClass);
+        convertJq.removeClass(self.mapSettings.dealerItems + '.' + self.mapSettings.showOnMapActiveClass ,self.mapSettings.showOnMapActiveClass);
+        convertJq.addClass('#dealer-' + uid, self.mapSettings.showOnMapActiveClass)
 
         var scrollFix = parseInt(convertJq.getDocWidth() > 991 ? self.pluginSettings.scrollFix : self.pluginSettings.scrollFixMobile);
 
@@ -234,7 +312,7 @@ function PxaDealersMapsRender() {
         //document.querySelectorAll('html, body')
         console.log(self.mapParent)
         $('html,body').animate({
-            scrollTop: (yurri.offset(self.mapParent).top + scrollFix)
+            scrollTop: (convertJq.offset(self.mapParent).top + scrollFix)
         }, 320);
     };
 
@@ -248,8 +326,8 @@ function PxaDealersMapsRender() {
         var pos = new google.maps.LatLng(dealer['lat'], dealer['lng']),
             infoWindowHtml;
 
-        var dealerDom = $('#dealer-' + dealer.uid),
-            markerType = dealerDom.data('marker-type'),
+        var dealerDom = document.querySelector('#dealer-' + dealer.uid),
+            markerType = dealerDom.getAttribute('marker-type'),
             markerIcon;
 
         if (typeof self.pluginSettings.markerTypes[markerType] !== 'undefined') {
@@ -331,7 +409,7 @@ function PxaDealersMapsRender() {
                 dealer['lng'],
                 self.pluginSettings.googleJavascriptApiKey
             );
-            rightPart += '<span>' + PxaDealersMaps.FE.translate('streetView') + '</span>';
+            rightPart += PxaDealersMaps.FE.translate('streetView');
             rightPart += '</a>';
             rightPart += '</div>';
         }
@@ -409,7 +487,7 @@ function PxaDealersMapsRender() {
     };
 
     /**
-     * Generate jquery selector according to filters value
+     * Generate selector according to filters value
      *
      * @param filters
      */
@@ -460,12 +538,12 @@ function PxaDealersMapsRender() {
         var allDealers = document.querySelector('.pxa-dealers-list').children;
 
         //hide dealers when it doesn't have cat-{uid} class
-        Array.prototype.forEach.call(allDealers, dealer => {
+        allDealers.forEach(function(dealer) {
             if (selectorString.length > 0) {
                 if (dealer.matches(selectorString)) {
-                dealer.style.display = 'block';
+                    dealer.style.display = 'block';
                 } else {
-                dealer.style.display = 'none';
+                    dealer.style.display = 'none';
                 }
             } else {
                 dealer.style.display = 'block';
@@ -478,7 +556,7 @@ function PxaDealersMapsRender() {
      * Filter hidden and visible markers
      */
     self.processMarkersState = function (filteredItems) {
-        var allItems = $(self.mapSettings.dealerItems),
+        var allItems = document.querySelectorAll(self.mapSettings.dealerItems),
             visibleItems = [],
             hiddenItems = [];
 
