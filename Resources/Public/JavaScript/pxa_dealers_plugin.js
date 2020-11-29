@@ -1,4 +1,4 @@
-var yurii = {
+var convertJq = {
     //get all parents
     getParents: function (el, parentSelector) {
 
@@ -6,16 +6,16 @@ var yurii = {
         if (parentSelector === undefined) {
             parentSelector = document;
         }
-    
+
         var parents = [];
         var p = el.parentElement;
-    
+
         while (p !== parentSelector && p.parentElement) {
             var o = p;
             parents.push(o);
             p = o.parentElement;
         }
-    
+
         return parents;
     },
     //get parent element
@@ -38,9 +38,9 @@ var yurii = {
     getDocWidth: function() {
         return document.body.clientWidth
     },
-    //[TODO] jquery animate here !! 
+    //[TODO] jquery animate here !!
     aimate: function(el) {
-        
+
     },
     //Return {obj} with offset data
     offset: function(el) {
@@ -48,6 +48,16 @@ var yurii = {
             top: el.offsetTop,
             left: el.offsetLeft
         }
+    },
+    filter: function(selector, filterFn) {
+      var elements = document.querySelectorAll(selector);
+      var out = [];
+
+      for (var i = elements.length; i--;) {
+        if (filterFn(elements[i]))
+          out.unshift(elements[i]);
+      }
+      return out;
     }
 }
 
@@ -89,23 +99,20 @@ function PxaDealersMapsRender() {
         if (map.length === 1) {
 
             self.mapDom = map;
-            // self.mapParent = yurii.getParents(map[0], self.mapSettings.mapParentWrapper);
-            self.mapParent = yurii.getParent(map[0]);
+            // self.mapParent = convertJq.getParents(map[0], self.mapSettings.mapParentWrapper);
+            self.mapParent = convertJq.getParent(map[0]);
 
             self.initMap();
 
             /**
              * show on map dealer
              */
-            var allElements = yurii.findAll(self.mapParent, self.mapSettings.showOnMapSelector)
+            var allElements = convertJq.findAll(self.mapParent, self.mapSettings.showOnMapSelector)
             allElements.forEach(function(el){
                 el.addEventListener('click', function(e){
                     self.clickShowOnMap(e, this)
                 })
             })
-            // self.mapParent.find(self.mapSettings.showOnMapSelector).on('click', function (e) {
-            //    self.clickShowOnMap(e, ${this});
-            // });
 
             /**
              * check if there are any filters available
@@ -132,7 +139,7 @@ function PxaDealersMapsRender() {
      */
     self.initMap = function () {
         if (self.mapSettings.dealers.length === 0 && parseInt(self.pluginSettings.hideIfEmpty)) {
-            yurii.hide(self.mapDom[0]);
+            convertJq.hide(self.mapDom[0]);
 
             return;
         }
@@ -147,7 +154,7 @@ function PxaDealersMapsRender() {
         };
 
         // Create map
-        self.mapGoogle = new google.maps.Map(yurii.getById(self.mapDom[0].getAttribute('id')), mapOptions);
+        self.mapGoogle = new google.maps.Map(convertJq.getById(self.mapDom[0].getAttribute('id')), mapOptions);
 
         // Set map styles
         // Check if styles was parsed correctly
@@ -220,7 +227,7 @@ function PxaDealersMapsRender() {
         $(self.mapSettings.dealerItems + '.' + self.mapSettings.showOnMapActiveClass).removeClass(self.mapSettings.showOnMapActiveClass);
         $('#dealer-' + uid).addClass(self.mapSettings.showOnMapActiveClass);
 
-        var scrollFix = parseInt(yurii.getDocWidth() > 991 ? self.pluginSettings.scrollFix : self.pluginSettings.scrollFixMobile);
+        var scrollFix = parseInt(convertJq.getDocWidth() > 991 ? self.pluginSettings.scrollFix : self.pluginSettings.scrollFixMobile);
 
         // [TASK] animate function
 
@@ -376,7 +383,9 @@ function PxaDealersMapsRender() {
 
                 if (currentFilters[key].getType() === 'checkbox' || currentFilters[key].getType() === 'selectbox') {
 
-                    var filterItems = currentFilters[key].getjQueryObject().find(currentFilters[key].getFilterElementSelector());
+                    // var filterItems = currentFilters[key].getjQueryObject().find(currentFilters[key].getFilterElementSelector());
+                    var filterItems = convertJq.findAll(currentFilters[key].getjQueryObject(), currentFilters[key].getFilterElementSelector());
+
                     // save items
                     PxaDealersMaps.Filters[key].filterItems = filterItems;
 
@@ -384,11 +393,15 @@ function PxaDealersMapsRender() {
                     if (currentFilters[key].getType() === 'selectbox') {
                         filterItems.prop('selectedIndex', 0);
                     } else {
-                        filterItems.attr('checked', false);
+                        filterItems.forEach(item => {
+                          item.checked = false;
+                        });
                     }
 
-                    filterItems.on(currentFilters[key].getType() === 'selectbox' ? 'change' : 'click', function () {
-                        self.doFiltering(PxaDealersMaps.Filters);
+                    filterItems.forEach(el => {
+                        el.addEventListener(currentFilters[key].getType() === 'selectbox' ? 'change' : 'click', function () {
+                          self.doFiltering(PxaDealersMaps.Filters);
+                        });
                     });
                 }
             }
@@ -408,13 +421,22 @@ function PxaDealersMapsRender() {
             var currentFilterSelectors = [];
 
             if (filters[key].getType() === 'checkbox') {
-                var checked = filters[key].filterItems.filter(':checked');
+
+                var filters = filters[key].filterItems;
+                console.log(filters)
+
+                var checked = convertJq.filter(':checked', function(el) {
+                  return el.checked == true
+                });
 
                 $.each(checked, function () {
                     var val = $(this).val();
                     if (val !== '' && val !== '0') {
                         // if value is comma-separated
                         var valSplit = val.split(',');
+
+                        console.log(filters[key])
+                        console.log(filters[key].getFilteringPrefix())
 
                         for (var i = 0; i < valSplit.length; i++) {
                             currentFilterSelectors.push(filters[key].getFilteringPrefix() + valSplit[i]);

@@ -83,8 +83,8 @@
                         _filterElementSelector;
 
                     function init() {
-                        _type = _element.data('filter-type');
-                        _filteringPrefix = _element.data('filter-prefix');
+                        _type = _element.dataset.filterType;
+                        _filteringPrefix = _element.dataset.filterPrefix;
 
                         if (_type === 'checkbox') {
                             _filterElementSelector = 'input[type="checkbox"]';
@@ -94,7 +94,6 @@
                             _showVisibleItemsSelectBox();
                         }
 
-
                         return this;
                     }
 
@@ -103,9 +102,9 @@
                      * @private
                      */
                     function _showVisibleItemsCheckBox() {
-                        var checkBoxes = _element.find('.checkbox'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var checkBoxes = convertJq.findAll(_element, '.checkbox'),
+                            overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String($(_map).data(_element.dataset.visible));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
                             $(checkBoxes).each(function () {
@@ -121,8 +120,7 @@
                             checkBoxes.show();
                         }
 
-
-                        overlay.hide();
+                        convertJq.hide(overlay[0]);
                     }
 
                     /**
@@ -200,12 +198,12 @@
          */
         initFilters: function (selector) {
             var that = this;
+            var elements = document.querySelectorAll(selector);
 
-            $(selector).each(function (i) {
-                var $this = $(this);
-
-                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), $this);
+            Array.prototype.forEach.call(elements, function(el, i){
+              PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), el);
             });
+
         }
     };
 
