@@ -261,17 +261,63 @@ class DealerRepository extends AbstractDemandRepository
     {
         // If search by radius just create a query
         if (!$secondaryFields && $demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
+            // distance in kilometers = 6371, miles = 3959
+            $multiplier = '6371';
             $storage = $query->getQuerySettings()->getStoragePageIds();
-
-            $statement = sprintf(
-                'SELECT *, ( 6371 * acos( cos( radians(\'%s\') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(\'%s\') ) + sin( radians(\'%s\') ) * sin( radians( lat ) ) ) ) AS distance FROM tx_pxadealers_domain_model_dealer %s %s HAVING distance < \'%s\' ORDER BY distance',
+            $selectLiteral = sprintf(
+                '(%s * acos(' .
+                'cos(radians(\'%s\'))' .
+                ' * cos(radians(lat))' .
+                ' * cos(radians(lng) - radians(\'%s\'))' .
+                ' + sin(radians(\'%s\'))' .
+                ' * sin(radians(lat))' .
+                ')) as distance',
+                $multiplier,
                 (float)$demand->getSearch()->getLat(),
                 (float)$demand->getSearch()->getLng(),
                 (float)$demand->getSearch()->getLat(),
-                'WHERE ' . (empty($storage) ? '1=1' : ('pid IN(' . implode(',', $storage) . ')')),
-                MainUtility::getTSFE()->cObj->enableFields('tx_pxadealers_domain_model_dealer'),
-                (int)$demand->getSearch()->getRadius()
             );
+
+            $queryBuilder= GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('tx_pxadealers_domain_model_dealer');
+            $queryBuilder->select('*')
+                ->addSelectLiteral($selectLiteral)
+                ->from('tx_pxadealers_domain_model_dealer')
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'pid',
+                        $queryBuilder->createNamedParameter(
+                            $storage,
+                            \TYPO3\CMS\Core\Database\Connection::PARAM_INT_ARRAY
+                        )
+                    )
+                )
+                ->having(
+                    $queryBuilder->expr()->lt(
+                        'distance',
+                        $queryBuilder->createNamedParameter($demand->getSearch()->getRadius(), \PDO::PARAM_INT)
+                    )
+                )
+                ->orderBy('distance')
+                ->setMaxResults(25);
+
+            $sql = $queryBuilder->getSQL();
+            $parameters = $queryBuilder->getParameters();
+            foreach ($parameters as $key => $parameter) {
+                switch ($queryBuilder->getParameterType($key)) {
+                    case 1:
+                        $stringParams[':' . $key] = (int)$parameter;
+                        break;
+                    case 101:
+                        $stringParams[':' . $key] = implode(',', $parameter);
+                        break;
+                    default:
+                        $stringParams[':' . $key] = $queryBuilder->quote($parameter);
+                        break;
+                }
+            }
+            $statement = strtr($sql, $stringParams);
+
             $query->statement($statement);
         } else {
             $constraintsAnd = [];

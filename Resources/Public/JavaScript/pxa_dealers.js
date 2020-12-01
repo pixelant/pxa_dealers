@@ -83,8 +83,8 @@
                         _filterElementSelector;
 
                     function init() {
-                        _type = _element.data('filter-type');
-                        _filteringPrefix = _element.data('filter-prefix');
+                        _type = _element.dataset.filterType;
+                        _filteringPrefix = _element.dataset.filterPrefix;
 
                         if (_type === 'checkbox') {
                             _filterElementSelector = 'input[type="checkbox"]';
@@ -94,7 +94,6 @@
                             _showVisibleItemsSelectBox();
                         }
 
-
                         return this;
                     }
 
@@ -103,26 +102,25 @@
                      * @private
                      */
                     function _showVisibleItemsCheckBox() {
-                        var checkBoxes = _element.find('.checkbox'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var checkBoxes = convertJq.findAll(_element, '.checkbox'),
+                            overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute('data-'+_element.dataset.visible));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(checkBoxes).each(function () {
-                                var $this = $(this),
-                                    checkbox = $this.find('input[type="checkbox"]');
-
-                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.val())) {
-                                    $this.show();
+                            checkBoxes.forEach(function(el) {
+                                var checkbox = el.querySelector('input[type="checkbox"]');
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.value)) {
+                                    convertJq.show(el);
                                 }
                             });
                         } else {
                             // show all
-                            checkBoxes.show();
+                            checkBoxes.forEach(function(el){
+                                convertJq.show(el)
+                            });
                         }
 
-
-                        overlay.hide();
+                        convertJq.hide(overlay[0]);
                     }
 
                     /**
@@ -130,21 +128,19 @@
                      * @private
                      */
                     function _showVisibleItemsSelectBox() {
-                        var selectBox = _element.find('select'),
-                            options = selectBox.find('option'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var selectBox   = convertJq.findAll(_element, 'select'),
+                            options     = convertJq.findAll(selectBox, 'option'),
+                            overlay     = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute(_element.getAttribute('visible')));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(options).each(function () {
-                                var $this = $(this);
-
-                                if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
-                                    $this.remove();
+                            options.forEach(function (el) {
+                                if (el.value !== '0' && !PxaDealersMaps.FE.inList(visibleList, el.value)) {
+                                    convertJq.remove(el);
                                 }
                             });
                         }
-
+                        console.log('line 143', selectBox, overlay);
                         overlay.hide();
                         selectBox.show();
                     }
@@ -200,11 +196,10 @@
          */
         initFilters: function (selector) {
             var that = this;
+            var elements = document.querySelectorAll(selector);
 
-            $(selector).each(function (i) {
-                var $this = $(this);
-
-                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), $this);
+            Array.prototype.forEach.call(elements, function(el, i){
+                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), el);
             });
         }
     };
@@ -213,16 +208,19 @@
 
 })(window, jQuery);
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function() {
     if (typeof PxaDealersMaps.settings !== 'undefined') {
         PxaDealersMaps.FE.initHelperFunctions();
         PxaDealersMaps.FE.initFilters(
             '[data-dealers-filter="1"]'
         );
 
-        $(PxaDealersMaps.FE.getMapSelector()).pxaDealers(
+        var mapSelector = document.querySelectorAll(PxaDealersMaps.FE.getMapSelector());
+
+        pxaDealers(
             PxaDealersMaps.MapSettings,
-            PxaDealersMaps.settings
+            PxaDealersMaps.settings,
+            mapSelector
         );
     }
 });
