@@ -86,16 +86,18 @@ var convertJq = {
             left: el.offsetLeft
         }
     },
-    // what ?
-    filter: function(selector, filterFn) {
-      var elements = document.querySelectorAll(selector);
-      var out = [];
+    /**
+        * Filter elements by given callback
+        * @param  {array} arg1      Array thay need to filtered
+        * @param  {function} arg2   Callback function
+        * @return {array}           Filtered Array
+    */
+    filter: function(arr, callback) {
+        var out = Array.from(arr).filter(function(el){
+            return callback(el);
+        });
 
-      for (var i = elements.length; i--;) {
-        if (filterFn(elements[i]))
-          out.unshift(elements[i]);
-      }
-      return out;
+        return out;
     },
     /**
         * Remove class form DOM node
@@ -133,6 +135,42 @@ var convertJq = {
     */
     remove: function(el) {
         return el.parentNode.removeChild(el);
+    },
+    /**
+        * Find closest el by given selector and type
+        * @param  {string} arg1     Selector for element
+        * @param  {string} arg2     Search selector
+        * @param  {string} arg3     Type of selector: id, tag or class
+        * @return {node}            Return el or null
+    */
+    closest: function(selector, closest, type) {
+        var allParents = this.getParents(selector, closest);
+        var result = allParents.find(function(el) {
+            if(type === 'class'){
+                return el.className.match(closest)
+            } else if(type === 'tag') {
+                return el.tagName === closest.toUpperCase();
+            } else if(type === 'id') {
+                return el.id === closest
+            }
+        })
+        return result ? result : null;
+    },
+    /**
+        * Find all children for given parent
+        * @param  {string} arg1     Selector for parents
+        * @param  {string} arg2     Selector for childs
+        * @return {array}           Array with all the children by given selector
+    */
+    getAllChilds: function(parentSelector, childSelector){
+        var parents = this.findAll(parentSelector);
+        var result = [];
+
+        parents.forEach(function(el) {
+            result.push(el.querySelectorAll(childSelector));
+        })
+
+        return result;
     }
 }
 
@@ -497,27 +535,22 @@ function PxaDealersMapsRender() {
         for (var key in filters) {
             if (!filters.hasOwnProperty(key)) continue;
             var currentFilterSelectors = [];
-
             if (filters[key].getType() === 'checkbox') {
-
+                var filteringPrefix = filters[key].getFilteringPrefix();
                 var filters = filters[key].filterItems;
-                console.log(filters)
-
-                var checked = convertJq.filter(':checked', function(el) {
-                  return el.checked == true
+            
+                var checked = convertJq.filter(filters, function(el) {
+                  return el.checked
                 });
 
-                $.each(checked, function () {
-                    var val = $(this).val();
+                checked.forEach(function(el) {
+                    var val = el.value;
                     if (val !== '' && val !== '0') {
                         // if value is comma-separated
                         var valSplit = val.split(',');
 
-                        console.log(filters[key])
-                        console.log(filters[key].getFilteringPrefix())
-
                         for (var i = 0; i < valSplit.length; i++) {
-                            currentFilterSelectors.push(filters[key].getFilteringPrefix() + valSplit[i]);
+                            currentFilterSelectors.push(filteringPrefix + valSplit[i]);
                         }
                     }
                 });
@@ -535,28 +568,33 @@ function PxaDealersMapsRender() {
         var selectorString = self.buildSelector(selectors);
 
         //check all dealers
-        var allDealers = document.querySelector('.pxa-dealers-list').children;
+        var allDealers = document.querySelector('.pxa-dealers-list') && document.querySelector('.pxa-dealers-list').children;
+        var allDealersArr = allDealers ? Array.from(document.querySelector('.pxa-dealers-list').children) : false
 
         //hide dealers when it doesn't have cat-{uid} class
-        allDealers.forEach(function(dealer) {
-            if (selectorString.length > 0) {
-                if (dealer.matches(selectorString)) {
-                    dealer.style.display = 'block';
+        if(allDealersArr) {
+            allDealersArr.forEach(function(dealer) {
+                if (selectorString.length > 0) {
+                    if (dealer.matches(selectorString)) {
+                        dealer.style.display = 'block';
+                    } else {
+                        dealer.style.display = 'none';
+                    }
                 } else {
-                    dealer.style.display = 'none';
+                    dealer.style.display = 'block';
                 }
-            } else {
-                dealer.style.display = 'block';
-            }
 
-        });
+            });
+        }
     };
 
     /**
      * Filter hidden and visible markers
      */
+
+    //[TASK] Check this
     self.processMarkersState = function (filteredItems) {
-        var allItems = document.querySelectorAll(self.mapSettings.dealerItems),
+        var allItems = convertJq.findAll(self.mapSettings.dealerItems),
             visibleItems = [],
             hiddenItems = [];
 
@@ -574,18 +612,18 @@ function PxaDealersMapsRender() {
             hiddenItems = allItems.not(visibleItems);
 
             if (parseInt(self.pluginSettings.hideIfEmpty)) {
-                $(self.mapDom).show();
+                convertJq.show(self.mapDom[0])
             }
         } else {
             hiddenItems = allItems;
 
             if (parseInt(self.pluginSettings.hideIfEmpty)) {
-                $(self.mapDom).hide();
+                convertJq.hide(self.mapDom[0])
             }
         }
 
-        $.each(hiddenItems, function () {
-            var uid = $(this).data('uid');
+        hiddenItems.forEach(function (el) {
+            var uid = el.dataset.uid;
 
             if(typeof self.markers[uid] !== 'undefined') {
                 self.markers[uid].setVisible(false);
@@ -593,8 +631,8 @@ function PxaDealersMapsRender() {
         });
 
 
-        $.each(visibleItems, function () {
-            var uid = $(this).data('uid');
+        visibleItems.forEach(function (el) {
+            var uid = el.dataset.uid;
 
             if(typeof self.markers[uid] !== 'undefined') {
                 self.markers[uid].setVisible(true);

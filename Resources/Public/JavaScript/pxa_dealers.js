@@ -115,7 +115,9 @@
                             });
                         } else {
                             // show all
-                            checkBoxes.forEach(convertJq.show(el));
+                            checkBoxes.forEach(function(el){
+                                convertJq.show(el)
+                            });
                         }
 
                         convertJq.hide(overlay[0]);
@@ -138,7 +140,7 @@
                                 }
                             });
                         }
-
+                        console.log('line 143', selectBox, overlay);
                         overlay.hide();
                         selectBox.show();
                     }
@@ -197,9 +199,8 @@
             var elements = document.querySelectorAll(selector);
 
             Array.prototype.forEach.call(elements, function(el, i){
-              PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), el);
+                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), el);
             });
-
         }
     };
 
