@@ -509,7 +509,6 @@ function PxaDealersMapsRender() {
 
                 if (currentFilters[key].getType() === 'checkbox' || currentFilters[key].getType() === 'selectbox') {
 
-                    // var filterItems = currentFilters[key].getjQueryObject().find(currentFilters[key].getFilterElementSelector());
                     var filterItems = convertJq.findAll(currentFilters[key].getjQueryObject(), currentFilters[key].getFilterElementSelector());
 
                     // save items
@@ -752,19 +751,10 @@ function PxaDealersMapsRender() {
     }
 }
 
-// $.fn.pxaDealers = function (mapSettings, pluginSettings) {
-//     var pxaDealersMapsRenderer = new PxaDealersMapsRender();
-//     pxaDealersMapsRenderer.init(mapSettings, pluginSettings, this);
-
-
-//     return this;
-// };
 var pxaDealers = function (mapSettings, pluginSettings, selector) {
     var pxaDealersMapsRenderer = new PxaDealersMapsRender();
     pxaDealersMapsRenderer.init(mapSettings, pluginSettings, selector);
 };
-
-// pxaDealers.call(document.querySelectorAll(PxaDealersMaps.FE.getMapSelector()));
 
 var PxaDealersSettings = {
     dealerItems: '.dealer-item',
