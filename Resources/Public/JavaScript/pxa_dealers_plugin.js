@@ -71,9 +71,39 @@ var convertJq = {
     getDocWidth: function() {
         return document.body.clientWidth
     },
-    //[TODO] jquery animate here !!
-    aimate: function(el) {
+    /**
+        * Animated scroll to given element
+        * @param  {dom node} arg1         Scroll to node
+        * @param  {number} arg2           Distance to the element
+        * @param  {number} arg2           Duration
+        * @return {void}                  Undefined
+    */
+    aimate: function(element, to, duration) {
+        var start = element.scrollTop,
+            change = to - start,
+            currentTime = 0,
+            increment = 20;
+            
+        //t = current time
+        //b = start value
+        //c = change in value
+        //d = duration
+        Math.easeInOutQuad = function (t, b, c, d) {
+            t /= d/2;
+              if (t < 1) return c/2*t*t + b;
+              t--;
+              return -c/2 * (t*(t-2) - 1) + b;
+        };
 
+        var animateScroll = function(){        
+            currentTime += increment;
+            var val = Math.easeInOutQuad(currentTime, start, change, duration);
+            element.scrollTop = val;
+            if(currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+        animateScroll();
     },
     /**
         * Get offset of DOM element
@@ -87,10 +117,10 @@ var convertJq = {
         }
     },
     /**
-        * Filter elements by given callback
-        * @param  {array} arg1      Array thay need to filtered
-        * @param  {function} arg2   Callback function
-        * @return {array}           Filtered Array
+        * Filter HTMLCollection by given callback
+        * @param  {HTMLCollection} arg1    HTMLCollection thay need to filtered
+        * @param  {function} arg2          Callback function
+        * @return {array}                  Filtered Array
     */
     filter: function(arr, callback) {
         var out = Array.from(arr).filter(function(el){
@@ -155,22 +185,6 @@ var convertJq = {
             }
         })
         return result ? result : null;
-    },
-    /**
-        * Find all children for given parent
-        * @param  {string} arg1     Selector for parents
-        * @param  {string} arg2     Selector for childs
-        * @return {array}           Array with all the children by given selector
-    */
-    getAllChilds: function(parentSelector, childSelector){
-        var parents = this.findAll(parentSelector);
-        var result = [];
-
-        parents.forEach(function(el) {
-            result.push(el.querySelectorAll(childSelector));
-        })
-
-        return result;
     }
 }
 
@@ -205,14 +219,12 @@ function PxaDealersMapsRender() {
      */
     self.init = function (mapSettings, pluginSettings, map) {
 
-
         self.mapSettings = Object.assign({}, PxaDealersSettings, mapSettings);
         self.pluginSettings = pluginSettings;
 
         if (map.length === 1) {
 
             self.mapDom = map;
-            // self.mapParent = convertJq.getParents(map[0], self.mapSettings.mapParentWrapper);
             self.mapParent = convertJq.getParent(map[0]);
 
             self.initMap();
@@ -240,7 +252,7 @@ function PxaDealersMapsRender() {
                 var target = event.target;
                 if(target.className.match('street-view-link')){
                     event.preventDefault();
-                    var uid = target.getAttribute('data-marker-id');
+                    var uid = target.dataset['markerId'];
 
                     if (uid) {
                         self.switchToStreetView(uid);
@@ -271,7 +283,7 @@ function PxaDealersMapsRender() {
         };
 
         // Create map
-        self.mapGoogle = new google.maps.Map(convertJq.getById(self.mapDom[0].getAttribute('id')), mapOptions);
+        self.mapGoogle = new google.maps.Map(self.mapDom[0], mapOptions);
 
         // Set map styles
         // Check if styles was parsed correctly
@@ -317,7 +329,7 @@ function PxaDealersMapsRender() {
                     }
                 });
             }
-        })
+        });
 
         self.fitBounds();
     };
@@ -345,13 +357,11 @@ function PxaDealersMapsRender() {
 
         var scrollFix = parseInt(convertJq.getDocWidth() > 991 ? self.pluginSettings.scrollFix : self.pluginSettings.scrollFixMobile);
 
-        // [TASK] animate function
-
-        //document.querySelectorAll('html, body')
-        console.log(self.mapParent)
-        $('html,body').animate({
-            scrollTop: (convertJq.offset(self.mapParent).top + scrollFix)
-        }, 320);
+        // Scroll to map on 'show on map click'
+        convertJq.aimate(
+            document.documentElement, 
+            convertJq.offset(self.mapParent).top + scrollFix, 
+            320)
     };
 
     /**
@@ -569,23 +579,20 @@ function PxaDealersMapsRender() {
 
         //check all dealers
         var allDealers = document.querySelector('.pxa-dealers-list') && document.querySelector('.pxa-dealers-list').children;
-        var allDealersArr = allDealers ? Array.from(document.querySelector('.pxa-dealers-list').children) : false
+        var allDealersArr = allDealers ? Array.from(allDealers) : false;
 
         //hide dealers when it doesn't have cat-{uid} class
-        if(allDealersArr) {
-            allDealersArr.forEach(function(dealer) {
+        allDealersArr && allDealersArr.forEach(function(dealer) {
                 if (selectorString.length > 0) {
                     if (dealer.matches(selectorString)) {
-                        dealer.style.display = 'block';
+                        convertJq.show(dealer);
                     } else {
-                        dealer.style.display = 'none';
+                        convertJq.hide(dealer);
                     }
                 } else {
-                    dealer.style.display = 'block';
+                    convertJq.show(dealer);
                 }
-
-            });
-        }
+        });
     };
 
     /**
@@ -594,18 +601,18 @@ function PxaDealersMapsRender() {
 
     //[TASK] Check this
     self.processMarkersState = function (filteredItems) {
-        var allItems = convertJq.findAll(self.mapSettings.dealerItems),
+        var allItems = convertJq.findAll(document, self.mapSettings.dealerItems),
             visibleItems = [],
             hiddenItems = [];
 
         var visibleSelector = '';
 
         for (var i = 0; i < filteredItems.length; i++) {
-            visibleSelector += '#' + filteredItems[i].element.id + ((filteredItems.length - 1) === i ? '' : ',');
+            visibleSelector += '#' + filteredItems[i].id + ((filteredItems.length - 1) === i ? '' : ',');
         }
 
         if (visibleSelector !== '') {
-            visibleItems = $(visibleSelector);
+            visibleItems = document.querySelectorAll(visibleSelector);
         }
 
         if (visibleItems.length > 0) {
