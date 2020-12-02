@@ -129,9 +129,9 @@
                      */
                     function _showVisibleItemsSelectBox() {
                         var selectBox   = convertJq.findAll(_element, 'select'),
-                            options     = convertJq.findAll(selectBox, 'option'),
+                            options     = convertJq.findAll(selectBox[0], 'option'),
                             overlay     = convertJq.findAll(_element, '.dealers-loader-overlay'),
-                            visibleList = String(document.querySelector(_map).getAttribute(_element.getAttribute('visible')));
+                            visibleList = String(document.querySelector(_map).dataset.visibleCountries);
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
                             options.forEach(function (el) {
@@ -140,9 +140,8 @@
                                 }
                             });
                         }
-                        console.log('line 143', selectBox, overlay);
-                        overlay.hide();
-                        selectBox.show();
+                        convertJq.hide(overlay[0]);
+                        convertJq.show(selectBox[0]);
                     }
 
                     /**

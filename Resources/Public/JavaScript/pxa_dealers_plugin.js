@@ -83,7 +83,7 @@ var convertJq = {
             change = to - start,
             currentTime = 0,
             increment = 20;
-            
+
         //t = current time
         //b = start value
         //c = change in value
@@ -95,7 +95,7 @@ var convertJq = {
               return -c/2 * (t*(t-2) - 1) + b;
         };
 
-        var animateScroll = function(){        
+        var animateScroll = function(){
             currentTime += increment;
             var val = Math.easeInOutQuad(currentTime, start, change, duration);
             element.scrollTop = val;
@@ -137,7 +137,7 @@ var convertJq = {
     */
     removeClass: function(selector, removeClass) {
         var el = document.querySelector(selector);
-        return el && el.classList.remove(removeClass); 
+        return el && el.classList.remove(removeClass);
     },
     /**
         * Add class to DOM node
@@ -209,6 +209,8 @@ function PxaDealersMapsRender() {
 
     self.bounds = null;
     self.infoWindow = null;
+
+    self.filteredItems = [];
 
     /**
      * Init main options
@@ -359,8 +361,8 @@ function PxaDealersMapsRender() {
 
         // Scroll to map on 'show on map click'
         convertJq.aimate(
-            document.documentElement, 
-            convertJq.offset(self.mapParent).top + scrollFix, 
+            document.documentElement,
+            convertJq.offset(self.mapParent).top + scrollFix,
             320)
     };
 
@@ -516,7 +518,8 @@ function PxaDealersMapsRender() {
 
                     // ff fix
                     if (currentFilters[key].getType() === 'selectbox') {
-                        filterItems.prop('selectedIndex', 0);
+                        filterItems[0].selectedIndex = 0;
+                        console.log(filterItems);
                     } else {
                         filterItems.forEach(item => {
                           item.checked = false;
@@ -547,7 +550,7 @@ function PxaDealersMapsRender() {
             if (filters[key].getType() === 'checkbox') {
                 var filteringPrefix = filters[key].getFilteringPrefix();
                 var filters = filters[key].filterItems;
-            
+
                 var checked = convertJq.filter(filters, function(el) {
                   return el.checked
                 });
@@ -564,7 +567,7 @@ function PxaDealersMapsRender() {
                     }
                 });
             } else if (filters[key].getType() === 'selectbox') {
-                var val = filters[key].filterItems.val();
+                var val = filters[key].filterItems[0].value;
 
                 if (val !== '' && val !== '0') {
                     currentFilterSelectors.push(filters[key].getFilteringPrefix() + val);
@@ -580,18 +583,24 @@ function PxaDealersMapsRender() {
         var allDealers = document.querySelector('.pxa-dealers-list') && document.querySelector('.pxa-dealers-list').children;
         var allDealersArr = allDealers ? Array.from(allDealers) : false;
 
+        self.filteredItems = [];
         //hide dealers when it doesn't have cat-{uid} class
         allDealersArr && allDealersArr.forEach(function(dealer) {
                 if (selectorString.length > 0) {
                     if (dealer.matches(selectorString)) {
+                        self.filteredItems.push(dealer);
                         convertJq.show(dealer);
                     } else {
                         convertJq.hide(dealer);
                     }
                 } else {
+                    self.filteredItems.push(dealer);
                     convertJq.show(dealer);
                 }
         });
+
+        // when filtering done
+        self.processMarkersState(self.filteredItems);
     };
 
     /**
@@ -615,7 +624,7 @@ function PxaDealersMapsRender() {
         }
 
         if (visibleItems.length > 0) {
-            hiddenItems = allItems.not(visibleItems);
+            hiddenItems = Array.from(allItems).filter(x => Array.from(visibleItems).indexOf(x) === -1);
 
             if (parseInt(self.pluginSettings.hideIfEmpty)) {
                 convertJq.show(self.mapDom[0])
