@@ -21,7 +21,7 @@
 	        self.findClosestButton = document.querySelector('[data-find-closest="1"]');
 	        self.searchInRadius = parseInt(self.input.dataset['search-in-radius']);
 
-            if (map.length === 1) {    
+            if (map.length === 1) {
                 var search = map.dataset['search-term'];
                 if (typeof search === 'string' && search !== '') {
                     self.input.value = search;
@@ -34,7 +34,7 @@
                     autoFirst: true,
                     filter: function(text, input) { return true; }
                 });
-                
+
                 self.input.addEventListener('keyup', function (e) {
                     var c = e.keyCode;
                     if (c === 13 || c === 27 || c === 38 || c === 40) {
@@ -57,9 +57,8 @@
 					self.form.submit();
                 });
             }
-            
+
             if (self.findClosestButton && self.findClosestButton.length > 0) {
-                console.log('line 66')
 	            self.findClosestButton.on('click', function (e) {
                     e.preventDefault();
                     self._findClosestAction($(this));
@@ -103,7 +102,7 @@
 
                     self.awesomplete._list = list;
                     self.awesomplete.evaluate()
-                                
+
                 } else {
                     console.error(resp)
                 }

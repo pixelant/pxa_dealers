@@ -519,7 +519,6 @@ function PxaDealersMapsRender() {
                     // ff fix
                     if (currentFilters[key].getType() === 'selectbox') {
                         filterItems[0].selectedIndex = 0;
-                        console.log(filterItems);
                     } else {
                         filterItems.forEach(item => {
                           item.checked = false;
