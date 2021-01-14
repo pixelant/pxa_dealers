@@ -5,12 +5,11 @@
     var PxaDealersMaps = w.PxaDealersMaps || {};
 
     PxaDealersMaps.Suggest = {
-
         awesomplete: null,
         input: null,
         form: null,
         findClosestButton: null,
-	    searchInRadius: false,
+	      searchInRadius: false,
 
         init: function (input) {
             var self   = this;
@@ -18,17 +17,18 @@
 
             self.input = document.querySelector(input);
             self.form  = convertJq.closest(self.input, 'form', 'tag');
-	        self.findClosestButton = document.querySelector('[data-find-closest="1"]');
-	        self.searchInRadius = parseInt(self.input.dataset['search-in-radius']);
+	          self.findClosestButton = document.querySelector('[data-find-closest="1"]');
+            self.searchInRadius = parseInt(self.input.dataset.searchInRadius);
 
-            if (map.length === 1) {
-                var search = map.dataset['search-term'];
+            if (typeof(map) != 'undefined') {
+                var search = map.dataset.searchTerm;
+
                 if (typeof search === 'string' && search !== '') {
                     self.input.value = search;
                 }
             }
 
-            if (self.input.length > 0) {
+            if (typeof(self.input) != 'undefined' && self.input != null) {
                 self.awesomplete = new Awesomplete(input, {
                     minChars: 3,
                     autoFirst: true,
@@ -36,25 +36,27 @@
                 });
 
                 self.input.addEventListener('keyup', function (e) {
+
                     var c = e.keyCode;
                     if (c === 13 || c === 27 || c === 38 || c === 40) {
                         return;
                     }
+
                     self._loadSuggest(e.target);
                 });
 
                 self.input.addEventListener('awesomplete-select', function(e) {
                 	e.preventDefault();
                 	var valueParts = e.originalEvent.text.value.split('::'),
-						method = valueParts[0],
-						value = valueParts[1];
+                  method = valueParts[0],
+                  value = valueParts[1];
 
-                    var $inputSearchRadius = document.querySelector('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
+                  var $inputSearchRadius = document.querySelector('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
                 	$inputSearchRadius.value = method === 'google' ? '1' : '0';
 
-					e.target.valгу = value;
-					self.awesomplete.close();
-					self.form.submit();
+                  e.target.valгу = value;
+                  self.awesomplete.close();
+                  self.form.submit();
                 });
             }
 
@@ -89,6 +91,7 @@
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhr.onload = function() {
                 var resp = JSON.parse(this.response)
+                console.log(resp);
                 if (this.status >= 200 && this.status < 400) {
                     var list = [];
 
@@ -108,6 +111,9 @@
                 }
             };
 
+            console.log(JSON.stringify(data))
+            console.log(input.dataset.ajaxUri)
+            
             xhr.send(JSON.stringify(data));
         },
 
@@ -172,6 +178,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    console.log(PxaDealersMaps);
     if (typeof PxaDealersMaps !== 'undefined') {
         PxaDealersMaps.Suggest.init('#pxa-dealers-search .dealer-search-field');
     }

@@ -24,6 +24,9 @@
                                       data="{autocompleteFieldData}"
                                       class="form-control dealer-search-field"
                                       placeholder="{f:translate(key: 'fe.placeholder')}"/>
+                    <f:form.button name="searchSubmit" class="pxa-dealers-search-button">
+                        {f:translate(key: 'fe.submitvalue')}
+                    </f:form.button>
                 </div>
                 <f:if condition="{settings.search.searchClosest}">
                     <button type="submit" data-find-closest="1" class="btn btn-primary"><f:translate key="fe.searchClosest" /></button>
