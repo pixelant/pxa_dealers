@@ -92,8 +92,7 @@ class SearchController extends AbstractController
      */
     public function suggestAction(Search $search = null)
     {
-        $response = ['db' => [], 'google' => [], 'search' => $search ];
-
+        $response = ['db' => [], 'google' => [] ];
         if ($search !== null && !empty($search->getSearchTermLowercase())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',

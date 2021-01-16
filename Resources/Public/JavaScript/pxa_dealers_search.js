@@ -46,15 +46,16 @@
                 });
 
                 self.input.addEventListener('awesomplete-select', function(e) {
-                	e.preventDefault();
-                	var valueParts = e.originalEvent.text.value.split('::'),
-                  method = valueParts[0],
-                  value = valueParts[1];
+                  e.preventDefault();
+
+                	var valueParts = e.text.value.split('::'),
+                      method = valueParts[0],
+                      value = valueParts[1];
 
                   var $inputSearchRadius = document.querySelector('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
                 	$inputSearchRadius.value = method === 'google' ? '1' : '0';
 
-                  e.target.valгу = value;
+                  e.target.value = value;
                   self.awesomplete.close();
                   self.form.submit();
                 });
@@ -76,30 +77,44 @@
 	     */
         _loadSuggest: function (input) {
             var self = this;
-            var data = {
-                tx_pxadealers_pxadealers: {
-                    search: {
-                        searchTermOriginal: input.value,
-                        searchInRadius: self.searchInRadius,
-                        pid: input.dataset['pid']
-                    }
-                }
-            }
+
+            //old format data (not using)
+            // var data = {
+            //     tx_pxadealers_pxadealers: {
+            //         search: {
+            //             searchTermOriginal: input.value,
+            //             searchInRadius: self.searchInRadius,
+            //             pid: input.dataset['pid']
+            //         }
+            //     }
+            // }
+
+            //new data format
+            var txDealersSearch = 'tx_pxadealers_pxadealers[search]';
+            var newData = txDealersSearch + '[searchTermOriginal]=' + input.value +
+                    '&' + txDealersSearch + '[searchInRadius]=' + self.searchInRadius +
+                    '&' + txDealersSearch + '[pid]=' + input.dataset['pid'];
+
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', input.dataset.ajaxUri, true);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            //old format
+            // xhr.send(JSON.stringify(newData));
+            xhr.send(newData);
+
+
             xhr.onload = function() {
                 var resp = JSON.parse(this.response)
-                console.log(resp);
                 if (this.status >= 200 && this.status < 400) {
                     var list = [];
 
-                    resp['db'].forEach(function (key, value) {
+                    resp['db'].forEach(function (value, index) {
                         list.push({label: value, value: 'db::' + value});
                     });
 
-                    resp['google'].forEach(function (key, value) {
+                    resp['google'].forEach(function (value, index) {
                         list.push({label: value, value: 'google::' + value});
                     });
 
@@ -110,11 +125,6 @@
                     console.error(resp)
                 }
             };
-
-            console.log(JSON.stringify(data))
-            console.log(input.dataset.ajaxUri)
-            
-            xhr.send(JSON.stringify(data));
         },
 
 	    /**
@@ -178,7 +188,6 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log(PxaDealersMaps);
     if (typeof PxaDealersMaps !== 'undefined') {
         PxaDealersMaps.Suggest.init('#pxa-dealers-search .dealer-search-field');
     }
