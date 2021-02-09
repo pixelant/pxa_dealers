@@ -377,7 +377,7 @@ function PxaDealersMapsRender() {
             infoWindowHtml;
 
         var dealerDom = document.querySelector('#dealer-' + dealer.uid),
-            markerType = dealerDom.getAttribute('marker-type'),
+            markerType = dealerDom.dataset.markerType,
             markerIcon;
 
         if (typeof self.pluginSettings.markerTypes[markerType] !== 'undefined') {
