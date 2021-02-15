@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
@@ -41,7 +42,7 @@ class TcaUtility
      */
     public function getCategoriesPidRestriction(): string
     {
-        return $this->getForeignTableWhereRestriction('categoriesRestriction', 'sys_category');
+        return $this->getForeignTableWhereRestriction('sys_category');
     }
 
     /**
@@ -182,29 +183,18 @@ EOT;
     /**
      * Generate dynamic foreign table where
      *
-     * @param $restrictionField
      * @param $table
      * @return string
      */
-    protected function getForeignTableWhereRestriction(string $restrictionField, string $table): string
+    protected function getForeignTableWhereRestriction(string $table): string
     {
-        $restrictionValue = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
-            'pxa_dealers',
-            $restrictionField
-        );
+        $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
+            ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
 
-        switch ($restrictionValue) {
-            case 'current_pid':
-                $foreignTableWhere = ' AND ' . $table . '.pid=###CURRENT_PID### ';
-                break;
-            case 'siteroot':
-                $foreignTableWhere = ' AND ' . $table . '.pid=###SITEROOT### ';
-                break;
-            case 'page_tsconfig_idlist':
-                $foreignTableWhere = ' AND ' . $table . '.pid IN (###PAGE_TSCONFIG_IDLIST###) ';
-                break;
-            default:
-                $foreignTableWhere = '';
+        if ($categoryPid) {
+            $foreignTableWhere = ' AND ' . $table . '.pid='.$categoryPid.' ';
+        } else {
+            $foreignTableWhere = '';
         }
 
         return $foreignTableWhere;

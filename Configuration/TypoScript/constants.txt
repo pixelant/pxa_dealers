@@ -30,6 +30,9 @@ plugin.tx_pxadealers {
             # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix for mobile view (width < 991)
             scrollFixMobile = 0
         }
+
+         # cat=plugin.tx_pxadealers/pxadealers/060; type=string; label=Categories PID storage
+         categoryPid =
 	}
 
     # customsubcategory=pxadealerslist=Dealers list settings
