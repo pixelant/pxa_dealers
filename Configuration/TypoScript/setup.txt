@@ -29,7 +29,7 @@ plugin.tx_pxadealers {
 
   settings {
 
-    categoryPid = {$plugin.tx_pxadealers.settings.map.categoryPid}
+    categoryPid = {$plugin.tx_pxadealers.settings.categoryPid}
 
     # Map settings
     map {
