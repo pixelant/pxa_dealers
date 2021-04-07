@@ -548,9 +548,9 @@ function PxaDealersMapsRender() {
             var currentFilterSelectors = [];
             if (filters[key].getType() === 'checkbox') {
                 var filteringPrefix = filters[key].getFilteringPrefix();
-                var filtersItems = filters[key].filterItems;
+                var filterItems = filters[key].filterItems;
 
-                var checked = convertJq.filter(filtersItems, function(el) {
+                var checked = convertJq.filter(filterItems, function(el) {
                   return el.checked
                 });
 
