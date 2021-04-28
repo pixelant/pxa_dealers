@@ -509,28 +509,29 @@ function PxaDealersMapsRender() {
             for (var key in currentFilters) {
                 if (!currentFilters.hasOwnProperty(key)) continue;
 
-                if (currentFilters[key].getType() === 'checkbox' || currentFilters[key].getType() === 'selectbox') {
+                let filterType = currentFilters[key].getType();
+                if (!['selectbox', 'checkbox', 'radiobox'].includes(filterType)) continue;
 
-                    var filterItems = convertJq.findAll(currentFilters[key].getjQueryObject(), currentFilters[key].getFilterElementSelector());
+                let filterItems = convertJq.findAll(currentFilters[key].getjQueryObject(), currentFilters[key].getFilterElementSelector());
 
-                    // save items
-                    PxaDealersMaps.Filters[key].filterItems = filterItems;
+                // save items
+                PxaDealersMaps.Filters[key].filterItems = filterItems;
 
-                    // ff fix
-                    if (currentFilters[key].getType() === 'selectbox') {
-                        filterItems[0].selectedIndex = 0;
-                    } else {
-                        filterItems.forEach(item => {
-                          item.checked = false;
-                        });
-                    }
-
-                    filterItems.forEach(el => {
-                        el.addEventListener(currentFilters[key].getType() === 'selectbox' ? 'change' : 'click', function () {
-                          self.doFiltering(PxaDealersMaps.Filters);
-                        });
+                // ff fix
+                if (filterType === 'selectbox') {
+                    filterItems[0].selectedIndex = 0;
+                } else {
+                    filterItems.forEach(item => {
+                      item.checked = false;
                     });
                 }
+
+                filterItems.forEach(el => {
+                    el.addEventListener(filterType === 'selectbox' || filterType === 'radiobox' ? 'change' : 'click', function () {
+                      self.doFiltering(PxaDealersMaps.Filters);
+                    });
+                });
+
             }
         }
     };
@@ -546,38 +547,42 @@ function PxaDealersMapsRender() {
         for (var key in filters) {
             if (!filters.hasOwnProperty(key)) continue;
             var currentFilterSelectors = [];
-            if (filters[key].getType() === 'checkbox') {
-                var filteringPrefix = filters[key].getFilteringPrefix();
-                var filterItems = filters[key].filterItems;
+            var filterType = filters[key].getType();
+            switch (filterType) {
+                case 'checkbox':
+                case 'radiobox':
+                    var filteringPrefix = filters[key].getFilteringPrefix();
+                    var filterItems = filters[key].filterItems;
 
-                var checked = convertJq.filter(filterItems, function(el) {
-                  return el.checked
-                });
+                    var checked = convertJq.filter(filterItems, function(el) {
+                      return el.checked
+                    });
 
-                checked.forEach(function(el) {
-                    var val = el.value;
-                    if (val !== '' && val !== '0') {
-                        // if value is comma-separated
-                        var valSplit = val.split(',');
+                    checked.forEach(function(el) {
+                        var val = el.value;
+                        if (val !== '' && val !== '0') {
+                            // if value is comma-separated
+                            var valSplit = val.split(',');
 
-                        for (var i = 0; i < valSplit.length; i++) {
-                            currentFilterSelectors.push(filteringPrefix + valSplit[i]);
+                            for (var i = 0; i < valSplit.length; i++) {
+                                currentFilterSelectors.push(filteringPrefix + valSplit[i]);
+                            }
                         }
-                    }
-                });
-            } else if (filters[key].getType() === 'selectbox') {
-                var val = filters[key].filterItems[0].value;
+                    });
+                    break;
+                case 'selectbox':
+                    var val = filters[key].filterItems[0].value;
 
-                if (val !== '' && val !== '0') {
-                    currentFilterSelectors.push(filters[key].getFilteringPrefix() + val);
-                }
+                    if (val !== '' && val !== '0') {
+                        currentFilterSelectors.push(filters[key].getFilteringPrefix() + val);
+                    }
             }
 
             selectors.push(currentFilterSelectors);
         }
 
         var selectorString = self.buildSelector(selectors);
-
+console.log(selectorString);
         //check all dealers
         var allDealers = document.querySelector('.pxa-dealers-list') && document.querySelector('.pxa-dealers-list').children;
         var allDealersArr = allDealers ? Array.from(allDealers) : false;
