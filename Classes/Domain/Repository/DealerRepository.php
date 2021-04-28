@@ -26,13 +26,11 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Doctrine\DBAL\FetchMode;
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
-use Pixelant\PxaDealers\Utility\MainUtility;
-use SJBR\StaticInfoTables\Domain\Model\Country;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -52,6 +50,8 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  */
 class DealerRepository extends AbstractDemandRepository
 {
+    protected const COUNTRY_TABLE = 'static_countries';
+
     /**
      * @var array
      */
@@ -83,6 +83,11 @@ class DealerRepository extends AbstractDemandRepository
         }
 
         $constraints = $this->getSearchConstraintsForFields($sword, $search->getSearchFields(), $query);
+
+        $limitToCountries = $this->getLimitToCountries('uid');
+        if (count($limitToCountries) > 0) {
+            $constraints = $query->logicalAnd($constraints, $query->in('country', $limitToCountries));
+        }
 
         if ($constraints === null) {
             return [];
@@ -215,40 +220,112 @@ class DealerRepository extends AbstractDemandRepository
      *
      * By default, this function fetches the unique country uids for all the dealers.
      *
-     * @param string $field
-     * @return false|mixed
+     * @param string $field The field from the static_countries table to return.
+     * @param bool $useLimitedCountries Limit results to countries in setting search.limitToCountries (if set).
+     * @return array
      * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
      */
-    public function getUniqueCountryFieldValues(string $field = 'uid')
+    public function getUniqueCountryFieldValues(string $field = 'uid', bool $useLimitedCountries = true): array
     {
         $dataMapper = GeneralUtility::makeInstance(ObjectManager::class)->get(DataMapper::class);
 
         $dealerTable = $dataMapper->convertClassNameToTableName(Dealer::class);
-        $countryTable = $dataMapper->convertClassNameToTableName(Country::class);
 
+        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($dealerTable);
 
         $fullFieldName = 'c.' . $field;
 
-        $fieldValues = $queryBuilder
+        $queryBuilder
             ->select($fullFieldName)
             ->from($dealerTable, 'd')
             ->join(
                 'd',
-                $countryTable,
+                self::COUNTRY_TABLE,
                 'c',
                 $queryBuilder->expr()->eq(
                     'd.country',
                     $queryBuilder->quoteIdentifier('c.uid')
                 )
             )
-            ->where($queryBuilder->expr()->in('d.pid', $this->getStoragePageIds()))
+            ->where($queryBuilder->expr()->in('d.pid', $this->getStoragePageIds()));
+
+        if ($useLimitedCountries) {
+            $limitToCountries = GeneralUtility::trimExplode(
+                ',',
+                strtoupper((string)$this->settings['search']['limitToCountries']),
+                true
+            );
+
+            if (count($limitToCountries) > 0) {
+                array_walk(
+                    $limitToCountries,
+                    function (&$value) use ($queryBuilder) {
+                        $value = $queryBuilder->createNamedParameter($value);
+                    }
+                );
+
+                $queryBuilder->andWhere($queryBuilder->expr()->in(
+                    'c.cn_iso_2',
+                    $limitToCountries
+                ));
+            }
+        }
+
+        $fieldValues = $queryBuilder
             ->groupBy($fullFieldName)
             ->execute()
-            ->fetchAll(FetchMode::COLUMN, 0);
+            ->fetchFirstColumn();
 
-        return $fieldValues;
+        return $fieldValues ?: [];
+    }
+
+
+    /**
+     * The an array of countries any search is limited to.
+     *
+     * Combines setting search.limitToCountries with available dealer countries.
+     *
+     * @param string $returnField The field from the static_countries table to return.
+     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception
+     */
+    public function getLimitToCountries(string $returnField = 'cn_iso_2'): array
+    {
+        $limitToCountries = GeneralUtility::trimExplode(
+            ',',
+            strtoupper((string)$this->settings['search']['limitToCountries']),
+            true
+        );
+
+        if (count($limitToCountries) > 0) {
+            $limitToCountries = array_intersect(
+                $limitToCountries,
+                $this->getUniqueCountryFieldValues('cn_iso_2')
+            );
+
+            if (count($limitToCountries) > 0 && $returnField !== 'cn_iso_2') {
+                /** @var QueryBuilder $countryQuery */
+                $countryQuery = GeneralUtility::makeInstance(ConnectionPool::class)
+                    ->getQueryBuilderForTable(self::COUNTRY_TABLE);
+
+                array_walk(
+                    $limitToCountries,
+                    function (&$value) use ($countryQuery) {
+                        $value = $countryQuery->createNamedParameter($value);
+                    }
+                );
+
+                $limitToCountries = $countryQuery
+                    ->select($returnField)
+                    ->from(self::COUNTRY_TABLE)
+                    ->where($countryQuery->expr()->in('cn_iso_2', $limitToCountries))
+                    ->execute()
+                    ->fetchFirstColumn();
+            }
+        }
+
+        return $limitToCountries;
     }
 
     /**
@@ -259,6 +336,8 @@ class DealerRepository extends AbstractDemandRepository
      */
     protected function createConstraints(QueryInterface $query, Demand $demand, bool $secondaryFields = false): void
     {
+        $limitToCountries = $this->getLimitToCountries('uid');
+
         // If search by radius just create a query
         if (!$secondaryFields && $demand->getSearch() !== null && $demand->getSearch()->isSearchInRadius()) {
             // distance in kilometers = 6371, miles = 3959
@@ -278,6 +357,7 @@ class DealerRepository extends AbstractDemandRepository
                 (float)$demand->getSearch()->getLat()
             );
 
+            /** @var QueryBuilder $queryBuilder */
             $queryBuilder= GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable('tx_pxadealers_domain_model_dealer');
             $queryBuilder->select('*')
@@ -301,6 +381,13 @@ class DealerRepository extends AbstractDemandRepository
                 ->orderBy('distance')
                 ->setMaxResults(25);
 
+            if (count($limitToCountries) > 0) {
+                $queryBuilder->andWhere(
+                    $queryBuilder->expr()->in('country', $limitToCountries)
+                );
+            }
+
+            // TODO: Replace this with less crazy code.
             $sql = $queryBuilder->getSQL();
             $parameters = $queryBuilder->getParameters();
             foreach ($parameters as $key => $parameter) {
@@ -327,6 +414,10 @@ class DealerRepository extends AbstractDemandRepository
             // set country restriction
             if (!empty($demand->getCountries())) {
                 $constraintsAnd[] = $query->in('country', $demand->getCountries());
+            }
+
+            if (count($limitToCountries) > 0) {
+                $constraintsAnd[] = $query->in('country', $limitToCountries);
             }
 
             // set categories restriction

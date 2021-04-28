@@ -69,9 +69,7 @@ plugin.tx_pxadealers {
       # Search for zip codes in database with X number of digits flexibility.
       # E.g. searching for zipcode 12345 with `zipcodeOrdersOfMagnitude = 3`
       # Will search within 12XXX, i.e. any zipcode between 12000 and 12999.
-      #
-      # TODO: Change default to "2" in next major version.
-      zipcodeInexactness = 0
+      zipcodeInexactness = 2
 
       # If true, the search string is split and each word march is OR-ed
       splitSearchString = 1
@@ -81,6 +79,9 @@ plugin.tx_pxadealers {
 
       # Enable autocomplete drop-down in the search field
       enableAutocomplete = 1
+
+      # Comma-separated list of 2-char ISO country codes
+      limitToCountries =
     }
 
     dealersList {
