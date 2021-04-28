@@ -582,7 +582,7 @@ function PxaDealersMapsRender() {
         }
 
         var selectorString = self.buildSelector(selectors);
-console.log(selectorString);
+
         //check all dealers
         var allDealers = document.querySelector('.pxa-dealers-list') && document.querySelector('.pxa-dealers-list').children;
         var allDealersArr = allDealers ? Array.from(allDealers) : false;
