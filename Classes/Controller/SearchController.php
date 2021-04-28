@@ -120,6 +120,8 @@ class SearchController extends AbstractController
                     }
                 } elseif ($googleResponse['status'] !== 'OK') {
                     $response['errors'][] = $googleResponse;
+
+                    $this->logger->error('Call to Google Place Suggest API failed.', $googleResponse);
                 }
             }
         }
