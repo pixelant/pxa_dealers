@@ -275,7 +275,7 @@ class DealerRepository extends AbstractDemandRepository
                 $multiplier,
                 (float)$demand->getSearch()->getLat(),
                 (float)$demand->getSearch()->getLng(),
-                (float)$demand->getSearch()->getLat(),
+                (float)$demand->getSearch()->getLat()
             );
 
             $queryBuilder= GeneralUtility::makeInstance(ConnectionPool::class)
