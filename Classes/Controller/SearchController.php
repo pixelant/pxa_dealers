@@ -118,6 +118,8 @@ class SearchController extends AbstractController
                     foreach ($googleResponse['predictions'] as $prediction) {
                         $response['google'][] = $prediction['description'];
                     }
+                } elseif ($googleResponse['status'] !== 'OK') {
+                    $response['errors'][] = $googleResponse;
                 }
             }
         }
