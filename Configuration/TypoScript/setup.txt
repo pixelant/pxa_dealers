@@ -77,6 +77,10 @@ plugin.tx_pxadealers {
       # Regular expression to split by
       splitSearchStringRegex = /[\s,-]+/
 
+      # After split, join any two adjacent search strings matching this pattern.
+      # Default is /^\d+$/, which matches numbers. This joins numeric zip codes with numbers only.
+      joinSearchStringRegex = /^\d+$/
+
       # Enable autocomplete drop-down in the search field
       enableAutocomplete = 1
 

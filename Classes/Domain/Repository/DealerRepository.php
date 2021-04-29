@@ -142,6 +142,20 @@ class DealerRepository extends AbstractDemandRepository
                 0,
                 PREG_SPLIT_NO_EMPTY
             );
+
+            if ($this->settings['search']['joinSearchStringRegex']) {
+                $joinSearchStringPattern = $this->settings['search']['joinSearchStringRegex'];
+
+                for ($i = 0; $i - 1 < count($searchWords); $i++) {
+                    if (
+                        preg_match($joinSearchStringPattern, $searchWords[$i]) === 1
+                        && preg_match($joinSearchStringPattern, $searchWords[$i + 1]) === 1
+                    ) {
+                        $searchWords[$i] = $searchWords[$i] . $searchWords[$i + 1];
+                        unset($searchWords[$i + 1]);
+                    }
+                }
+            }
         } else {
             $searchWords = [$sword];
         }
