@@ -34,7 +34,7 @@ call_user_func(
 
         // Add page TS
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:pxa_dealers/Configuration/PageTSconfig/ContentElementWizard.ts">'
+            '@import \'EXT:pxa_dealers/Configuration/PageTSconfig/ContentElementWizard.ts\''
         );
 
         # register icons
