@@ -10,8 +10,8 @@
 			<trans-unit id="title.description">
 				<source>Title of dealer</source>
 			</trans-unit>
-			<trans-unit id="telephone.description">
-				<source>Telephone</source>
+			<trans-unit id="phone.description">
+				<source>Phone</source>
 			</trans-unit>
 			<trans-unit id="website.description">
 				<source>Website url</source>
