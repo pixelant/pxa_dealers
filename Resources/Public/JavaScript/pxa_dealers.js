@@ -86,12 +86,18 @@
                         _type = _element.dataset.filterType;
                         _filteringPrefix = _element.dataset.filterPrefix;
 
-                        if (_type === 'checkbox') {
-                            _filterElementSelector = 'input[type="checkbox"]';
-                            _showVisibleItemsCheckBox();
-                        } else if (_type === 'selectbox') {
-                            _filterElementSelector = 'select';
-                            _showVisibleItemsSelectBox();
+                        switch (_type) {
+                            case 'checkbox':
+                                _filterElementSelector = 'input[type="checkbox"]';
+                                _showVisibleItemsCheckBox();
+                                break;
+                            case 'selectbox':
+                                _filterElementSelector = 'select';
+                                _showVisibleItemsSelectBox();
+                                break;
+                            case 'radiobox':
+                                _filterElementSelector = 'input[type="radio"]';
+                                _showVisibleItemsRadioBox();
                         }
 
                         return this;
@@ -117,6 +123,32 @@
                             // show all
                             checkBoxes.forEach(function(el){
                                 convertJq.show(el)
+                            });
+                        }
+
+                        convertJq.hide(overlay[0]);
+                    }
+
+                    /**
+                     * Display only items that has dealers
+                     * @private
+                     */
+                    function _showVisibleItemsRadioBox() {
+                        var checkBoxes = convertJq.findAll(_element, '.radio'),
+                            overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute('data-'+_element.dataset.visible));
+
+                        if (PxaDealersMaps.FE.isValidList(visibleList)) {
+                            checkBoxes.forEach(function(el) {
+                                var checkbox = el.querySelector('input[type="radio"]');
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.value)) {
+                                    convertJq.show(el);
+                                }
+                            });
+                        } else {
+                            // show all
+                            checkBoxes.forEach(function(el){
+                              convertJq.show(el)
                             });
                         }
 
