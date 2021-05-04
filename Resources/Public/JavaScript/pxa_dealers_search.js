@@ -110,11 +110,11 @@
                 if (this.status >= 200 && this.status < 400) {
                     var list = [];
 
-                    resp['db'].forEach(function (value, index) {
+                    Array.from(resp['db']).forEach(function (value, index) {
                         list.push({label: value, value: 'db::' + value});
                     });
 
-                    resp['google'].forEach(function (value, index) {
+                    Array.from(resp['google']).forEach(function (value, index) {
                         list.push({label: value, value: 'google::' + value});
                     });
 
