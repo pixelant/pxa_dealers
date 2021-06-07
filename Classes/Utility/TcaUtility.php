@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use PHPUnit\Exception;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -188,8 +190,12 @@ EOT;
      */
     protected function getForeignTableWhereRestriction(string $table): string
     {
-        $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
-            ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+        try {
+            $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
+                ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+        }catch (InvalidFieldNameException $e){
+            $categoryPid = '';
+        }
 
         if ($categoryPid) {
             $foreignTableWhere = ' AND ' . $table . '.pid='.$categoryPid.' ';
