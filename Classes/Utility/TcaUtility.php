@@ -4,14 +4,11 @@ declare(strict_types=1);
 namespace Pixelant\PxaDealers\Utility;
 
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use PHPUnit\Exception;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /***************************************************************
