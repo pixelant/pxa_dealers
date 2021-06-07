@@ -191,7 +191,7 @@ EOT;
             $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
                 ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
         }catch (InvalidFieldNameException $e){
-            $categoryPid = '';
+            $categoryPid = '0';
         }
 
         if ($categoryPid) {
