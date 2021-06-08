@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /***************************************************************
@@ -188,11 +187,15 @@ EOT;
      */
     protected function getForeignTableWhereRestriction(string $table): string
     {
-        $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
-            ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+        try {
+            $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
+                ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+        } catch (InvalidFieldNameException $e) {
+            $categoryPid = 0;
+        }
 
         if ($categoryPid) {
-            $foreignTableWhere = ' AND ' . $table . '.pid='.$categoryPid.' ';
+            $foreignTableWhere = ' AND ' . $table . '.pid=' . $categoryPid . ' ';
         } else {
             $foreignTableWhere = '';
         }
