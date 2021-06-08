@@ -190,12 +190,12 @@ EOT;
         try {
             $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
                 ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
-        }catch (InvalidFieldNameException $e){
-            $categoryPid = '0';
+        } catch (InvalidFieldNameException $e) {
+            $categoryPid = 0;
         }
 
         if ($categoryPid) {
-            $foreignTableWhere = ' AND ' . $table . '.pid='.$categoryPid.' ';
+            $foreignTableWhere = ' AND ' . $table . '.pid=' . $categoryPid . ' ';
         } else {
             $foreignTableWhere = '';
         }
