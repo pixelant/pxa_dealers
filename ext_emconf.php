@@ -14,8 +14,8 @@ $EM_CONF[$_EXTKEY] = [
     'title' => 'Pxa Dealers',
     'description' => 'Extension to display searchable dealers/shops or other points of interests on Google maps',
     'category' => 'plugin',
-    'author' => 'Andriy Oprysko',
-    'author_email' => 'andriy@pixelant.se',
+    'author' => 'Pixelant.net',
+    'author_email' => 'info@pixelant.net',
     'author_company' => 'Pixelant',
     'state' => 'stable',
     'uploadfolder' => '0',
@@ -23,8 +23,8 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '3.5.1',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-9.5.99',
-            'static_info_tables' => ''
+            'typo3' => '8.7.0-10.4.99',
+            'static_info_tables' => '6.0.0-6.99.99'
         ],
         'conflicts' => [
         ],

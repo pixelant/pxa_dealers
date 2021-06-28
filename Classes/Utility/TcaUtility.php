@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 /***************************************************************
  *  Copyright notice
@@ -40,7 +41,7 @@ class TcaUtility
      */
     public function getCategoriesPidRestriction(): string
     {
-        return $this->getForeignTableWhereRestriction('categoriesRestriction', 'sys_category');
+        return $this->getForeignTableWhereRestriction('sys_category');
     }
 
     /**
@@ -130,7 +131,7 @@ class TcaUtility
      * @param array $PA
      * @return string
      */
-    protected function getHtml(array $PA)
+    static function getHtml(array $PA)
     {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
@@ -155,19 +156,19 @@ EOT;
      * @param int $pageUid
      * @return array
      */
-    protected function loadTS($pageUid)
+    public function loadTS($pageUid)
     {
         $settings = [];
 
-        /** @var PageRepository $sysPageObj */
-        $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
-        $rootLine = $sysPageObj->getRootLine($pageUid);
+        try {
+            $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
+        } catch (RootLineException $e) {
+            $rootLine = [];
+        }
 
         /** @var ExtendedTemplateService $TSObj */
         $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
-
         $TSObj->tt_track = 0;
-        $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
 
@@ -181,29 +182,22 @@ EOT;
     /**
      * Generate dynamic foreign table where
      *
-     * @param $restrictionField
      * @param $table
      * @return string
      */
-    protected function getForeignTableWhereRestriction(string $restrictionField, string $table): string
+    protected function getForeignTableWhereRestriction(string $table): string
     {
-        $restrictionValue = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
-            'pxa_dealers',
-            $restrictionField
-        );
+        try {
+            $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
+                ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+        } catch (InvalidFieldNameException $e) {
+            $categoryPid = 0;
+        }
 
-        switch ($restrictionValue) {
-            case 'current_pid':
-                $foreignTableWhere = ' AND ' . $table . '.pid=###CURRENT_PID### ';
-                break;
-            case 'siteroot':
-                $foreignTableWhere = ' AND ' . $table . '.pid=###SITEROOT### ';
-                break;
-            case 'page_tsconfig_idlist':
-                $foreignTableWhere = ' AND ' . $table . '.pid IN (###PAGE_TSCONFIG_IDLIST###) ';
-                break;
-            default:
-                $foreignTableWhere = '';
+        if ($categoryPid) {
+            $foreignTableWhere = ' AND ' . $table . '.pid=' . $categoryPid . ' ';
+        } else {
+            $foreignTableWhere = '';
         }
 
         return $foreignTableWhere;

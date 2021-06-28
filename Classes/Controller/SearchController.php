@@ -92,8 +92,7 @@ class SearchController extends AbstractController
      */
     public function suggestAction(Search $search = null)
     {
-        $response = ['db' => [], 'google' => []];
-
+        $response = ['db' => [], 'google' => [] ];
         if ($search !== null && !empty($search->getSearchTermLowercase())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
@@ -119,6 +118,10 @@ class SearchController extends AbstractController
                     foreach ($googleResponse['predictions'] as $prediction) {
                         $response['google'][] = $prediction['description'];
                     }
+                } elseif ($googleResponse['status'] !== 'OK' && $googleResponse['status'] !== 'ZERO_RESULTS') {
+                    $response['errors'][] = $googleResponse;
+
+                    $this->logger->error('Call to Google Place Suggest API failed.', $googleResponse);
                 }
             }
         }

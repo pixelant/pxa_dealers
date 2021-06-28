@@ -31,6 +31,7 @@ use Pixelant\PxaDealers\Utility\MainUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  *
@@ -50,7 +51,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * Name of dealer
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $name = '';
 
@@ -58,7 +59,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * City of dealer
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $city = '';
 
@@ -66,7 +67,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * E-mail of dealer
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $email = '';
 
@@ -95,7 +96,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * Address for google maps
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $address = '';
 
@@ -110,7 +111,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * Zipcode
      *
      * @var string
-     * @validate NotEmpty
+     * @Extbase\Validate("NotEmpty")
      */
     protected $zipcode = '';
 

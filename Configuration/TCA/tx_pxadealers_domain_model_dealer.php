@@ -21,20 +21,16 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng',
+        'searchFields' => 'name,title,country,phone,website,address,zipcode,description,lat,lng',
 
         'typeicon_classes' => [
             'default' => 'ext-pxadealers-wizard-icon'
         ]
     ],
-    // @codingStandardsIgnoreStart
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, lat, lng, show_street_view, gm_position',
-    ],
     'types' => [
         '1' => [
-            'showitem' => '--palette--;;paletteLangHidden, name, logo, 
-		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
+            'showitem' => '--palette--;;paletteLangHidden, name, logo,
+		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng,
 		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
 		        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'
         ]
@@ -109,28 +105,32 @@ return [
             ],
         ],
         'starttime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'exclude' => true,
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 16,
-                'max' => 30,
-                'eval' => 'datetime',
-                'default' => 0
-            ],
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
+            ]
         ],
         'endtime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'exclude' => true,
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 16,
-                'max' => 30,
-                'eval' => 'datetime',
-                'default' => 0
-            ],
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
+            ]
         ],
         'name' => [
             'exclude' => 0,
@@ -169,7 +169,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim,alphanum_x'
             ],
         ],
         'lat' => [
@@ -242,7 +242,7 @@ return [
             'label' => $ll . 'tx_pxadealers_domain_model_dealers.gm_position',
             'config' => [
                 'type' => 'user',
-                'userFunc' => \Pixelant\PxaDealers\Utility\TcaUtility::class . '->renderGoogleMapPosition',
+                'renderType' =>  'pxaDealersGoogleMaps',
                 'parameters' => [
                     'longitude' => 'lng',
                     'latitude' => 'lat',

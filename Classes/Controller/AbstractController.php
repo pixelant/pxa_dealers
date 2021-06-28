@@ -5,6 +5,8 @@ namespace Pixelant\PxaDealers\Controller;
 
 use Pixelant\PxaDealers\Domain\Repository\DealerRepository;
 use Pixelant\PxaDealers\Utility\GoogleApiUtility;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -12,8 +14,10 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Class AbstractController
  * @package Pixelant\PxaDealers\Controller
  */
-abstract class AbstractController extends ActionController
+abstract class AbstractController extends ActionController implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      *  dealer repository
      *
@@ -52,6 +56,8 @@ abstract class AbstractController extends ActionController
                 $response['results']['0']['geometry']['location']['lng']
             );
         }
+
+        $this->logger->error('Call to Google Geocoding API failed.', $response);
 
         return [null, null];
     }
