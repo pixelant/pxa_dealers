@@ -371,6 +371,8 @@ splitSearchString
    Lane" because they both have "elephant" or "zebra" in the defined search
    fields.
 
-   Setting this property to false will only return dealers with exact matches.
+   Setting this property to false will only return dealers with exact matches,
+   e.g. a dealer with a name like "Lion Elephant Zebra Foods, Inc" because
+   the name contains the exact string "elephant zebra".
 
 
