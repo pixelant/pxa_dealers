@@ -11,7 +11,7 @@ The TypoScript configuration properties for the extension can be found in
 
 .. _typoscript-rootlevel:
 
-Root-level
+Root level
 ==========
 
 TypoScript properties defined in :typoscript:`plugin.tx_pxadealers.settings`,
@@ -268,13 +268,13 @@ searchFields
       * `country.cn_iso_3`: 3-character ISO code
       * `country.cn_iso_nr`: ISO country number
       * `country.cn_official_name_en`: The official country name in English,
-         e.g. "Kingdom of Sweden".
+        e.g. "Kingdom of Sweden".
       * `country.cn_official_name_local`: The official country name in the
-         country's local language(s), e.g. "Konungariket Sverige".
+        country's local language(s), e.g. "Konungariket Sverige".
       * `country.cn_short_en`: The country's short (common) name in English,
-         e.g. "Sweden".
+        e.g. "Sweden".
       * `country.cn_short_local`: The country's short (common) name in the
-         country's local language(s), e.g. "Sverige".
+        country's local language(s), e.g. "Sverige".
 
 .. _typoscript-search-secondarysearchfields:
 
