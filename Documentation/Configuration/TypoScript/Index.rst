@@ -347,4 +347,30 @@ zipcodeInexactness
       Google's APIs do not usually return valuable coordinates for for searches
       that only contain a zip code.
 
+.. _typoscript-search-splitsearchstring:
+
+splitSearchString
+-----------------
+
+:aspect:`Property`
+   splitSearchString
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   true
+
+:aspect:`Description`
+   If true, the search string is split and each word is matched agains the
+   contents of each search field.
+
+   **Example:** Let's say :ref:`typoscript-search-searchfields` is set to
+   :typoscript:`name, address`. Searching for "elephant zebra" will return a
+   dealer the name "Big Elephants, Inc." and a dealer with the address "9 Zebra
+   Lane" because they both have "elephant" or "zebra" in the defined search
+   fields.
+
+   Setting this property to false will only return dealers with exact matches.
+
 
