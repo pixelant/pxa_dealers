@@ -9,4 +9,5 @@ Configuration
 .. toctree::
    :maxdepth: 2
 
-   TypoScript/Index.rst
+   TypoScript/Index
+   Extension/Index
