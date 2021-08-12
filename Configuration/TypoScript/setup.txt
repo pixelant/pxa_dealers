@@ -67,7 +67,7 @@ plugin.tx_pxadealers {
       radius = 50
 
       # Search for zip codes in database with X number of digits flexibility.
-      # E.g. searching for zipcode 12345 with `zipcodeOrdersOfMagnitude = 3`
+      # E.g. searching for zipcode 12345 with `zipcodeInexactness = 3`
       # Will search within 12XXX, i.e. any zipcode between 12000 and 12999.
       zipcodeInexactness = 2
 
