@@ -363,7 +363,8 @@ splitSearchString
 
 :aspect:`Description`
    If true, the search string is split and each word is matched agains the
-   contents of each search field.
+   contents of each search field. The string is split using
+   :ref:`typoscript-search-splitsearchstringregex`.
 
    **Example:** Let's say :ref:`typoscript-search-searchfields` is set to
    :typoscript:`name, address`. Searching for "elephant zebra" will return a
@@ -375,4 +376,191 @@ splitSearchString
    e.g. a dealer with a name like "Lion Elephant Zebra Foods, Inc" because
    the name contains the exact string "elephant zebra".
 
+.. _typoscript-search-splitsearchstringregex:
 
+splitSearchStringRegex
+----------------------
+
+:aspect:`Property`
+   splitSearchStringRegex
+
+:aspect:`Data type`
+   Regular expression
+
+:aspect:`Default`
+   /[\s,-]+/
+
+:aspect:`Description`
+   A regular expression search pattern matching all characters that should be
+   used to split a search string (if :ref:`typoscript-search-splitsearchstring`
+   is enabled).
+
+.. _typoscript-search-joinsearchstringregex:
+
+joinSearchStringRegex
+---------------------
+
+:aspect:`Property`
+   joinSearchStringRegex
+
+:aspect:`Data type`
+   Regular expression
+
+:aspect:`Default`
+   /^\d+$/
+
+:aspect:`Description`
+   Adjacent search strings matching this pattern are re-joined if
+   :ref:`typoscript-search-splitsearchstring` is enabled.
+
+   The default pattern matches numbers, which helps with zip code search with
+   numbers only. Some countries prefer to split zip codes, e.g. using spaces.
+   When we split the search string, a zip code written as "123 45" will lead to
+   a search for text containing "123" or "45", which will lead to less exact
+   matches for zip codes than if the code was written "12345".
+
+   This pattern allows us to merge strings we presume are formatted zip codes,
+   such as "123" and "45", into "12345".
+
+.. _typoscript-search-joinsearchstringregex:
+
+enableAutocomplete
+------------------
+
+:aspect:`Property`
+   enableAutocomplete
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   true
+
+:aspect:`Description`
+   Enables the autocomplete dropdown menu in the search results.
+
+   .. image:: Images/EnableAutocomplete.png
+
+.. _typoscript-search-limittocountries:
+
+limitToCountries
+----------------
+
+:aspect:`Property`
+   limitToCountries
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-list`
+   (`2-char ISO country codes <https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2>`)
+
+:aspect:`Max items`
+   5
+
+:aspect:`Description`
+   Limit the autocomplete to results within these countries.
+   `Google's Place Autocomplete API <https://developers.google.com/maps/documentation/places/web-service/autocomplete>`__
+   supports maximum 5 countries.
+
+   **Example:** Ensure that the autocomplete only returns autocomplete
+   suggestions for places within Denmark, Norway, and Sweden. This means the
+   user searching for "Oslo" will *not* see suggestions for "Oslo, Minnesota,
+   USA".
+
+   .. code-block:: typoscript
+
+      limitToCountries = dk, no, se
+
+.. _typoscript-list:
+
+Dealers' list
+=============
+
+TypoScript properties used to configure the dealer listing can be found in
+:typoscript:`plugin.tx_pxadealers.settings.dealersList.*`.
+
+.. _typoscript-list-noimagepath:
+
+noImagePath
+-----------
+
+:aspect:`Property`
+   noImagePath
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-path`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/Images/noimage.png`
+
+:aspect:`Description`
+   Path to the image that is displayed if a dealer record doesn't have any image
+   defined and :ref:`typoscript-list-showdefaultimageifnologo` is false.
+
+.. _typoscript-list-showlogo:
+
+showLogo
+--------
+
+:aspect:`Property`
+   showLogo
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   true
+
+:aspect:`Description`
+   If true, display a dealer's logo in the list.
+
+.. _typoscript-list-showdefaultimageifnologo:
+
+showDefaultImageIfNoLogo
+------------------------
+
+:aspect:`Property`
+   showDefaultImageIfNoLogo
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   true
+
+:aspect:`Description`
+   If true, display the image defined in :ref:`typoscript-list-noimagepath` if
+   the dealer record has no logo image defined.
+
+.. _typoscript-list-imageheight:
+
+imageWidth
+----------
+
+:aspect:`Property`
+   imageWidth
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-pixels`
+
+:aspect:`Default`
+   150m
+
+:aspect:`Description`
+   The width of images in the list.
+
+.. _typoscript-list-imageheight:
+
+imageHeight
+----------
+
+:aspect:`Property`
+   imageHeight
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-pixels`
+
+:aspect:`Default`
+   150m
+
+:aspect:`Description`
+   The height of images in the list.
