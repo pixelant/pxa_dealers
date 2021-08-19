@@ -138,6 +138,7 @@
                     <settings.demand.countries>
                         <TCEforms>
                             <label>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.countries</label>
+                            <description>LLL:EXT:pxa_dealers/Resources/Private/Language/locallang_db.xlf:flexform.demand.countries.description</description>
                             <config>
                                 <type>select</type>
                                 <size>10</size>

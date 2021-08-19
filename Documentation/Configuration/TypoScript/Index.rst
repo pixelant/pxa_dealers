@@ -380,6 +380,25 @@ secondarySearchFields
    See :ref:`typoscript-search-searchfields` for a list of typical fields
    available.
 
+.. _typoscript-search-searchinradius:
+
+searchInRadius
+--------------
+
+:aspect:`Property`
+   searchInRadius
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   false
+
+:aspect:`Description`
+   If enabled, search is limited to results within a radius around the
+   geographic coordinates of the location provided by the user. See also
+   :ref:`typoscript-search-radius`.
+
 .. _typoscript-search-radius:
 
 radius
@@ -396,7 +415,25 @@ radius
 
 :aspect:`Description`
    The search radius in kilometers. Used when geographic coordinates are
-   provided or the coordinates of the place name given in the search string-
+   provided or the coordinates of the place name given in the search string.
+
+.. _typoscript-search-searchclosest:
+
+searchClosest
+-------------
+
+:aspect:`Property`
+   searchClosest
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-boolean`
+
+:aspect:`Default`
+   false
+
+:aspect:`Description`
+   When true, the plugin will try to acquire the user's coordinates through the
+   browser.
 
 .. _typoscript-search-zipcodeinexactness:
 
@@ -549,6 +586,20 @@ limitToCountries
    .. code-block:: typoscript
 
       limitToCountries = dk, no, se
+
+.. _typoscript-search-searchresultpage:
+
+searchResultPage
+----------------
+
+:aspect:`Property`
+   searchResultPage
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-page-id`
+
+:aspect:`Description`
+   The ID of the page to display the search results on.
 
 .. _typoscript-list:
 
