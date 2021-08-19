@@ -56,6 +56,17 @@ plugin.tx_pxadealers {
       hideIfEmpty = 0
     }
 
+    # Settings related to the demand object. Also in FlexForm.
+    demand {
+      orderBy = crdate
+
+      orderDirection = asc
+
+      countries =
+
+      categories =
+    }
+
     search {
       searchFields = name,zipcode,city
 
