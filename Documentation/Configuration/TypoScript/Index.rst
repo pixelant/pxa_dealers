@@ -226,6 +226,86 @@ scrollFixMobile
 :aspect:`Description`
    If true, the map is hidden if there are no visible markers.
 
+.. _typoscript-demand:
+
+Demand
+======
+
+TypoScript properties used to configure search demand settings can be found in.
+:typoscript:`plugin.tx_pxadealers.settings.demand.*`. These settings are also
+available in the plugin flexForm, and configurations made there take presedence.
+
+.. _typoscript-demand-orderby:
+
+orderBy
+-------
+
+:aspect:`Property`
+   orderBy
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-string`
+
+:aspect:`Default`
+   crdate
+
+:aspect:`Description`
+   Order dealers records by this field. Recommended fields to use for this
+   field:
+
+   * :sql:`crdate`: Creation date
+   * :sql:`name`: The dealer's name
+   * :sql:`tstamp`: Last updated date
+
+.. _typoscript-demand-orderdirection:
+
+orderDirection
+--------------
+
+:aspect:`Property`
+   orderDirection
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-string`
+
+:aspect:`Default`
+   asc
+
+:aspect:`Description`
+   Order direction for dealer records. Available options:
+
+   * :sql:`asc`: Ascending
+   * :sql:`desc`: Descending
+
+.. _typoscript-demand-countries:
+
+countries
+---------
+
+:aspect:`Property`
+   countries
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-list`
+
+:aspect:`Description`
+   Limit to these countries. Comma-separated list of country UIDs from the
+   :sql:`static_countries` table.
+
+.. _typoscript-demand-categories:
+
+categories
+---------
+
+:aspect:`Property`
+   categories
+
+:aspect:`Data type`
+   :ref:`tsref:data-type-list`
+
+:aspect:`Description`
+   Limit to these categories. Comma-separated list of category UIDs.
+
 .. _typoscript-search:
 
 Search
