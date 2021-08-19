@@ -97,7 +97,7 @@
                 <source>Countries menu</source>
             </trans-unit>
             <trans-unit id="flexform.actions.search">
-                <source>Search by country, city and zipcode with suggest</source>
+                <source>Search field</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderBy">
                 <source>Order by</source>
