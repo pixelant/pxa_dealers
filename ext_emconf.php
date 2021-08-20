@@ -10,6 +10,7 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
+/** @noinspection PhpUndefinedVariableInspection */
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Dealers',
     'description' => 'Extension to display searchable dealers/shops or other points of interests on Google maps',
@@ -20,7 +21,7 @@ $EM_CONF[$_EXTKEY] = [
     'state' => 'stable',
     'uploadfolder' => '0',
     'clearCacheOnLoad' => 1,
-    'version' => '3.5.1',
+    'version' => '4.0.0',
     'constraints' => [
         'depends' => [
             'php' => '7.2-7.4',
