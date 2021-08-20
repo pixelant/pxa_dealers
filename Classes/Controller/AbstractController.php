@@ -11,15 +11,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- * Class AbstractController
- * @package Pixelant\PxaDealers\Controller
+ * Class AbstractController.
  */
 abstract class AbstractController extends ActionController implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
     /**
-     *  dealer repository
+     *  dealer repository.
      *
      * @var DealerRepository
      */
@@ -33,13 +32,13 @@ abstract class AbstractController extends ActionController implements LoggerAwar
     /**
      * @param DealerRepository $dealerRepository
      */
-    public function injectDealerRepository(DealerRepository $dealerRepository)
+    public function injectDealerRepository(DealerRepository $dealerRepository): void
     {
         $this->dealerRepository = $dealerRepository;
     }
 
     /**
-     * get address cords
+     * get address cords.
      *
      * @param string $address
      * @return array
@@ -51,10 +50,10 @@ abstract class AbstractController extends ActionController implements LoggerAwar
         );
 
         if ($response['status'] === 'OK') {
-            return array(
+            return [
                 $response['results']['0']['geometry']['location']['lat'],
-                $response['results']['0']['geometry']['location']['lng']
-            );
+                $response['results']['0']['geometry']['location']['lng'],
+            ];
         }
 
         $this->logger->error('Call to Google Geocoding API failed.', $response);
@@ -64,7 +63,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
 
     /**
      * Get instance of google api. It's not required always.
-     * Initialize on demand
+     * Initialize on demand.
      *
      * @return GoogleApiUtility
      */

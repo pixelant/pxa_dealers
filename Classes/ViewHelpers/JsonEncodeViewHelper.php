@@ -5,7 +5,7 @@ namespace Pixelant\PxaDealers\ViewHelpers;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  All rights reserved
@@ -25,30 +25,27 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ */
 
 /**
- * Class JsonEncode
- * @package Pixelant\PxaDealers\ViewHelpers
+ * Class JsonEncode.
  */
 class JsonEncodeViewHelper extends AbstractViewHelper
 {
-
     /**
-     * @var boolean
+     * @var bool
      */
     protected $escapeOutput = false;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $escapeChildren = false;
 
     /**
-     * Arguments
+     * Arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('value', 'mixed', 'Value to json encode', false, null);
     }

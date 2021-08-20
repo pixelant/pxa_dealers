@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace Pixelant\PxaDealers\Form\Element;
 
 use Pixelant\PxaDealers\Utility\TcaUtility;
@@ -25,6 +26,7 @@ class GoogleMapsElement extends AbstractFormElement
 
         $result = $this->initializeResultArray();
         $result['html'] = $renderHtmlForGoogleMap;
+
         return $result;
     }
 }

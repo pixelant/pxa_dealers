@@ -2,7 +2,7 @@
 
 namespace Pixelant\PxaDealers\Domain\Repository;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2013 Andriy <andriy@pixelant.se>, Pixelant
@@ -24,7 +24,7 @@ namespace Pixelant\PxaDealers\Domain\Repository;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
@@ -42,11 +42,7 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class DealerRepository extends AbstractDemandRepository
 {
@@ -122,8 +118,6 @@ class DealerRepository extends AbstractDemandRepository
     }
 
     /**
-     *
-     *
      * @param string $sword
      * @param array $fields
      * @param QueryInterface $query
@@ -167,9 +161,11 @@ class DealerRepository extends AbstractDemandRepository
                 switch ($field) {
                     case 'zipcode':
                         $constraints[] = $this->getZipcodeSuggestConstraint($searchWord, $query);
+
                         break;
                     default:
                         $constraints[] = $this->getDefaultSuggestConstraint($searchWord, $field, $query);
+
                         break;
                 }
             }
@@ -192,7 +188,7 @@ class DealerRepository extends AbstractDemandRepository
     }
 
     /**
-     * Adds a search constraint for zip codes
+     * Adds a search constraint for zip codes.
      *
      * @param string $zipcode
      * @param QueryInterface $query
@@ -218,7 +214,7 @@ class DealerRepository extends AbstractDemandRepository
     }
 
     /**
-     * Check for storage
+     * Check for storage.
      *
      * @return array
      */
@@ -226,6 +222,7 @@ class DealerRepository extends AbstractDemandRepository
     {
         $query = $this->createQuery();
         $storagePageIds = $query->getQuerySettings()->getStoragePageIds();
+
         return $storagePageIds;
     }
 
@@ -275,7 +272,7 @@ class DealerRepository extends AbstractDemandRepository
             if (count($limitToCountries) > 0) {
                 array_walk(
                     $limitToCountries,
-                    function (&$value) use ($queryBuilder) {
+                    function (&$value) use ($queryBuilder): void {
                         $value = $queryBuilder->createNamedParameter($value);
                     }
                 );
@@ -294,7 +291,6 @@ class DealerRepository extends AbstractDemandRepository
 
         return $fieldValues ?: [];
     }
-
 
     /**
      * The an array of countries any search is limited to.
@@ -325,7 +321,7 @@ class DealerRepository extends AbstractDemandRepository
 
                 array_walk(
                     $limitToCountries,
-                    function (&$value) use ($countryQuery) {
+                    function (&$value) use ($countryQuery): void {
                         $value = $countryQuery->createNamedParameter($value);
                     }
                 );
@@ -372,7 +368,7 @@ class DealerRepository extends AbstractDemandRepository
             );
 
             /** @var QueryBuilder $queryBuilder */
-            $queryBuilder= GeneralUtility::makeInstance(ConnectionPool::class)
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable('tx_pxadealers_domain_model_dealer');
             $queryBuilder->select('*')
                 ->addSelectLiteral($selectLiteral)
@@ -408,12 +404,15 @@ class DealerRepository extends AbstractDemandRepository
                 switch ($queryBuilder->getParameterType($key)) {
                     case 1:
                         $stringParams[':' . $key] = (int)$parameter;
+
                         break;
                     case 101:
                         $stringParams[':' . $key] = implode(',', $parameter);
+
                         break;
                     default:
                         $stringParams[':' . $key] = $queryBuilder->quote($parameter);
+
                         break;
                 }
             }
@@ -466,7 +465,7 @@ class DealerRepository extends AbstractDemandRepository
     }
 
     /**
-     * Set orderings
+     * Set orderings.
      *
      * @param QueryInterface $query
      * @param Demand $demand

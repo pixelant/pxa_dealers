@@ -5,7 +5,7 @@ namespace Pixelant\PxaDealers\ViewHelpers;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  All rights reserved
@@ -25,8 +25,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ */
 
 /**
  * View helper to check if a value is numeric.
@@ -34,9 +33,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class PhoneFormatViewHelper extends AbstractViewHelper
 {
     /**
-     * Arguments
+     * Arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('phone', 'string', 'Phone', true);
     }

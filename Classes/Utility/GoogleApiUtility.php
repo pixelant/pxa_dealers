@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
 
-/***************************************************************
+/*
  *
  *  Copyright notice
  *
@@ -26,33 +26,31 @@ namespace Pixelant\PxaDealers\Utility;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class GoogleApiUtility
- * @package Pixelant\PxaDealers\Utility
+ * Class GoogleApiUtility.
  */
 class GoogleApiUtility
 {
-
     /**
-     * Google geocoding api url
+     * Google geocoding api url.
      *
-     * @var string $apiUrl
+     * @var string
      */
-    const API_GEOCODING_URL = 'https://maps.google.com/maps/api/geocode/json?key=%s&address=%s&language=%s';
+    public const API_GEOCODING_URL = 'https://maps.google.com/maps/api/geocode/json?key=%s&address=%s&language=%s';
 
     /**
-     * Google api to suggest places
+     * Google api to suggest places.
      */
-    const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s&components=%s&location=%s';
+    public const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s&components=%s&location=%s';
 
     /**
-     * Google Api Key
+     * Google Api Key.
      *
      * @var string
      */
@@ -67,7 +65,7 @@ class GoogleApiUtility
     }
 
     /**
-     * Get suggest of search city
+     * Get suggest of search city.
      *
      * @param string $searchTerm
      * @param array $location An array containing coordinates [0: latitude, 1: longditude]
@@ -98,7 +96,7 @@ class GoogleApiUtility
     }
 
     /**
-     * Get geocoding by address
+     * Get geocoding by address.
      *
      * @param string $address
      * @param string $language
@@ -129,7 +127,7 @@ class GoogleApiUtility
     }
 
     /**
-     * Wrapper for cache manager
+     * Wrapper for cache manager.
      * @return FrontendInterface
      */
     protected function getCacheManager(): FrontendInterface

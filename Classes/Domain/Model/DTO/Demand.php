@@ -8,25 +8,24 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
- * Class Demand
- * @package Pixelant\PxaDealers\Domain\Model
+ * Class Demand.
  */
 class Demand
 {
     /**
-     * fields from flexform conver to array
+     * fields from flexform conver to array.
      */
-    const FIELDS_ARRAY = 'countries,categories';
+    public const FIELDS_ARRAY = 'countries,categories';
 
     /**
-     * filter by categories
+     * filter by categories.
      *
      * @var array
      */
     protected $categories = [];
 
     /**
-     * countries
+     * countries.
      *
      * @var array
      */
@@ -38,7 +37,7 @@ class Demand
     protected $orderDirection = QueryInterface::ORDER_DESCENDING;
 
     /**
-     * Search requirements
+     * Search requirements.
      *
      * @var Search
      */
@@ -108,7 +107,7 @@ class Demand
     /**
      * @param string $orderBy
      */
-    public function setOrderBy($orderBy)
+    public function setOrderBy($orderBy): void
     {
         $this->orderBy = $orderBy;
     }
@@ -130,7 +129,7 @@ class Demand
     }
 
     /**
-     * create deman object
+     * create deman object.
      *
      * @param array $demand
      * @return Demand

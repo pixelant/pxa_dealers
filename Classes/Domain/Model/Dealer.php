@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Domain\Model;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,20 +25,15 @@ namespace Pixelant\PxaDealers\Domain\Model;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use Pixelant\PxaDealers\Utility\MainUtility;
-use TYPO3\CMS\Extbase\Domain\Model\Category;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class Dealer extends AbstractEntity implements \JsonSerializable
 {
@@ -48,7 +43,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $signalSlotDispatcher = null;
 
     /**
-     * Name of dealer
+     * Name of dealer.
      *
      * @var string
      * @Extbase\Validate("NotEmpty")
@@ -56,7 +51,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $name = '';
 
     /**
-     * City of dealer
+     * City of dealer.
      *
      * @var string
      * @Extbase\Validate("NotEmpty")
@@ -64,7 +59,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $city = '';
 
     /**
-     * E-mail of dealer
+     * E-mail of dealer.
      *
      * @var string
      * @Extbase\Validate("NotEmpty")
@@ -72,28 +67,28 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $email = '';
 
     /**
-     * Telephone
+     * Telephone.
      *
      * @var string
      */
     protected $phone = '';
 
     /**
-     * Website url
+     * Website url.
      *
      * @var string
      */
     protected $website = '';
 
     /**
-     * Buy it now url
+     * Buy it now url.
      *
      * @var string
      */
     protected $link = '';
 
     /**
-     * Address for google maps
+     * Address for google maps.
      *
      * @var string
      * @Extbase\Validate("NotEmpty")
@@ -101,14 +96,14 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $address = '';
 
     /**
-     * Country
+     * Country.
      *
      * @var \SJBR\StaticInfoTables\Domain\Model\Country
      */
     protected $country;
 
     /**
-     * Zipcode
+     * Zipcode.
      *
      * @var string
      * @Extbase\Validate("NotEmpty")
@@ -116,42 +111,42 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     protected $zipcode = '';
 
     /**
-     * lat
+     * lat.
      *
      * @var float
      */
     protected $lat = 0.0;
 
     /**
-     * lng
+     * lng.
      *
      * @var float
      */
     protected $lng = 0.0;
 
     /**
-     * Logo
+     * Logo.
      *
      * @var \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
     protected $logo = null;
 
     /**
-     * categories
+     * categories.
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Pixelant\PxaDealers\Domain\Model\Category>
      */
     protected $categories = null;
 
     /**
-     * showStreetView
+     * showStreetView.
      *
-     * @var boolean $showStreetView
+     * @var bool
      */
     protected $showStreetView = true;
 
     /**
-     * __construct
+     * __construct.
      */
     public function __construct()
     {
@@ -162,7 +157,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     /**
      * @param Dispatcher $dispatcher
      */
-    public function injectSignalSlotDispatcher(Dispatcher $dispatcher)
+    public function injectSignalSlotDispatcher(Dispatcher $dispatcher): void
     {
         $this->signalSlotDispatcher = $dispatcher;
     }
@@ -171,11 +166,11 @@ class Dealer extends AbstractEntity implements \JsonSerializable
      * Initializes all ObjectStorage properties
      * Do not modify this method!
      * It will be rewritten on each save in the extension builder
-     * You may modify the constructor of this class instead
+     * You may modify the constructor of this class instead.
      *
      * @return void
      */
-    protected function initStorageObjects()
+    protected function initStorageObjects(): void
     {
         $this->categories = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
@@ -405,7 +400,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     }
 
     /**
-     * Returns the categories as comma separated string
+     * Returns the categories as comma separated string.
      *
      * @return string $categories_string
      */
@@ -415,13 +410,12 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     }
 
     /**
-     * Return categories as array of uids
+     * Return categories as array of uids.
      *
      * @return array
      */
     public function getCategoriesAsUidsArray(): array
     {
-
         return array_map(
             function ($category) {
                 return $category->getUid();
@@ -431,9 +425,9 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     }
 
     /**
-     * Returns dealer country uid
+     * Returns dealer country uid.
      *
-     * @return integer
+     * @return int
      */
     public function getCountryUid(): int
     {
@@ -441,7 +435,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
     }
 
     /**
-     * Json encode object
+     * Json encode object.
      * @return array
      */
     public function jsonSerialize()
@@ -463,7 +457,7 @@ class Dealer extends AbstractEntity implements \JsonSerializable
             'country' => (string)$this->getCountryUid(),
             'countryName' => $this->getCountry() !== null ? $this->getCountry()->getShortNameEn() : '',
             'showStreetView' => $this->isShowStreetView(),
-            'logo' => $this->getLogo()
+            'logo' => $this->getLogo(),
         ];
 
         $this->signalSlotDispatcher->dispatch(__CLASS__, __FUNCTION__ . 'AfterGeneration', [&$dealerData, $this]);

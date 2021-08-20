@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,19 +25,14 @@ namespace Pixelant\PxaDealers\Controller;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use SJBR\StaticInfoTables\Domain\Repository\CountryRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class CountriesController extends AbstractController
 {
@@ -49,23 +44,23 @@ class CountriesController extends AbstractController
     /**
      * @param CountryRepository $countryRepository
      */
-    public function injectCountryRepository(CountryRepository $countryRepository)
+    public function injectCountryRepository(CountryRepository $countryRepository): void
     {
         $this->countriesRepository = $countryRepository;
     }
 
     /**
-     * Countries filter
+     * Countries filter.
      *
      * @return void
      */
-    public function countriesFilterAction()
+    public function countriesFilterAction(): void
     {
         $this->view->assign('countries', $this->getCountries());
     }
 
     /**
-     * Get list of cuntires
+     * Get list of cuntires.
      *
      * @return array
      */

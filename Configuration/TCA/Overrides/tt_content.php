@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['pxadealers_pxadealers'] = 'pi_flexform';
 
@@ -15,5 +15,5 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['pxadealers_p
     'Pxa Dealers'
 );
 
-# remove some fields
+// remove some fields
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['pxadealers_pxadealers'] = 'layout,select_key';

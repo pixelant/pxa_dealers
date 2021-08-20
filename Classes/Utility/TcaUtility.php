@@ -8,10 +8,10 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  All rights reserved
@@ -31,11 +31,11 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 class TcaUtility
 {
     /**
-     * Get where clause for categories
+     * Get where clause for categories.
      *
      * @return string
      */
@@ -45,7 +45,7 @@ class TcaUtility
     }
 
     /**
-     * Custom map element
+     * Custom map element.
      *
      * @param array $PA
      * @return string
@@ -82,12 +82,12 @@ class TcaUtility
     }
 
     /**
-     * Get main JS configuration
+     * Get main JS configuration.
      *
      * @param array $PA
      * @param string $key
      */
-    protected function loadRequireJsWithConfiguration(array $PA, string $key)
+    protected function loadRequireJsWithConfiguration(array $PA, string $key): void
     {
         $lat = (float)$PA['row'][$PA['parameters']['latitude']];
         $lng = (float)$PA['row'][$PA['parameters']['longitude']];
@@ -102,7 +102,7 @@ class TcaUtility
             'lat' => $lat,
             'lng' => $lng,
             'baseId' => $PA['itemFormElID'],
-            'zoom' => ($lat + $lng) == 0 ? 1 : 8,
+            'zoom' => ($lat + $lng) === 0 ? 1 : 8,
             'fieldPrefixName' => $dataPrefix,
             'tableName' => $PA['table'],
             'recordUid' => $PA['row']['uid'],
@@ -111,7 +111,7 @@ class TcaUtility
             'countryField' => $PA['parameters']['country'],
             'zipcodeField' => $PA['parameters']['zipcode'],
             'addressField' => $PA['parameters']['address'],
-            'cityField' => $PA['parameters']['city']
+            'cityField' => $PA['parameters']['city'],
         ];
 
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
@@ -121,37 +121,37 @@ class TcaUtility
             '       \'' . $key . '\',',
             '       ' . json_encode($jsConfigurationObject),
             '   ).init();',
-            '}'
+            '}',
         ]));
     }
 
     /**
-     * Generate main html
+     * Generate main html.
      *
      * @param array $PA
      * @return string
      */
-    static function getHtml(array $PA)
+    public static function getHtml(array $PA)
     {
         $baseElementId = $PA['itemFormElID'];
         $mapId = $baseElementId . '_map';
         $mapWrapper = $baseElementId . '_wrapper';
         $toolTip = MainUtility::translate('tca_be_map.tooltip');
         $buttonText = MainUtility::translate('tca_be_map.buttonText');
-// @codingStandardsIgnoreStart
+        /** @codingStandardsIgnoreStart */
         $htmlTemplate = <<<EOT
 <div id="element-wrapper-{$mapWrapper}">
     <p style="margin-bottom: 10px; padding: 15px;" class="bg-info">{$toolTip}</p>
-    <input type="button" class="btn btn-info" onclick="TYPO3.DealersMapPoints_APP.getAddressLatLng();return false;" value="$buttonText">
-    <div id="$mapId" style="margin: 20px 0;width: 600px;height: 400px;"></div>
+    <input type="button" class="btn btn-info" onclick="TYPO3.DealersMapPoints_APP.getAddressLatLng();return false;" value="${buttonText}">
+    <div id="${mapId}" style="margin: 20px 0;width: 600px;height: 400px;"></div>
 </div>
 EOT;
-// @codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
         return $htmlTemplate;
     }
 
     /**
-     * Get Typoscript configuration
+     * Get Typoscript configuration.
      *
      * @param int $pageUid
      * @return array
@@ -161,8 +161,9 @@ EOT;
         $settings = [];
 
         try {
+            /** @noinspection PhpParamsInspection */
             $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
-        } catch (RootLineException $e) {
+        } /** @noinspection PhpUndefinedClassInspection */ catch (RootLineException $e) {
             $rootLine = [];
         }
 
@@ -180,7 +181,7 @@ EOT;
     }
 
     /**
-     * Generate dynamic foreign table where
+     * Generate dynamic foreign table where.
      *
      * @param $table
      * @return string

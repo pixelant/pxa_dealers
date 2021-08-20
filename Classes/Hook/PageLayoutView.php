@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -32,11 +32,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 class PageLayoutView
 {
     /**
-     * Generate html (preview) for plugin in BE
+     * Generate html (preview) for plugin in BE.
      *
      * @param array $params
      * @return string
@@ -52,7 +52,7 @@ class PageLayoutView
                 $params['row']['pi_flexform']
             );
 
-            list(, $actionName) = GeneralUtility::trimExplode(
+            [, $actionName] = GeneralUtility::trimExplode(
                 '->',
                 GeneralUtility::trimExplode(
                     ';',
@@ -76,7 +76,6 @@ class PageLayoutView
                 );
             }
 
-
             if ($actionName === 'categoriesFilter'
                 || $actionName === 'map'
             ) {
@@ -89,7 +88,6 @@ class PageLayoutView
                 );
                 $additionalInfo .= $this->getInfoOrderFields($settings);
             }
-
 
             if ($actionName === 'form') {
                 $additionalInfo .= $this->getInfoFor(
@@ -114,7 +112,7 @@ class PageLayoutView
     }
 
     /**
-     * Generate label for switchable controller action
+     * Generate label for switchable controller action.
      *
      * @param string $actionName
      * @return string
@@ -129,7 +127,7 @@ class PageLayoutView
     }
 
     /**
-     * Get info about storage
+     * Get info about storage.
      *
      * @param array $pages
      * @return string
@@ -149,13 +147,13 @@ class PageLayoutView
 
         if (!empty($storages)) {
             return sprintf('<b>%s</b>: %s<br>', MainUtility::translate('be.recordStorage'), implode(', ', $storages));
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
-     * Generate info for list of records
+     * Generate info for list of records.
      *
      * @param string $table
      * @param string $noResult
@@ -194,9 +192,8 @@ class PageLayoutView
         return sprintf('<b>%s</b>: %s<br>', MainUtility::translate($for), MainUtility::translate($noResult));
     }
 
-
     /**
-     * Info about direction fields
+     * Info about direction fields.
      *
      * @param array $settings
      * @return string
@@ -221,7 +218,7 @@ class PageLayoutView
     }
 
     /**
-     * Get description for checkbox
+     * Get description for checkbox.
      *
      * @param $value
      * @param $label
