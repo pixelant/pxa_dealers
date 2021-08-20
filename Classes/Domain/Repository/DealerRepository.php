@@ -344,7 +344,8 @@ class DealerRepository extends AbstractDemandRepository
      * @param Demand $demand
      * @param bool $secondaryFields If true, use secondary fields
      * @return void
-     * @phpcs:disable Generic.Metrics.CyclomaticComplexity
+     *
+     * phpcs:disable Generic.Metrics.CyclomaticComplexity
      */
     protected function createConstraints(QueryInterface $query, Demand $demand, bool $secondaryFields = false): void
     {
