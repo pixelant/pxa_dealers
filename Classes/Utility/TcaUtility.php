@@ -163,7 +163,7 @@ EOT;
         try {
             /** @noinspection PhpParamsInspection */
             $rootLine = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid)->get();
-        } /** @noinspection PhpUndefinedClassInspection */ catch (RootLineException $e) {
+        } /* @noinspection PhpUndefinedClassInspection */ catch (RootLineException $e) {
             $rootLine = [];
         }
 
