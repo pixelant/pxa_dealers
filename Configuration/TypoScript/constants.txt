@@ -1,54 +1,55 @@
 plugin.tx_pxadealers {
-	view {
-		# cat=plugin.tx_pxadealers/file; type=string; label=Path to template root (FE)
-		templateRootPath = EXT:pxa_dealers/Resources/Private/Templates/
-		# cat=plugin.tx_pxadealers/file; type=string; label=Path to template partials (FE)
-		partialRootPath = EXT:pxa_dealers/Resources/Private/Partials/
-		# cat=plugin.tx_pxadealers/file; type=string; label=Path to template layouts (FE)
-		layoutRootPath = EXT:pxa_dealers/Resources/Private/Layouts/
-	}
-	persistence {
-		# cat=plugin.tx_pxadealers//a; type=string; label=Default storage PID
-		storagePid =
-	}
+  view {
+    # cat=plugin.tx_pxadealers/file; type=string; label=Path to template root (FE)
+    templateRootPath = EXT:pxa_dealers/Resources/Private/Templates/
+    # cat=plugin.tx_pxadealers/file; type=string; label=Path to template partials (FE)
+    partialRootPath = EXT:pxa_dealers/Resources/Private/Partials/
+    # cat=plugin.tx_pxadealers/file; type=string; label=Path to template layouts (FE)
+    layoutRootPath = EXT:pxa_dealers/Resources/Private/Layouts/
+  }
 
-    # customsubcategory=pxadealers=Main settings
-	settings {
-        # cat=plugin.tx_pxadealers/pxadealers/010; type=string; label=Google Javascript Api Key
-        googleJavascriptApiKey =
+  persistence {
+    # cat=plugin.tx_pxadealers//a; type=string; label=Default storage PID
+    storagePid =
+  }
 
-        # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Google server side Api Key
-        googleServerApiKey =
+  # customsubcategory=pxadealers=Main settings
+  settings {
+    # cat=plugin.tx_pxadealers/pxadealers/010; type=string; label=Google Javascript Api Key
+    googleJavascriptApiKey =
 
-        map {
-            # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Map name
-            name = Map
+    # cat=plugin.tx_pxadealers/pxadealers/020; type=string; label=Google server side Api Key
+    googleServerApiKey =
 
-            # cat=plugin.tx_pxadealers/pxadealers/040; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
-            scrollFix = 0
+    map {
+      # cat=plugin.tx_pxadealers/pxadealers/030; type=string; label=Map name
+      name = Map
 
-            # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix for mobile view (width < 991)
-            scrollFixMobile = 0
-        }
-	}
+      # cat=plugin.tx_pxadealers/pxadealers/040; type=int; label=Scroll fix, when clicking show on map (in case of sticky header menu, etc..)
+      scrollFix = 0
 
-    # customsubcategory=pxadealerslist=Dealers list settings
-    settings {
-        dealersList {
-            # cat=plugin.tx_pxadealers/pxadealerslist/010; type=options[Yes=1,No=0]; label=Show logo
-            showLogo = 1
-
-            # cat=plugin.tx_pxadealers/pxadealerslist/020; type=options[Yes=1,No=0]; label=Show default image if no logo
-            showDefaultImageIfNoLogo = 1
-
-            # cat=plugin.tx_pxadealers/pxadealerslist/030; type=string; label=Image width
-            imageWidth = 150m
-
-            # cat=plugin.tx_pxadealers/pxadealerslist/040; type=string; label=Image height
-            imageHeight = 150m
-
-            # cat=plugin.tx_pxadealers/pxadealerslist/050; type=string; label=No image - image path
-            noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png
-        }
+      # cat=plugin.tx_pxadealers/pxadealers/050; type=int; label=Scroll fix for mobile view (width < 991)
+      scrollFixMobile = 0
     }
+
+    # cat=plugin.tx_pxadealers/pxadealers/060; type=string; label=Categories PID storage
+    categoryPid =
+
+    dealersList {
+      # cat=plugin.tx_pxadealers/pxadealerslist/010; type=options[Yes=1,No=0]; label=Show logo
+      showLogo = 1
+
+      # cat=plugin.tx_pxadealers/pxadealerslist/020; type=options[Yes=1,No=0]; label=Show default image if no logo
+      showDefaultImageIfNoLogo = 1
+
+      # cat=plugin.tx_pxadealers/pxadealerslist/030; type=string; label=Image width
+      imageWidth = 150m
+
+      # cat=plugin.tx_pxadealers/pxadealerslist/040; type=string; label=Image height
+      imageHeight = 150m
+
+      # cat=plugin.tx_pxadealers/pxadealerslist/050; type=string; label=No image - image path
+      noImagePath = EXT:pxa_dealers/Resources/Public/Images/noimage.png
+    }
+  }
 }

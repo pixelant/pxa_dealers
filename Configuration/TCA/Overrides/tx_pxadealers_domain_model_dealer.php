@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3_MODE') || die('Access denied.');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
@@ -8,7 +9,7 @@ defined('TYPO3_MODE') || die('Access denied.');
     [
         'fieldConfiguration' => [
             'foreign_table_where' => \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Pixelant\PxaDealers\Utility\TcaUtility::class)
-                    ->getCategoriesPidRestriction() . 'AND sys_category.sys_language_uid IN (-1, 0)'
-        ]
+                ->getCategoriesPidRestriction() . 'AND sys_category.sys_language_uid IN (-1, 0)',
+        ],
     ]
 );

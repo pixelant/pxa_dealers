@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,7 +26,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use Pixelant\PxaDealers\Domain\Model\DTO\Search;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -33,16 +34,12 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use TYPO3\CMS\Extbase\Property\TypeConverter\PersistentObjectConverter;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class SearchController extends AbstractController
 {
     /**
-     * Allowed search criterias
+     * Allowed search criterias.
      *
      * @var array
      */
@@ -50,13 +47,13 @@ class SearchController extends AbstractController
         'searchTermLowercase',
         'searchTermOriginal',
         'searchInRadius',
-        'pid'
+        'pid',
     ];
 
     /**
      * @return void
      */
-    protected function initializeSuggestAction()
+    protected function initializeSuggestAction(): void
     {
         /** @var PropertyMappingConfiguration $propertyMappingConfiguration */
         $propertyMappingConfiguration = $this->arguments['search']->getPropertyMappingConfiguration();
@@ -69,10 +66,10 @@ class SearchController extends AbstractController
     }
 
     /**
-     * Search form
+     * Search form.
      * @param Search|null $search
      */
-    public function formAction(Search $search = null)
+    public function formAction(Search $search = null): void
     {
         $this->view->assign(
             'storagePageIds',
@@ -85,7 +82,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * Suggest search results
+     * Suggest search results.
      *
      * @param Search $search
      * @return false|string
@@ -93,7 +90,6 @@ class SearchController extends AbstractController
     public function suggestAction(Search $search = null)
     {
         $response = ['db' => [], 'google' => []];
-
         if ($search !== null && !empty($search->getSearchTermLowercase())) {
             $search->setSearchFields(GeneralUtility::trimExplode(
                 ',',
@@ -112,13 +108,18 @@ class SearchController extends AbstractController
                     $countryAlpha2Codes
                 );
 
-                if (is_array($googleResponse)
+                if (
+                    is_array($googleResponse)
                     && $googleResponse['status'] === 'OK'
                     && count($googleResponse['predictions']) > 0
                 ) {
                     foreach ($googleResponse['predictions'] as $prediction) {
                         $response['google'][] = $prediction['description'];
                     }
+                } elseif ($googleResponse['status'] !== 'OK' && $googleResponse['status'] !== 'ZERO_RESULTS') {
+                    $response['errors'][] = $googleResponse;
+
+                    $this->logger->error('Call to Google Place Suggest API failed.', $googleResponse);
                 }
             }
         }

@@ -83,17 +83,22 @@
                         _filterElementSelector;
 
                     function init() {
-                        _type = _element.data('filter-type');
-                        _filteringPrefix = _element.data('filter-prefix');
+                        _type = _element.dataset.filterType;
+                        _filteringPrefix = _element.dataset.filterPrefix;
 
-                        if (_type === 'checkbox') {
-                            _filterElementSelector = 'input[type="checkbox"]';
-                            _showVisibleItemsCheckBox();
-                        } else if (_type === 'selectbox') {
-                            _filterElementSelector = 'select';
-                            _showVisibleItemsSelectBox();
+                        switch (_type) {
+                            case 'checkbox':
+                                _filterElementSelector = 'input[type="checkbox"]';
+                                _showVisibleItemsCheckBox();
+                                break;
+                            case 'selectbox':
+                                _filterElementSelector = 'select';
+                                _showVisibleItemsSelectBox();
+                                break;
+                            case 'radiobox':
+                                _filterElementSelector = 'input[type="radio"]';
+                                _showVisibleItemsRadioBox();
                         }
-
 
                         return this;
                     }
@@ -103,26 +108,51 @@
                      * @private
                      */
                     function _showVisibleItemsCheckBox() {
-                        var checkBoxes = _element.find('.checkbox'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var checkBoxes = convertJq.findAll(_element, '.checkbox'),
+                            overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute('data-'+_element.dataset.visible));
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(checkBoxes).each(function () {
-                                var $this = $(this),
-                                    checkbox = $this.find('input[type="checkbox"]');
-
-                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.val())) {
-                                    $this.show();
+                            checkBoxes.forEach(function(el) {
+                                var checkbox = el.querySelector('input[type="checkbox"]');
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.value)) {
+                                    convertJq.show(el);
                                 }
                             });
                         } else {
                             // show all
-                            checkBoxes.show();
+                            checkBoxes.forEach(function(el){
+                                convertJq.show(el)
+                            });
                         }
 
+                        convertJq.hide(overlay[0]);
+                    }
 
-                        overlay.hide();
+                    /**
+                     * Display only items that has dealers
+                     * @private
+                     */
+                    function _showVisibleItemsRadioBox() {
+                        var checkBoxes = convertJq.findAll(_element, '.radio'),
+                            overlay = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).getAttribute('data-'+_element.dataset.visible));
+
+                        if (PxaDealersMaps.FE.isValidList(visibleList)) {
+                            checkBoxes.forEach(function(el) {
+                                var checkbox = el.querySelector('input[type="radio"]');
+                                if (PxaDealersMaps.FE.inList(visibleList, checkbox.value)) {
+                                    convertJq.show(el);
+                                }
+                            });
+                        } else {
+                            // show all
+                            checkBoxes.forEach(function(el){
+                              convertJq.show(el)
+                            });
+                        }
+
+                        convertJq.hide(overlay[0]);
                     }
 
                     /**
@@ -130,23 +160,20 @@
                      * @private
                      */
                     function _showVisibleItemsSelectBox() {
-                        var selectBox = _element.find('select'),
-                            options = selectBox.find('option'),
-                            overlay = _element.find('.dealers-loader-overlay'),
-                            visibleList = String($(_map).data(_element.data('visible')));
+                        var selectBox   = convertJq.findAll(_element, 'select'),
+                            options     = convertJq.findAll(selectBox[0], 'option'),
+                            overlay     = convertJq.findAll(_element, '.dealers-loader-overlay'),
+                            visibleList = String(document.querySelector(_map).dataset.visibleCountries);
 
                         if (PxaDealersMaps.FE.isValidList(visibleList)) {
-                            $(options).each(function () {
-                                var $this = $(this);
-
-                                if ($this.val() !== '0' && !PxaDealersMaps.FE.inList(visibleList, $this.val())) {
-                                    $this.remove();
+                            options.forEach(function (el) {
+                                if (el.value !== '0' && !PxaDealersMaps.FE.inList(visibleList, el.value)) {
+                                    convertJq.remove(el);
                                 }
                             });
                         }
-
-                        overlay.hide();
-                        selectBox.show();
+                        convertJq.hide(overlay[0]);
+                        convertJq.show(selectBox[0]);
                     }
 
                     /**
@@ -200,11 +227,10 @@
          */
         initFilters: function (selector) {
             var that = this;
+            var elements = document.querySelectorAll(selector);
 
-            $(selector).each(function (i) {
-                var $this = $(this);
-
-                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), $this);
+            Array.prototype.forEach.call(elements, function(el, i){
+                PxaDealersMaps.Filters[i] = that.addFilter(that.getMapSelector(), el);
             });
         }
     };
@@ -213,16 +239,19 @@
 
 })(window);
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function() {
     if (typeof PxaDealersMaps.settings !== 'undefined') {
         PxaDealersMaps.FE.initHelperFunctions();
         PxaDealersMaps.FE.initFilters(
             '[data-dealers-filter="1"]'
         );
 
-        $(PxaDealersMaps.FE.getMapSelector()).pxaDealers(
+        var mapSelector = document.querySelectorAll(PxaDealersMaps.FE.getMapSelector());
+
+        pxaDealers(
             PxaDealersMaps.MapSettings,
-            PxaDealersMaps.settings
+            PxaDealersMaps.settings,
+            mapSelector
         );
     }
 });

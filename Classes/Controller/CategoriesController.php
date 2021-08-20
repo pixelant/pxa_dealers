@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,18 +26,14 @@ namespace Pixelant\PxaDealers\Controller;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use Pixelant\PxaDealers\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class CategoriesController extends ActionController
 {
@@ -48,17 +45,17 @@ class CategoriesController extends ActionController
     /**
      * @param CategoryRepository $categoryRepository
      */
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
     {
         $this->categoriesRepository = $categoryRepository;
     }
 
     /**
-     * Categories filter plugin
+     * Categories filter plugin.
      *
      * @return void
      */
-    public function categoriesFilterAction()
+    public function categoriesFilterAction(): void
     {
         $demand = Demand::getInstance($this->settings['demand']);
 

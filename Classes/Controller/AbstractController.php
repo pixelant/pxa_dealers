@@ -1,21 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
 use Pixelant\PxaDealers\Domain\Repository\DealerRepository;
 use Pixelant\PxaDealers\Utility\GoogleApiUtility;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
- * Class AbstractController
- * @package Pixelant\PxaDealers\Controller
+ * Class AbstractController.
  */
-abstract class AbstractController extends ActionController
+abstract class AbstractController extends ActionController implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
-     *  dealer repository
+     *  dealer repository.
      *
      * @var DealerRepository
      */
@@ -29,13 +33,13 @@ abstract class AbstractController extends ActionController
     /**
      * @param DealerRepository $dealerRepository
      */
-    public function injectDealerRepository(DealerRepository $dealerRepository)
+    public function injectDealerRepository(DealerRepository $dealerRepository): void
     {
         $this->dealerRepository = $dealerRepository;
     }
 
     /**
-     * get address cords
+     * get address cords.
      *
      * @param string $address
      * @return array
@@ -47,18 +51,20 @@ abstract class AbstractController extends ActionController
         );
 
         if ($response['status'] === 'OK') {
-            return array(
+            return [
                 $response['results']['0']['geometry']['location']['lat'],
-                $response['results']['0']['geometry']['location']['lng']
-            );
+                $response['results']['0']['geometry']['location']['lng'],
+            ];
         }
+
+        $this->logger->error('Call to Google Geocoding API failed.', $response);
 
         return [null, null];
     }
 
     /**
      * Get instance of google api. It's not required always.
-     * Initialize on demand
+     * Initialize on demand.
      *
      * @return GoogleApiUtility
      */

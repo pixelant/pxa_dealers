@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\ViewHelpers;
@@ -10,22 +11,44 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 /**
- * Class IncludeFileViewHelper
- * @package Pixelant\PxaDealers\ViewHelpers
+ * Class IncludeFileViewHelper.
  */
 class IncludeFileViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
     /**
-     * Arguments
+     * Arguments.
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        $this->registerArgument('path', 'string', 'Path to file', true);
-        $this->registerArgument('compress', 'bool', 'Enable compression', false, true);
-        $this->registerArgument('library', 'bool', 'Is library file', false, false);
-        $this->registerArgument('exclude', 'bool', 'Exclude', false, false);
+        $this->registerArgument(
+            'path',
+            'string',
+            'Path to file',
+            true
+        );
+        $this->registerArgument(
+            'compress',
+            'bool',
+            'Enable compression',
+            false,
+            true
+        );
+        $this->registerArgument(
+            'library',
+            'bool',
+            'Is library file',
+            false,
+            false
+        );
+        $this->registerArgument(
+            'exclude',
+            'bool',
+            'Exclude',
+            false,
+            false
+        );
     }
 
     /**
@@ -34,8 +57,11 @@ class IncludeFileViewHelper extends AbstractViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return void
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ): void {
         $path = $arguments['path'];
         $compress = $arguments['compress'];
         $isLibrary = $arguments['library'];

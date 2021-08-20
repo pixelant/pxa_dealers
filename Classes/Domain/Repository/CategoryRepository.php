@@ -1,6 +1,8 @@
 <?php
+
 declare(strict_types=1);
-/***************************************************************
+
+/*
  *  Copyright notice
  *
  *  (c) 2013 Andriy <andriy@pixelant.se>, Pixelant
@@ -22,7 +24,7 @@ declare(strict_types=1);
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 namespace Pixelant\PxaDealers\Domain\Repository;
 
@@ -30,8 +32,7 @@ use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
- * Class CategoryRepository
- * @package Pixelant\PxaDealers\Domain\Repository
+ * Class CategoryRepository.
  */
 class CategoryRepository extends AbstractDemandRepository
 {

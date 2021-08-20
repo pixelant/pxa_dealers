@@ -10,21 +10,23 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
+/** @noinspection PhpUndefinedVariableInspection */
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Pxa Dealers',
+    'title' => 'Dealers',
     'description' => 'Extension to display searchable dealers/shops or other points of interests on Google maps',
     'category' => 'plugin',
-    'author' => 'Andriy Oprysko',
-    'author_email' => 'andriy@pixelant.se',
+    'author' => 'Pixelant.net',
+    'author_email' => 'info@pixelant.net',
     'author_company' => 'Pixelant',
     'state' => 'stable',
     'uploadfolder' => '0',
     'clearCacheOnLoad' => 1,
-    'version' => '3.5.1',
+    'version' => '4.0.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-9.5.99',
-            'static_info_tables' => ''
+            'php' => '7.2-7.4',
+            'typo3' => '10.4.0-10.4.99',
+            'static_info_tables' => '6.0.0-6.99.99'
         ],
         'conflicts' => [
         ],

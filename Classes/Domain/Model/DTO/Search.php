@@ -1,58 +1,58 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Domain\Model\DTO;
 
 /**
- * Class Search
- * @package Pixelant\PxaDealers\Domain\Model
+ * Class Search.
  */
 class Search
 {
     /**
-     * Search query string lower case
+     * Search query string lower case.
      *
      * @var string
      */
     protected $searchTermLowercase = '';
 
     /**
-     * Search query string original
+     * Search query string original.
      *
      * @var string
      */
     protected $searchTermOriginal = '';
 
     /**
-     * Where to search
+     * Where to search.
      *
      * @var array
      */
     protected $searchFields = [];
 
     /**
-     * Where to search (Used only in ajax suggest)
+     * Where to search (Used only in ajax suggest).
      *
      * @var string
      */
     protected $pid = 0;
 
     /**
-     * Search in radius
+     * Search in radius.
      *
      * @var bool
      */
     protected $searchInRadius = false;
 
     /**
-     * lat
+     * lat.
      *
      * @var float
      */
     protected $lat = null;
 
     /**
-     * lng
+     * lng.
      *
      * @var float
      */

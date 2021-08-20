@@ -21,45 +21,41 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'name,title,country,telephone,website,adrress,zipcode,description,lat,lng',
+        'searchFields' => 'name,title,country,phone,website,address,zipcode,description,lat,lng',
 
         'typeicon_classes' => [
-            'default' => 'ext-pxadealers-wizard-icon'
-        ]
-    ],
-    // @codingStandardsIgnoreStart
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo, zipcode, city, address, country, lat, lng, show_street_view, gm_position',
+            'default' => 'ext-pxadealers-wizard-icon',
+        ],
     ],
     'types' => [
         '1' => [
-            'showitem' => '--palette--;;paletteLangHidden, name, logo, 
-		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng, 
+            'showitem' => '--palette--;;paletteLangHidden, name, logo,
+		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.coordinates, show_street_view, --palette--;;paletteCountry,--palette--;;paletteNavigation,--palette--;;paletteLatLng,
 		        --div--;' . $ll . 'tx_pxadealers_domain_model_dealers.paletteAdditionalFields,--palette--;;paletteAdditionalFields,
-		        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime'
-        ]
+		        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,starttime, endtime',
+        ],
     ],
     'palettes' => [
         'paletteLangHidden' => [
             'showitem' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource',
-            'canNotCollapse' => false
+            'canNotCollapse' => false,
         ],
         'paletteNavigation' => [
             'showitem' => 'address, city, zipcode, --linebreak--, gm_position',
-            'canNotCollapse' => false
+            'canNotCollapse' => false,
         ],
         'paletteCountry' => [
             'showitem' => 'country',
-            'canNotCollapse' => false
+            'canNotCollapse' => false,
         ],
         'paletteLatLng' => [
             'showitem' => 'lat, lng',
-            'canNotCollapse' => false
+            'canNotCollapse' => false,
         ],
         'paletteAdditionalFields' => [
             'showitem' => 'phone, --linebreak--, link, --linebreak--, website, --linebreak--, email, --linebreak--, description',
-            'canNotCollapse' => false
-        ]
+            'canNotCollapse' => false,
+        ],
     ],
     // @codingStandardsIgnoreEnd
     'columns' => [
@@ -74,10 +70,10 @@ return [
                     [
                         'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
                         -1,
-                        'flags-multiple'
+                        'flags-multiple',
                     ],
                 ],
-                'default' => 0
+                'default' => 0,
             ],
         ],
         'l10n_parent' => [
@@ -103,33 +99,37 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
             ],
         ],
         'starttime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'exclude' => true,
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 16,
-                'max' => 30,
-                'eval' => 'datetime',
-                'default' => 0
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
-            'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'exclude' => true,
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
             'config' => [
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 16,
-                'max' => 30,
-                'eval' => 'datetime',
-                'default' => 0
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'name' => [
@@ -138,7 +138,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
             ],
         ],
         'country' => [
@@ -151,7 +151,7 @@ return [
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
                 'size' => 1,
                 'maxitems' => 1,
-                'multiple' => 0
+                'multiple' => 0,
             ],
         ],
         'address' => [
@@ -160,7 +160,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
+                'eval' => 'trim,required',
             ],
         ],
         'zipcode' => [
@@ -169,7 +169,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim,alphanum_x',
             ],
         ],
         'lat' => [
@@ -178,7 +178,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required,trim'
+                'eval' => 'required,trim',
             ],
         ],
         'lng' => [
@@ -187,7 +187,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required,trim'
+                'eval' => 'required,trim',
             ],
         ],
         'logo' => [
@@ -206,28 +206,28 @@ return [
                             'hide' => true,
                             'delete' => true,
                             'localize' => false,
-                        ]
+                        ],
                     ],
                     'foreign_types' => [
                         '0' => [
                             'showitem' => '
 --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
---palette--;;filePalette'
-                        ]
+--palette--;;filePalette',
+                        ],
                     ],
                     'overrideChildTca' => [
                         'types' => [
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                                 'showitem' => '
 --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
---palette--;;filePalette'
+--palette--;;filePalette',
                             ],
                         ],
                     ],
-                    'maxitems' => 1
+                    'maxitems' => 1,
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            )
+            ),
         ],
         'show_street_view' => [
             'exclude' => 0,
@@ -235,23 +235,23 @@ return [
             'config' => [
                 'type' => 'check',
                 'default' => 1,
-            ]
+            ],
         ],
         'gm_position' => [
             'exclude' => 0,
             'label' => $ll . 'tx_pxadealers_domain_model_dealers.gm_position',
             'config' => [
                 'type' => 'user',
-                'userFunc' => \Pixelant\PxaDealers\Utility\TcaUtility::class . '->renderGoogleMapPosition',
+                'renderType' => 'pxaDealersGoogleMaps',
                 'parameters' => [
                     'longitude' => 'lng',
                     'latitude' => 'lat',
                     'address' => 'address',
                     'zipcode' => 'zipcode',
                     'country' => 'country',
-                    'city' => 'city'
-                ]
-            ]
+                    'city' => 'city',
+                ],
+            ],
         ],
         'city' => [
             'exclude' => 0,
@@ -259,8 +259,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required'
-            ]
+                'eval' => 'trim,required',
+            ],
         ],
         'phone' => [
             'exclude' => 0,
@@ -268,8 +268,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
-            ]
+                'eval' => 'trim',
+            ],
         ],
         'website' => [
             'exclude' => 0,
@@ -282,12 +282,12 @@ return [
                 'fieldControl' => [
                     'linkPopup' => [
                         'options' => [
-                            'blindLinkOptions' => 'mail'
-                        ]
-                    ]
+                            'blindLinkOptions' => 'mail',
+                        ],
+                    ],
                 ],
-                'softref' => 'typolink'
-            ]
+                'softref' => 'typolink',
+            ],
         ],
         'link' => [
             'exclude' => 0,
@@ -300,12 +300,12 @@ return [
                 'fieldControl' => [
                     'linkPopup' => [
                         'options' => [
-                            'blindLinkOptions' => 'mail'
-                        ]
-                    ]
+                            'blindLinkOptions' => 'mail',
+                        ],
+                    ],
                 ],
-                'softref' => 'typolink'
-            ]
+                'softref' => 'typolink',
+            ],
         ],
         'email' => [
             'exclude' => 0,
@@ -318,12 +318,12 @@ return [
                 'fieldControl' => [
                     'linkPopup' => [
                         'options' => [
-                            'blindLinkOptions' => 'url,spec,file,folder,page'
-                        ]
-                    ]
+                            'blindLinkOptions' => 'url,spec,file,folder,page',
+                        ],
+                    ],
                 ],
-                'softref' => 'typolink'
-            ]
+                'softref' => 'typolink',
+            ],
         ],
         'description' => [
             'exclude' => 0,
@@ -334,8 +334,8 @@ return [
                 'cols' => 30,
                 'rows' => 5,
                 'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
-                'enableRTE' => true
-            ]
-        ]
-    ]
+                'enableRTE' => true,
+            ],
+        ],
+    ],
 ];

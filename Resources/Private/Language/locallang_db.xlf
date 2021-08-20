@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xliff version="1.0">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
 	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-18T11:48:24Z" product-name="pxa_dealers">
 		<header/>
 		<body>
@@ -97,7 +97,7 @@
                 <source>Countries menu</source>
             </trans-unit>
             <trans-unit id="flexform.actions.search">
-                <source>Search by country, city and zipcode with suggest</source>
+                <source>Search field</source>
             </trans-unit>
             <trans-unit id="flexform.demand.orderBy">
                 <source>Order by</source>
@@ -106,8 +106,11 @@
                 <source>Order direction</source>
             </trans-unit>
             <trans-unit id="flexform.demand.countries">
-                <source>Select countries. If nothing is selected = show all</source>
+                <source>Select countries</source>
             </trans-unit>
+			<trans-unit id="flexform.demand.countries.description">
+				<source>If no countries are selected, the countries of the available dealers will be displayed.</source>
+			</trans-unit>
             <trans-unit id="flexform.demand.categories">
                 <source>Select categories</source>
             </trans-unit>

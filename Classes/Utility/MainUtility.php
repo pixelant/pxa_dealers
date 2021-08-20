@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
@@ -7,14 +8,12 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
- * Class MainUtility
- * @package Pixelant\PxaDealers\Utility
+ * Class MainUtility.
  */
 class MainUtility
 {
-
     /**
-     * Generate FE link
+     * Generate FE link.
      *
      * @param string $parameter Typolink parameter
      * @param bool $uriOnly
@@ -31,9 +30,9 @@ class MainUtility
 
         if ($uriOnly) {
             return self::getTSFE()->cObj->typoLink_URL($confLink);
-        } else {
-            return self::getTSFE()->cObj->typoLink('', $confLink);
         }
+
+        return self::getTSFE()->cObj->typoLink('', $confLink);
     }
 
     /**
@@ -45,7 +44,7 @@ class MainUtility
     }
 
     /**
-     * Translate BE
+     * Translate BE.
      *
      * @param string $label
      * @return string|null

@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Pixelant\PxaDealers\Domain\Repository;
 
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
@@ -8,8 +10,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * Class AbstractDemandRepository
- * @package Pixelant\PxaDealers\Domain\Repository
+ * Class AbstractDemandRepository.
  */
 abstract class AbstractDemandRepository extends Repository implements DemandRepositoryInterface
 {
@@ -23,9 +24,11 @@ abstract class AbstractDemandRepository extends Repository implements DemandRepo
         switch ($demand->getOrderDirection()) {
             case 'asc':
                 $direction = QueryInterface::ORDER_ASCENDING;
+
                 break;
             case 'desc':
                 $direction = QueryInterface::ORDER_DESCENDING;
+
                 break;
             default:
                 $direction = QueryInterface::ORDER_DESCENDING;
@@ -48,7 +51,6 @@ abstract class AbstractDemandRepository extends Repository implements DemandRepo
 
         return $query->execute();
     }
-
 
     /**
      * @param QueryInterface $query

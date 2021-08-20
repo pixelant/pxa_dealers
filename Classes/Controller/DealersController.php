@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,7 +26,7 @@ namespace Pixelant\PxaDealers\Controller;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use Pixelant\PxaDealers\Domain\Model\Dealer;
 use Pixelant\PxaDealers\Domain\Model\DTO\Demand;
@@ -34,18 +35,14 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- *
- *
- * @package pxa_dealers
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- *
  */
 class DealersController extends AbstractController
 {
     /**
-     * Map action initialize
+     * Map action initialize.
      */
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->addInlineLanguageLabelFile(
@@ -67,11 +64,11 @@ class DealersController extends AbstractController
     }
 
     /**
-     * action map
+     * action map.
      *
      * @return void
      */
-    public function mapAction()
+    public function mapAction(): void
     {
         $this->renderMap();
     }
@@ -79,7 +76,7 @@ class DealersController extends AbstractController
     /**
      * @param Search $search
      */
-    public function searchAction(Search $search)
+    public function searchAction(Search $search): void
     {
         $this->renderMap($search);
     }
@@ -88,7 +85,7 @@ class DealersController extends AbstractController
      * @param Search|null $search
      * @param bool $secondarySearch Broadens the search fields
      */
-    protected function renderMap(Search $search = null, bool $secondarySearch = false)
+    protected function renderMap(Search $search = null, bool $secondarySearch = false): void
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
@@ -113,7 +110,7 @@ class DealersController extends AbstractController
             if ($search->isSearchInRadius() && !empty($this->settings['map']['googleServerApiKey'])) {
                 if (empty($search->getLat()) || empty($search->getLng())) {
                     // Get from address
-                    list($lat, $lng) = $this->getAddressInfo($search->getSearchTermOriginal());
+                    [$lat, $lng] = $this->getAddressInfo($search->getSearchTermOriginal());
                 } else {
                     // Use user position
                     $lat = $search->getLat();
@@ -123,11 +120,11 @@ class DealersController extends AbstractController
                 if ($lat && $lng) {
                     $search->setLat($lat);
                     $search->setLng($lng);
-                    $search->setRadius(intval($this->settings['search']['radius']) ?: 100);
+                    $search->setRadius((int) ($this->settings['search']['radius']) ?: 100);
 
                     $searchCenter = [
                         'lat' => $lat,
-                        'lng' => $lng
+                        'lng' => $lng,
                     ];
                 } else {
                     $search->setSearchInRadius(false);
@@ -165,7 +162,7 @@ class DealersController extends AbstractController
             'dealersOnMap' => $dealersOnMap,
             'allCategoriesUids' => implode(',', array_unique($allCategoriesUids)),
             'allCountriesUids' => implode(',', array_unique($allCountriesUids)),
-            'searchCenter' => isset($searchCenter) ? $searchCenter : ['lat' => 0, 'lng' => 0]
+            'searchCenter' => $searchCenter ?? ['lat' => 0, 'lng' => 0],
         ]);
     }
 }

@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
 
-/***************************************************************
+/*
  *  Copyright notice
  *
  *  (c) 2014 Andriy Oprysko <andriy@pixelant.se>, Pixelant
@@ -25,56 +26,53 @@ namespace Pixelant\PxaDealers\Hook;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Modify flexform
- *
- * @package Pixelant\PxaDealers\Hook
+ * Modify flexform.
  */
 class FlexFormHook
 {
-
     /**
-     * Fields list to remove on maps view
+     * Fields list to remove on maps view.
      *
      * @var array
      */
     public $removedFieldsInMapView = [
-        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest'
+        'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest',
     ];
 
-    // @codingStandardsIgnoreStart
+    /** @codingStandardsIgnoreStart */
     /**
-     * Fields to remove if category filter selected
+     * Fields to remove if category filter selected.
      *
      * @var array
      */
     public $removedFieldsInCategoriesFilterView = [
         'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest,demand.countries',
-        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom',
     ];
 
     /**
-     * Fields to remove if countries filter selected
+     * Fields to remove if countries filter selected.
      *
      * @var array
      */
     public $removedFieldsInCountriesFilterView = [
         'sDEF' => 'search.searchResultPage,search.searchInRadius,search.searchClosest,demand.categories,demand.orderDirection,demand.orderBy',
-        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom',
     ];
 
     /**
-     * Fields to remove if search was selected
+     * Fields to remove if search was selected.
      *
      * @var array
      */
     public $removedFieldsInSearchView = [
         'sDEF' => 'demand.categories,demand.countries,demand.orderDirection,demand.orderBy',
-        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom'
+        'map' => 'map.mapHeight,map.markerClusterer.enable,map.markerClusterer.maxZoom',
     ];
 
     /**
@@ -109,7 +107,7 @@ class FlexFormHook
 
                 $actionParts = GeneralUtility::trimExplode(';', $selectedView, true);
                 $selectedView = $actionParts[0];
-                // new plugin element
+            // new plugin element
             } else {
                 // use Map
                 $selectedView = 'Dealers->map';
@@ -122,7 +120,7 @@ class FlexFormHook
     }
 
     /**
-     * Change visible flexform fields
+     * Change visible flexform fields.
      *
      * @param array $dataStructure
      * @param array $identifier
@@ -141,7 +139,7 @@ class FlexFormHook
     }
 
     /**
-     * Update flexform configuration if a action is selected
+     * Update flexform configuration if a action is selected.
      *
      * @param array &$dataStructure flexform structure
      * @param string $selectedView
@@ -153,21 +151,25 @@ class FlexFormHook
         switch ($selectedView) {
             case 'Categories->categoriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCategoriesFilterView);
+
                 break;
             case 'Countries->countriesFilter':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInCountriesFilterView);
+
                 break;
             case 'Search->form':
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInSearchView);
+
                 break;
             default:
                 $this->deleteFromStructure($dataStructure, $this->removedFieldsInMapView);
+
                 break;
         }
     }
 
     /**
-     * Remove fields from flexform structure
+     * Remove fields from flexform structure.
      *
      * @param array &$dataStructure flexform structure
      * @param array $fieldsToBeRemoved fields which need to be removed
