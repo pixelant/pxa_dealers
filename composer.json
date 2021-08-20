@@ -1,12 +1,15 @@
 {
 	"name": "pixelant/pxa-dealers",
-	"description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
 	"type": "typo3-cms-extension",
+	"description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": "^7.2",
-		"typo3/cms-core": "^10.4.9",
-		"sjbr/static-info-tables": "^6.0.0"
+		"sjbr/static-info-tables": "^6.0.0",
+		"typo3/cms-core": "^10.4.9"
+	},
+	"replace": {
+		"typo3-ter/pxa-dealers": "self.version"
 	},
 	"require-dev": {
 		"codeception/codeception": "^4.1.5",
@@ -14,8 +17,12 @@
 		"seld/jsonlint": "^1.8",
 		"typo3/cms-fluid-styled-content": "^9.5 || ^10.4"
 	},
-	"replace": {
-		"typo3-ter/pxa-dealers": "self.version"
+	"config": {
+		"preferred-install": {
+			"*": "dist"
+		},
+		"sort-packages": true,
+		"vendor-dir": ".Build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
@@ -30,9 +37,6 @@
 	},
 	"prefer-stable": true,
 	"scripts": {
-		"docs:generate": [
-			"docker run --rm t3docs/render-documentation show-shell-commands > tempfile.sh; echo 'dockrun_t3rd makehtml' >> tempfile.sh; bash tempfile.sh; rm tempfile.sh"
-		],
 		"post-autoload-dump": [
 			"@link-extension"
 		],
@@ -66,6 +70,9 @@
 		],
 		"ci:ts:lint": "@php ./tools/typo3-typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript",
 		"ci:yaml:lint": "find . ! -path '*.Build/*' ! -path '*Resources/Private/node_modules/*' -name '*.yml' | xargs php ./tools/yaml-lint",
+		"docs:generate": [
+			"docker run --rm t3docs/render-documentation show-shell-commands > tempfile.sh; echo 'dockrun_t3rd makehtml' >> tempfile.sh; bash tempfile.sh; rm tempfile.sh"
+		],
 		"fix:php": [
 			"@fix:php:cs",
 			"@fix:php:sniff"
