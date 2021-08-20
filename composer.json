@@ -2,28 +2,98 @@
 	"name": "pixelant/pxa-dealers",
 	"description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
 	"type": "typo3-cms-extension",
-	"license": "GPL-2.0+",
-	"autoload": {
-		"psr-4": {
-			"Pixelant\\PxaDealers\\": "Classes/"
-		}
-	},
+	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": "^7.2",
 		"typo3/cms-core": "^10.4.9",
 		"sjbr/static-info-tables": "^6.0.0"
+	},
+	"require-dev": {
+		"codeception/codeception": "^4.1.5",
+		"helhum/typo3-composer-setup": "^0.5.7",
+		"seld/jsonlint": "^1.8",
+		"typo3/cms-fluid-styled-content": "^9.5 || ^10.4"
 	},
 	"replace": {
 		"typo3-ter/pxa-dealers": "self.version"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "pxa_dealers"
+			"extension-key": "pxa_dealers",
+			"web-dir": ".Build/public"
 		}
 	},
+	"autoload": {
+		"psr-4": {
+			"Pixelant\\PxaDealers\\": "Classes/"
+		}
+	},
+	"prefer-stable": true,
 	"scripts": {
 		"docs:generate": [
 			"docker run --rm t3docs/render-documentation show-shell-commands > tempfile.sh; echo 'dockrun_t3rd makehtml' >> tempfile.sh; bash tempfile.sh; rm tempfile.sh"
+		],
+		"post-autoload-dump": [
+			"@link-extension"
+		],
+		"ci": [
+			"@ci:static"
+		],
+		"ci:composer:normalize": "@php ./tools/composer-normalize --dry-run",
+		"ci:dynamic": [
+			"@ci:tests"
+		],
+		"ci:json:lint": "find . ! -path '*.Build/*' ! -path '*Resources/Private/node_modules/*' -name '*.json' | xargs php .Build/vendor/bin/jsonlint -q",
+		"ci:php": [
+			"@ci:php:copypaste",
+			"@ci:php:cs-fixer",
+			"@ci:php:lint",
+			"@ci:php:sniff",
+		],
+		"ci:php:copypaste": "@php ./tools/phpcpd Classes Configuration Tests",
+		"ci:php:cs-fixer": "@php ./tools/php-cs-fixer fix --config .php_cs.php -v --dry-run --using-cache false --diff --diff-format=udiff",
+		"ci:php:lint": "find *.php Classes Configuration Tests -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"ci:php:sniff": "@php ./tools/phpcs Classes Configuration Tests",
+		"ci:static": [
+			"@ci:composer:normalize",
+			"@ci:json:lint",
+			"@ci:php:copypaste",
+			"@ci:php:cs-fixer",
+			"@ci:php:lint",
+			"@ci:php:sniff",
+			"@ci:ts:lint",
+			"@ci:yaml:lint"
+		],
+		"ci:ts:lint": "@php ./tools/typo3-typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript",
+		"ci:yaml:lint": "find . ! -path '*.Build/*' ! -path '*Resources/Private/node_modules/*' -name '*.yml' | xargs php ./tools/yaml-lint",
+		"fix:php": [
+			"@fix:php:cs",
+			"@fix:php:sniff"
+		],
+		"fix:php:cs": "@php ./tools/php-cs-fixer fix --config .php_cs.php",
+		"fix:php:sniff": "@php ./tools/phpcbf Classes Configuration Tests",
+		"link-extension": [
+			"@php -r 'is_dir($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/\") || mkdir($extFolder, 0777, true);'",
+			"@php -r 'file_exists($extFolder=__DIR__.\"/.Build/public/typo3conf/ext/pxa_dealers\") || symlink(__DIR__,$extFolder);'"
+		],
+		"prepare-release": [
+			"rm .gitignore",
+			"rm -rf .Build",
+			"rm -rf .github",
+			"rm -rf .gitlab",
+			"rm -rf Tests",
+			"rm -rf tools",
+			"rm .editorconfig",
+			"rm .gitattributes",
+			"rm .php_cs.php",
+			"rm Resources/Private/.eslintignore",
+			"rm Resources/Private/.eslintrc.json",
+			"rm Resources/Private/.prettierrc.js",
+			"rm Resources/Private/package.json",
+			"rm Resources/Private/stylelint.config.js",
+			"rm codeception.yml",
+			"rm phive.xml",
+			"rm phpcs.xml"
 		]
 	}
 }
