@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
@@ -189,8 +190,9 @@ EOT;
     protected function getForeignTableWhereRestriction(string $table): string
     {
         try {
-            $categoryPid = GeneralUtility::makeInstance(ConfigurationManager::class)
-                ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT)['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
+            $configuration = GeneralUtility::makeInstance(ConfigurationManager::class)
+                ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+            $categoryPid = $configuration['plugin.']['tx_pxadealers.']['settings.']['categoryPid'];
         } catch (InvalidFieldNameException $e) {
             $categoryPid = 0;
         }

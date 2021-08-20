@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Utility;
@@ -47,7 +48,9 @@ class GoogleApiUtility
     /**
      * Google api to suggest places.
      */
-    public const PLACE_SUGGEST_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&types=geocode&language=%s&key=%s&components=%s&location=%s';
+    public const PLACE_SUGGEST_URL
+        = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
+        . '?input=%s&types=geocode&language=%s&key=%s&components=%s&location=%s';
 
     /**
      * Google Api Key.

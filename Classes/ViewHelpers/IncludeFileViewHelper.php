@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\ViewHelpers;
@@ -21,10 +22,33 @@ class IncludeFileViewHelper extends AbstractViewHelper
      */
     public function initializeArguments(): void
     {
-        $this->registerArgument('path', 'string', 'Path to file', true);
-        $this->registerArgument('compress', 'bool', 'Enable compression', false, true);
-        $this->registerArgument('library', 'bool', 'Is library file', false, false);
-        $this->registerArgument('exclude', 'bool', 'Exclude', false, false);
+        $this->registerArgument(
+            'path',
+            'string',
+            'Path to file',
+            true
+        );
+        $this->registerArgument(
+            'compress',
+            'bool',
+            'Enable compression',
+            false,
+            true
+        );
+        $this->registerArgument(
+            'library',
+            'bool',
+            'Is library file',
+            false,
+            false
+        );
+        $this->registerArgument(
+            'exclude',
+            'bool',
+            'Exclude',
+            false,
+            false
+        );
     }
 
     /**
@@ -33,8 +57,11 @@ class IncludeFileViewHelper extends AbstractViewHelper
      * @param RenderingContextInterface $renderingContext
      * @return void
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext): void
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ): void {
         $path = $arguments['path'];
         $compress = $arguments['compress'];
         $isLibrary = $arguments['library'];

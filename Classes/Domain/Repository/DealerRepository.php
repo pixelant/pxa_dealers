@@ -140,7 +140,8 @@ class DealerRepository extends AbstractDemandRepository
             if ($this->settings['search']['joinSearchStringRegex']) {
                 $joinSearchStringPattern = $this->settings['search']['joinSearchStringRegex'];
 
-                for ($i = 0; $i - 1 < count($searchWords); $i++) {
+                $searchWordCount = count($searchWords);
+                for ($i = 0; $i - 1 < $searchWordCount; $i++) {
                     if (
                         preg_match($joinSearchStringPattern, $searchWords[$i]) === 1
                         && preg_match($joinSearchStringPattern, $searchWords[$i + 1]) === 1
@@ -343,6 +344,7 @@ class DealerRepository extends AbstractDemandRepository
      * @param Demand $demand
      * @param bool $secondaryFields If true, use secondary fields
      * @return void
+     * @phpcs:disable Generic.Metrics.CyclomaticComplexity
      */
     protected function createConstraints(QueryInterface $query, Demand $demand, bool $secondaryFields = false): void
     {
@@ -397,7 +399,6 @@ class DealerRepository extends AbstractDemandRepository
                 );
             }
 
-            // TODO: Replace this with less crazy code.
             $sql = $queryBuilder->getSQL();
             $parameters = $queryBuilder->getParameters();
             foreach ($parameters as $key => $parameter) {

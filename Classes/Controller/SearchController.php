@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Controller;
@@ -107,7 +108,8 @@ class SearchController extends AbstractController
                     $countryAlpha2Codes
                 );
 
-                if (is_array($googleResponse)
+                if (
+                    is_array($googleResponse)
                     && $googleResponse['status'] === 'OK'
                     && count($googleResponse['predictions']) > 0
                 ) {

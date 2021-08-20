@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pixelant\PxaDealers\Hook;
@@ -64,7 +65,8 @@ class PageLayoutView
 
             $additionalInfo .= $this->getRecordsStorageInfo(GeneralUtility::intExplode(',', $params['row']['pages']));
 
-            if ($actionName === 'countriesFilter'
+            if (
+                $actionName === 'countriesFilter'
                 || $actionName === 'map'
             ) {
                 $additionalInfo .= $this->getInfoFor(
@@ -76,7 +78,8 @@ class PageLayoutView
                 );
             }
 
-            if ($actionName === 'categoriesFilter'
+            if (
+                $actionName === 'categoriesFilter'
                 || $actionName === 'map'
             ) {
                 $additionalInfo .= $this->getInfoFor(
@@ -162,8 +165,13 @@ class PageLayoutView
      * @param string $settingsField
      * @return string
      */
-    protected function getInfoFor(string $table, string $noResult, string $field, string $for, string $settingsField): string
-    {
+    protected function getInfoFor(
+        string $table,
+        string $noResult,
+        string $field,
+        string $for,
+        string $settingsField
+    ): string {
         if (!empty($settingsField)) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable($table);
@@ -180,7 +188,7 @@ class PageLayoutView
                 ->execute();
 
             $lines = [];
-            while ($row = $statement->fetch()) {
+            foreach ($statement->fetchAll() as $row) {
                 $line = empty($row[$field]) ? MainUtility::translate('be.empty') : $row[$field];
                 $lines[] = $line . ' [' . $row['uid'] . ']';
             }
