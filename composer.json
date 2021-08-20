@@ -1,24 +1,29 @@
 {
-  "name": "pixelant/pxa-dealers",
-  "description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
-  "type": "typo3-cms-extension",
-  "license": "GPL-2.0+",
-  "autoload": {
-    "psr-4": {
-      "Pixelant\\PxaDealers\\": "Classes/"
-    }
-  },
-  "require": {
-    "php": "^7.1",
-    "typo3/cms-core": "^8.7 || ^9.5 || ^10.4.9",
-    "sjbr/static-info-tables": "^6.0.0"
-  },
-  "replace": {
-    "typo3-ter/pxa-dealers": "self.version"
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "pxa_dealers"
-    }
-  }
+	"name": "pixelant/pxa-dealers",
+	"description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
+	"type": "typo3-cms-extension",
+	"license": "GPL-2.0+",
+	"autoload": {
+		"psr-4": {
+			"Pixelant\\PxaDealers\\": "Classes/"
+		}
+	},
+	"require": {
+		"php": "^7.1",
+		"typo3/cms-core": "^8.7 || ^9.5 || ^10.4.9",
+		"sjbr/static-info-tables": "^6.0.0"
+	},
+	"replace": {
+		"typo3-ter/pxa-dealers": "self.version"
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "pxa_dealers"
+		}
+	},
+	"scripts": {
+		"docs:generate": [
+			"docker run --rm t3docs/render-documentation show-shell-commands > tempfile.sh; echo 'dockrun_t3rd makehtml' >> tempfile.sh; bash tempfile.sh; rm tempfile.sh"
+		]
+	}
 }

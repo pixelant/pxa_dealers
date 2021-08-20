@@ -97,7 +97,7 @@ class PageLayoutView
                     'be.no_result',
                     'title',
                     'flexform.search.searchResultPage',
-                    $settings['settings']['search']['searchResultPage']
+                    (string)$settings['settings']['search']['searchResultPage']
                 );
                 $additionalInfo .= $this->getCheckBoxInfo(
                     $settings['settings']['search']['searchInRadius'],

@@ -56,6 +56,17 @@ plugin.tx_pxadealers {
       hideIfEmpty = 0
     }
 
+    # Settings related to the demand object. Also in FlexForm.
+    demand {
+      orderBy = crdate
+
+      orderDirection = asc
+
+      countries =
+
+      categories =
+    }
+
     search {
       searchFields = name,zipcode,city
 
@@ -63,11 +74,17 @@ plugin.tx_pxadealers {
       # of search phrase. These fields are typically fields with potentially broad search matches.
       secondarySearchFields = country.shortNameLocal,country.shortNameEn
 
+      # Enable search within geographical radius
+      searchInRadius = 0
+
       # Search in radius by kilometers
       radius = 50
 
+      # Try to acquire the user's coordinates through the browser.
+      searchClosest = 0
+
       # Search for zip codes in database with X number of digits flexibility.
-      # E.g. searching for zipcode 12345 with `zipcodeOrdersOfMagnitude = 3`
+      # E.g. searching for zipcode 12345 with `zipcodeInexactness = 3`
       # Will search within 12XXX, i.e. any zipcode between 12000 and 12999.
       zipcodeInexactness = 2
 
@@ -86,6 +103,9 @@ plugin.tx_pxadealers {
 
       # Comma-separated list of 2-char ISO country codes
       limitToCountries =
+
+      # PID of the page to redirect to to display search results
+      searchResultPage =
     }
 
     dealersList {

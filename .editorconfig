@@ -37,6 +37,8 @@ indent_size = 2
 # TypoScript
 [*.{typoscript,tsconfig}]
 indent_size = 2
+[{setup.txt,constants.txt}]
+indent_size = 2
 
 # XLF-Files
 [*.xlf]
