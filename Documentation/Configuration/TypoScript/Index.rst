@@ -259,13 +259,13 @@ zoomOnShow
    The default zoom level for the map.
    `More about zoom levels <https://developers.google.com/maps/documentation/javascript/overview#zoom-levels>`__
 
-.. _typoscript-map-markerclustererimageFile:
+.. _typoscript-map-markerclustererimagepath:
 
-markerClusterer.imageFile
+markerClusterer.imagePath
 -------------------------
 
 :aspect:`Property`
-   markerClusterer.imageFile
+   markerClusterer.imagePath
 
 :aspect:`Data type`
    :ref:`tsref:data-type-integer`
@@ -274,7 +274,7 @@ markerClusterer.imageFile
    :file:`/typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m`
 
 :aspect:`Description`
-   A File prefix for marker cluster icons.
+   A path prefix for marker cluster icons.
    `More about marker clustering <https://developers.google.com/maps/documentation/javascript/marker-clustering>`__
 
 .. _typoscript-map-markertypes:
@@ -777,22 +777,22 @@ Dealers' list
 TypoScript properties used to configure the dealer listing can be found in
 :typoscript:`plugin.tx_pxadealers.settings.dealersList.*`.
 
-.. _typoscript-list-noimageFile:
+.. _typoscript-list-noimagepath:
 
-noImageFile
+noImagePath
 -----------
 
 :aspect:`Property`
-   noImageFile
+   noImagePath
 
 :aspect:`Data type`
-   :ref:`tsref:data-type-File`
+   :ref:`tsref:data-type-path`
 
 :aspect:`Default`
    :file:`EXT:pxa_dealers/Resources/Public/Images/noimage.png`
 
 :aspect:`Description`
-   File to the image that is displayed if a dealer record doesn't have any image
+   Path to the image that is displayed if a dealer record doesn't have any image
    defined and :ref:`typoscript-list-showdefaultimageifnologo` is false.
 
 .. _typoscript-list-showlogo:
@@ -827,7 +827,7 @@ showDefaultImageIfNoLogo
    true
 
 :aspect:`Description`
-   If true, display the image defined in :ref:`typoscript-list-noimageFile` if
+   If true, display the image defined in :ref:`typoscript-list-noimagepath` if
    the dealer record has no logo image defined.
 
 .. _typoscript-list-imagewidth:
