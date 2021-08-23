@@ -177,7 +177,7 @@ awesompleteCssFile
 .. _typoscript-awesompletejsfile:
 
 awesompleteJavaScriptFile
-------------------
+-------------------------
 
 :aspect:`Property`
    awesompleteJavaScriptFile
