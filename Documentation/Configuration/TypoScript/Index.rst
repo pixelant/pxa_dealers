@@ -31,6 +31,174 @@ categoryPid
 :aspect:`Description`
    The page ID where category records are stored.
 
+.. _typoscript-cssfile:
+
+cssFile
+-------
+
+:aspect:`Property`
+   cssFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css`
+
+:aspect:`Description`
+   File to the CSS file. Included in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-markerclustererfile:
+
+markerClustererFile
+-------------------
+
+:aspect:`Property`
+   markerClustererFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling marker clusters. Included in the
+   :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-pluginfile:
+
+pluginFile
+----------
+
+:aspect:`Property`
+   pluginFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling the main plugin functionality. Included
+   in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-dealersfile:
+
+dealersFile
+-----------
+
+:aspect:`Property`
+   dealersFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling the dealer functionality. Included
+   in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-searchfile:
+
+searchFile
+----------
+
+:aspect:`Property`
+   searchFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling search functionality. Included in the
+   :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-awesompletecssfile:
+
+awesompleteCssFile
+------------------
+
+:aspect:`Property`
+   awesompleteCssFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/Css/awesomplete.css`
+
+:aspect:`Description`
+   CSS file for the `Awesomeplete <https://projects.verou.me/awesomplete/>`_
+   autocomplete plugin. Included in the :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-awesompletejsfile:
+
+awesompleteJavaScriptFile
+------------------
+
+:aspect:`Property`
+   awesompleteJavaScriptFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js`
+
+:aspect:`Description`
+   JavaScript file for the
+   `Awesomeplete <https://projects.verou.me/awesomplete/>`_ autocomplete plugin.
+   Included in the :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
 .. _typoscript-map:
 
 Map
@@ -91,13 +259,13 @@ zoomOnShow
    The default zoom level for the map.
    `More about zoom levels <https://developers.google.com/maps/documentation/javascript/overview#zoom-levels>`__
 
-.. _typoscript-map-markerclustererimagepath:
+.. _typoscript-map-markerclustererimageFile:
 
-markerClusterer.imagePath
+markerClusterer.imageFile
 -------------------------
 
 :aspect:`Property`
-   markerClusterer.imagePath
+   markerClusterer.imageFile
 
 :aspect:`Data type`
    :ref:`tsref:data-type-integer`
@@ -106,7 +274,7 @@ markerClusterer.imagePath
    :file:`/typo3conf/ext/pxa_dealers/Resources/Public/Images/markerClusterer/m`
 
 :aspect:`Description`
-   A path prefix for marker cluster icons.
+   A File prefix for marker cluster icons.
    `More about marker clustering <https://developers.google.com/maps/documentation/javascript/marker-clustering>`__
 
 .. _typoscript-map-markertypes:
@@ -609,22 +777,22 @@ Dealers' list
 TypoScript properties used to configure the dealer listing can be found in
 :typoscript:`plugin.tx_pxadealers.settings.dealersList.*`.
 
-.. _typoscript-list-noimagepath:
+.. _typoscript-list-noimageFile:
 
-noImagePath
+noImageFile
 -----------
 
 :aspect:`Property`
-   noImagePath
+   noImageFile
 
 :aspect:`Data type`
-   :ref:`tsref:data-type-path`
+   :ref:`tsref:data-type-File`
 
 :aspect:`Default`
    :file:`EXT:pxa_dealers/Resources/Public/Images/noimage.png`
 
 :aspect:`Description`
-   Path to the image that is displayed if a dealer record doesn't have any image
+   File to the image that is displayed if a dealer record doesn't have any image
    defined and :ref:`typoscript-list-showdefaultimageifnologo` is false.
 
 .. _typoscript-list-showlogo:
@@ -659,7 +827,7 @@ showDefaultImageIfNoLogo
    true
 
 :aspect:`Description`
-   If true, display the image defined in :ref:`typoscript-list-noimagepath` if
+   If true, display the image defined in :ref:`typoscript-list-noimageFile` if
    the dealer record has no logo image defined.
 
 .. _typoscript-list-imageheight:

@@ -30,10 +30,13 @@ plugin.tx_pxadealers {
   settings {
     categoryPid = {$plugin.tx_pxadealers.settings.categoryPid}
 
-    cssFilePath = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
-    markerClustererFilePath = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
-    pluginFilePath = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
-    dealersFilePath = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
+    cssFile = EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css
+    markerClustererFile = EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js
+    pluginFile = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js
+    dealersFile = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers.js
+    searchFile = EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js
+    awesompleteCssFile = EXT:pxa_dealers/Resources/Public/Css/awesomplete.css
+    awesompleteJavaScriptFile = EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js
 
     # Map settings
     map {

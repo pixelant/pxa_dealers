@@ -5,20 +5,20 @@
     <f:layout name="Default" />
 
     <f:section name="main">
-        <f:if condition="{settings.cssFilePath}">
-            <f:asset.css identifier="tx_pxadealers_css" href="{settings.cssFilePath}" />
+        <f:if condition="{settings.cssFile}">
+            <f:asset.css identifier="tx_pxadealers_css" href="{settings.cssFile}" />
         </f:if>
 
-        <f:if condition="{settings.markerClustererFilePath}">
-            <f:asset.script identifier="tx_pxadealers_markerclusterer" src="{settings.markerClustererFilePath}" />
+        <f:if condition="{settings.markerClustererFile}">
+            <f:asset.script identifier="tx_pxadealers_markerclusterer" src="{settings.markerClustererFile}" />
         </f:if>
 
-        <f:if condition="{settings.pluginFilePath}">
-            <f:asset.script identifier="tx_pxadealers_plugin" src="{settings.pluginFilePath}" />
+        <f:if condition="{settings.pluginFile}">
+            <f:asset.script identifier="tx_pxadealers_plugin" src="{settings.pluginFile}" />
         </f:if>
 
-        <f:if condition="{settings.dealersFilePath}">
-            <f:asset.script identifier="tx_pxadealers_dealers" src="{settings.dealersFilePath}" />
+        <f:if condition="{settings.dealersFile}">
+            <f:asset.script identifier="tx_pxadealers_dealers" src="{settings.dealersFile}" />
         </f:if>
 
         <f:render partial="MapTemplate" arguments="{_all}" />
