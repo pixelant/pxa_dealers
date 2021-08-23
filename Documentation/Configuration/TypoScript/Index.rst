@@ -707,7 +707,7 @@ joinSearchStringRegex
    This pattern allows us to merge strings we presume are formatted zip codes,
    such as "123" and "45", into "12345".
 
-.. _typoscript-search-joinsearchstringregex:
+.. _typoscript-search-enableautocomplete:
 
 enableAutocomplete
 ------------------
@@ -830,7 +830,7 @@ showDefaultImageIfNoLogo
    If true, display the image defined in :ref:`typoscript-list-noimageFile` if
    the dealer record has no logo image defined.
 
-.. _typoscript-list-imageheight:
+.. _typoscript-list-imagewidth:
 
 imageWidth
 ----------
