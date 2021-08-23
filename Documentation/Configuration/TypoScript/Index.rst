@@ -31,6 +31,174 @@ categoryPid
 :aspect:`Description`
    The page ID where category records are stored.
 
+.. _typoscript-cssfile:
+
+cssFile
+-------
+
+:aspect:`Property`
+   cssFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/Css/pxa_dealers.css`
+
+:aspect:`Description`
+   File to the CSS file. Included in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-markerclustererfile:
+
+markerClustererFile
+-------------------
+
+:aspect:`Property`
+   markerClustererFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/markerclusterer.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling marker clusters. Included in the
+   :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-pluginfile:
+
+pluginFile
+----------
+
+:aspect:`Property`
+   pluginFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling the main plugin functionality. Included
+   in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-dealersfile:
+
+dealersFile
+-----------
+
+:aspect:`Property`
+   dealersFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_plugin.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling the dealer functionality. Included
+   in the :file:`Map.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-searchfile:
+
+searchFile
+----------
+
+:aspect:`Property`
+   searchFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js`
+
+:aspect:`Description`
+   File to the JavaScript file handling search functionality. Included in the
+   :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-awesompletecssfile:
+
+awesompleteCssFile
+------------------
+
+:aspect:`Property`
+   awesompleteCssFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/Css/awesomplete.css`
+
+:aspect:`Description`
+   CSS file for the `Awesomeplete <https://projects.verou.me/awesomplete/>`_
+   autocomplete plugin. Included in the :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
+.. _typoscript-awesompletejsfile:
+
+awesompleteJavaScriptFile
+-------------------------
+
+:aspect:`Property`
+   awesompleteJavaScriptFile
+
+:aspect:`Data type`
+   :ref:`t3tsref:data-type-file`
+
+:aspect:`Default`
+   :file:`EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js`
+
+:aspect:`Description`
+   JavaScript file for the
+   `Awesomeplete <https://projects.verou.me/awesomplete/>`_ autocomplete plugin.
+   Included in the :file:`Form.html` template.
+
+.. tip::
+
+   Setting this property to an empty string or clearing it with the TypoScript
+   :typoscript:`>` operand will not lead to an error. Instead, no file will be
+   included.
+
 .. _typoscript-map:
 
 Map
@@ -539,7 +707,7 @@ joinSearchStringRegex
    This pattern allows us to merge strings we presume are formatted zip codes,
    such as "123" and "45", into "12345".
 
-.. _typoscript-search-joinsearchstringregex:
+.. _typoscript-search-enableautocomplete:
 
 enableAutocomplete
 ------------------
@@ -662,7 +830,7 @@ showDefaultImageIfNoLogo
    If true, display the image defined in :ref:`typoscript-list-noimagepath` if
    the dealer record has no logo image defined.
 
-.. _typoscript-list-imageheight:
+.. _typoscript-list-imagewidth:
 
 imageWidth
 ----------

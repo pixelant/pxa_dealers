@@ -6,6 +6,15 @@
 
     <f:section name="main">
 				<f:if condition="{settings.search.enableAutocomplete}">
+                    <f:if condition="{settings.awesompleteCssFile}">
+                        <f:asset.css identifier="tx_pxadealers_awesomplete" href="{settings.awesompleteCssFile}" />
+                    </f:if>
+                    <f:if condition="{settings.dealersFile}">
+                        <f:asset.script identifier="tx_pxadealers_awesomplete" src="{settings.dealersFile}" />
+                    </f:if>
+                    <f:if condition="{settings.searchFile}">
+                        <f:asset.script identifier="tx_pxadealers_search" src="{settings.searchFile}" />
+                    </f:if>
                     <pxa:includeFile path="EXT:pxa_dealers/Resources/Public/Css/awesomplete.css" library="1" />
 					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/awesomplete.min.js" library="1" />
 					<pxa:includeFile path="EXT:pxa_dealers/Resources/Public/JavaScript/pxa_dealers_search.js" />
