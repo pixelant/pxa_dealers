@@ -4,11 +4,10 @@
 	"description": "Extension to display searchable dealers/shops or other points of interests on Google maps",
 	"license": "GPL-2.0-or-later",
 	"require": {
-		"php": "^7.2",
 		"ext-json": "*",
 		"ext-pdo": "*",
-		"sjbr/static-info-tables": "^6.0.0",
-		"typo3/cms-core": "^10.4.9"
+		"sjbr/static-info-tables": "^6.0.0 || ^11.5",
+		"typo3/cms-core": "^10.4.9 || ^11.5"
 	},
 	"replace": {
 		"typo3-ter/pxa-dealers": "self.version"
