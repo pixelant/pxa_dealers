@@ -21,12 +21,11 @@ $EM_CONF[$_EXTKEY] = [
     'state' => 'stable',
     'uploadfolder' => '0',
     'clearCacheOnLoad' => 1,
-    'version' => '4.1.0',
+    'version' => '4.2.0-dev',
     'constraints' => [
         'depends' => [
-            'php' => '7.2-7.4',
-            'typo3' => '10.4.0-10.4.99',
-            'static_info_tables' => '6.0.0-6.99.99'
+            'typo3' => '10.4.0-11.5.99',
+            'static_info_tables' => '6.0.0-11.5.99'
         ],
         'conflicts' => [
         ],
