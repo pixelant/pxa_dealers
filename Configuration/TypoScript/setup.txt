@@ -136,7 +136,7 @@ pxaDealersSuggest {
     admPanel = 0
   }
 
-  5 = USER_INT
+  5 = USER
   5 {
     userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = PxaDealers
