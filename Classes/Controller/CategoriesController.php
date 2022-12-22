@@ -59,6 +59,12 @@ class CategoriesController extends ActionController
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
+        // Check if the Categories needs to be "translated" into the correct overlay ids
+        if (count($demand->getCategories()) > 1) {
+            $translatedCategories = $this->categoriesRepository->overlayTranslatedCategoryIds($demand->getCategories());
+            $demand->setCategories($translatedCategories);
+        }
+
         $this->view->assign('categories', $this->categoriesRepository->findDemanded($demand));
     }
 }
