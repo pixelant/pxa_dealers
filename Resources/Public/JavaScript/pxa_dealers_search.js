@@ -9,7 +9,7 @@
         input: null,
         form: null,
         findClosestButton: null,
-	      searchInRadius: false,
+        searchInRadius: false,
 
         init: function (input) {
             var self   = this;
@@ -17,7 +17,7 @@
 
             self.input = document.querySelector(input);
             self.form  = convertJq.closest(self.input, 'form', 'tag');
-	          self.findClosestButton = document.querySelector('[data-find-closest="1"]');
+            self.findClosestButton = document.querySelectorAll('[data-find-closest="1"]');
             self.searchInRadius = parseInt(self.input.dataset.searchInRadius);
 
             if (typeof(map) != 'undefined') {
@@ -46,35 +46,38 @@
                 });
 
                 self.input.addEventListener('awesomplete-select', function(e) {
-                  e.preventDefault();
+                    e.preventDefault();
 
-                	var valueParts = e.text.value.split('::'),
-                      method = valueParts[0],
-                      value = valueParts[1];
+                    var valueParts = e.text.value.split('::'),
+                    method = valueParts[0],
+                    value = valueParts[1];
 
-                  var $inputSearchRadius = document.querySelector('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
-                	$inputSearchRadius.value = method === 'google' ? '1' : '0';
+                    var $inputSearchRadius = document.querySelector('input[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
+                    $inputSearchRadius.value = method === 'google' ? '1' : '0';
 
-                  e.target.value = value;
-                  self.awesomplete.close();
-                  self.form.submit();
+                    e.target.value = value;
+                    self.awesomplete.close();
+                    self.form.submit();
                 });
             }
 
             if (self.findClosestButton && self.findClosestButton.length > 0) {
-	            self.findClosestButton.on('click', function (e) {
-                    e.preventDefault();
-                    self._findClosestAction($(this));
-	            })
+
+                self.findClosestButton.forEach((el) => {
+                    el.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        self._findClosestAction(el);
+                    })
+                })
             }
         },
 
-	    /**
-         * Load suggest options by ajax
-         *
-	     * @param input
-	     * @private
-	     */
+        /**
+        * Load suggest options by ajax
+        *
+        * @param input
+        * @private
+        */
         _loadSuggest: function (input) {
             var self = this;
 
@@ -92,9 +95,8 @@
             //new data format
             var txDealersSearch = 'tx_pxadealers_pxadealers[search]';
             var newData = txDealersSearch + '[searchTermOriginal]=' + input.value +
-                    '&' + txDealersSearch + '[searchInRadius]=' + self.searchInRadius +
-                    '&' + txDealersSearch + '[pid]=' + input.dataset['pid'];
-
+                '&' + txDealersSearch + '[searchInRadius]=' + self.searchInRadius +
+                '&' + txDealersSearch + '[pid]=' + input.dataset['pid'];
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', input.dataset.ajaxUri, true);
@@ -104,9 +106,9 @@
             // xhr.send(JSON.stringify(newData));
             xhr.send(newData);
 
-
             xhr.onload = function() {
                 var resp = JSON.parse(this.response)
+
                 if (this.status >= 200 && this.status < 400) {
                     var list = [];
 
@@ -127,56 +129,56 @@
             };
         },
 
-	    /**
+        /**
          * Find closest for current user location
          *
          * @param button
-	     * @private
-	     */
-	    _findClosestAction: function (button) {
-		    if (navigator.geolocation) {
-			    navigator.geolocation.getCurrentPosition(
-				    function (position) {
-					    var form = button.parents('form'),
-					        latInput = form.find('[name="tx_pxadealers_pxadealers[search][lat]"]'),
-					        lngInput = form.find('[name="tx_pxadealers_pxadealers[search][lng]"]'),
-                            searchInRadiusInput = form.find('[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
+         * @private
+         */
+        _findClosestAction: function (button) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        var form = button.parentElement,
+                            latInput = form.querySelector('[name="tx_pxadealers_pxadealers[search][lat]"]'),
+                            lngInput = form.querySelector('[name="tx_pxadealers_pxadealers[search][lng]"]'),
+                            searchInRadiusInput = form.querySelector('[name="tx_pxadealers_pxadealers[search][searchInRadius]"]');
 
-					    // Prepare form data
-					    searchInRadiusInput.val('1');
-					    latInput.val(position.coords.latitude);
-					    lngInput.val(position.coords.longitude);
+                        // Prepare form data
+                        searchInRadiusInput.value = '1';
+                        latInput.value = position.coords.latitude;
+                        lngInput.value = position.coords.longitude;
 
-					    form.submit();
-				    },
+                        form.submit();
+                    },
                     function (error) {
-	                    var errorMessage = '';
+                        var errorMessage = '';
 
-	                    switch(error.code) {
-		                    case error.PERMISSION_DENIED:
-			                    errorMessage = 'User denied the request for Geolocation.';
-			                    break;
-		                    case error.POSITION_UNAVAILABLE:
-			                    errorMessage = 'Location information is unavailable.';
-			                    break;
-		                    case error.TIMEOUT:
-			                    errorMessage = 'The request to get user location timed out.';
-			                    break;
-		                    case error.UNKNOWN_ERROR:
-			                    errorMessage = 'An unknown error occurred.';
-			                    break;
-	                    }
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'User denied the request for Geolocation.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Location information is unavailable.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'The request to get user location timed out.';
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                errorMessage = 'An unknown error occurred.';
+                                break;
+                        }
 
-	                    button
-		                    .text(errorMessage)
-		                    .prop('disabled', true);
+                        button
+                            .text(errorMessage)
+                            .prop('disabled', true);
                     },
                     {
-	                    timeout: 10000
+                        timeout: 10000
                     }
                 );
-		    } else {
-		        button
+            } else {
+                button
                     .text(PxaDealersMaps.FE.translate('geolocationError'))
                     .prop('disabled', true);
             }
