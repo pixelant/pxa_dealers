@@ -89,7 +89,7 @@ class DealersController extends AbstractController
     {
         $demand = Demand::getInstance($this->settings['demand']);
 
-        if ($search !== null && !empty($search->getSearchTermOriginal())) {
+        if ($search !== null) {
             $searchFieldsPropertyName = 'searchFields';
 
             if ($secondarySearch) {
